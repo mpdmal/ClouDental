@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="CloudentalTDD">
+	<jta-data-source>jdbc/cloudentDB</jta-data-source>
+	<class>com.mpdmal.cloudental.entities.Dentist</class>
+	<class>com.mpdmal.cloudental.entities.Medicalhistory</class>
+	<class>com.mpdmal.cloudental.entities.Patient</class>
+	<class>com.mpdmal.cloudental.entities.Address</class>		
+	<class>com.mpdmal.cloudental.entities.AddressPK</class>
+	<class>com.mpdmal.cloudental.entities.Contactinfo</class>
+	<class>com.mpdmal.cloudental.entities.ContactinfoPK</class>
+	<class>com.mpdmal.cloudental.entities.Medicalhistoryentry</class>
+	<class>com.mpdmal.cloudental.entities.MedicalhistoryentryPK</class>
+	<class>com.mpdmal.cloudental.entities.Tooth</class>
+	<class>com.mpdmal.cloudental.entities.Patienttooth</class>
+	<class>com.mpdmal.cloudental.entities.PatienttoothPK</class>
+	<class>com.mpdmal.cloudental.entities.Postit</class>
+	<class>com.mpdmal.cloudental.entities.PostitPK</class>
+	<class>com.mpdmal.cloudental.entities.Patienthistory</class>
+	<class>com.mpdmal.cloudental.entities.Pricable</class>
+	<class>com.mpdmal.cloudental.entities.Activity</class>
+	<class>com.mpdmal.cloudental.entities.Visit</class>
+	<class>com.mpdmal.cloudental.entities.Toothhistory</class>
+		
+    <properties>
+        <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+        <property name="javax.persistence.jdbc.url"  value="jdbc:postgresql://localhost:5432/testDB" />
+        <property name="javax.persistence.jdbc.user"  value="postgres" />
+        <property name="javax.persistence.jdbc.password" value="postgres" />
+		<property name="eclipselink.logging.level" value="FINE" />
+		<property name="eclipselink.target-server" value="com.mpdmal.cloudental.util.CDentJTATransactionController"/>
+    </properties>
+	</persistence-unit>
+</persistence>

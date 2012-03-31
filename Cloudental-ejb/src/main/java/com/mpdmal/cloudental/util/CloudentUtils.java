@@ -1,0 +1,171 @@
+package com.mpdmal.cloudental.util;
+
+import javax.persistence.Query;
+
+import com.mpdmal.cloudental.util.exception.InvalidAddressTypeException;
+import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
+import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
+import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
+
+public class CloudentUtils {
+	//ENUMS
+	//POST-IT ALERTS
+	public static enum PostitAlertType {
+		NOTE (1, "Note"),
+		TODO (2, "To do"),
+		ALARM (3, "Alarm");
+		
+		private final String desc;
+		private final int value;
+		private PostitAlertType(int type, String desc) {
+			value = type;
+			this.desc = desc;
+		}
+		public int getValue() {		return value;	}
+		public String getDescription() { return desc;}
+	}
+
+	public static boolean isPostitAlertValid(int type) throws InvalidPostitAlertException {
+		for (PostitAlertType tp : CloudentUtils.PostitAlertType.values())  
+			if (type == tp.getValue()) 
+		    	return true;
+		return false;
+	}
+
+	public static String findPostitAlertDescr(int type) {
+		for (PostitAlertType tp : PostitAlertType.values()) {
+			if (tp.getValue() == type)
+				return tp.getDescription();
+		}
+		return "";
+	}
+	
+	// MEDICAL HISTORY ENTRY ALERTS
+	public static enum MedEntryAlertType {
+		NOALERT (0, "Normal"),
+		LOW (1, "Low"),
+		MEDIUM (2, "Medium"),
+		HIGH (3, "High");
+		
+		private final String desc;
+		private final int value;
+		private MedEntryAlertType(int type, String desc) {
+			value = type;
+			this.desc = desc;
+		}
+		public int getValue() {		return value;	}
+		public String getDescription() { return desc;}
+	}
+	public static boolean isMedEntryAlertValid(int type) throws InvalidMedEntryAlertException {
+		for (MedEntryAlertType tp : CloudentUtils.MedEntryAlertType.values())  
+			if (type == tp.getValue()) 
+		    	return true;
+		return false;
+	}
+
+	public static String findMedEntryAlertDescr(int type) {
+		for (MedEntryAlertType tp : MedEntryAlertType.values()) {
+			if (tp.getValue() == type)
+				return tp.getDescription();
+		}
+		return "";
+	}
+	// CONTACT INFO TYPE
+	public static enum ContactInfoType {
+		EMAIL (0, "E-mail"),
+		FAX (1, "Fax"),
+		HOME (2, "Home Number "),
+		OFFICE (3, "Office Number "),
+		MOBILE (4, "Mobile Phone ");
+		
+		private final String desc;
+		private final int value;
+		private ContactInfoType(int type, String desc) {
+			value = type;
+			this.desc = desc;
+		}
+		public int getValue() {		return value;	}
+		public String getDescription() { return desc;}
+	}
+	public static boolean isContactInfoTypeValid(int type) throws InvalidContactInfoTypeException {
+		for (ContactInfoType tp : CloudentUtils.ContactInfoType.values())  
+			if (type == tp.getValue()) 
+		    	return true;
+		return false;
+	}
+
+	public static String findContactInfoTypeDescr(int type) {
+		for (ContactInfoType tp : ContactInfoType.values()) {
+			if (tp.getValue() == type)
+				return tp.getDescription();
+		}
+		return "";
+	}
+
+	// ADDRESS TYPE
+	public static enum AddressType {
+		HOME (0, "Home Address"),
+		OFFICE (1, "Office Address"),
+		BILLING (2, "Billing Address");
+		
+		private final String desc;
+		private final int value;
+		private AddressType(int type, String desc) {
+			value = type;
+			this.desc = desc;
+		}
+		public int getValue() {		return value;	}
+		public String getDescription() { return desc;}
+	}
+	public static boolean isAddressTypeValid(int type) throws InvalidAddressTypeException {
+		for (AddressType tp : CloudentUtils.AddressType.values())  
+			if (type == tp.getValue()) 
+		    	return true;
+		return false;
+	}
+
+	public static String findAddressTypeDescr(int type) {
+		for (AddressType tp : AddressType.values()) {
+			if (tp.getValue() == type)
+				return tp.getDescription();
+		}
+		return "";
+	}
+
+	//LOGING
+	private static final int LOG_TYPE_MSG = 1; 
+	private static final int LOG_TYPE_WARNING = 2;
+	private static final int LOG_TYPE_ERROR = 3;
+	
+	public static void logQueryString(Query q) {
+		System.out.println(q.toString());
+	}
+	
+	public static void logMessage(String entry) {
+		log(entry, LOG_TYPE_MSG);
+	}
+
+	public static void logError(String entry) {
+		log(entry, LOG_TYPE_ERROR);
+	}
+
+	public static void logWarning(String entry) {
+		log(entry, LOG_TYPE_WARNING);
+	}
+
+	public static void log(String entry, int type) {
+		switch (type) {
+			case LOG_TYPE_WARNING:
+				System.out.println("WARNING: "+entry);
+				break;
+			case LOG_TYPE_ERROR:
+				System.out.println("ERROR: "+entry);
+				break;
+			case LOG_TYPE_MSG:
+				System.out.println("DEBUG: "+entry);
+				break;							
+			default:
+				break;
+		}
+	}
+}

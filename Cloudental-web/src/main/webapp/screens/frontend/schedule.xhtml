@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<h:outputScript library="js" name="cloudental.js" />
+<h:outputScript library="js" name="cloudental.js" />
+<h:outputStylesheet name="cloudental.css" library="css" />
+</h:head>
+<h:body>
+
+	<h:form id="dentist_schedule_form">
+		<p:growl id="messages" showDetail="true" />
+		<p:schedule value="#{scheduleBean.lazyEventModel}" editable="true"
+			widgetVar="myschedule">
+			<p:ajax event="dateSelect" listener="#{scheduleBean.onDateSelect}"
+				update="eventDetails" oncomplete="eventDialog.show()" />
+			<p:ajax event="eventSelect" listener="#{scheduleBean.onEventSelect}"
+				update="eventDetails" oncomplete="eventDialog.show()" />
+			<p:ajax event="eventMove" listener="#{scheduleBean.onEventMove}"
+				update="messages" />
+			<p:ajax event="eventResize" listener="#{scheduleBean.onEventResize}"
+				update="messages" />
+
+		</p:schedule>
+
+		<p:dialog widgetVar="eventDialog" header="Event Details">
+			<h:panelGrid id="eventDetails" columns="2" >
+				<h:outputLabel for="title" value="Title:" />
+				<h:inputText id="title" value="#{scheduleBean.event.title}" required="true" />
+			
+				<h:outputLabel for="from_date" value="From: " />
+				<p:calendar value="#{scheduleBean.event.startDate}"	pattern="dd/MM/yyyy HH:mm" />
+
+				<h:outputLabel for="to_date" value=" To: " />
+				<p:calendar value="#{scheduleBean.event.endDate}"	pattern="dd/MM/yyyy HH:mm" />
+
+				<h:outputLabel value="Patient: " for="patient" />
+				<h:panelGroup id="select_patient">
+					<p:autoComplete value="#{scheduleBean.event.patient}"
+						id="patient" completeMethod="#{patientManagementBean.completePatient}"
+						var="p" itemLabel="#{p.name} #{p.surname}" itemValue="#{p}"
+						converter="patientConverter" forceSelection="true">
+						<p:column>
+							<h:outputText value="#{p.id}"/>
+						</p:column>
+
+						<p:column>  
+	                    		#{p.name} - #{p.surname}  
+	                	</p:column>
+					</p:autoComplete>
+					<h:commandButton id="create_new_patient_button" value="New" 
+					onclick="toggleShowHideHtmlElement('dentist_schedule_form:create_new_patient'); return false;"/>
+					
+					<h:panelGroup id="create_new_patient"  layout="block" rendered="true" style="display:none" >
+						<h:panelGrid id="create_new_patient_panelGrid" columns="2" >
+	    					<h:outputLabel for="patient_name" value="Name:" />
+							<h:inputText id="patient_name" value="#{scheduleBean.event.nameNewPatient}" required="true" />
+							
+							<h:outputLabel for="patient_surname" value="Surname:" />
+							<h:inputText id="patient_surname" value="#{scheduleBean.event.surnameNewPatient}" required="true" />
+							
+							<h:outputLabel  value=" " />
+							<h:commandButton value="Add New" action="#{scheduleBean.createPatient}" >
+								<f:ajax execute="@this create_new_patient" render="select_patient"></f:ajax>
+							</h:commandButton>
+						</h:panelGrid>
+					</h:panelGroup>
+					
+					
+					<h:panelGroup layout="block" rendered="false">
+    					content hide
+					</h:panelGroup>
+					
+					
+				</h:panelGroup>
+
+
+				<h:outputLabel value="Comments: " />
+				<h:panelGroup id="event_comments">
+					<h:inputTextarea></h:inputTextarea>
+				</h:panelGroup>
+
+				<h:outputLabel value="Event color: " />
+
+				<h:selectOneRadio id="event_color">
+					<f:selectItem itemLabel="Red" itemValue="1" />
+					<f:selectItem itemLabel="Blue" itemValue="2" />
+					<f:selectItem itemLabel="Green" itemValue="3" />
+				</h:selectOneRadio>
+
+				<h:outputLabel value="Activity: " />
+				<h:inputText value="#{scheduleBean.event.activityId}"/>
+
+				<h:outputLabel value=" " />
+				<h:panelGroup>
+					<p:commandButton type="reset" value="Reset" />
+					<p:commandButton value="Save"
+						actionListener="#{scheduleBean.addEvent}"
+						oncomplete="myschedule.update();eventDialog.hide();" />
+				</h:panelGroup>
+			</h:panelGrid>
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<title>Welcome to Cloudental Services</title>
+		<link rel="stylesheet" type="text/css" href="../../../files/css/styles.css"/>
+	</h:head>
+	<h:body>
+		<p:panelGrid columns="3">
+			<ui:insert name="menu">
+				<p:graphicImage value="../../../files/images/logo.png"></p:graphicImage>
+			</ui:insert>
+			<ui:insert name="searchPatients">
+				<h:outputLabel value="Find Patient :" style="width: 200px;" /> 
+				<p:inputText></p:inputText>
+			</ui:insert>
+		</p:panelGrid> 
+	 	<p/>
+		<ui:insert name="body">Body</ui:insert>
+		<br clear="all"/>
+		<hr/>
+		<!--  ui:insert name="footer">
+			<h:form>
+			  <p:growl id="messages" />
+			  <p:toolbar>
+			    <p:toolbarGroup align="left">
+			        <p:commandButton type="button" value="New Patient" icon="ui-icon-document" />
+			        <p:commandButton type="button" value="Reports" icon="ui-icon-folder-open"/>
+	   		        <p:commandButton type="button" value="Print Daily Report" icon="ui-icon-print"/>
+			    </p:toolbarGroup>
+			    <p:toolbarGroup align="right">
+			        <p:menuButton value="Options">
+			            <p:menuitem value="Home" />
+			            <p:menuitem value="Billing" />
+			            <p:menuitem value="My Account" />
+			        </p:menuButton>
+			    </p:toolbarGroup>
+			  </p:toolbar>
+			</h:form>
+		</ui:insert -->
+	</h:body>
+</html>
+

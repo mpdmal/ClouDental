@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/screens/frontend/template.xhtml">
+	<ui:define name="header">
+    	Login
+    	<br />
+		<h:messages />
+	</ui:define>
+
+
+	<ui:define name="content">
+
+		<h:outputText value="Login" />
+		<h:messages/>
+		<h:form>
+			<h:panelGrid columns="2">
+
+				<h:outputText value="Username: " />
+				<h:inputText value="#{loginRequest.username}" label="Username"
+					required="true" />
+				<h:outputText value="Password: " />
+				<h:inputText value="#{loginRequest.password}" label="Password"
+					required="true" />
+
+				<h:outputText value=" " />
+				<h:commandButton value="Login" action="#{loginRequest.login}" />
+
+
+			</h:panelGrid>
+		</h:form>
+
+
+		<br />
+
+
+
+
+
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

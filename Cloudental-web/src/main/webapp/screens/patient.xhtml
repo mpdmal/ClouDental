@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/screens/templates/main-template.xhtml">
+	<ui:define name="body">
+		<h:form>
+			<p:tabView id="tabView" dynamic="true" cache="true">
+  	        	<p:tab id="patientTab" title="Patient Management">
+				<p:panelGrid columns="3">
+					<p:panelGrid columns="1">
+						<p:panel header="Patient Details" style="height:300px;">
+							blah blah! <br/>
+							blah blah! <br/>
+							blah blah! <br/>
+							blah blah! <br/>
+							<p:button value="Add Address"></p:button>
+							<p:button value="Add Cnt.Info"></p:button>
+						</p:panel>
+					</p:panelGrid>
+					<p:panelGrid columns="1">
+						<p:panel header="Patient History">
+							<p:panelGrid columns="2">
+								<p:scrollPanel scrollMode="buttons" scrollBarVisibility="visible" style="width: 600px; height:400px;" >
+									<p:growl id="messages" showDetail="true" />
+								    <p:tree id="treeSingle" value="#{treeBean.root}" var="node"
+								            selectionMode="single"
+								            selection="#{treeBean.selectedNode}">
+								        <p:treeNode>
+								            <h:outputText value="#{node}" />
+								        </p:treeNode>
+								    </p:tree>
+								</p:scrollPanel>
+								<p:panel header="Actions">
+									<p:button value="Create Activity" ></p:button><br/>
+									<p:button value="Create Visit"></p:button><br/>
+								</p:panel>
+							</p:panelGrid>
+				    	</p:panel>
+					</p:panelGrid>
+				</p:panelGrid>
+  	        	</p:tab>
+	        	<p:tab id="teethTab" title="Patient Teeth">
+   					<p:panel header="Patient Teeth" >
+						<p:galleria id="cntGlr" value="#{galleriaBean.teeth}"
+						            var="ptooth" frameWidth="64" frameHeight="87"
+	            					panelWidth="500" panelHeight="380" transitionInterval="0"
+	            					styleClass="ui-widget-content ui-corner-all">
+	
+		    				<p:graphicImage id="playerImage" value="../pics/#{ptooth.id.toothid}.png"/>
+		    				<p:galleriaContent>
+			        			<h:panelGrid  columns="2" cellpadding="5">
+			            			<f:facet name="header">
+			                			<p:graphicImage value="../pics/#{ptooth.id.toothid}.png" style="width: 390px; height: 260px;"/>
+			            			</f:facet>
+						            <h:outputText value="Name: " />
+						            <h:outputText id="name" value="#{ptooth.tooth.name}"/>
+						            <h:outputText value="Comments: " />
+						            <h:outputText id="comments" value="#{ptooth.comments}"/>
+						            <h:outputText value="Position " />
+						            <h:outputText id="position" value="#{ptooth.id.toothid}"/>
+						        </h:panelGrid>
+						    </p:galleriaContent>
+						</p:galleria>
+					</p:panel>
+	        	</p:tab>
+	        	<p:tab id="medhistoryTab" title="Medical History">
+					<p:panel header="Medical History" style="width:1000px; height:450px;">
+						<p:scrollPanel scrollMode="buttons" scrollBarVisibility="visible" style="width: 800px; height:300px;" >
+							<p:dataTable id="dataTable" var="postit" value="#{scheduleController.postits}">  
+								<p:column >  
+							    	<f:facet name="header">  
+							        	<h:outputText value="Note" />  
+									</f:facet>  
+									<h:outputText value="#{postit.post}" />  
+								</p:column>  
+							    <p:column sortBy="#{postit.alert}">  
+							        <f:facet name="header">  
+							            <h:outputText value="Alert" />  
+							        </f:facet>  
+							        <h:outputText value="#{postit.alertDescr}" />  
+							    </p:column> 	
+							</p:dataTable>  
+						</p:scrollPanel>
+    					<p:button value="Create Med.Entry"></p:button><br/>
+					</p:panel>
+	        	</p:tab>  
+        	</p:tabView>
+		</h:form>
+	</ui:define>
+</ui:composition>

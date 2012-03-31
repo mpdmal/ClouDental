@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/screens/frontend/template.xhtml">
+	<ui:define name="header">
+    	Activity Management 
+    	<br />
+		<h:messages />
+	</ui:define>
+
+
+	<ui:define name="content">
+
+		<h:outputText value="Activity" />
+		<h:messages />
+		<h:form>
+			<h:inputHidden value="#{activityManagementBean.patientID}"
+				label="patientId" />
+			<h:panelGrid columns="2">
+
+				<h:outputText value="Description: " />
+				<h:inputText value="#{activityManagementBean.description}"
+					label="description" required="true" />
+
+				<h:outputText value="Start Date: " />
+				<h:inputText value="#{activityManagementBean.startDate}"
+					label="startDate">
+					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
+				</h:inputText>
+
+				<h:outputText value="End Date: " />
+				<h:inputText value="#{activityManagementBean.endDate}"
+					label="endDate">
+					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
+				</h:inputText>
+
+				<h:outputText value=" " />
+				<h:commandButton value="Create"
+					action="#{activityManagementBean.createActivity }" />
+
+
+			</h:panelGrid>
+		</h:form>
+
+
+		<br />
+
+
+
+		<h:dataTable value="#{activityManagementBean.activityListOfPatient}"
+			var="activity" border="1">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="id" />
+				</f:facet>
+				<h:outputText value="#{activity.id}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="description" />
+				</f:facet>
+				<h:outputText value="#{activity.description}" />
+			</h:column>
+
+		</h:dataTable>
+
+		<br />
+		<h:form id="form">
+			<p:contextMenu for="activities">
+				<p:menuitem value="View" update="display" icon="ui-icon-search" oncomplete="carDialog.show()" />
+				
+			</p:contextMenu>
+	
+	
+			<p:dataTable id="activities" value="#{activityManagementBean.activityListOfPatient}" var="activity">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="ID" />
+					</f:facet>
+					<h:outputText value="#{activity.id}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Description" />
+					</f:facet>
+					<h:outputText value="#{activity.description}" />
+				</p:column>
+	
+			</p:dataTable>
+	
+			<p:dialog header="Car Detail" widgetVar="carDialog" resizable="false" width="200" showEffect="clip" hideEffect="fold" id="dialog">
+				<h:panelGrid id="display" columns="2" cellpadding="4">
+					<h:outputText value="Model:" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+
+
+
+
+
+
+	</ui:define>
+
+</ui:composition>
+</html>

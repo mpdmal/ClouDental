@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+  <h:head><title>Show/Hide</title></h:head>
+  <h:body>
+    <h:form>
+      <h:button value="toggle"
+               onclick="toggle('#{requestScope.foo.clientId}'); return false;" />
+      <h:inputText binding="#{requestScope.foo}" id="x" style="display: block" />
+    </h:form>
+    <script type="text/javascript">
+      function toggleShowHideHtmlElement(id) {
+        var element = document.getElementById(id);
+        if(element.style.display == 'block') {
+          element.style.display = 'none';
+        } else {
+          element.style.display = 'block'
+        }
+      }
+    </script>
+  </h:body>
+</html>

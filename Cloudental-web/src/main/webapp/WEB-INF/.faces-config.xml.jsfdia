@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#frontend#login.xhtml"
+  PATH="/frontend/login.xhtml" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#frontend#login.xhtml:0" NAME="item"
+   PATH="/frontend/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="loggedIn::#frontend#PatientManagement.xhtml"
+    NAME="output" PATH="/frontend/PatientManagement.xhtml"
+    TARGET="rules:#frontend#PatientManagement.xhtml" TITLE="loggedIn" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#frontend#PatientManagement.xhtml"
+  PATH="/frontend/PatientManagement.xhtml" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#frontend#PatientManagement.xhtml:0"
+   NAME="item" PATH="/frontend/PatientManagement.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="view_medical_history::#frontend#MedicalHistoryManagement.xhtml"
+    NAME="output" PATH="/frontend/MedicalHistoryManagement.xhtml"
+    TARGET="rules:#frontend#MedicalHistoryManagement.xhtml"
+    TITLE="view_medical_history" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#frontend#MedicalHistoryManagement.xhtml"
+  PATH="/frontend/MedicalHistoryManagement.xhtml" model-entity="JSFProcessGroup"/>
+</PROCESS>

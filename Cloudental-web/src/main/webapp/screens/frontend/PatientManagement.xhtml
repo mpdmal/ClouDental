@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/screens/frontend/template.xhtml">
+	<ui:define name="header">
+    	Patient Management 2
+    	<br />
+		<h:outputText value="#{userHolder.currentUser.username}"></h:outputText>
+		<br />
+		<h:messages />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:outputText value="Create Patient" />
+
+		<h:form>
+			<h:panelGrid columns="2">
+
+				<h:outputText value="name: " />
+				<h:inputText value="#{patientManagementBean.name}" label="Username"
+					required="true" />
+				<h:outputText value="surname: " />
+				<h:inputText value="#{patientManagementBean.surname}"
+					label="Password" required="true" />
+				<h:outputText value="comments: " />
+				<h:inputTextarea value="#{patientManagementBean.comments}"
+					label="comments" />
+
+				<h:outputText value=" " />
+				<h:panelGroup>
+					<h:commandButton value="Create"
+						action="#{patientManagementBean.createPatient}" />
+					<h:outputText value=" " />
+					<h:commandButton value="Update"
+						action="#{patientManagementBean.updatePatient}" />
+				</h:panelGroup>
+
+			</h:panelGrid>
+		</h:form>
+
+
+		<br />
+
+
+		<br />
+		<h:dataTable value="#{patientManagementBean.patientList}"
+			var="patient" border="1">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="name" />
+				</f:facet>
+				<h:outputText value="#{patient.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="surname" />
+				</f:facet>
+				<h:outputText value="#{patient.surname}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="created" />
+				</f:facet>
+				<h:outputText value="#{patient.created}">
+					<f:convertDateTime dateStyle="short" />
+				</h:outputText>
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="action delete" />
+				</f:facet>
+
+				<h:form>
+					<h:commandLink action="delete">
+						<f:actionListener
+							type="com.mpdmal.cloudental.web.listeners.OnDeleteDentistActionListener" />
+						<h:outputText value="delete #{patient.id}" />
+					</h:commandLink>
+				</h:form>
+
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="update" />
+				</f:facet>
+
+				<h:form>
+					<h:commandLink action="update">
+						<f:setPropertyActionListener value="#{patient}"
+							target="#{patientManagementBean.currentPatient}" />
+
+
+						<h:outputText value="get for update #{patient.surname}" />
+					</h:commandLink>
+				</h:form>
+
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="medical history" />
+				</f:facet>
+
+				<h:form>
+					<h:commandLink action="view_medical_history">
+						<f:setPropertyActionListener value="#{patient}"
+							target="#{medicalHistoryManagementBean.currentPatient}" />
+
+						<h:outputText value="view" />
+					</h:commandLink>
+				</h:form>
+
+			</h:column>
+			
+
+
+		</h:dataTable>
+
+
+
+	</ui:define>
+
+
+
+
+</ui:composition>
+</html>

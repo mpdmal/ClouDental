@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/screens/frontend/template.xhtml">
+	<ui:define name="header">
+    	Medical History Management 2
+    	<br />
+		<h:outputText value="#{medicalHistoryManagementBean.currentPatient.surname}"></h:outputText>
+		<br />
+		<h:messages />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:outputText value="Create Patient" />
+
+		<h:form>
+			<h:panelGrid columns="2">
+
+				<h:outputText value="Alert: " />
+				<h:inputText value="#{medicalHistoryManagementBean.alert}" label="Alert"
+					required="true" />
+				<h:outputText value="comment: " />
+				<h:inputTextarea value="#{medicalHistoryManagementBean.comment}"
+					label="comment" required="true" />
+					
+					
+				<h:inputHidden value="#{medicalHistoryManagementBean.patientId}" />					
+				
+
+				<h:outputText value=" " />
+				<h:panelGroup>
+					<h:commandButton value="Create"
+						action="#{medicalHistoryManagementBean.createMedicalHistory}" />
+					<h:outputText value=" " />
+					<h:commandButton value="Update"
+						action="#{medicalHistoryManagementBean.updateMedicalHistory}" />
+				</h:panelGroup>
+
+			</h:panelGrid>
+		</h:form>
+
+
+		<br />
+
+
+		<br />
+		<h:dataTable value="#{medicalHistoryManagementBean.medicalHistoryList}"
+			var="medicalHistory" border="1">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Alert" />
+				</f:facet>
+				<h:outputText value="#{medicalHistory.alert}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="comments" />
+				</f:facet>
+				<h:outputText value="#{medicalHistory.comments}" />
+			</h:column>
+
+		</h:dataTable>
+
+
+
+	</ui:define>
+
+
+
+
+</ui:composition>
+</html>
