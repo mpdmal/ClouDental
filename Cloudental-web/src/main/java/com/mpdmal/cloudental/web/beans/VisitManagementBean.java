@@ -7,7 +7,9 @@ import javax.faces.context.FacesContext;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
+import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Visit;
+import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 
 public class VisitManagementBean extends Visit {
 
@@ -23,9 +25,32 @@ public class VisitManagementBean extends Visit {
 	PatientServices patientServices;
 	
 	private Integer patientID= new Integer("1");
-	private Integer activityID= new Integer("1");
+	private Activity  selectedActivity;
 	
 	
+	
+	public Activity getSelectedActivity() {
+		System.out.println("get activity: " );
+		return selectedActivity;
+	}
+	public void setSelectedActivityID(Activity activity) {
+		System.out.println("set activity: "+ activity.getId() );
+		this.selectedActivity = activity;
+	}
+
+
+	public Vector<Activity> getOpenActivities() {
+		Vector<Activity> result=null;
+		try {
+			result= patientServices.getActivities(patientID);
+		} catch (PatientNotFoundException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	
+
 	public Vector<Visit> getVisitList() throws Exception {
 		//Vector<Visit>  ans  = patientServices.getVisits(patientID);
 		return  null;
@@ -38,7 +63,7 @@ public class VisitManagementBean extends Visit {
 	}
 
 	public String updateVisit(){
-		System.out.println("update visit: "+activityID);
+		System.out.println("update visit: ");
 //		dentistService.update(this);
 		return null;
 	}
@@ -51,15 +76,6 @@ public class VisitManagementBean extends Visit {
 		this.patientID = patientID;
 	}
 
-	public Integer getActivityID() {
-		return activityID;
-	}
-
-	public void setActivityID(Integer activityID) {
-		this.activityID = activityID;
-	}
-	
-	
 	
 
 }

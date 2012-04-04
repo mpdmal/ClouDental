@@ -10,7 +10,6 @@
 	<ui:define name="header">
     	Visit Management 
     	<br />
-		<h:messages />
 	</ui:define>
 
 
@@ -18,38 +17,35 @@
 
 		<h:outputText value="Visit" />
 		<h:messages />
-		<h:form>
-			<h:inputHidden value="#{visitManagementBean.activityID}"
-				label="activityId" />
+		<h:form id="visit">
+			
 			<h:panelGrid columns="2">
-
 				<h:outputText value="Comments: " />
-				<h:inputText value="#{visitManagementBean.comments}"
-					label="description" required="true" />
+				<h:inputText value="#{visitManagementBean.comments}" label="comments"/>
 
 				<h:outputText value="Start Date: " />
-				<h:inputText value="#{visitManagementBean.visitdate}"
-					label="startDate">
+				<h:inputText value="#{visitManagementBean.visitdate}" label="startDate" required="true">
 					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
 				</h:inputText>
 
 				<h:outputText value="End Date: " />
-				<h:inputText value="#{visitManagementBean.enddate}"	label="endDate">
+				<h:inputText value="#{visitManagementBean.enddate}" label="endDate" required="true">
 					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
 				</h:inputText>
-
+				
+				<p:selectOneListbox id="activity" value="#{visitManagementBean.selectedActivity}" converter="activityConverter" style="height:100px" >
+					<f:selectItems value="#{visitManagementBean.openActivities}" var="activity" itemLabel="#{activity.id} - #{activity.description}" itemValue="#{activity}" />
+				</p:selectOneListbox>
+				
 				<h:outputText value=" " />
 				<h:commandButton value="Create" action="#{visitManagementBean.createVisit}" />
+
 			</h:panelGrid>
 		</h:form>
-
-
 		<br />
 
-
-
-		<h:dataTable value="#{visitManagementBean.visitList }"
-			var="visit" border="1">
+		<h:dataTable value="#{visitManagementBean.visitList }" var="visit"
+			border="1">
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="id" />
@@ -62,52 +58,8 @@
 				</f:facet>
 				<h:outputText value="#{visit.comments}" />
 			</h:column>
-
 		</h:dataTable>
-
 		<br />
-		<h:form id="form">
-			<p:contextMenu for="activities">
-				<p:menuitem value="View" update="display" icon="ui-icon-search" oncomplete="carDialog.show()" />
-				
-			</p:contextMenu>
-	
-	
-			<p:dataTable id="activities" value="#{activityManagementBean.activityListOfPatient}" var="activity">
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="ID" />
-					</f:facet>
-					<h:outputText value="#{activity.id}" />
-				</p:column>
-				<p:column>
-					<f:facet name="header">
-						<h:outputText value="Description" />
-					</f:facet>
-					<h:outputText value="#{activity.description}" />
-				</p:column>
-	
-			</p:dataTable>
-	
-			<p:dialog header="Car Detail" widgetVar="carDialog" resizable="false" width="200" showEffect="clip" hideEffect="fold" id="dialog">
-				<h:panelGrid id="display" columns="2" cellpadding="4">
-					<h:outputText value="Model:" />
-				</h:panelGrid>
-			</p:dialog>
-		</h:form>
-
-		<h:form id="scrollbar_form">
-			<h:outputText value="Scrollbar: " />
-			<p:selectOneListbox id="scroll" value="#{activityManagementBean.activityID }" converter="activityConverter" style="height:100px">
-				<f:selectItems value="#{activityManagementBean.activityListOfPatient}" var="activity" itemLabel="#{activity.id}" itemValue="#{activity.id}" />
-			</p:selectOneListbox>
-
-		</h:form>
-
-
-
-
-
 	</ui:define>
 
 </ui:composition>

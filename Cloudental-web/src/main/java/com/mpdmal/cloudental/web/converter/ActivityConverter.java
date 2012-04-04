@@ -19,19 +19,20 @@ public class ActivityConverter implements Converter {
   
    
   
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {  
+    public Activity getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {  
     	System.out.println("Activity getAsObject");
     	Activity activity  = null;
+    	
         if (submittedValue.trim().equals("")) {  
             return null;  
         } else {  
             try {
-            	System.out.println("submittedValue" +submittedValue );
+            	System.out.println("submittedValue:" +submittedValue );
                 int id = Integer.parseInt(submittedValue); 
 //                activity = patientServices.getActivitiesById(id);
                 activity = new Activity();
                 activity.setId(id);
-                
+                activity.setDescription("a2");
                 
   
             } catch(NumberFormatException exception) {  
