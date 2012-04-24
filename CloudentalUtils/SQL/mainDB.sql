@@ -129,6 +129,7 @@ create table activity
 	discount integer references discount not null,
 	startdate timestamp with time zone default now() not null,
 	enddate timestamp with time zone default now(),
+	isopen boolean,
 	description text,
 	price decimal,
 	constraint activity_pk primary key (id)

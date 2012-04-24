@@ -7,7 +7,9 @@ import java.util.Set;
 import java.util.Vector;
 import org.junit.Test;
 import com.mpdmal.cloudental.entities.Dentist;
+import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
+import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractBeanTest;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
@@ -23,6 +25,9 @@ public class ServicesTests extends CDentAbstractBeanTest {
 	@Override
 	public void closeTestEnv() {
 		_dbean.deleteDentist("Demo Dentist");
+		assertEquals(0, _dsvcbean.countDiscounts());
+		assertEquals(0, _dsvcbean.countPricelistItems());
+		assertEquals(0, _dsvcbean.countNotes());
 	}
 	
 	@Test
@@ -94,10 +99,21 @@ public class ServicesTests extends CDentAbstractBeanTest {
 		_dsvcbean.createNote(d.getUsername(), "a note to warn!", CloudentUtils.PostitAlertType.ALARM.getValue());
 		_dsvcbean.createNote(d.getUsername(), "a TODO note ", CloudentUtils.PostitAlertType.TODO.getValue());
 		_dsvcbean.createNote(d.getUsername(), "just a note", CloudentUtils.PostitAlertType.NOTE.getValue());
+		
+		_dsvcbean.createDiscount(d.getUsername(), "Discount 1", "A friendly discount", 0.1);
+		_dsvcbean.createDiscount(d.getUsername(), "Discount 2", "A friendlier discount", 0.3);
+		_dsvcbean.createDiscount(d.getUsername(), "Discount 3", "A *** discount", 0.7);
+		
+		_dsvcbean.createPricelistItem(d.getUsername(), "Item 1", "An item", 100.0);
+		_dsvcbean.createPricelistItem(d.getUsername(), "Item 2", "Another item", 400.777);
+		_dsvcbean.createPricelistItem(d.getUsername(), "Item 3", "final item", 550.50);
 	}
 	
-//	@Test
+	@Test
 	public void testPatientServicesBean() throws Exception {
+		PricelistItem item = _dsvcbean.createPricelistItem("Demo Dentist", "demo item", "", 100.0);
+		Discount ds = _dsvcbean.createDiscount("Demo Dentist", "demo discount", "", 0.30);
+
 		Vector<Patient> ptnts = _psvcbean.getPatients("Demo Dentist");
 		int pid = ptnts.elementAt(0).getId();
 		
@@ -109,9 +125,9 @@ public class ServicesTests extends CDentAbstractBeanTest {
 		
 		
 		//create activity
-		_psvcbean.createActivity(pid, "test activity", now, future1, null);
-		_psvcbean.createActivity(pid, "another test activity", now, future2, null); 
-		_psvcbean.createActivity(pid, "final test activity", past1, now, null);
+		_psvcbean.createActivity(pid, "test activity", now, future1, item, ds);
+		_psvcbean.createActivity(pid, "another test activity", now, future2, item,ds); 
+		_psvcbean.createActivity(pid, "final test activity", past1, now, item, ds);
 		
 		//get patient activities
 		assertEquals(3, _psvcbean.getActivities(pid).size());
@@ -127,8 +143,6 @@ public class ServicesTests extends CDentAbstractBeanTest {
 		//delete patient activities
 		_psvcbean.deleteActivities(ptnts.elementAt(0).getId());
 		assertEquals(0, _psvcbean.getActivities(pid).size());
-		
-		
 	}
 
 		

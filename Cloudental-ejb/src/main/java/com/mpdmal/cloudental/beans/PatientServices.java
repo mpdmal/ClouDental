@@ -19,6 +19,7 @@ import com.mpdmal.cloudental.entities.Address;
 import com.mpdmal.cloudental.entities.Contactinfo;
 import com.mpdmal.cloudental.entities.ContactinfoPK;
 import com.mpdmal.cloudental.entities.Dentist;
+import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Medicalhistoryentry;
 import com.mpdmal.cloudental.entities.MedicalhistoryentryPK;
 import com.mpdmal.cloudental.entities.Patient;
@@ -129,7 +130,7 @@ public class PatientServices {
     	return _acvdao.getActivities(p.getId(), from , to);
     }
 
-    public void createActivity (int patientID, String description, Date start, Date end, PricelistItem price) 
+    public void createActivity (int patientID, String description, Date start, Date end, PricelistItem price, Discount d) 
     																		throws PatientNotFoundException {
     	Patient p = _pdao.getPatient(patientID);
     	if (p == null) 
@@ -137,10 +138,12 @@ public class PatientServices {
     	
     	Patienthistory ph = p.getDentalHistory();
     	Activity ac = new Activity();
+    	
     	ac.setDescription(description);
     	ac.setStartdate(start);
     	ac.setEnddate(end);
     	ac.setPriceable(price);
+    	ac.setDiscount(d);
     	ph.addActivity(ac);
     	
     	_acvdao.updateCreate(ac, false);

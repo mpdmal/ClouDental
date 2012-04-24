@@ -1,5 +1,6 @@
 package com.mpdmal.cloudental.tdd.tests.dao;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Vector;
 
@@ -7,8 +8,10 @@ import org.junit.Test;
 
 import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Dentist;
+import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
+import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractDaoTest;
 import static org.junit.Assert.assertEquals;
 
@@ -36,7 +39,10 @@ public class ActivityTests extends CDentAbstractDaoTest {
 		p.setDentalhistory(ph);
 		p.setDentist(d);
 		d.addPatient(p);
+		
 		_dentistdao.updateCreate(d, false);
+		
+		
 	}
 	
 	@Test
@@ -57,7 +63,27 @@ public class ActivityTests extends CDentAbstractDaoTest {
 		activity.setDescription("an activity");
 		activity.setStartdate(future_short);
 		activity.setEnddate(future_long);
+
+		PricelistItem item  = new PricelistItem();
+		item.setDentist(d);
+		item.setDescription("");
+		item.setPrice(BigDecimal.valueOf(10.0));
+		item.setTitle("pl item");
+		_pcdao.updateCreate(item, false);
+		
+		Discount ds = new Discount();
+		ds.setDentist(d);
+		ds.setDescription("");
+		ds.setDiscount(BigDecimal.valueOf(.10));
+		ds.setTitle("discount");
+		_discountdao.updateCreate(ds, false);
+		
+		activity.setPriceable(item);
+		activity.setDiscount(ds);
 		ph.addActivity(activity);
+		
+		d.addDiscount(ds);
+		d.addPricelistItem(item);
 		_acdao.updateCreate(activity, false);
 		
 		assertEquals(1, _acdao.countActivities());

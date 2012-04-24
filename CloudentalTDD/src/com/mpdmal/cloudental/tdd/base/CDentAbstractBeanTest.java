@@ -11,10 +11,13 @@ import com.mpdmal.cloudental.beans.LoginBean;
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.dao.ActivityDAO;
 import com.mpdmal.cloudental.dao.DentistDAO;
+import com.mpdmal.cloudental.dao.DiscountDAO;
 import com.mpdmal.cloudental.dao.MedicalhistoryentryDAO;
 import com.mpdmal.cloudental.dao.PatientDAO;
 import com.mpdmal.cloudental.dao.PostitDAO;
+import com.mpdmal.cloudental.dao.PricelistDAO;
 import com.mpdmal.cloudental.dao.VisitDAO;
+import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.tdd.util.Util;
 
 public class CDentAbstractBeanTest {
@@ -42,6 +45,8 @@ public class CDentAbstractBeanTest {
     	ActivityDAO acvdao = new ActivityDAO(_em); 
     	VisitDAO vdao = new VisitDAO(_em);
     	PostitDAO ptdao = new PostitDAO(_em);
+    	DiscountDAO dcdao = new DiscountDAO(_em);
+    	PricelistDAO pcdao = new PricelistDAO(_em);
     	
         _dbean = new DentistBean();
         _dbean.setDentistDao(dao);
@@ -49,6 +54,9 @@ public class CDentAbstractBeanTest {
         _dsvcbean.setDentistDao(dao);
         _dsvcbean.setPatientDao(pdao);
         _dsvcbean.setPostitDao(ptdao);
+        _dsvcbean.setDiscountDao(dcdao);
+        _dsvcbean.setPricelistDao(pcdao);
+        
         _lbean = new LoginBean();
         _lbean.setDentistDao(dao);
         _psvcbean = new PatientServices();

@@ -41,17 +41,26 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
     @NotNull
     @OneToMany(cascade=CascadeType.ALL, mappedBy="activity")
 	private Set<Visit> visits;
-
-    public Activity() {    }
+    @NotNull
+    private boolean isOpen = true;
+    
+	public Activity() {    }
 
 	public Integer getId() {
 		return this.id;
 	}
 
+	public void setOpen(boolean isOpen) {	this.isOpen = isOpen;	}
 	public void setId(Integer id) {		this.id = id;	}
 	public void setDescription(String description) 	{	this.description = description;	}
-	public void setEnddate(Date enddate) 		{	this.enddate = enddate;	}
-	public void setStartdate(Date startdate) 	{	this.startdate = startdate;	}
+	public void setEnddate(Date enddate) 		{	
+		this.enddate = enddate;
+		CloudentUtils.logMessage("Activity closed "+id);
+		isOpen = false;
+	}
+	public void setStartdate(Date startdate) 	{
+		this.startdate = startdate;	
+	}
 	public void setPriceable(PricelistItem priceable) 	{	this.priceable = priceable;	}
 	public void setDiscount(Discount discount) 	{	this.discount= discount;	}
 	public void setPatienthistory(Patienthistory patienthistory) {		this.patienthistory = patienthistory;	}	
@@ -87,12 +96,14 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	public Patienthistory getPatienthistory() {		return this.patienthistory;	}
 	public Set<Visit> getVisits() {	return this.visits;	}
     public BigDecimal getPrice() 	{	return this.price;	}
+    public boolean isOpen() {	return isOpen;	}
 
 	@Override
 	public String getXML() {
 		StringBuilder ans= new StringBuilder("<activity></activity>");
 		ans.insert(ans.indexOf("</activity"), "<description>"+description+"</description>");
 		ans.insert(ans.indexOf("</activity"), "<price>"+priceable.getPrice()+"</price>");
+		ans.insert(ans.indexOf("</activity"), "<isOpen>"+isOpen+"</isOpen>");
 		ans.insert(ans.indexOf("</activity"), "<startdate>"+startdate+"</startdate>");
 		ans.insert(ans.indexOf("</activity"), "<enddate>"+enddate+"</enddate>");
 		ans.insert(ans.indexOf("</activity"), "<visits>");

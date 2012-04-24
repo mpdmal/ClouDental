@@ -16,7 +16,7 @@ import org.junit.runners.Suite;
 //	com.mpdmal.cloudental.tdd.tests.dao.ContactinfoTests.class
 //	com.mpdmal.cloudental.tdd.tests.dao.AddressTests.class,
 //	com.mpdmal.cloudental.tdd.tests.dao.VisitTests.class,
-//	com.mpdmal.cloudental.tdd.tests.dao.ActivityTests.class,
+	com.mpdmal.cloudental.tdd.tests.dao.ActivityTests.class,
 	com.mpdmal.cloudental.tdd.tests.bean.ServicesTests.class,
 })
 
