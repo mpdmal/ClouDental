@@ -19,7 +19,7 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
     @OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.EAGER)
 	private Set<Postit> notes;
     @OneToMany(cascade=CascadeType.ALL, mappedBy="dentist")
-	private Set<Pricelist> pricables;
+	private Set<PricelistItem> priceables;
     @OneToMany(cascade=CascadeType.ALL, mappedBy="dentist")
 	private Set<Discount> discounts;
 
@@ -38,19 +38,45 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	public String getName() {	return this.name;	}
 	public Set<Patient> getPatients() {	return this.patients;	}
 	public Set<Postit> getNotes() {	return this.notes;	}
-	public Set<Pricelist> getPriceList() {	return pricables;	}
+	public Set<PricelistItem> getPriceList() {	return priceables;	}
 	public Set<Discount> getDiscounts() {	return discounts;	}
 	public void setName(String name){	this.name = name;	}
 	public void setSurname(String name){	this.surname = name;	}
 	public void setUsername(String name){	this.username = name;	}
 	public void setPassword(String password){	this.password = password;	}
-	public void setPricelist(Set<Pricelist> pc) {	pricables = pc;	}
-	public void setDiscounts(Set<Discount> ds) {	discounts = ds;	}
+	public void setPricelist(Set<PricelistItem> pc) {	 	
+		if (priceables!= null)
+			priceables.clear();
+		for (PricelistItem item : priceables) {
+			addPricelistItem(item);
+		}
+	}
+	public void addPricelistItem(PricelistItem item) {	
+		if (priceables == null)
+			priceables = new HashSet<PricelistItem>();
+		
+		item.setDentist(this);
+		priceables.add(item);
+	}
+
+	public void setDiscounts(Set<Discount> ds) {	 
+		if (discounts!= null)
+			discounts.clear();
+		for (Discount discount : discounts) {
+			addDiscount(discount);
+		}
+	}
+	public void addDiscount(Discount ds) {	
+		if (discounts == null)
+			discounts = new HashSet<Discount>();
+		
+		ds.setDentist(this);
+		discounts.add(ds);
+	}
 	public void setPatients(Set<Patient> patients) {
-		if (patients == null)
-			patients = new HashSet<Patient>();
-		else
-			patients.clear();
+		if (this.patients != null)
+			this.patients.clear();
+		
 		for (Patient patient : patients) {
 			addPatient(patient);
 		}
@@ -69,15 +95,13 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		patients.add(p);
 	}
 	public void setNotes(Set<Postit> notes) {	
-		if (notes == null)
-			notes = new HashSet<Postit>();
-		else
+		if (notes != null)
 			notes.clear();
 		for (Postit postit : notes) {
-			postNote(postit);
+			addNote(postit);
 		}
 	}
-	public void postNote(Postit note) {	
+	public void addNote(Postit note) {	
 		if (notes == null)
 			notes = new HashSet<Postit>();
 		
@@ -106,11 +130,17 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		ans.insert(ans.indexOf("</dentist"), "</pinboard>");
 		
 		ans.insert(ans.indexOf("</dentist"), "<pricelist>");
-		for (Pricelist pbl : pricables) {
+		for (PricelistItem pbl : priceables) {
 			ans.insert(ans.indexOf("</dentist"), pbl.getXML());
 		}
 		ans.insert(ans.indexOf("</dentist"), "</pricelist>");
-		
+
+		ans.insert(ans.indexOf("</dentist"), "<discounts>");
+		for (Discount ds: discounts) {
+			ans.insert(ans.indexOf("</discount"), ds.getXML());
+		}
+		ans.insert(ans.indexOf("</dentist"), "</discounts>");
+
 		return ans.toString();
 	}
 }

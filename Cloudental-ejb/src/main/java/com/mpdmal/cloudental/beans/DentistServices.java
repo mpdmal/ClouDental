@@ -2,6 +2,7 @@ package com.mpdmal.cloudental.beans;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -11,6 +12,7 @@ import javax.jws.WebService;
 
 import com.mpdmal.cloudental.dao.DentistDAO;
 import com.mpdmal.cloudental.dao.PatientDAO;
+import com.mpdmal.cloudental.dao.PostitDAO;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Medicalhistory;
 import com.mpdmal.cloudental.entities.Patient;
@@ -26,17 +28,20 @@ import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 @WebService
 public class DentistServices {
 	@EJB
-	private DentistDAO _dao;
+	private DentistDAO _dentistdao;
+	@EJB
+	private PostitDAO _postitdao;
 	@EJB
 	private PatientDAO _pdao;
 	
 	public DentistServices() {}
 	
-	public void setDentistDao (DentistDAO dao) { _dao = dao;}//for testing	
+	public void setDentistDao (DentistDAO dao) { _dentistdao = dao;}//for testing	
 	public void setPatientDao (PatientDAO dao) { _pdao = dao;}//for testing
+	public void setPostitDao (PostitDAO dao) { _postitdao = dao;}//for testing
 	
 	public void createNote(String dentistid, String note, int type) throws InvalidPostitAlertException {
-		Dentist dentist = _dao.getDentist(dentistid);
+		Dentist dentist = _dentistdao.getDentist(dentistid);
 		if (dentist == null) {
     		CloudentUtils.logWarning("Dentist does not exist:"+dentistid+", postit bined:"+note);
 			return;
@@ -47,15 +52,16 @@ public class DentistServices {
 
 		Postit postit = new Postit();
 		postit.setId(id);
-		postit.setDentist(dentist);
 		postit.setPost(note);
 		postit.setAlert(type);
-
-		dentist.postNote(postit);
-		_dao.updateCreate(dentist, true);
+		
+		postit.setDentist(dentist);
+		dentist.addNote(postit);
+		
+		_postitdao.updateCreate(postit, false);
 	}
 	public void createPatient(String dentistid, String name, String surname) {
-		Dentist dentist = _dao.getDentist(dentistid);
+		Dentist dentist = _dentistdao.getDentist(dentistid);
 		if (dentist == null) {
 			CloudentUtils.logError("Dentist does not exist, cannot create patient:"+name);
 			return;
@@ -86,7 +92,7 @@ public class DentistServices {
 		p.setDentalhistory(dentalhistory);
 		dentist.addPatient(p);
 		
-		_dao.updateCreate(dentist, true);
+		_dentistdao.updateCreate(dentist, true);
     }
 
 }

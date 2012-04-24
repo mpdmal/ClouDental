@@ -9,9 +9,11 @@ import com.mpdmal.cloudental.dao.ActivityDAO;
 import com.mpdmal.cloudental.dao.AddressDAO;
 import com.mpdmal.cloudental.dao.ContactInfoDAO;
 import com.mpdmal.cloudental.dao.DentistDAO;
+import com.mpdmal.cloudental.dao.DiscountDAO;
 import com.mpdmal.cloudental.dao.MedicalhistoryentryDAO;
 import com.mpdmal.cloudental.dao.PatientDAO;
 import com.mpdmal.cloudental.dao.PostitDAO;
+import com.mpdmal.cloudental.dao.PricelistDAO;
 import com.mpdmal.cloudental.dao.VisitDAO;
 import com.mpdmal.cloudental.tdd.util.Util;
 
@@ -26,6 +28,10 @@ public class CDentAbstractDaoTest {
     protected AddressDAO _adrdao;
     protected VisitDAO _vdao;
     protected ActivityDAO _acdao;
+    protected PricelistDAO _pcdao;
+    protected DiscountDAO _discountdao;
+    
+    
     
     protected MedicalhistoryentryDAO _medhentrydao;
     public CDentAbstractDaoTest() {
@@ -45,6 +51,8 @@ public class CDentAbstractDaoTest {
         _adrdao = new AddressDAO (_em);
         _vdao = new VisitDAO (_em);
         _acdao = new ActivityDAO (_em);
+        _discountdao = new DiscountDAO(_em);
+        _pcdao = new PricelistDAO(_em);
     }
     
 	@Before

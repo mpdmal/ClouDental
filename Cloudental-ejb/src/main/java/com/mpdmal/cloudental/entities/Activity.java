@@ -32,7 +32,7 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
     @NotNull
     @ManyToOne
 	@JoinColumn(name="priceable")
-	private Pricelist priceable;
+	private PricelistItem priceable;
     @NotNull
     @ManyToOne
 	@JoinColumn(name="discount")
@@ -52,7 +52,7 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	public void setDescription(String description) 	{	this.description = description;	}
 	public void setEnddate(Date enddate) 		{	this.enddate = enddate;	}
 	public void setStartdate(Date startdate) 	{	this.startdate = startdate;	}
-	public void setPriceable(Pricelist priceable) 	{	this.priceable = priceable;	}
+	public void setPriceable(PricelistItem priceable) 	{	this.priceable = priceable;	}
 	public void setDiscount(Discount discount) 	{	this.discount= discount;	}
 	public void setPatienthistory(Patienthistory patienthistory) {		this.patienthistory = patienthistory;	}	
     public void setPrice(BigDecimal price) 			{	this.price= price;	}
@@ -82,7 +82,7 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	public String getDescription() 	{	return this.description;	}
 	public Date getEnddate() 	{	return this.enddate;	}
 	public Date getStartdate() {	return this.startdate;	}
-	public Pricelist getPriceable() 	{	return this.priceable;	}
+	public PricelistItem getPriceable() 	{	return this.priceable;	}
 	public Discount getDiscount() 	{	return this.discount;	}
 	public Patienthistory getPatienthistory() {		return this.patienthistory;	}
 	public Set<Visit> getVisits() {	return this.visits;	}

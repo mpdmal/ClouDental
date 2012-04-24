@@ -2,23 +2,28 @@ package com.mpdmal.cloudental.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
-@Entity
-public class Pricelist extends com.mpdmal.cloudental.entities.base.DBEntity implements Serializable {
+@Entity (name="Pricelist")
+public class PricelistItem extends com.mpdmal.cloudental.entities.base.DBEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String description;
+	@NotNull
 	private String title;
+	@NotNull
 	private BigDecimal price;
+	@NotNull
     @ManyToOne
-	@JoinColumn(name="dentistid", insertable=false, updatable=false)
+	@JoinColumn(name="dentistid")
 	private Dentist dentist;
 
-    public Pricelist() {}
+    public PricelistItem() {}
 
 	public Integer getId() 	{	return this.id;	}
 	public String getTitle() {	return this.title;	}

@@ -17,7 +17,7 @@
 	<class>com.mpdmal.cloudental.entities.Postit</class>
 	<class>com.mpdmal.cloudental.entities.PostitPK</class>
 	<class>com.mpdmal.cloudental.entities.Patienthistory</class>
-	<class>com.mpdmal.cloudental.entities.Pricelist</class>
+	<class>com.mpdmal.cloudental.entities.PricelistItem</class>
 	<class>com.mpdmal.cloudental.entities.Discount</class>
 	<class>com.mpdmal.cloudental.entities.Activity</class>
 	<class>com.mpdmal.cloudental.entities.Visit</class>

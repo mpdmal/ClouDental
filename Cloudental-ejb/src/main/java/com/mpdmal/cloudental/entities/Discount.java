@@ -2,6 +2,8 @@ package com.mpdmal.cloudental.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -12,10 +14,13 @@ public class Discount extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String description;
+	@NotNull
 	private String title;
+	@NotNull
 	private BigDecimal discount;
+	@NotNull
     @ManyToOne
-	@JoinColumn(name="dentistid", insertable=false, updatable=false)
+	@JoinColumn(name="dentistid")
 	private Dentist dentist;
 
     public Discount() {}
@@ -34,10 +39,10 @@ public class Discount extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	
 	@Override
 	public String getXML() {
-		StringBuilder ans= new StringBuilder("<pricable></pricable>");
-		ans.insert(ans.indexOf("</pricable"), "<title>"+title+"</title>");
-		ans.insert(ans.indexOf("</pricable"), "<description>"+description+"</description>");
-		ans.insert(ans.indexOf("</pricable"), "<discount>"+discount+"</discount>");
+		StringBuilder ans= new StringBuilder("<discount></discount>");
+		ans.insert(ans.indexOf("</discount"), "<title>"+title+"</title>");
+		ans.insert(ans.indexOf("</discount"), "<description>"+description+"</description>");
+		ans.insert(ans.indexOf("</discount"), "<value>"+discount+"</value>");
 		return ans.toString();
 	}
 }
