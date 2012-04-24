@@ -1,6 +1,8 @@
 package com.mpdmal.cloudental.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -13,12 +15,10 @@ import java.util.Set;
 @Entity
 public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String description;
-
 
     @Temporal( TemporalType.TIMESTAMP)
 	private java.util.Date enddate;
@@ -29,10 +29,16 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
     @ManyToOne
 	@JoinColumn(name="patienthistid")
 	private Patienthistory patienthistory;
+    @NotNull
     @ManyToOne
-	@JoinColumn(name="pricable")
-	private Pricable pricable;
-    
+	@JoinColumn(name="priceable")
+	private Pricelist priceable;
+    @NotNull
+    @ManyToOne
+	@JoinColumn(name="discount")
+	private Discount discount;
+    private BigDecimal price;
+    @NotNull
     @OneToMany(cascade=CascadeType.ALL, mappedBy="activity")
 	private Set<Visit> visits;
 
@@ -46,8 +52,10 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	public void setDescription(String description) 	{	this.description = description;	}
 	public void setEnddate(Date enddate) 		{	this.enddate = enddate;	}
 	public void setStartdate(Date startdate) 	{	this.startdate = startdate;	}
-	public void setPricable(Pricable pricable) 		{	this.pricable = pricable;	}	
+	public void setPriceable(Pricelist priceable) 	{	this.priceable = priceable;	}
+	public void setDiscount(Discount discount) 	{	this.discount= discount;	}
 	public void setPatienthistory(Patienthistory patienthistory) {		this.patienthistory = patienthistory;	}	
+    public void setPrice(BigDecimal price) 			{	this.price= price;	}
 	public void setVisits(Set<Visit> visits) {	
 		if (visits == null)
 			visits = new HashSet<Visit>();
@@ -74,15 +82,17 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	public String getDescription() 	{	return this.description;	}
 	public Date getEnddate() 	{	return this.enddate;	}
 	public Date getStartdate() {	return this.startdate;	}
-	public Pricable getPricable() 	{	return this.pricable;	}
+	public Pricelist getPriceable() 	{	return this.priceable;	}
+	public Discount getDiscount() 	{	return this.discount;	}
 	public Patienthistory getPatienthistory() {		return this.patienthistory;	}
 	public Set<Visit> getVisits() {	return this.visits;	}
-	
+    public BigDecimal getPrice() 	{	return this.price;	}
+
 	@Override
 	public String getXML() {
 		StringBuilder ans= new StringBuilder("<activity></activity>");
 		ans.insert(ans.indexOf("</activity"), "<description>"+description+"</description>");
-		ans.insert(ans.indexOf("</activity"), "<price>"+pricable.getPrice()+"</price>");
+		ans.insert(ans.indexOf("</activity"), "<price>"+priceable.getPrice()+"</price>");
 		ans.insert(ans.indexOf("</activity"), "<startdate>"+startdate+"</startdate>");
 		ans.insert(ans.indexOf("</activity"), "<enddate>"+enddate+"</enddate>");
 		ans.insert(ans.indexOf("</activity"), "<visits>");

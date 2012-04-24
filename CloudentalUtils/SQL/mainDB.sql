@@ -1,11 +1,45 @@
 drop table if exists dentist CASCADE ;
 CREATE TABLE dentist
 (
-	username text,
-	password text,
-	name text,
-	surname text,
+	username text not null,
+	password text not null,
+	name text not null,
+	surname text not null,
 	constraint dentist_pk primary key (username)
+);
+
+drop table if exists patient CASCADE;
+CREATE TABLE patient
+(
+	id serial,
+	dentistID text references dentist not null,
+	name text not null,
+	surname text not null,
+	comments text,
+	created timestamp with time zone default now() not null,
+	constraint patient_pk primary key (id)
+);
+
+drop table if exists pricelist CASCADE;
+CREATE TABLE pricelist
+(
+	id serial,
+	dentistid text references dentist not null,
+	title text not null,
+	description text,
+	price decimal not null,
+	constraint pricelist_pk primary key (id)
+);
+
+drop table if exists discount CASCADE;
+CREATE TABLE discount
+(
+	id serial,
+	dentistid text references dentist not null,
+	title text not null,
+	description text,
+	discount decimal not null,
+	constraint discount_pk primary key (id)
 );
 
 drop table if exists tooth CASCADE;
@@ -37,29 +71,6 @@ CREATE TABLE contactinfo
 	infotype int,
 	constraint contactinfo_pk primary key (id, infotype)
 );
-drop table if exists pricable CASCADE;
-CREATE TABLE pricable
-(
-	id serial,
-	dentistid text references dentist,
-	name text,
-	description text,
-	price decimal,
-	constraint pricable_pk primary key (id)
-);
-
-drop table if exists patient CASCADE;
-CREATE TABLE patient
-(
-	id serial,
-	dentistID text references dentist,
-	name text,
-	surname text,
-	comments text,
-	created timestamp with time zone default now(),
-	constraint patient_pk primary key (id)
-);
-
 drop table if exists medicalhistory CASCADE;
 create table medicalhistory
 (
@@ -108,13 +119,15 @@ create table patienthistory
 	constraint patienthistory_pk primary key (patientID)
 );
 
+
 drop table if exists activity CASCADE;
 create table activity
 (
 	id serial, 
-	patienthistid integer references patienthistory,
-	pricable integer references pricable,
-	startdate timestamp with time zone default now(),
+	patienthistid integer references patienthistory not null,
+	priceable integer references pricelist not null,
+	discount integer references discount not null,
+	startdate timestamp with time zone default now() not null,
 	enddate timestamp with time zone default now(),
 	description text,
 	price decimal,
@@ -129,6 +142,7 @@ create table visit
 	visitdate timestamp with time zone default now(),
 	enddate timestamp with time zone default now(),
 	comments text,
+	deposit decimal,
 	constraint visit_pk primary key (id)
 );
 
@@ -145,5 +159,5 @@ create table toothhistory
 
 
 --DEFAULTS
-insert into pricable values (-1, null, 'noprice', 'used internally to represent a non-priced item', 0.0);
+insert into pricelist values (-1, null, 'noprice', 'used internally to represent a non-priced item', 0.0);
 insert into dentist (username, password, name, surname) values ('demo', 'demo', 'demo', 'demo');

@@ -1,6 +1,8 @@
 package com.mpdmal.cloudental.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -23,6 +25,8 @@ public class Visit extends com.mpdmal.cloudental.entities.base.DBEntity implemen
 	private Activity activity;
     @OneToMany(cascade=CascadeType.ALL, mappedBy="visit")
 	private Set<Toothhistory> toothhistory;
+    private BigDecimal deposit;
+
     public Visit() {    }
 
 	public Date getVisitdate() {	return this.visitdate;	}
@@ -31,14 +35,14 @@ public class Visit extends com.mpdmal.cloudental.entities.base.DBEntity implemen
 	public Integer getId() 			{	return this.id;	}
 	public Activity getActivity() 	{	return this.activity;	}
 	public Set<Toothhistory> getToothhistory() {	return this.toothhistory;	}
-
+    public BigDecimal getDeposit() 	{	return this.deposit;	}
 	public void setToothhistory(Set<Toothhistory> toothhistory) {	this.toothhistory= toothhistory;	}
 	public void setActivity(Activity activity) 	{	this.activity = activity;	}
 	public void setComments(String comments) 	{	this.comments = comments;	}
 	public void setEnddate(Date enddate) 	{	this.enddate = enddate;	}
 	public void setVisitdate(Date visitdate) {		this.visitdate = visitdate;	}
 	public void setId(Integer id) {		this.id = id;	}
-
+    public void setDeposit(BigDecimal deposit) 			{	this.deposit= deposit;	}
 
 	@Override
 	public String getXML() {

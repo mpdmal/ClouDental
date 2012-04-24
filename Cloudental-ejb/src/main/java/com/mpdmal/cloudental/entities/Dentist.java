@@ -19,7 +19,10 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
     @OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.EAGER)
 	private Set<Postit> notes;
     @OneToMany(cascade=CascadeType.ALL, mappedBy="dentist")
-	private Set<Pricable> pricables;
+	private Set<Pricelist> pricables;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="dentist")
+	private Set<Discount> discounts;
+
     @NotNull
     private String name;
     @NotNull
@@ -35,12 +38,14 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	public String getName() {	return this.name;	}
 	public Set<Patient> getPatients() {	return this.patients;	}
 	public Set<Postit> getNotes() {	return this.notes;	}
-	public Set<Pricable> getPriceList() {	return pricables;	}
-	
+	public Set<Pricelist> getPriceList() {	return pricables;	}
+	public Set<Discount> getDiscounts() {	return discounts;	}
 	public void setName(String name){	this.name = name;	}
 	public void setSurname(String name){	this.surname = name;	}
 	public void setUsername(String name){	this.username = name;	}
 	public void setPassword(String password){	this.password = password;	}
+	public void setPricelist(Set<Pricelist> pc) {	pricables = pc;	}
+	public void setDiscounts(Set<Discount> ds) {	discounts = ds;	}
 	public void setPatients(Set<Patient> patients) {
 		if (patients == null)
 			patients = new HashSet<Patient>();
@@ -79,7 +84,7 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		note.setDentist(this);
 		notes.add(note);
 	}
-	public void setPricelist(Set<Pricable> pc) {	pricables = pc;	}
+
 	@Override
 	public String getXML() {
 		StringBuilder ans= new StringBuilder("<dentist></dentist>");
@@ -101,7 +106,7 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		ans.insert(ans.indexOf("</dentist"), "</pinboard>");
 		
 		ans.insert(ans.indexOf("</dentist"), "<pricelist>");
-		for (Pricable pbl : pricables) {
+		for (Pricelist pbl : pricables) {
 			ans.insert(ans.indexOf("</dentist"), pbl.getXML());
 		}
 		ans.insert(ans.indexOf("</dentist"), "</pricelist>");

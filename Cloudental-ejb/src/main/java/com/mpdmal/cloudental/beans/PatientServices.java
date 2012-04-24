@@ -23,7 +23,7 @@ import com.mpdmal.cloudental.entities.Medicalhistoryentry;
 import com.mpdmal.cloudental.entities.MedicalhistoryentryPK;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
-import com.mpdmal.cloudental.entities.Pricable;
+import com.mpdmal.cloudental.entities.Pricelist;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
@@ -129,7 +129,7 @@ public class PatientServices {
     	return _acvdao.getActivities(p.getId(), from , to);
     }
 
-    public void createActivity (int patientID, String description, Date start, Date end, Pricable price) 
+    public void createActivity (int patientID, String description, Date start, Date end, Pricelist price) 
     																		throws PatientNotFoundException {
     	Patient p = _pdao.getPatient(patientID);
     	if (p == null) 
@@ -140,7 +140,7 @@ public class PatientServices {
     	ac.setDescription(description);
     	ac.setStartdate(start);
     	ac.setEnddate(end);
-    	ac.setPricable(price);
+    	ac.setPriceable(price);
     	ph.addActivity(ac);
     	
     	_acvdao.updateCreate(ac, false);
@@ -167,7 +167,7 @@ public class PatientServices {
     }
 
     //VISITS
-    public void createVisit (int activityID, String description, Date start, Date end, Pricable price)
+    public void createVisit (int activityID, String description, Date start, Date end, Pricelist price)
     																	throws PatientNotFoundException {
 //    	Patient p = _pdao.getPatient(patientID);
 //    	if (p == null) 
