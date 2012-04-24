@@ -39,7 +39,7 @@ public class ActivityManagementBean {
 		
 		System.out.println("create activity: "+ description);
 		
-		patientServices.createActivity(patientID, description, startDate, endDate, null);
+//		patientServices.createActivity(patientID, description, startDate, endDate, null);
 		return null;
 	}
 
