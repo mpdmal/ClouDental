@@ -42,7 +42,8 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
     @OneToMany(cascade=CascadeType.ALL, mappedBy="activity")
 	private Set<Visit> visits;
     @NotNull
-    private boolean isOpen = true;
+    private boolean isopen = true;
+    
     
 	public Activity() {    }
 
@@ -50,13 +51,13 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 		return this.id;
 	}
 
-	public void setOpen(boolean isOpen) {	this.isOpen = isOpen;	}
+	public void setOpen(boolean isOpen) {	this.isopen = isOpen;	}
 	public void setId(Integer id) {		this.id = id;	}
 	public void setDescription(String description) 	{	this.description = description;	}
 	public void setEnddate(Date enddate) 		{	
 		this.enddate = enddate;
 		CloudentUtils.logMessage("Activity closed "+id);
-		isOpen = false;
+		isopen = false;
 	}
 	public void setStartdate(Date startdate) 	{
 		this.startdate = startdate;	
@@ -96,14 +97,14 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	public Patienthistory getPatienthistory() {		return this.patienthistory;	}
 	public Set<Visit> getVisits() {	return this.visits;	}
     public BigDecimal getPrice() 	{	return this.price;	}
-    public boolean isOpen() {	return isOpen;	}
+    public boolean isOpen() {	return isopen;	}
 
 	@Override
 	public String getXML() {
 		StringBuilder ans= new StringBuilder("<activity></activity>");
 		ans.insert(ans.indexOf("</activity"), "<description>"+description+"</description>");
 		ans.insert(ans.indexOf("</activity"), "<price>"+priceable.getPrice()+"</price>");
-		ans.insert(ans.indexOf("</activity"), "<isOpen>"+isOpen+"</isOpen>");
+		ans.insert(ans.indexOf("</activity"), "<isOpen>"+isopen+"</isOpen>");
 		ans.insert(ans.indexOf("</activity"), "<startdate>"+startdate+"</startdate>");
 		ans.insert(ans.indexOf("</activity"), "<enddate>"+enddate+"</enddate>");
 		ans.insert(ans.indexOf("</activity"), "<visits>");

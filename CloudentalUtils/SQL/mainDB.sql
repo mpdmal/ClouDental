@@ -139,14 +139,15 @@ drop table if exists visit CASCADE;
 create table visit
 (
 	id serial,
-	activityID integer references activity,
-	visitdate timestamp with time zone default now(),
+	activityID integer references activity not null,
+	visitdate timestamp with time zone default now() not null,
 	enddate timestamp with time zone default now(),
+	title text not null,
 	comments text,
 	deposit decimal,
+	color integer,
 	constraint visit_pk primary key (id)
 );
-
 
 drop table if exists toothhistory CASCADE;
 create table toothhistory
@@ -160,5 +161,5 @@ create table toothhistory
 
 
 --DEFAULTS
-insert into pricelist values (-1, null, 'noprice', 'used internally to represent a non-priced item', 0.0);
+--insert into pricelist values (-1, null, 'noprice', 'used internally to represent a non-priced item', 0.0);
 insert into dentist (username, password, name, surname) values ('demo', 'demo', 'demo', 'demo');

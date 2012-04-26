@@ -1,5 +1,6 @@
 package com.mpdmal.cloudental.beans;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Vector;
 
@@ -25,6 +26,7 @@ import com.mpdmal.cloudental.entities.MedicalhistoryentryPK;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
@@ -170,19 +172,44 @@ public class PatientServices {
     }
 
     //VISITS
-    public void createVisit (int activityID, String description, Date start, Date end, PricelistItem price)
-    																	throws PatientNotFoundException {
-//    	Patient p = _pdao.getPatient(patientID);
-//    	if (p == null) 
-//    		throw new PatientNotFoundException(patientID, "Cannot create Activity:");
-//    	
-//		Visit v = new Visit();
-//		v.setComments("a visit for acitvity "+activity.getDescription());
-//		v.setVisitdate(start);
-//		v.setEnddate(end);
-//		activity.addVisit(v);
-//
-//		_v.updateCreate(ac, false);
+    public Visit createVisit (int patientid, int activityID, String description,
+    							String title, Date start, Date end, double deposit,
+    							int color ) throws PatientNotFoundException {
+    	Patient p = _pdao.getPatient(patientid);
+    	if (p == null) 
+    		throw new PatientNotFoundException(patientid, "Cannot create Activity:");
+    	
+    	Activity acvt = null;
+    	for (Activity act : _acvdao.getActivities(patientid)) {
+			if (act.getId().equals(activityID))
+				acvt = act;
+		} 
+    	
+    	if (acvt == null)
+    		throw new PatientNotFoundException(patientid, "Cannot create Activity:");
+    	
+		Visit v = new Visit();
+		v.setComments(description);
+		v.setVisitdate(start);
+		v.setEnddate(end);
+		v.setColor(color);
+		v.setTitle(title);
+		v.setDeposit(BigDecimal.valueOf(deposit));
+		v.setActivity(acvt);
+		acvt.addVisit(v);
+		
+		_vdao.updateCreate(v, false);
+		return v;
     }
+
+    public void deleteVisits (int activityid) throws PatientNotFoundException {
+    	Activity acvt = _acvdao.getActivity(activityid);
+    	if (acvt == null) 
+    		throw new PatientNotFoundException (activityid, "Cannot delete Visits");
+    	
+    	for (Visit v : acvt.getVisits()) {
+			_vdao.delete(v);
+		}
+    }    
 
 }

@@ -96,9 +96,19 @@ public class ServicesTests extends CDentAbstractBeanTest {
 		assertEquals("Kostas", ((Patient)patients.toArray()[0]).getName());
 		assertEquals("Patakas", ((Patient)patients.toArray()[0]).getSurname());
 		
-		_dsvcbean.createNote(d.getUsername(), "a note to warn!", CloudentUtils.PostitAlertType.ALARM.getValue());
-		_dsvcbean.createNote(d.getUsername(), "a TODO note ", CloudentUtils.PostitAlertType.TODO.getValue());
-		_dsvcbean.createNote(d.getUsername(), "just a note", CloudentUtils.PostitAlertType.NOTE.getValue());
+		
+		try {
+			_dsvcbean.createNote(d.getUsername(), "a note to warn!", CloudentUtils.PostitAlertType.ALARM.getValue());
+			Thread.sleep(100);
+			_dsvcbean.createNote(d.getUsername(), "a TODO note ", CloudentUtils.PostitAlertType.TODO.getValue());
+			Thread.sleep(100);
+			_dsvcbean.createNote(d.getUsername(), "just a note", CloudentUtils.PostitAlertType.NOTE.getValue());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		
 		_dsvcbean.createDiscount(d.getUsername(), "Discount 1", "A friendly discount", 0.1);
 		_dsvcbean.createDiscount(d.getUsername(), "Discount 2", "A friendlier discount", 0.3);
