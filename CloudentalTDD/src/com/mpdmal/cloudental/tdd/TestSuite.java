@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
  
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-//	com.mpdmal.cloudental.tdd.tests.TestDB.class, //create db
+	com.mpdmal.cloudental.tdd.tests.TestDB.class, //create db
 	com.mpdmal.cloudental.tdd.tests.dao.DentistTests.class,
 	com.mpdmal.cloudental.tdd.tests.dao.PricelistTests.class,
 	com.mpdmal.cloudental.tdd.tests.dao.DiscountTests.class,
@@ -15,8 +15,8 @@ import org.junit.runners.Suite;
 //	com.mpdmal.cloudental.tdd.tests.dao.MedHistoryEntryTests.class
 //	com.mpdmal.cloudental.tdd.tests.dao.ContactinfoTests.class
 //	com.mpdmal.cloudental.tdd.tests.dao.AddressTests.class,
-//	com.mpdmal.cloudental.tdd.tests.dao.VisitTests.class,
 	com.mpdmal.cloudental.tdd.tests.dao.ActivityTests.class,
+//	com.mpdmal.cloudental.tdd.tests.dao.VisitTests.class,
 	com.mpdmal.cloudental.tdd.tests.bean.ServicesTests.class,
 })
 

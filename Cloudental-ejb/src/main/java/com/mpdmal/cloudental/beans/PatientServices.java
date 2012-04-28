@@ -28,6 +28,7 @@ import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
@@ -132,7 +133,7 @@ public class PatientServices {
     	return _acvdao.getActivities(p.getId(), from , to);
     }
 
-    public void createActivity (int patientID, String description, Date start, Date end, PricelistItem price, Discount d) 
+    public Activity createActivity (int patientID, String description, Date start, Date end, PricelistItem price, Discount d) 
     																		throws PatientNotFoundException {
     	Patient p = _pdao.getPatient(patientID);
     	if (p == null) 
@@ -149,6 +150,7 @@ public class PatientServices {
     	ph.addActivity(ac);
     	
     	_acvdao.updateCreate(ac, false);
+    	return ac;
     }
     
     public void deleteActivities (int patientID) throws PatientNotFoundException {
@@ -172,21 +174,12 @@ public class PatientServices {
     }
 
     //VISITS
-    public Visit createVisit (int patientid, int activityID, String description,
+    public Visit createVisit (int activityID, String description,
     							String title, Date start, Date end, double deposit,
-    							int color ) throws PatientNotFoundException {
-    	Patient p = _pdao.getPatient(patientid);
-    	if (p == null) 
-    		throw new PatientNotFoundException(patientid, "Cannot create Activity:");
-    	
-    	Activity acvt = null;
-    	for (Activity act : _acvdao.getActivities(patientid)) {
-			if (act.getId().equals(activityID))
-				acvt = act;
-		} 
-    	
+    							int color ) throws ActivityNotFoundException {
+    	Activity acvt = _acvdao.getActivity(activityID);
     	if (acvt == null)
-    		throw new PatientNotFoundException(patientid, "Cannot create Activity:");
+    		throw new ActivityNotFoundException(activityID, "Cannot create Activity:");
     	
 		Visit v = new Visit();
 		v.setComments(description);

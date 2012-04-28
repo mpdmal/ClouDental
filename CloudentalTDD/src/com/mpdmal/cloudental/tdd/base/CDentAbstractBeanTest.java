@@ -50,6 +50,9 @@ public class CDentAbstractBeanTest {
     	
         _dbean = new DentistBean();
         _dbean.setDentistDao(dao);
+        _dbean.setActivityDao(acvdao);
+        _dbean.setPatientDao(pdao);
+        
         _dsvcbean = new DentistServices();
         _dsvcbean.setDentistDao(dao);
         _dsvcbean.setPatientDao(pdao);

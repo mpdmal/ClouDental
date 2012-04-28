@@ -46,7 +46,7 @@ public class ActivityDAO extends CDentAbstractDao {
     }
 
 	public Activity getActivity(int activityid) {
-    	return (Activity)_em.createQuery(GET_PATIENTACTIVITIES)
+    	return (Activity)_em.createQuery(GET_ACTIVITY)
     			.setParameter("activityid", activityid).getSingleResult();
     }
 

@@ -39,7 +39,7 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	private Discount discount;
     private BigDecimal price;
     @NotNull
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="activity")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="activity", fetch=FetchType.EAGER)
 	private Set<Visit> visits;
     @NotNull
     private boolean isopen = true;
@@ -54,10 +54,12 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	public void setOpen(boolean isOpen) {	this.isopen = isOpen;	}
 	public void setId(Integer id) {		this.id = id;	}
 	public void setDescription(String description) 	{	this.description = description;	}
-	public void setEnddate(Date enddate) 		{	
-		this.enddate = enddate;
-		CloudentUtils.logMessage("Activity closed "+id);
-		isopen = false;
+	public void setEnddate(Date enddate) 		{
+		if (enddate != null && enddate.getTime() > startdate.getTime()) {
+			this.enddate = enddate;
+			CloudentUtils.logMessage("Activity closed "+id);
+			isopen = false;
+		}
 	}
 	public void setStartdate(Date startdate) 	{
 		this.startdate = startdate;	
@@ -81,10 +83,11 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 			visits = new HashSet<Visit>();
 		
 		for (Visit visit : visits) {
-			if (visit.getVisitdate().equals(v.getVisitdate())
-					&& visit.getEnddate().equals(v.getEnddate()))
+			if (visit.getVisitdate().getTime() == v.getVisitdate().getTime()
+					&& visit.getEnddate().getTime() == v.getEnddate().getTime()) {
 				CloudentUtils.logWarning("Visit already exists, wont add:"+visit.getComments());
-			return;
+				return;
+			}
 		}
 		v.setActivity(this);
 		visits.add(v);
