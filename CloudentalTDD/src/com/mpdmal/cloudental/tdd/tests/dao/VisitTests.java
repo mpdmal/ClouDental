@@ -15,7 +15,7 @@ import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractDaoTest;
-import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
+import com.mpdmal.cloudental.util.exception.PatientExistsException;
 
 public class VisitTests extends CDentAbstractDaoTest {
 	Timestamp now = new Timestamp(System.currentTimeMillis());
@@ -76,7 +76,7 @@ public class VisitTests extends CDentAbstractDaoTest {
 		p.setDentalhistory(ph);
 		try {
 			d.addPatient(p);
-		} catch (PatientAlreadyExistsException e) {
+		} catch (PatientExistsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

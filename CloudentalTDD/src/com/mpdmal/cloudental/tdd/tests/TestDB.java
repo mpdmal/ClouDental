@@ -14,8 +14,10 @@ import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractBeanTest;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
+import com.mpdmal.cloudental.util.exception.DentistExistsException;
+import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
-import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
+import com.mpdmal.cloudental.util.exception.PatientExistsException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 
 public class TestDB extends CDentAbstractBeanTest {
@@ -26,8 +28,14 @@ public class TestDB extends CDentAbstractBeanTest {
 	}
 	@Test
 	public void testDB() throws InvalidPostitAlertException {
-		Dentist d1 = _dbean.createDentist("Demo Dentist", "demo", "Demopoulos", "Demis");
-		Dentist d2 = _dbean.createDentist("Demo Dentist2", "demo2", "Demidis", "Demos");
+		try {
+			Dentist d1 = _dbean.createDentist("Demo Dentist", "demo", "Demopoulos", "Demis");
+			Dentist d2 = _dbean.createDentist("Demo Dentist2", "demo2", "Demidis", "Demos");
+		} catch (DentistExistsException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
 
 		PricelistItem d1p1 = _dsvcbean.createPricelistItem("Demo Dentist", "pl item 1", "", 10.0);
 		PricelistItem d1p2 =_dsvcbean.createPricelistItem("Demo Dentist", "pl item 2", "", 20.0);
@@ -69,7 +77,7 @@ public class TestDB extends CDentAbstractBeanTest {
 			Visit v6 = _psvcbean.createVisit(act5.getId(), "", "a visit3.3", new Date(System.currentTimeMillis()+50000), null, 321.21, 2);
 			_psvcbean.deleteVisits(act5.getId());
 
-		} catch (PatientAlreadyExistsException e1) {
+		} catch (PatientExistsException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (InterruptedException e) {
@@ -87,8 +95,13 @@ public class TestDB extends CDentAbstractBeanTest {
 	@Override
 	public void closeTestEnv() {
 		//cascade delete
-		_dbean.deleteDentist(_dbean.getDentist("Demo Dentist").getUsername());
-		_dbean.deleteDentist("Demo Dentist2");
+		try {
+			_dbean.deleteDentist(_dbean.getDentist("Demo Dentist").getUsername());
+			_dbean.deleteDentist("Demo Dentist2");
+		} catch (DentistNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 		assertEquals(0, _dbean.countDentists());
 		assertEquals(0, _dsvcbean.countDiscounts());
 		assertEquals(0, _dsvcbean.countNotes());

@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractDaoTest;
-import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
+import com.mpdmal.cloudental.util.exception.PatientExistsException;
 
 public class PatientTests extends CDentAbstractDaoTest {
 	@Override
@@ -20,73 +20,67 @@ public class PatientTests extends CDentAbstractDaoTest {
 		_aDentist.setName("Dim");
 		_aDentist.setSurname("Aza");
 		_dentistdao.updateCreate(_aDentist, false);
+		
+		Dentist _aDentist1 = new Dentist();
+		_aDentist1.setUsername("Mika");
+		_aDentist1.setPassword("admin");
+		_aDentist1.setName("Asd");
+		_aDentist1.setSurname("Qwe");
+		_dentistdao.updateCreate(_aDentist1, false);
 	}
 	
 	@Test
 	public void testPatients() {
-		Dentist d = _dentistdao.getDentist("Arilou");
+		Dentist d1 = _dentistdao.getDentist("Arilou");
+		Dentist d2 = _dentistdao.getDentist("Mika");
 		
 		Patient p = new Patient();
 		p.setComments("");
 		p.setCreated(new Date());
 		p.setName("Ko");
 		p.setSurname("pat");
-		p.setDentist(d);
+		p.setDentist(d1);
 
 		Patient p2 = new Patient();
 		p2.setComments("");
 		p2.setCreated(new Date());
 		p2.setName("Ge");
 		p2.setSurname("Mit");
-		p2.setDentist(d);
+		p2.setDentist(d2);
 
 		Patient p3 = new Patient();
 		p3.setComments("");
 		p3.setCreated(new Date());
 		p3.setName("Ge1");
 		p3.setSurname("Mit");
-		p3.setDentist(d);
+		p3.setDentist(d2);
 
 		try {
-			d.addPatient(p);
-			d.addPatient(p2);
-			d.addPatient(p3);
-		} catch (PatientAlreadyExistsException e) {
+			d1.addPatient(p);
+			d2.addPatient(p2);
+			d2.addPatient(p3);
+		} catch (PatientExistsException e) {
 			e.printStackTrace();
 		}
 		//create
-		_dentistdao.updateCreate(d, false);
+		_dentistdao.updateCreate(d1, false);
+		_dentistdao.updateCreate(d2, false);
 		
 		assertEquals(3, _patientdao.countPatients());
+		assertEquals(2, _dentistdao.countDentists());
 		
+		assertEquals(2, _patientdao.countPatients("Mika"));
+		assertEquals(1, _patientdao.countPatients("Arilou"));
 		//single delete
 		_patientdao.delete(p2);
 		assertEquals(2, _patientdao.countPatients());
+		assertEquals(2, _dentistdao.countDentists());
 		
-	}
-	@Override
-	public void closeTestEnv() {
-		//cascade delete
-		Dentist d = _dentistdao.getDentist("Arilou");
-		_dentistdao.delete(d);
+		_dentistdao.delete(_dentistdao.getDentist("Mika"));
+		assertEquals(1, _dentistdao.countDentists());
+		assertEquals(1, _patientdao.countPatients());
+		_dentistdao.delete(_dentistdao.getDentist("Arilou"));
 		assertEquals(0, _dentistdao.countDentists());
 		assertEquals(0, _patientdao.countPatients());
-
-//		//cascade delete
-//		d.addPatient(p);
-//		d.addPatient(p2);
-//
-//		d = _dentistdao.getDentist("Arilou");
-//		_dentistdao.delete(d);
-//
-//		
-//		//get/delete
-//		p = _patientdao.getPatients(d.getUsername()).elementAt(0);
-//		_patientdao.delete(p);
-//
-//		_dentistdao.delete(d);
-//		
-//		assertEquals(0, _dentistdao.countDentists());
-//		assertEquals(0, _patientdao.countPatients());
 	}
 }

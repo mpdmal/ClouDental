@@ -3,7 +3,6 @@ package com.mpdmal.cloudental.beans;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -34,7 +33,7 @@ import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.entities.Tooth;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
-import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
+import com.mpdmal.cloudental.util.exception.PatientExistsException;
 
 @Named
 @Stateless
@@ -73,6 +72,52 @@ public class DentistServices {
 	public long countPricelistItems () { return _pcdao.countPricelistItems(); }
 	public long countPricelistItems (String dentistid) { return _pcdao.countPricelistItems(dentistid); }
 	
+	public Discount updateDiscount(Discount discount) {
+		//TODO
+		return discount;
+	}
+	
+	public PricelistItem updatePricelistItem(PricelistItem item) {
+		//TODO
+		return item;
+	}
+	
+	public void deletePricelistItem(String dentistid, int itemid) {
+		Vector<PricelistItem> items = getPricelistItems(dentistid);
+		for (PricelistItem pricelistItem : items) {
+			if (pricelistItem.getId() == itemid) {
+				_pcdao.delete(pricelistItem);
+				return;
+			}
+		}
+	}
+
+	public void deleteDiscount(String dentistid, int itemid) {
+		Vector<Discount> items = getDiscounts(dentistid);
+		for (Discount discount : items) {
+			if (discount.getId() == itemid) {
+				_discountdao.delete(discount);
+				return;
+			}
+		}
+	}
+
+	public void deletePricelistitems(String dentistid) {
+		Vector<PricelistItem> items = getPricelistItems(dentistid);
+		for (PricelistItem pricelistItem : items) {
+			_pcdao.delete(pricelistItem);
+			return;
+		}
+	}
+
+	public void deleteDiscounts(String dentistid) {
+		Vector<Discount> items = getDiscounts(dentistid);
+		for (Discount discount : items) {
+			_discountdao.delete(discount);
+			return;
+		}
+	}
+
 	public Vector<PricelistItem> getPricelistItems() {
     	return _pcdao.getPricelistItems();
     }
@@ -143,7 +188,7 @@ public class DentistServices {
 		return item;
 	}
 
-	public Patient createPatient(String dentistid, String name, String surname) throws PatientAlreadyExistsException {
+	public Patient createPatient(String dentistid, String name, String surname) throws PatientExistsException {
 		Dentist dentist = _dentistdao.getDentist(dentistid);
 		if (dentist == null) {
 			CloudentUtils.logError("Dentist does not exist, cannot create patient:"+name);
@@ -151,7 +196,7 @@ public class DentistServices {
 		}
 		Patient p = _pdao.getPatient(dentistid,name, surname); 
 		if (p != null) {
-			throw new PatientAlreadyExistsException(p.getId());
+			throw new PatientExistsException(p.getId());
 		}
 		//patient
 		p = new Patient();

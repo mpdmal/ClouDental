@@ -32,7 +32,8 @@ public class PatientDAO extends CDentAbstractDao {
         return executeSingleLongQuery(_em.createQuery(COUNT_PATIENTS));
     }
     public long countPatients(String dentistid) {
-        return executeSingleLongQuery(_em.createQuery(COUNT_DENTISTPATIENTS));
+        return executeSingleLongQuery(_em.createQuery(COUNT_DENTISTPATIENTS)
+        		.setParameter("dentistid", dentistid));
     }
 
     @SuppressWarnings("unchecked")

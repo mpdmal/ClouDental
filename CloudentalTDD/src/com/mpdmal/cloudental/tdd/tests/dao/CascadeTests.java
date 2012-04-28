@@ -14,7 +14,7 @@ import com.mpdmal.cloudental.entities.Postit;
 import com.mpdmal.cloudental.entities.PostitPK;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractDaoTest;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
-import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
+import com.mpdmal.cloudental.util.exception.PatientExistsException;
 
 public class CascadeTests extends CDentAbstractDaoTest {
 	@Override
@@ -42,7 +42,7 @@ public class CascadeTests extends CDentAbstractDaoTest {
 		patients.add(p);
 		try {
 			_aDentist.setPatients(patients);
-		} catch (PatientAlreadyExistsException e) {
+		} catch (PatientExistsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

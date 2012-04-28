@@ -22,6 +22,7 @@ public class DentistDAO extends CDentAbstractDao {
     public long countDentists() {
         return executeSingleLongQuery(_em.createQuery(COUNT_DENTISTS));
     }
+    
     @SuppressWarnings("unchecked")
 	public Vector<Dentist> getDentists() {
     	return (Vector<Dentist>)_em.createQuery(GET_DENTISTS).getResultList();

@@ -12,17 +12,22 @@ import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractBeanTest;
 import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.DentistExistsException;
+import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
-import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
+import com.mpdmal.cloudental.util.exception.PatientExistsException;
 
 public class ServicesTests extends CDentAbstractBeanTest {
 	
 	@Override
 	public void initTestEnv() {
-		_dbean.createDentist("Demo Dentist", "demo", "Demopoulos", "Demis");
 		try {
+			_dbean.createDentist("Demo Dentist", "demo", "Demopoulos", "Demis");
 			_dsvcbean.createPatient("Demo Dentist", "Kostas", "Patakas");
-		} catch (PatientAlreadyExistsException e) {
+		} catch (DentistExistsException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (PatientExistsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -30,7 +35,12 @@ public class ServicesTests extends CDentAbstractBeanTest {
 	
 	@Override
 	public void closeTestEnv() {
-		_dbean.deleteDentist("Demo Dentist");
+		try {
+			_dbean.deleteDentist("Demo Dentist");
+		} catch (DentistNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals(0, _dsvcbean.countDiscounts());
 		assertEquals(0, _dsvcbean.countPricelistItems());
 		assertEquals(0, _dsvcbean.countNotes());
@@ -49,24 +59,33 @@ public class ServicesTests extends CDentAbstractBeanTest {
 
 		//update
 		d.setName("Altered!");
-		_dbean.updateDentist(d);
-		assertEquals("Altered!", _dbean.getDentist("Demo Dentist").getName());
+		try {
+			_dbean.updateDentist(d);
+			assertEquals("Altered!", _dbean.getDentist("Demo Dentist").getName());
 
-		//delete
-		_dbean.deleteDentist(d.getUsername()); 
-		assertEquals(0, _dbean.countDentists());
-		
-		//mass delete
-		_dbean.createDentist("Arilou1", "admin", "Azarias", "Dimitris");  
-		_dbean.createDentist("Arilou2", "admin", "Azarias", "Dimitris");  
-		_dbean.createDentist("Arilou3", "admin", "Azarias", "Dimitris"); 
-		assertEquals(3, _dbean.countDentists());
-		_dbean.deleteDentists();
-		assertEquals(0, _dbean.countDentists());
-		
-		_dbean.createDentist("Arilou1", "admin", "Azarias", "Dimitris");  
-		_dbean.createDentist("Arilou2", "admin", "Azarias", "Dimitris");  
-		_dbean.createDentist("Arilou3", "admin", "Azarias", "Dimitris");
+			//delete
+			_dbean.deleteDentist(d.getUsername()); 
+			assertEquals(0, _dbean.countDentists());
+			
+			//mass delete
+			_dbean.createDentist("Arilou1", "admin", "Azarias", "Dimitris");  
+			_dbean.createDentist("Arilou2", "admin", "Azarias", "Dimitris");  
+			_dbean.createDentist("Arilou3", "admin", "Azarias", "Dimitris"); 
+			assertEquals(3, _dbean.countDentists());
+			_dbean.deleteDentists();
+			assertEquals(0, _dbean.countDentists());
+			
+			_dbean.createDentist("Arilou1", "admin", "Azarias", "Dimitris");  
+			_dbean.createDentist("Arilou2", "admin", "Azarias", "Dimitris");  
+			_dbean.createDentist("Arilou3", "admin", "Azarias", "Dimitris");
+
+		} catch (DentistNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DentistExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//mass get
 		Vector<Dentist> dentists = _dbean.getDentists();
@@ -79,9 +98,14 @@ public class ServicesTests extends CDentAbstractBeanTest {
 		assertEquals(true, unms.indexOf("Arilou2") >= 0);
 		assertEquals(true, unms.indexOf("Arilou3") >= 0);
 		
-		_dbean.deleteDentist("Arilou1");
-		_dbean.deleteDentist("Arilou2");
-		_dbean.deleteDentist("Arilou3");
+		try {
+			_dbean.deleteDentist("Arilou1");
+			_dbean.deleteDentist("Arilou2");
+			_dbean.deleteDentist("Arilou3");
+		} catch (DentistNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
