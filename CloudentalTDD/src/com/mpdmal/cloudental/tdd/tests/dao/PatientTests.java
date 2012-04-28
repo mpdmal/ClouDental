@@ -43,7 +43,7 @@ public class PatientTests extends CDentAbstractDaoTest {
 		Patient p3 = new Patient();
 		p3.setComments("");
 		p3.setCreated(new Date());
-		p3.setName("Ge");
+		p3.setName("Ge1");
 		p3.setSurname("Mit");
 		p3.setDentist(d);
 

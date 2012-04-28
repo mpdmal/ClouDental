@@ -1,5 +1,6 @@
 package com.mpdmal.cloudental.tdd.tests.dao;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Vector;
 
@@ -8,8 +9,10 @@ import static org.junit.Assert.assertEquals;
 
 import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Dentist;
+import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
+import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractDaoTest;
 import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
@@ -33,6 +36,18 @@ public class VisitTests extends CDentAbstractDaoTest {
 		d.setUsername("c");
 		d.setPassword("e");
 		
+		Discount dc = new Discount();
+		dc.setTitle("asd");
+		dc.setDentist(d);
+		dc.setDiscount(BigDecimal.valueOf(0.2));
+		d.addDiscount(dc);
+		
+		PricelistItem item = new PricelistItem();
+		item.setTitle("asd");
+		item.setDentist(d);
+		item.setPrice(BigDecimal.valueOf(10.0));
+		d.addPricelistItem(item);
+		
 		Patient p = new Patient();
 		p.setCreated(now);
 		p.setName("p");
@@ -41,14 +56,20 @@ public class VisitTests extends CDentAbstractDaoTest {
 		Patienthistory ph = new Patienthistory();
 		ph.setComments("");
 		ph.setStartdate(now);
+
+		_dentistdao.updateCreate(d, false);
 				
 		activity.setDescription("an activity");
 		activity.setStartdate(future_short);
 		activity.setEnddate(future_long);
-
+		activity.setDiscount(dc);
+		activity.setPriceable(item);
+		
 		activity2.setDescription("an activity2");
 		activity2.setStartdate(now);
 		activity2.setEnddate(future_long);
+		activity2.setDiscount(dc);
+		activity2.setPriceable(item);
 
 		ph.addActivity(activity);
 		ph.addActivity(activity2);
@@ -59,7 +80,7 @@ public class VisitTests extends CDentAbstractDaoTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		_dentistdao.updateCreate(d, false);
+
 	}
 	
 	@Test
@@ -74,7 +95,7 @@ public class VisitTests extends CDentAbstractDaoTest {
 		v.setVisitdate(now);
 		v.setEnddate(future_long);
 		v.setActivity(activity);
-
+		v.setTitle("fd");
 		_vdao.updateCreate(v, false);
 		assertEquals(1, _vdao.countVisits());
 		assertEquals(1, _vdao.countPatientVisits(activity.getPatienthistory().getPatient().getId()));
@@ -84,6 +105,7 @@ public class VisitTests extends CDentAbstractDaoTest {
 		v2.setComments("a visit for activity "+activity2.getDescription());
 		v2.setVisitdate(now);
 		v2.setEnddate(future_short);
+		v2.setTitle("fd");
 		activity2.addVisit(v2);
 		_vdao.updateCreate(v2, false);
 		
@@ -116,6 +138,7 @@ public class VisitTests extends CDentAbstractDaoTest {
 		v3.setVisitdate(future_short);
 		v3.setEnddate(future_long);
 		v3.setActivity(activity2);
+		v3.setTitle("fd");
 		_vdao.updateCreate(v3, false);
 
 		Vector<Visit> visits = _vdao.getActivityVisits(activity2.getId());
