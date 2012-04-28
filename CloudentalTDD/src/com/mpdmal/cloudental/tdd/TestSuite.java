@@ -11,6 +11,7 @@ import org.junit.runners.Suite;
 	com.mpdmal.cloudental.tdd.tests.dao.DiscountTests.class,
 	com.mpdmal.cloudental.tdd.tests.dao.PostitTests.class,
 //	com.mpdmal.cloudental.tdd.tests.dao.PatientTests.class,
+	com.mpdmal.cloudental.tdd.tests.dao.PatientToothTests.class,
 //	com.mpdmal.cloudental.tdd.tests.dao.CascadeTests.class,
 //	com.mpdmal.cloudental.tdd.tests.dao.MedHistoryEntryTests.class
 //	com.mpdmal.cloudental.tdd.tests.dao.ContactinfoTests.class

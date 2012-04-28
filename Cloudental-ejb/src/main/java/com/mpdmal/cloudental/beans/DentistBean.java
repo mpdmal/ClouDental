@@ -50,7 +50,7 @@ public class DentistBean {
     }
     public void deleteDentist(String username) {
     	Dentist d = getDentist(username);
-    	if (d != null) {
+    	if (d != null && d.getPatients() != null) {
     		for (Patient ptnt : d.getPatients()) {
     	    	for (Activity acv : _acvdao.getActivities(ptnt.getId())) {
     				_acvdao.delete(acv);

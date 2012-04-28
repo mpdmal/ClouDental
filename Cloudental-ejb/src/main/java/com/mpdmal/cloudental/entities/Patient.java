@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.TimestampAdapter;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +21,8 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	private Integer id;
 	private String comments;
 	@NotNull
-	private Timestamp created;
+	@Temporal( TemporalType.TIMESTAMP)
+	private Date created;
 	@NotNull
 	private String name;
 	@NotNull
@@ -30,20 +31,20 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	private Medicalhistory medicalhistory;
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="patient")
 	private Patienthistory dentalhistory;
-    @ManyToOne (cascade=CascadeType.ALL)
+    @ManyToOne
 	@JoinColumn(name="dentistid")
 	private Dentist dentist;
     @OneToMany(cascade=CascadeType.ALL, mappedBy="patient", fetch=FetchType.LAZY)
 	private Set<Address> addresses;
     @OneToMany(cascade=CascadeType.ALL, mappedBy="patient", fetch=FetchType.LAZY)
 	private Set<Contactinfo> contactinfo;
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="patient")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="patient", fetch=FetchType.EAGER)
 	private Set<Patienttooth> teeth;
 
     public Patient() {}
 
 	@XmlJavaTypeAdapter( TimestampAdapter.class)
-	public Timestamp getCreated() 	{	return this.created;	}	
+	public Date getCreated() 	{	return this.created;	}	
 	public Integer getId() 			{	return this.id;	}
 	public String getComments() 	{	return this.comments;	}
 	public String getName() 	{	return this.name;	}
@@ -57,10 +58,10 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	
 	public void setId(Integer id) 				{	this.id = id;	}
 	public void setComments(String comments) 	{	this.comments = comments;	}
-	public void setCreated(Timestamp created) 	{	this.created = created;	}
+	public void setCreated(Date created) 	{	this.created = created;	}
 	public void setName(String name) 		{	this.name = name;	}
 	public void setSurname(String surname) 	{	this.surname = surname;	}
-	public void setDentist(Dentist dentist) {		this.dentist = dentist;	}
+	public void setDentist(Dentist dentist) {	this.dentist = dentist;	}
 	public void setMedicalhistory(Medicalhistory medicalhistory){		this.medicalhistory = medicalhistory;	}
 	public void setDentalhistory(Patienthistory dentalhistory) 	{
 		dentalhistory.setPatient(this);
@@ -117,7 +118,22 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		cnt.setPatient(this);
 		contactinfo.add(cnt);
 	}
-	public void setTeeth(Set<Patienttooth> teeth) {	this.teeth= teeth;	}
+	public void setTeeth(Set<Patienttooth> teeth) {
+		if (teeth != null)
+			teeth.clear();
+		
+		for (Patienttooth patienttooth : teeth) {
+			addTooth(patienttooth);
+		}
+	}
+	
+	public void addTooth(Patienttooth tooth) {
+		if (teeth == null)
+			teeth = new HashSet<Patienttooth>();
+		
+		tooth.setPatient(this);
+		teeth.add(tooth);
+	}
 	@Override
 	public String getXML() {
 		StringBuilder ans= new StringBuilder("<patient></patient>");

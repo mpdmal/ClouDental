@@ -14,7 +14,7 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 
 	@Id
 	private String username;
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.EAGER)
 	private Set<Patient> patients;
     @OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.EAGER)
 	private Set<Postit> notes;

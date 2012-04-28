@@ -10,7 +10,8 @@ public class Patienttooth extends com.mpdmal.cloudental.entities.base.DBEntity i
 	@EmbeddedId
 	private PatienttoothPK id;
 	private String comments;
-	@Lob
+
+	@Basic(fetch = FetchType.LAZY, optional = false)
 	private byte[] image;
 
     @ManyToOne
