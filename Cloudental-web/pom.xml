@@ -7,11 +7,8 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-    <groupId>com.mpdmal.cloudental</groupId>
     <artifactId>Cloudental-web</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
     <name>Cloudental-web</name>
 
     <properties>

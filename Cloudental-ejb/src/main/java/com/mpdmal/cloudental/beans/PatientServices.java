@@ -68,7 +68,7 @@ public class PatientServices {
 		return _pdao.getPatients(dentistid);
 	}
 
-    public void addMedicalHistoryEntry(int patientID, String comment, int alert) throws 
+    public Medicalhistoryentry createMedicalHistoryEntry(int patientID, String comment, int alert) throws 
     															PatientNotFoundException,
     															InvalidMedEntryAlertException {
     	Patient p = _pdao.getPatient(patientID);
@@ -83,8 +83,9 @@ public class PatientServices {
     	entry.setComments(comment);
     	entry.setId(id);
     	_medentrydao.updateCreate(entry, false);
+    	return entry;
     }
-    public void addContactinfo(int patientID, String info, int type) throws 
+    public Contactinfo createContactinfo(int patientID, String info, int type) throws 
     											PatientNotFoundException, 
     											InvalidContactInfoTypeException {
     	Patient p = _pdao.getPatient(patientID);
@@ -100,9 +101,10 @@ public class PatientServices {
 		cnt.setId(id);
 		p.addContactInfo(cnt);
 		_pdao.updateCreate(cnt, true);
+		return cnt;
     }
-    //no need for Addrs obj to contain a patient object, just supply patient id 
-    public void addAddress(int patientID, Address adr) throws Exception {
+
+    public Address createAddress(int patientID, Address adr) throws Exception {
     	Patient p = _pdao.getPatient(patientID);
     	if (p == null) 
     		throw new PatientNotFoundException(patientID, "Cannot add Address");
@@ -115,7 +117,8 @@ public class PatientServices {
     	adr.getId().setId(patientID);
     	adr.setPatient(p);
     	p.addAddress(adr);
-    	_pdao.updateCreate(p, true);    	
+    	_pdao.updateCreate(p, true);
+    	return adr;
     }
     
         //ACTIVITIES

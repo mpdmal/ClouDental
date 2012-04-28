@@ -2,14 +2,9 @@ package com.mpdmal.cloudental.web.events;
 
 import java.util.Date;
 
-import javax.ejb.EJB;
-import javax.faces.context.FacesContext;
-
 import org.primefaces.model.DefaultScheduleEvent;
 
-import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.Patient;
-import com.mpdmal.cloudental.web.beans.UserHolder;
 
 public class DentistScheduleEvent extends DefaultScheduleEvent {
 	

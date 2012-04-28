@@ -59,7 +59,7 @@ public class MedicalHistoryManagementBean {
 		try{
 
 			setCurrentPatient(currentPatient);
-			patientService.addMedicalHistoryEntry(currentPatient.getId(), comment, alert);
+			patientService.createMedicalHistoryEntry(currentPatient.getId(), comment, alert);
 		}catch(Exception  e){
 			e.printStackTrace();
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -85,13 +85,13 @@ public class MedicalHistoryManagementBean {
 	}
 
 	public Vector<Medicalhistoryentry> getMedicalHistoryList(){
-		Vector<Medicalhistoryentry> vector = new Vector<Medicalhistoryentry>(); 
+		Vector<Medicalhistoryentry> v = new Vector<Medicalhistoryentry>(); 
 		try{
-			vector =medicalhistoryentryDAO.getMedicalhistoryentrys(currentPatient.getId());
+			v =medicalhistoryentryDAO.getMedicalhistoryentrys(currentPatient.getId());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return null;
+		return v;
 
 	}
 

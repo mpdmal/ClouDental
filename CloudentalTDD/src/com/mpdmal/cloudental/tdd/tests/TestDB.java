@@ -1,7 +1,6 @@
 package com.mpdmal.cloudental.tdd.tests;
 
 import java.util.Date;
-import java.util.Vector;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

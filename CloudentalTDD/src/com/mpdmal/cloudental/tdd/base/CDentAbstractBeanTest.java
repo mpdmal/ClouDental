@@ -17,7 +17,6 @@ import com.mpdmal.cloudental.dao.PatientDAO;
 import com.mpdmal.cloudental.dao.PostitDAO;
 import com.mpdmal.cloudental.dao.PricelistDAO;
 import com.mpdmal.cloudental.dao.VisitDAO;
-import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.tdd.util.Util;
 
 public class CDentAbstractBeanTest {

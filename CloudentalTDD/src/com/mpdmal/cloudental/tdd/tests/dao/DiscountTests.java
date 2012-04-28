@@ -3,7 +3,6 @@ package com.mpdmal.cloudental.tdd.tests.dao;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Vector;
 
 import org.junit.Before;
@@ -12,8 +11,6 @@ import org.junit.Test;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractDaoTest;
-import com.mpdmal.cloudental.util.CloudentUtils;
-import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 
 public class DiscountTests extends CDentAbstractDaoTest {
 	@Before

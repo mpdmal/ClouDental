@@ -15,7 +15,6 @@ import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.util.CloudentUtils;
-import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 
 @Named
 @Stateless
