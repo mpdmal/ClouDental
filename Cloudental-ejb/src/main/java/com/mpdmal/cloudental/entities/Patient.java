@@ -119,8 +119,8 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		contactinfo.add(cnt);
 	}
 	public void setTeeth(Set<Patienttooth> teeth) {
-		if (teeth != null)
-			teeth.clear();
+		if (this.teeth != null)
+			this.teeth.clear();
 		
 		for (Patienttooth patienttooth : teeth) {
 			addTooth(patienttooth);

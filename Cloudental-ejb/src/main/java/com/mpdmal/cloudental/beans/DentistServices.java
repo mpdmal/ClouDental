@@ -3,6 +3,9 @@ package com.mpdmal.cloudental.beans;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.ejb.EJB;
@@ -173,22 +176,23 @@ public class DentistServices {
 		dentist.addPatient(p);
 
 		_pdao.updateCreate(p, false);
-//		_dentistdao.updateCreate(dentist, true);
 		
+		Set<Patienttooth> teeth = new HashSet<Patienttooth>();
 		for (Tooth tooth : _tdao.getDefaultTeethSet()) {
 			Patienttooth t = new Patienttooth();
 			t.setComments("");
 			t.setTooth(tooth);
 			t.setPatient(p);
-			p.addTooth(t);
 			
 			PatienttoothPK id = new PatienttoothPK();
 			id.setPatientid(p.getId());
 			id.setToothid(tooth.getPosition());
-			
 			t.setId(id);
+			teeth.add(t);
 		}
-
+		p.setTeeth(teeth);
+		
+		_pdao.updateCreate(p, false);
 		return p;
     }
 
