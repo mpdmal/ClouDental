@@ -12,6 +12,7 @@ import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractDaoTest;
+import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
 
 public class VisitTests extends CDentAbstractDaoTest {
 	Timestamp now = new Timestamp(System.currentTimeMillis());
@@ -52,7 +53,12 @@ public class VisitTests extends CDentAbstractDaoTest {
 		ph.addActivity(activity);
 		ph.addActivity(activity2);
 		p.setDentalhistory(ph);
-		d.addPatient(p);
+		try {
+			d.addPatient(p);
+		} catch (PatientAlreadyExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		_dentistdao.updateCreate(d, false);
 	}
 	

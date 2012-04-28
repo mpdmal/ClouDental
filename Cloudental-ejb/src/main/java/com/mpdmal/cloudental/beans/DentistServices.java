@@ -31,6 +31,7 @@ import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.entities.Tooth;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
+import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
 
 @Named
 @Stateless
@@ -139,18 +140,18 @@ public class DentistServices {
 		return item;
 	}
 
-	public Patient createPatient(String dentistid, String name, String surname) {
+	public Patient createPatient(String dentistid, String name, String surname) throws PatientAlreadyExistsException {
 		Dentist dentist = _dentistdao.getDentist(dentistid);
 		if (dentist == null) {
 			CloudentUtils.logError("Dentist does not exist, cannot create patient:"+name);
 			return null;
 		}
-		if (_pdao.getPatient(dentistid,name, surname) != null) {
-			CloudentUtils.logError("Patient already exists"+surname+"|"+name);
-			return null;
+		Patient p = _pdao.getPatient(dentistid,name, surname); 
+		if (p != null) {
+			throw new PatientAlreadyExistsException(p.getId());
 		}
 		//patient
-		Patient p = new Patient();
+		p = new Patient();
 		p.setCreated(new Timestamp(System.currentTimeMillis()));
 		p.setName(name);
 		p.setSurname(surname);

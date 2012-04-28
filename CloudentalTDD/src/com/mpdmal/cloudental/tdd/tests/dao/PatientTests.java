@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractDaoTest;
+import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
 
 public class PatientTests extends CDentAbstractDaoTest {
 	@Override
@@ -19,8 +20,8 @@ public class PatientTests extends CDentAbstractDaoTest {
 		_aDentist.setName("Dim");
 		_aDentist.setSurname("Aza");
 		_dentistdao.updateCreate(_aDentist, false);
-		
 	}
+	
 	@Test
 	public void testPatients() {
 		Dentist d = _dentistdao.getDentist("Arilou");
@@ -39,17 +40,33 @@ public class PatientTests extends CDentAbstractDaoTest {
 		p2.setSurname("Mit");
 		p2.setDentist(d);
 
-		d.addPatient(p);
-		d.addPatient(p2);
+		Patient p3 = new Patient();
+		p3.setComments("");
+		p3.setCreated(new Date());
+		p3.setName("Ge");
+		p3.setSurname("Mit");
+		p3.setDentist(d);
+
+		try {
+			d.addPatient(p);
+			d.addPatient(p2);
+			d.addPatient(p3);
+		} catch (PatientAlreadyExistsException e) {
+			e.printStackTrace();
+		}
 		//create
-		_patientdao.updateCreate(p, false);
-		_patientdao.updateCreate(p2, false);
+		_dentistdao.updateCreate(d, false);
+		
+		assertEquals(3, _patientdao.countPatients());
+		
+		//single delete
+		_patientdao.delete(p2);
 		assertEquals(2, _patientdao.countPatients());
-		_dentistdao.delete(p2);
-		assertEquals(1, _patientdao.countPatients());
+		
 	}
 	@Override
 	public void closeTestEnv() {
+		//cascade delete
 		Dentist d = _dentistdao.getDentist("Arilou");
 		_dentistdao.delete(d);
 		assertEquals(0, _dentistdao.countDentists());

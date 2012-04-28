@@ -11,9 +11,7 @@ import javax.jws.WebService;
 import com.mpdmal.cloudental.dao.ActivityDAO;
 import com.mpdmal.cloudental.dao.DentistDAO;
 import com.mpdmal.cloudental.dao.PatientDAO;
-import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Dentist;
-import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.util.CloudentUtils;
 
 @Named
@@ -50,12 +48,7 @@ public class DentistBean {
     }
     public void deleteDentist(String username) {
     	Dentist d = getDentist(username);
-    	if (d != null && d.getPatients() != null) {
-    		for (Patient ptnt : d.getPatients()) {
-    	    	for (Activity acv : _acvdao.getActivities(ptnt.getId())) {
-    				_acvdao.delete(acv);
-    			}	
-    	    }
+    	if (d != null) {
     		_dao.delete(d);
     		return;
     	} 

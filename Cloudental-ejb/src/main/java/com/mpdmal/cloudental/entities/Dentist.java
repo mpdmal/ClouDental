@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -73,7 +74,7 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		ds.setDentist(this);
 		discounts.add(ds);
 	}
-	public void setPatients(Set<Patient> patients) {
+	public void setPatients(Set<Patient> patients) throws PatientAlreadyExistsException {
 		if (this.patients != null)
 			this.patients.clear();
 		
@@ -81,19 +82,18 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 			addPatient(patient);
 		}
 	}
-	public void addPatient(Patient p) {
+	public void addPatient(Patient p) throws PatientAlreadyExistsException {
 		if (patients == null)
 			patients = new HashSet<Patient>();
 		for (Patient patient : patients) {
 			if (patient.getName().equals(p.getName())
-					&& patient.getSurname().equals(p.getSurname())) {
-				CloudentUtils.logWarning("Cannot add patient with same name and surname:"+p.getName()+"|"+p.getSurname());
-				return;				
-			}
+					&& patient.getSurname().equals(p.getSurname())) 
+				throw new PatientAlreadyExistsException(p.getId(), "Cannot add patient with same name and surname:"+p.getName()+"|"+p.getSurname());
 		}
 		p.setDentist(this);
 		patients.add(p);
 	}
+	
 	public void setNotes(Set<Postit> notes) {	
 		if (notes != null)
 			notes.clear();

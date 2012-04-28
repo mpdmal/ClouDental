@@ -13,13 +13,19 @@ import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractBeanTest;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
+import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
 
 public class ServicesTests extends CDentAbstractBeanTest {
 	
 	@Override
 	public void initTestEnv() {
 		_dbean.createDentist("Demo Dentist", "demo", "Demopoulos", "Demis");
-		_dsvcbean.createPatient("Demo Dentist", "Kostas", "Patakas");
+		try {
+			_dsvcbean.createPatient("Demo Dentist", "Kostas", "Patakas");
+		} catch (PatientAlreadyExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

@@ -12,6 +12,7 @@ import com.mpdmal.cloudental.entities.Patienttooth;
 import com.mpdmal.cloudental.entities.PatienttoothPK;
 import com.mpdmal.cloudental.entities.Tooth;
 import com.mpdmal.cloudental.tdd.base.CDentAbstractDaoTest;
+import com.mpdmal.cloudental.util.exception.PatientAlreadyExistsException;
 
 public class PatientToothTests extends CDentAbstractDaoTest {
 	Dentist d = new Dentist();
@@ -30,7 +31,12 @@ public class PatientToothTests extends CDentAbstractDaoTest {
 		p.setSurname("pp");
 				
 		p.setDentist(d);
-		d.addPatient(p);
+		try {
+			d.addPatient(p);
+		} catch (PatientAlreadyExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		_dentistdao.updateCreate(d, false);
 	}
