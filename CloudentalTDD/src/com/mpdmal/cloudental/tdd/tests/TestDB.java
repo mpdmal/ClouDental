@@ -103,8 +103,8 @@ public class TestDB extends CDentAbstractBeanTest {
 		}
 		
 		assertEquals(0, _dbean.countDentists());
-		assertEquals(0, _dsvcbean.countDiscounts());
-		assertEquals(0, _dsvcbean.countNotes());
+		assertEquals(0, _dsvcbean.countDiscounts("Demo Dentist"));
+		assertEquals(0, _dsvcbean.countNotes("Demo Dentist"));
 		assertEquals(0, _dsvcbean.countPricelistItems());
 		//TODO  count activities and count patients
 	}

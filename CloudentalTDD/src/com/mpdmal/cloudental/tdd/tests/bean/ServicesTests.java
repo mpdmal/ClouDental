@@ -41,9 +41,9 @@ public class ServicesTests extends CDentAbstractBeanTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals(0, _dsvcbean.countDiscounts());
+		assertEquals(0, _dsvcbean.countDiscounts("Demo Dentist"));
 		assertEquals(0, _dsvcbean.countPricelistItems());
-		assertEquals(0, _dsvcbean.countNotes());
+		assertEquals(0, _dsvcbean.countNotes("Demo Dentist"));
 	}
 	
 	@Test
