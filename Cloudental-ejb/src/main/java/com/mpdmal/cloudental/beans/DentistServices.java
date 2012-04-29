@@ -65,10 +65,8 @@ public class DentistServices {
 	public void setTeethDao (TeethDAO dao) { _tdao= dao;}//for testing
 	public void setPatientTeethDao (PatientToothDAO dao) { _ptcdao = dao;}//for testing
 	
-	public long countNotes() {		return _postitdao.countPostits();	};
 	public long countNotes(String dentistid) {		return _postitdao.countPostits(dentistid);	};
 	public long countDiscounts (String dentistid) {		return _discountdao.countDiscounts(dentistid);	}
-	public long countDiscounts () {		return _discountdao.countDiscounts();	}
 	public long countPricelistItems () { return _pcdao.countPricelistItems(); }
 	public long countPricelistItems (String dentistid) { return _pcdao.countPricelistItems(dentistid); }
 	
@@ -118,10 +116,6 @@ public class DentistServices {
 		}
 	}
 
-	public Vector<PricelistItem> getPricelistItems() {
-    	return _pcdao.getPricelistItems();
-    }
-    
 	public Vector<PricelistItem> getPricelistItems(String username) {
     	return _pcdao.getPricelistItems(username);
     }

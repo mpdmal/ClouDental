@@ -3,10 +3,7 @@ package com.mpdmal.cloudental.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import com.mpdmal.cloudental.util.CloudentUtils;
-import com.mpdmal.cloudental.util.TimestampAdapter;
 
 import java.util.Date;
 import java.util.HashSet;

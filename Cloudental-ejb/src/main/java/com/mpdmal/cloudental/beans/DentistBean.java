@@ -12,7 +12,6 @@ import com.mpdmal.cloudental.dao.ActivityDAO;
 import com.mpdmal.cloudental.dao.DentistDAO;
 import com.mpdmal.cloudental.dao.PatientDAO;
 import com.mpdmal.cloudental.entities.Dentist;
-import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 

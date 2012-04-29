@@ -3,7 +3,6 @@ package com.mpdmal.cloudental.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.PatientExistsException;
 
 import java.util.HashSet;
