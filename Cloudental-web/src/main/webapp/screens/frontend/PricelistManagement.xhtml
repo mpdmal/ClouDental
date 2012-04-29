@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/screens/frontend/template.xhtml">
+	<ui:define name="header">
+    	Price List 
+    	<br />
+		<h:outputText value="#{userHolder.currentUser.username}"></h:outputText>
+		<br />
+		<h:messages />
+	</ui:define>
+
+	<ui:define name="content">
+		<!-- ********** start ********** -->
+		
+		  
+		<h:form>
+			<p:panel header="Price List Item">
+				<h:panelGrid columns="2">
+					<h:outputText value="Title: " />
+					<h:inputText value="#{pricelistItemManagementBean.title}" label="Title" required="true" />
+					<h:outputText value="Price: " />
+					<h:inputText value="#{pricelistItemManagementBean.price}" label="Price" required="true" >
+						<f:validateLongRange minimum="0"/>
+					</h:inputText>
+					<h:outputText value="Description: " />
+					<h:inputTextarea value="#{pricelistItemManagementBean.description}" label="Description" />
+					<h:outputText value=" " />
+					<h:panelGroup>
+						<h:commandButton value="Create" action="#{pricelistItemManagementBean.createPricelistItem}" />
+						<h:outputText value=" " />
+						<h:commandButton value="Update" action="#{pricelistItemManagementBean.updatePricelistItem}" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+		<!-- ********** end ********** -->
+		<br />
+		<br />
+		<p:dataTable value="#{pricelistItemManagementBean.pricelist}" var="item" >
+			<p:column>
+				<f:facet name="header"><h:outputText value="id"/></f:facet>
+				<h:outputText value="#{item.id}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"><h:outputText value="Title"/></f:facet>
+				<h:outputText value="#{item.title}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"><h:outputText value="Price"/></f:facet>
+				<h:outputText value="#{item.price}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header"><h:outputText value="Description" /></f:facet>
+				<h:outputText value="#{item.description}"/>
+			</p:column>
+			<p:column>
+				<f:facet name="header"><h:outputText value="action delete"/></f:facet>
+				<h:form>
+					<h:commandLink action="delete">
+						<f:actionListener type="com.mpdmal.cloudental.web.listeners.OnDeleteDentistActionListener" />
+						<h:outputText value="delete #{item.id}" />
+					</h:commandLink>
+				</h:form>
+			</p:column>
+			<p:column>
+				<f:facet name="header"><h:outputText value="update" /></f:facet>
+				<h:form>
+					<h:commandLink action="update">
+						<f:setPropertyActionListener value="#{item}" target="#{pricelistItemManagementBean.currentPricelistItem}" />
+						<h:outputText value="get for update #{patient.surname}" />
+					</h:commandLink>
+				</h:form>
+			</p:column>
+		</p:dataTable>
+
+	</ui:define>
+
+
+
+
+</ui:composition>
+</html>

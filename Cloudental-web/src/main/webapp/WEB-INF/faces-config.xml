@@ -63,6 +63,11 @@
 		<managed-bean-class>com.mpdmal.cloudental.web.beans.VisitManagementBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>pricelistItemManagementBean</managed-bean-name>
+		<managed-bean-class>com.mpdmal.cloudental.web.beans.PricelistItemManagementBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 	<navigation-rule>
 		<display-name>frontend/login.xhtml</display-name>
 		<from-view-id>/frontend/login.xhtml</from-view-id>
