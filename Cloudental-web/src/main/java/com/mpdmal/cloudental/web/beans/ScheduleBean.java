@@ -20,6 +20,7 @@ import org.primefaces.model.ScheduleModel;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.Patient;
+import com.mpdmal.cloudental.util.exception.PatientExistsException;
 import com.mpdmal.cloudental.web.events.DentistScheduleEvent;
 
 public class ScheduleBean {
@@ -129,7 +130,12 @@ public class ScheduleBean {
 		String name = event.getNameNewPatient() ;
 		String surname = event.getSurnameNewPatient();
 		System.out.println("create: "+name+" "+surname);
-		dentistServices.createPatient(user.getCurrentUser().getUsername() , name, surname);
+		try {
+			dentistServices.createPatient(user.getCurrentUser().getUsername() , name, surname);
+		} catch (PatientExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Patient p = new Patient();
 		p.setName(name);
 		p.setSurname(surname);

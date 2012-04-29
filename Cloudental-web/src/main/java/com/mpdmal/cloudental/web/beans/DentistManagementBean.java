@@ -8,6 +8,8 @@ import javax.ejb.EJB;
 
 import com.mpdmal.cloudental.beans.DentistBean;
 import com.mpdmal.cloudental.entities.Dentist;
+import com.mpdmal.cloudental.util.exception.DentistExistsException;
+import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 
 public class DentistManagementBean extends Dentist {
 
@@ -27,20 +29,35 @@ public class DentistManagementBean extends Dentist {
 
 	public String createDentist(){
 		System.out.println("create: "+getUsername());
-		dbn.createDentist(getUsername() , getPassword(), getSurname() , getName());
+		try {
+			dbn.createDentist(getUsername() , getPassword(), getSurname() , getName());
+		} catch (DentistExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	public String deleteDentist() {
 		System.out.println("delete: "+getUsername());
 
-		dbn.deleteDentist(getUsername());
+		try {
+			dbn.deleteDentist(getUsername());
+		} catch (DentistNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	public String updateDentist() {
 		System.out.println("update: "+getUsername());
-		dbn.updateDentist(this);
+		try {
+			dbn.updateDentist(this);
+		} catch (DentistNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 

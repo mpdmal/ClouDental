@@ -15,6 +15,7 @@ public class TeethDAO extends CDentAbstractDao {
 	static final String GET_DEFAULTTEETH= "select t from Tooth t";
 	
     public TeethDAO(EntityManager em) { super(em); }
+    public TeethDAO() { super(); }
     
    @SuppressWarnings("unchecked")
 	public Vector<Tooth> getDefaultTeethSet() {

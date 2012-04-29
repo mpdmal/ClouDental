@@ -43,7 +43,6 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 
     public Patient() {}
 
-	@XmlJavaTypeAdapter( TimestampAdapter.class)
 	public Date getCreated() 	{	return this.created;	}	
 	public Integer getId() 			{	return this.id;	}
 	public String getComments() 	{	return this.comments;	}
