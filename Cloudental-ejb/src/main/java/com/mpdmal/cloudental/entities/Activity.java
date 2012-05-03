@@ -19,8 +19,8 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String description;
-
-    @Temporal( TemporalType.TIMESTAMP)
+	
+	@Temporal( TemporalType.TIMESTAMP)
 	private java.util.Date enddate;
     @Temporal( TemporalType.TIMESTAMP)
 	private java.util.Date startdate; 

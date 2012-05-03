@@ -1,18 +1,19 @@
-drop table if exists dentist CASCADE ;
+drop table if exists dentist CASCADE;
 CREATE TABLE dentist
 (
-	username text not null,
-	password text not null,
-	name text not null,
-	surname text not null,
-	constraint dentist_pk primary key (username)
+  id serial NOT NULL,
+  username text NOT NULL,
+  password text NOT NULL,
+  name text NOT NULL,
+  surname text NOT NULL,
+  CONSTRAINT dentist_pk PRIMARY KEY (id )
 );
 
 drop table if exists patient CASCADE;
 CREATE TABLE patient
 (
 	id serial,
-	dentistID text references dentist not null,
+	dentistID int references dentist not null,
 	name text not null,
 	surname text not null,
 	comments text,
@@ -23,19 +24,19 @@ CREATE TABLE patient
 drop table if exists pricelist CASCADE;
 CREATE TABLE pricelist
 (
-	id serial,
-	dentistid text references dentist not null,
-	title text not null,
-	description text,
-	price decimal not null,
-	constraint pricelist_pk primary key (id)
+  id serial NOT NULL,
+  dentistid int references dentist NOT NULL,
+  title text NOT NULL,
+  description text,
+  price numeric NOT NULL,
+  CONSTRAINT pricelist_pk PRIMARY KEY (id )
 );
 
 drop table if exists discount CASCADE;
 CREATE TABLE discount
 (
 	id serial,
-	dentistid text references dentist not null,
+	dentistid int references dentist not null,
 	title text not null,
 	description text,
 	discount decimal not null,
@@ -92,7 +93,7 @@ create table medicalhistoryentry
 drop table if exists postit CASCADE;
 create table postit
 (
-	id text references dentist,
+	id int references dentist,
 	postdate timestamp with time zone default now(),
 	post text,
 	alert integer,
@@ -193,3 +194,8 @@ insert into tooth values (29, 'wisdom tooth bottom left');
 insert into tooth values (30, 'wisdom tooth bottom right');
 insert into tooth values (31, 'wisdom tooth top right');
 insert into tooth values (32, 'wisdom tooth top left');
+
+--DEFAULTS
+insert into dentist values (-99, 'demo', 'demo', 'demo', 'demo');
+--insert into pricelist values (-1, null, 'noprice', 'used internally to represent a non-priced item', 0.0);
+

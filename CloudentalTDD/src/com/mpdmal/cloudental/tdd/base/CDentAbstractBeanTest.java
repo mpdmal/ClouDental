@@ -45,28 +45,8 @@ public class CDentAbstractBeanTest {
     	MedicalhistoryentryDAO mdao = new MedicalhistoryentryDAO(_em);
     	ActivityDAO acvdao = new ActivityDAO(_em); 
     	VisitDAO vdao = new VisitDAO(_em);
-    	PostitDAO ptdao = new PostitDAO(_em);
-    	DiscountDAO dcdao = new DiscountDAO(_em);
-    	PricelistDAO pcdao = new PricelistDAO(_em);
-    	TeethDAO tdao = new TeethDAO(_em);
-    	PatientToothDAO ptcdao = new PatientToothDAO(_em);
     	
     	
-        _dbean = new DentistBean();
-        _dbean.setDentistDao(dao);
-        _dbean.setActivityDao(acvdao);
-        _dbean.setPatientDao(pdao);
-        
-        _dsvcbean = new DentistServices();
-        _dsvcbean.setDentistDao(dao);
-        _dsvcbean.setPatientDao(pdao);
-        _dsvcbean.setPostitDao(ptdao);
-        _dsvcbean.setDiscountDao(dcdao);
-        _dsvcbean.setPricelistDao(pcdao);
-        _dsvcbean.setTeethDao(tdao);
-        _dsvcbean.setPatientTeethDao(ptcdao);
-        _lbean = new LoginBean();
-        _lbean.setDentistDao(dao);
         _psvcbean = new PatientServices();
         _psvcbean.setPatientDao(pdao);
         _psvcbean.setMedhistentryDao(mdao);

@@ -10,6 +10,7 @@ import com.mpdmal.cloudental.beans.DentistBean;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
+import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
 
 public class DentistManagementBean extends Dentist {
 
@@ -30,7 +31,12 @@ public class DentistManagementBean extends Dentist {
 	public String createDentist(){
 		System.out.println("create: "+getUsername());
 		try {
-			dbn.createDentist(getUsername() , getPassword(), getSurname() , getName());
+			try {
+				dbn.createDentist(getName() ,getSurname() , getUsername(), getPassword());
+			} catch (InvalidDentistCredentialsException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (DentistExistsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -36,14 +36,14 @@ public class PatientManagementBean extends Patient {
 	}
 
 	public String createPatient(){
-
-		try {
-			dentistService.createPatient(user.getCurrentUser().getUsername() , getName(), getSurname());
-		} catch (PatientExistsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("create: "+getSurname());
+//
+//		try {
+//			dentistService.createPatient(user.getCurrentUser().getUsername() , getName(), getSurname());
+//		} catch (PatientExistsException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println("create: "+getSurname());
 		return null;
 	}
 

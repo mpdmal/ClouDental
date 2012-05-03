@@ -6,8 +6,8 @@ import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.jws.WebService;
 
-import com.mpdmal.cloudental.dao.DentistDAO;
 import com.mpdmal.cloudental.entities.Dentist;
+import com.mpdmal.cloudental.util.CloudentUtils;
 
 
 @Named
@@ -15,18 +15,18 @@ import com.mpdmal.cloudental.entities.Dentist;
 @LocalBean
 @WebService
 public class LoginBean {
-	@EJB DentistDAO _ddao;
+	@EJB DentistBean dentistEao;
 	
     public LoginBean() {}
 
-	public void setDentistDao (DentistDAO dao) { _ddao = dao;}//for testing
     public Dentist doLogin(String username, String password) {
-    	if (_ddao.getDentist(username) == null)
+    	Dentist d = dentistEao.getDentist(username);
+    	if (d == null)
     		return null;
     	
-    	Dentist d = _ddao.getDentist(username);
     	if (!d.getPassword().equals(password))
     		return null;
+    	CloudentUtils.logMessage("successfully logged in "+username);
     	return d;
     }
 }

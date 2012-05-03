@@ -4,11 +4,11 @@ import java.util.Vector;
 
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
-import javax.swing.text.DefaultEditorKit.CutAction;
 
 import com.mpdmal.cloudental.beans.DentistBean;
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
+import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 
@@ -27,14 +27,20 @@ public class PricelistItemManagementBean extends PricelistItem {
 	DentistBean dentistBean;
 	
 	public Vector<PricelistItem> getPricelist() {
-		Vector<PricelistItem>  ans  = dentistService.getPricelistItems(user.getCurrentUser().getUsername());
+		Dentist d = user.getCurrentUser();
+		System.out.println(""+d.getName()+d.getId());
+		
+		Vector<PricelistItem>  ans  = new Vector<PricelistItem>();
+		for (PricelistItem item : d.getPriceList()) {
+			ans.add(item);
+		}
 		return  ans;
 	}
 
 	public String createPricelistItem(){
 		System.out.println("create: "+getTitle());
 		try {
-			dentistService.createPricelistItem(user.getCurrentUser().getUsername(), getTitle(),getDescription(), getPrice().doubleValue() );
+			dentistService.createPricelistItem(user.getCurrentUser().getId(), getTitle(),getDescription(), getPrice().doubleValue() );
 		} catch (InvalidPostitAlertException e) {
 			
 			e.printStackTrace();

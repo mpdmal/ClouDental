@@ -7,70 +7,100 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.jws.WebService;
+import javax.persistence.Query;
 
-import com.mpdmal.cloudental.dao.ActivityDAO;
-import com.mpdmal.cloudental.dao.DentistDAO;
-import com.mpdmal.cloudental.dao.PatientDAO;
+import com.mpdmal.cloudental.EaoManager;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
+import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
 
 @Named
 @Stateless
 @LocalBean
 @WebService
 public class DentistBean {
-	@EJB DentistDAO _dao;
-	@EJB PatientDAO _pdao;
-	@EJB ActivityDAO _acvdao;
+	@EJB
+	private EaoManager emgr;
 	
     public DentistBean() {}
-
-	public void setDentistDao (DentistDAO dao) { _dao = dao;}//for testing
-	public void setPatientDao (PatientDAO dao) { _pdao = dao;}//for testing
-	public void setActivityDao (ActivityDAO dao) { _acvdao = dao;}//for testing
-	
-    public long countDentists () 		 { 	return _dao.countDentists();   	}    
-    public Vector<Dentist> getDentists() { 	return _dao.getDentists();    	}
-    public Dentist getDentist (String username) { return _dao.getDentist(username);    }
-    public Dentist createDentist(String username, String pwd, String surname, String name) 
-    															throws DentistExistsException {
-    	Dentist d = getDentist(username);
-    	if (d != null)
-        	throw new DentistExistsException(d.getSurname(), "Already exists, Wont create.");
-
-    	d = new Dentist();
-    	d.setName(name);
-    	d.setSurname(surname);
-    	d.setPassword(pwd);
-    	d.setUsername(username);
-    	_dao.updateCreate(d, false);
-    	return d;
+    public DentistBean(EaoManager mgr) { 
+    	this.emgr = mgr;
     }
     
-    public void deleteDentist(String username) throws DentistNotFoundException {
-    	Dentist d = getDentist(username);
-    	if (d == null) 
-    		throw new DentistNotFoundException(username, " Cannot delete");
-    		
-   		_dao.delete(d);
-    }
+    public Dentist createDentist(String name, String surname, String username, String password) 
+    																throws DentistExistsException,
+    																InvalidDentistCredentialsException  {
+    	Dentist d = getDentist(username); 
+    	if (d != null) 
+    		throw new DentistExistsException(username, "Already exists, wont create");
+    	if (name.equals("") || surname.equals("") || password.equals(""))
+    		throw new InvalidDentistCredentialsException(username, "Name, surname and password need to be filled \n");
     	
-    public void updateDentist(Dentist d) throws DentistNotFoundException {
-    	if (getDentist(d.getUsername()) == null)  
-    		throw new DentistNotFoundException(d.getUsername(), " Cannot update");
+    	d = new Dentist();
+		d.setName(name);
+		d.setSurname(surname);
+		d.setUsername(username);
+		d.setPassword(password);
+		
+		emgr.persist(d);
+		return d;
+    }
 
-   		_dao.updateCreate(d, true);
+    public void updateDentist(Dentist d) throws DentistNotFoundException {
+    	if (emgr.findOrFail(Dentist.class, d.getId()) == null) {
+    		throw new DentistNotFoundException(d.getUsername());
+    	}
+    	emgr.update(d);
     }
-    	
+    
+    public void deleteDentist(Dentist d) throws DentistNotFoundException {
+    	if (emgr.findOrFail(Dentist.class, d.getId()) == null) {
+    		throw new DentistNotFoundException(d.getUsername());
+    	}
+
+    	emgr.delete(d);
+    }
+
+    public void deleteDentist(String username) throws DentistNotFoundException {
+    	Dentist d = getDentist(username); 
+    	if (d == null) {
+    		throw new DentistNotFoundException(username);
+    	}
+    	emgr.delete(d);
+    }
+
     public void deleteDentists() {
-    	Vector<Dentist> dentists = _dao.getDentists();
-    	for (Dentist dentist : dentists) {
+    	Vector<Dentist> dents = getDentists();
+    	for (Dentist dentist : dents) {
 			try {
-				deleteDentist(dentist.getUsername());
+				deleteDentist(dentist);
 			} catch (DentistNotFoundException e) {
+				//should never happen
 				e.printStackTrace();
 			}
 		}
     }
+    
+    public long countDentists() {
+    	Query q = emgr.getEM().createQuery("select count(d) from Dentist d");
+        return emgr.executeSingleLongQuery(q);
+    }
+
+    public Dentist getDentist(String username) {
+    	Query q = emgr.getEM().createQuery("select d from Dentist d where d.username = :username")
+    			.setParameter("username", username);
+        return (Dentist) emgr.executeSingleObjectQuery(q);
+    }
+
+    @SuppressWarnings("unchecked")
+	public Vector<Dentist> getDentists() {
+    	Query q = emgr.getEM().createQuery("select d from Dentist d");
+        return (Vector<Dentist>) emgr.executeMultipleObjectQuery(q);
+    }
+    
+    public void close() {
+    	emgr.clostEM();
+    }
+
 }

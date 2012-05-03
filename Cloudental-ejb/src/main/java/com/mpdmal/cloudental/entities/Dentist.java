@@ -2,64 +2,72 @@ package com.mpdmal.cloudental.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import com.mpdmal.cloudental.util.exception.PatientExistsException;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
+@Table(name="dentist")
 public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String username;
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.EAGER)
-	private Set<Patient> patients;
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.EAGER)
-	private Set<Postit> notes;
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="dentist")
-	private Set<PricelistItem> priceables;
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="dentist")
-	private Set<Discount> discounts;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 
-    @NotNull
-    private String name;
-    @NotNull
-	private String surname;
-    @NotNull
+	@Column(nullable=false, length=80)
+	private String name;
+	@Column(nullable=false, length=16)
 	private String password;
+	@Column(nullable=false, length=80)
+	private String surname;
+	@Column(nullable=false, length=16)
+	private String username;
 
-    public Dentist() {}
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.LAZY)
+	private Collection<Discount> discounts;
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.LAZY)
+	private Collection<Postit> postits;
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.LAZY)
+	private Collection<PricelistItem> priceables;
 
+
+   public Dentist() {}
+
+   public Integer getId() {	return this.id;	}
 	public String getSurname() {	return this.surname;	}
 	public String getUsername() {	return this.username;	}
 	public String getPassword() {	return this.password;	}
 	public String getName() {	return this.name;	}
-	public Set<Patient> getPatients() {	return this.patients;	}
-	public Set<Postit> getNotes() {	return this.notes;	}
-	public Set<PricelistItem> getPriceList() {	return priceables;	}
-	public Set<Discount> getDiscounts() {	return discounts;	}
+	public void setId(Integer id) {	this.id = id;	}
 	public void setName(String name){	this.name = name;	}
 	public void setSurname(String name){	this.surname = name;	}
 	public void setUsername(String name){	this.username = name;	}
 	public void setPassword(String password){	this.password = password;	}
-	public void setPricelist(Set<PricelistItem> pc) {	 	
+
+	//PRICABLES
+	public Collection<PricelistItem> getPriceList() {	return priceables;	}
+	public void setPricelist(final Collection<PricelistItem> pc) {	 	
 		if (priceables!= null)
 			priceables.clear();
 		for (PricelistItem item : priceables) {
 			addPricelistItem(item);
 		}
 	}
-	public void addPricelistItem(PricelistItem item) {	
+	public void addPricelistItem(final PricelistItem item) {	
 		if (priceables == null)
-			priceables = new HashSet<PricelistItem>();
+			priceables = new ArrayList<PricelistItem>();
 		
-		item.setDentist(this);
 		priceables.add(item);
 	}
+	public void removePricelistItem(final PricelistItem item) {
+		if (priceables.contains(item))
+			priceables.remove(item);
+	}
 
-	public void setDiscounts(Set<Discount> ds) {	 
+	//DISCOUNTS
+	public Collection<Discount> getDiscounts() {	return discounts;	}
+	public void setDiscounts(Collection<Discount> ds) {	 
 		if (discounts!= null)
 			discounts.clear();
 		for (Discount discount : discounts) {
@@ -68,46 +76,38 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	}
 	public void addDiscount(Discount ds) {	
 		if (discounts == null)
-			discounts = new HashSet<Discount>();
+			discounts = new ArrayList<Discount>();
 		
 		ds.setDentist(this);
 		discounts.add(ds);
 	}
-	public void setPatients(Set<Patient> patients) throws PatientExistsException {
-		if (this.patients != null)
-			this.patients.clear();
-		
-		for (Patient patient : patients) {
-			addPatient(patient);
-		}
-	}
-	public void addPatient(Patient p) throws PatientExistsException {
-		if (patients == null)
-			patients = new HashSet<Patient>();
-		for (Patient patient : patients) {
-			if (patient.getName().equals(p.getName())
-					&& patient.getSurname().equals(p.getSurname())) 
-				throw new PatientExistsException(p.getId(), "Cannot add patient with same name and surname:"+p.getName()+"|"+p.getSurname());
-		}
-		p.setDentist(this);
-		patients.add(p);
+	public void removeDiscount(Discount d) {
+		if (discounts.contains(d))
+			discounts.remove(d);
 	}
 	
-	public void setNotes(Set<Postit> notes) {	
-		if (notes != null)
-			notes.clear();
+	//POST-IT
+	public Collection<Postit> getNotes() {	return this.postits;	}
+	public void setNotes(Collection<Postit> notes) {	
+		if (this.postits != null)
+			this.postits.clear();
 		for (Postit postit : notes) {
 			addNote(postit);
 		}
 	}
 	public void addNote(Postit note) {	
-		if (notes == null)
-			notes = new HashSet<Postit>();
+		if (postits == null)
+			postits = new ArrayList<Postit>();
 		
 		note.setDentist(this);
-		notes.add(note);
+		getNotes().add(note);
 	}
 
+	public void removeNote (Postit note) {
+		if (getNotes().contains(note))
+			postits.remove(note);
+	}
+	
 	@Override
 	public String getXML() {
 		StringBuilder ans= new StringBuilder("<dentist></dentist>");
@@ -116,14 +116,8 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		ans.insert(ans.indexOf("</dentist"), "<username>"+username+"</username>");
 		ans.insert(ans.indexOf("</dentist"), "<password>"+password+"</password>");
 		
-		ans.insert(ans.indexOf("</dentist"), "<patientlist>");
-		for (Patient patient : patients) {
-			ans.insert(ans.indexOf("</dentist"), patient.getXML());
-		}
-		ans.insert(ans.indexOf("</dentist"), "</patientlist>");
-		
 		ans.insert(ans.indexOf("</dentist"), "<pinboard>");
-		for (Postit note: notes) {
+		for (Postit note: postits) {
 			ans.insert(ans.indexOf("</dentist"), note.getXML());
 		}
 		ans.insert(ans.indexOf("</dentist"), "</pinboard>");
