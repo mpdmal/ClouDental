@@ -14,6 +14,7 @@ import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
+import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 
@@ -34,7 +35,7 @@ public class DentistServicesTests {
 	@Test
 	public void createPricelistItem() throws DentistExistsException, 
 												InvalidDentistCredentialsException, 
-												InvalidPostitAlertException {
+												InvalidPostitAlertException, DentistNotFoundException {
 		DentistBean dbean = new DentistBean(egr);
 		DentistServices dsvcbean = new DentistServices(egr);
 		assertEquals(0, dsvcbean.countPricelistItems());

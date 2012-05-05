@@ -10,6 +10,7 @@ import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 
 public class PricelistItemManagementBean extends PricelistItem {
@@ -42,7 +43,10 @@ public class PricelistItemManagementBean extends PricelistItem {
 		try {
 			dentistService.createPricelistItem(user.getCurrentUser().getId(), getTitle(),getDescription(), getPrice().doubleValue() );
 		} catch (InvalidPostitAlertException e) {
-			
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DentistNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
