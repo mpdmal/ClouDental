@@ -79,6 +79,6 @@ public class DentistTests {
 		
 	@After
 	public void post() {
-		egr.clostEM();
+		egr.closeEM();
 	}
 }

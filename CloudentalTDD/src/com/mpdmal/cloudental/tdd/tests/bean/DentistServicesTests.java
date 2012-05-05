@@ -29,7 +29,7 @@ public class DentistServicesTests {
 	
 	@After
 	public void post() {
-		egr.clostEM();
+		egr.closeEM();
 	}
 	@Test
 	public void createPricelistItem() throws DentistExistsException, 

@@ -100,7 +100,7 @@ public class DentistBean {
     }
     
     public void close() {
-    	emgr.clostEM();
+    	emgr.closeEM();
     }
 
 }

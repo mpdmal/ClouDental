@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
@@ -16,8 +17,7 @@ import com.mpdmal.cloudental.util.CloudentUtils;
 @Stateless
 @LocalBean
 public class EaoManager {
-	@PersistenceUnit
-	private EntityManagerFactory factory;
+	@PersistenceContext
 	protected EntityManager _em;
 	protected boolean _testmode = false;
 	
@@ -32,13 +32,8 @@ public class EaoManager {
     	return _em;
     }
     
-    @PostConstruct
-    public void createEM() {
-    	_em = factory.createEntityManager();
-    }
-    
     @PreDestroy
-    public void clostEM () {
+    public void closeEM () {
     	_em.close();
     }
     //INTERFACE

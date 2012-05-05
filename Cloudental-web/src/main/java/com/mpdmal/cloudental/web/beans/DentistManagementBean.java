@@ -30,9 +30,10 @@ public class DentistManagementBean extends Dentist {
 
 	public String createDentist(){
 		System.out.println("create: "+getUsername());
+		Dentist d = null;
 		try {
 			try {
-				dbn.createDentist(getName() ,getSurname() , getUsername(), getPassword());
+				d = dbn.createDentist(getName() ,getSurname() , getUsername(), getPassword());
 			} catch (InvalidDentistCredentialsException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -41,7 +42,9 @@ public class DentistManagementBean extends Dentist {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		if (d == null)
+			return null;
+		return d.getUsername();
 	}
 
 	public String deleteDentist() {

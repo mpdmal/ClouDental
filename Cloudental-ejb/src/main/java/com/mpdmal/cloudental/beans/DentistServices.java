@@ -28,7 +28,12 @@ public class DentistServices {
     public DentistServices(EaoManager mgr) { 
     	this.emgr = mgr;
     }
-    
+
+    public void close() {
+    	emgr.closeEM();
+    }
+
+    //PRICABLES
     public long countPricelistItems() {
     	Query q = emgr.getEM().createQuery("select count(pi) from PricelistItem pi");
         return emgr.executeSingleLongQuery(q);
@@ -92,8 +97,6 @@ public class DentistServices {
 		return getPricelist(iD);
     }
 
-    public void close() {
-    	emgr.clostEM();
-    }
-
+    //DISCOUNTS
+    //POST-IT
 }
