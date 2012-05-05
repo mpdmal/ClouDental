@@ -30,6 +30,8 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	private Collection<Postit> postits;
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.LAZY)
 	private Collection<PricelistItem> priceables;
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.EAGER)
+	private Collection<Patient> patients;
 
 
    public Dentist() {}
@@ -45,6 +47,27 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	public void setUsername(String name){	this.username = name;	}
 	public void setPassword(String password){	this.password = password;	}
 
+	
+	//PATIENTS
+	public Collection<Patient> getPatientList() {	return patients;	}
+	public void setPatients(Collection<Patient> patients) {
+		if (patients != null)
+			patients.clear();
+		for (Patient patient : patients) {
+			addPatient(patient);
+		}
+	}
+	public void addPatient(Patient p) {
+		if (patients == null)
+			patients = new ArrayList<Patient>();
+		
+		patients.add(p);
+	}
+
+	public void removePatient(Patient p) {
+		if (patients.contains(p))
+			patients.remove(p);
+	}
 	//PRICABLES
 	public Collection<PricelistItem> getPriceList() {	return priceables;	}
 	public void setPricelist(final Collection<PricelistItem> pc) {	 	
@@ -133,6 +156,11 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 			ans.insert(ans.indexOf("</discount"), ds.getXML());
 		}
 		ans.insert(ans.indexOf("</dentist"), "</discounts>");
+		ans.insert(ans.indexOf("</dentist"), "<patientlist>");
+		for (Patient patient : patients) {
+			ans.insert(ans.indexOf("</dentist"), patient.getXML());
+		}
+		ans.insert(ans.indexOf("</dentist"), "</patientlist>");
 
 		return ans.toString();
 	}

@@ -9,18 +9,6 @@ CREATE TABLE dentist
   CONSTRAINT dentist_pk PRIMARY KEY (id )
 );
 
-drop table if exists patient CASCADE;
-CREATE TABLE patient
-(
-	id serial,
-	dentistID int references dentist not null,
-	name text not null,
-	surname text not null,
-	comments text,
-	created timestamp with time zone default now() not null,
-	constraint patient_pk primary key (id)
-);
-
 drop table if exists pricelist CASCADE;
 CREATE TABLE pricelist
 (
@@ -41,6 +29,57 @@ CREATE TABLE discount
 	description text,
 	discount decimal not null,
 	constraint discount_pk primary key (id)
+);
+
+drop table if exists postit CASCADE;
+create table postit
+(
+	id int references dentist,
+	postdate timestamp with time zone default now(),
+	post text,
+	alert integer,
+	constraint postit_pk primary key (id, postdate)
+);
+
+drop table if exists patient CASCADE;
+CREATE TABLE patient
+(
+	id serial,
+	dentistID int references dentist not null,
+	name text not null,
+	surname text not null,
+	comments text,
+	created timestamp with time zone default now() not null,
+	constraint patient_pk primary key (id)
+);
+
+drop table if exists medicalhistory CASCADE;
+create table medicalhistory
+(
+	id integer references patient,
+	comments text,
+	constraint medicalHistory_pk primary key (id)
+);
+
+drop table if exists medicalhistoryentry CASCADE;
+create table medicalhistoryentry
+(
+	id integer references medicalhistory,
+	added timestamp with time zone default now(),
+	alert integer,
+	comments text,
+	constraint medicalHistory_entry_pk primary key (id, added)
+);
+
+
+drop table if exists patienthistory CASCADE;
+create table patienthistory
+(
+	patientid integer references patient,
+	startdate timestamp with time zone default now(),
+	enddate timestamp with time zone default now(),
+	comments text,
+	constraint patienthistory_pk primary key (patientID)
 );
 
 drop table if exists tooth CASCADE;
@@ -72,33 +111,7 @@ CREATE TABLE contactinfo
 	infotype int,
 	constraint contactinfo_pk primary key (id, infotype)
 );
-drop table if exists medicalhistory CASCADE;
-create table medicalhistory
-(
-	id integer references patient,
-	comments text,
-	constraint medicalHistory_pk primary key (id)
-);
 
-drop table if exists medicalhistoryentry CASCADE;
-create table medicalhistoryentry
-(
-	id integer references medicalhistory,
-	added timestamp with time zone default now(),
-	alert integer,
-	comments text,
-	constraint medicalHistory_entry_pk primary key (id, added)
-);
-
-drop table if exists postit CASCADE;
-create table postit
-(
-	id int references dentist,
-	postdate timestamp with time zone default now(),
-	post text,
-	alert integer,
-	constraint postit_pk primary key (id, postdate)
-);
 
 drop table if exists patienttooth  CASCADE;
 create table patienttooth
@@ -110,16 +123,6 @@ create table patienttooth
 	constraint patienttooth_pk primary key (toothID, patientID)
 );
 
-
-drop table if exists patienthistory CASCADE;
-create table patienthistory
-(
-	patientid integer references patient,
-	startdate timestamp with time zone default now(),
-	enddate timestamp with time zone default now(),
-	comments text,
-	constraint patienthistory_pk primary key (patientID)
-);
 
 
 drop table if exists activity CASCADE;

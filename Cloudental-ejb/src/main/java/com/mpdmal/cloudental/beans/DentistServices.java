@@ -1,7 +1,10 @@
 package com.mpdmal.cloudental.beans;
 
 import java.math.BigDecimal;
+import java.security.interfaces.DSAKey;
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Vector;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -13,9 +16,15 @@ import javax.persistence.Query;
 import com.mpdmal.cloudental.EaoManager;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
+import com.mpdmal.cloudental.entities.Medicalhistory;
+import com.mpdmal.cloudental.entities.Patient;
+import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
+import com.mpdmal.cloudental.util.exception.PatientExistsException;
+import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 
 @Named
 @Stateless
@@ -106,12 +115,11 @@ public class DentistServices {
         return (Collection<PricelistItem>) emgr.executeMultipleObjectQuery(q);
     }
 
-	public PricelistItem createPricelistItem(int dentistid, String title, String description, double value) throws InvalidPostitAlertException {
+	public PricelistItem createPricelistItem(int dentistid, String title, String description, double value) 
+														throws InvalidPostitAlertException, DentistNotFoundException {
 		Dentist dentist = emgr.findOrFail(Dentist.class, dentistid);
-		if (dentist == null) {
-    		CloudentUtils.logWarning("Dentist does not exist:"+dentistid+", pc item bined:"+title);
-			return null;
-		}
+		if (dentist == null) 
+			throw new DentistNotFoundException(dentistid, "cannot create pricelistitem:"+title);
 		
 		PricelistItem item = new PricelistItem();
 		item.setDescription(description);
@@ -124,34 +132,94 @@ public class DentistServices {
 		return item;
 	}
 	
-	public Collection<PricelistItem> deletePricelistItem(int id) {
+	public void deletePricelistItem(int id) {
 		PricelistItem item = emgr.findOrFail(PricelistItem.class, id);
 		if (item == null) {
 			//TODO
-			return null;
+			return ;
 		}
-		int iD = item.getDentist().getId();
 		item.getDentist().removePricelistItem(item);
 		emgr.delete(item);
-		
-		return getPricelist(iD);
 	}
 
-    public Collection<PricelistItem> updatePricelistItem(int id, String description, String title) {
+    public void updatePricelistItem(int id, String description, String title) {
 		PricelistItem item = emgr.findOrFail(PricelistItem.class, id);
 		if (item == null) {
 			//TODO
-			return null;
+			return ;
 		}
-		int iD = item.getDentist().getId();
 		item.getDentist().removePricelistItem(item);
 		item.setDescription(description);
 		item.setTitle(title);
 		item.getDentist().addPricelistItem(item);
 		emgr.update(item);
-		return getPricelist(iD);
     }
 
-
     //POST-IT
+    
+    //PATIENT
+    @SuppressWarnings("unchecked")
+	public Collection<Patient> getPatientlist(int dentistid) {
+    	Query q = emgr.getEM().
+    			createQuery("select p from Patient p where p.dentist.id =:dentistid").
+    			setParameter("dentistid", dentistid);
+        return (Collection<Patient>) emgr.executeMultipleObjectQuery(q);
+    }
+
+	public Patient createPatient(int dentistid, String name, String surname) 
+													throws DentistNotFoundException,
+													PatientExistsException {
+		Dentist dentist = emgr.findOrFail(Dentist.class, dentistid);
+		if (dentist == null) 
+			throw new DentistNotFoundException(dentistid, "cannot create Patient:"+surname);
+
+		Patient p = emgr.findOrFail(Patient.class, dentistid); //dentistid ???? wrong!
+		if (p != null) 
+			throw new PatientExistsException(dentistid, "cannot create Patient:"+surname);
+		
+		//patient
+		p = new Patient();
+		p.setCreated(new Timestamp(System.currentTimeMillis()));
+		p.setName(name);
+		p.setSurname(surname);
+
+		//auto generate medical history
+		Medicalhistory medhistory = new Medicalhistory();
+		medhistory.setComments("Auto Generated");
+		medhistory.setPatient(p);
+
+		//auto generate med history
+		Patienthistory dentalhistory = new Patienthistory();
+		dentalhistory.setComments("auto generated");
+		dentalhistory.setStartdate(new Timestamp(System.currentTimeMillis()));
+		dentalhistory.setPatient(p);
+
+		p.setDentist(dentist);
+		p.setMedicalhistory(medhistory);
+		p.setDentalhistory(dentalhistory);
+		dentist.addPatient(p);
+		
+		emgr.persist(dentist);
+		return p;
+    }
+
+	public void deletePatient (int patientid) throws PatientNotFoundException {
+		Patient p = emgr.findOrFail(Patient.class, patientid);
+		if (p == null) 
+			throw new PatientNotFoundException(patientid, "cannot delte Patient:");
+
+		p.getDentist().removePatient(p);
+		emgr.delete(p);
+	}
+	
+	public void deletePatientList (int dentistid) throws DentistNotFoundException, PatientNotFoundException {
+		Dentist dentist = emgr.findOrFail(Dentist.class, dentistid);
+		if (dentist == null) 
+			throw new DentistNotFoundException(dentistid, "cannot delete Patientlist:");
+		
+		Vector<Patient> ptns = (Vector<Patient>) dentist.getPatientList();
+		while (ptns.size() > 0) {
+			deletePatient(ptns.elementAt(0).getId());
+		}
+	}
 }

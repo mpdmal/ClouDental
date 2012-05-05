@@ -1,6 +1,7 @@
 package com.mpdmal.cloudental.tdd.tests.bean;
 
 import java.util.Collection;
+import java.util.Vector;
 
 import javax.persistence.Persistence;
 
@@ -12,11 +13,14 @@ import com.mpdmal.cloudental.EaoManager;
 import com.mpdmal.cloudental.beans.DentistBean;
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.Dentist;
+import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
+import com.mpdmal.cloudental.util.exception.PatientExistsException;
+import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -58,8 +62,8 @@ public class DentistServicesTests {
 
 		PricelistItem item = pricelist.iterator().next();
 		double price = item.getPrice().doubleValue();
-		pricelist = dsvcbean.updatePricelistItem(item.getId(), "altered!", "rty");
-		
+		dsvcbean.updatePricelistItem(item.getId(), "altered!", "rty");
+		pricelist = dsvcbean.getPricelist(d.getId());
 		for (PricelistItem pricelistItem : pricelist) {
 			if (pricelistItem.getPrice().doubleValue() == price)
 				assertEquals(pricelistItem.getDescription(), "altered!");
@@ -76,7 +80,8 @@ public class DentistServicesTests {
 		Collection<PricelistItem> pricelist = dsvcbean.getPricelist(d.getId());
 		assertEquals(10, pricelist.size());
 
-		pricelist =  dsvcbean.deletePricelistItem(pricelist.iterator().next().getId());
+		dsvcbean.deletePricelistItem(pricelist.iterator().next().getId());
+		pricelist = dsvcbean.getPricelist(d.getId());
 		assertEquals(9, pricelist.size());
 		assertEquals(1, dbean.countDentists());
 		
@@ -87,5 +92,44 @@ public class DentistServicesTests {
 		assertEquals(6, dsvcbean.countPricelistItems());
 		dbean.deleteDentists();
 		assertEquals(0, dsvcbean.countPricelistItems());
+	}
+	
+	@Test
+	public void createPatient() throws DentistExistsException, 
+										InvalidDentistCredentialsException,
+										DentistNotFoundException, PatientExistsException {
+		DentistBean dbean = new DentistBean(egr);
+		DentistServices dsvcbean = new DentistServices(egr);
+
+		Dentist d = dbean.createDentist("qwe", "asd", "zxc", "vsd");
+		for (int i = 0; i < 10; i++) {
+			dsvcbean.createPatient(d.getId(), "PAtient", "PAtient surname");	
+		}
+	}
+	
+	@Test 
+	public void deletePatient() throws DentistExistsException,
+												InvalidDentistCredentialsException,
+												DentistNotFoundException,
+												PatientExistsException, 
+												PatientNotFoundException {
+		DentistBean dbean = new DentistBean(egr);
+		DentistServices dsvcbean = new DentistServices(egr);
+
+		Dentist d = dbean.getDentist("zxc");
+		Vector<Patient> patients = (Vector<Patient>) d.getPatientList();
+		assertEquals(10, patients.size());
+		dsvcbean.deletePatient(patients.elementAt(0).getId());
+		dsvcbean.deletePatient(patients.elementAt(2).getId());
+		dsvcbean.deletePatient(patients.elementAt(3).getId());
+		dsvcbean.deletePatient(patients.elementAt(5).getId());
+		
+		patients = (Vector<Patient>) d.getPatientList();
+		assertEquals(6, patients.size());
+		
+		dsvcbean.deletePatientList(d.getId());
+		patients = (Vector<Patient>) d.getPatientList();
+		assertEquals(0, patients.size());
+		dbean.deleteDentist(d.getUsername());
 	}
 }
