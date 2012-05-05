@@ -8,7 +8,7 @@
 
 <ui:composition template="/screens/frontend/template.xhtml">
 	<ui:define name="header">
-    	Price List 
+    	Discounts 
     	<br />
 		<h:outputText value="#{userHolder.currentUser.username}"></h:outputText>
 		<br />
@@ -20,21 +20,21 @@
 		
 		  
 		<h:form>
-			<p:panel header="Price List Item">
+			<p:panel header="Discount">
 				<h:panelGrid columns="2">
 					<h:outputText value="Title: " />
-					<h:inputText value="#{pricelistItemManagementBean.title}" label="Title" required="true" />
-					<h:outputText value="Price: " />
-					<h:inputText value="#{pricelistItemManagementBean.price}" label="Price" required="true" >
+					<h:inputText value="#{discountManagementBean.title}" label="Title" required="true" />
+					<h:outputText value="Discount: " />
+					<h:inputText value="#{discountManagementBean.discount}" label="Discount" required="true" >
 						<f:validateLongRange minimum="0"/>
 					</h:inputText>
 					<h:outputText value="Description: " />
-					<h:inputTextarea value="#{pricelistItemManagementBean.description}" label="Description" />
+					<h:inputTextarea value="#{discountManagementBean.description}" label="Description" />
 					<h:outputText value=" " />
 					<h:panelGroup>
-						<h:commandButton value="Create" action="#{pricelistItemManagementBean.createPricelistItem}" />
+						<h:commandButton value="Create" action="#{discountManagementBean.createDiscount}" />
 						<h:outputText value=" " />
-						<h:commandButton value="Update" action="#{pricelistItemManagementBean.updatePricelistItem}" />
+						<h:commandButton value="Update" action="#{discountManagementBean.updateDiscount}" />
 					</h:panelGroup>
 				</h:panelGrid>
 			</p:panel>
@@ -42,7 +42,7 @@
 		<!-- ********** end ********** -->
 		<br />
 		<br />
-		<p:dataTable value="#{pricelistItemManagementBean.pricelist}" var="item" >
+		<p:dataTable value="#{discountManagementBean.discounts}" var="item" >
 			<p:column>
 				<f:facet name="header"><h:outputText value="id"/></f:facet>
 				<h:outputText value="#{item.id}" />
@@ -52,8 +52,8 @@
 				<h:outputText value="#{item.title}" />
 			</p:column>
 			<p:column>
-				<f:facet name="header"><h:outputText value="Price"/></f:facet>
-				<h:outputText value="#{item.price}" />
+				<f:facet name="header"><h:outputText value="Discount"/></f:facet>
+				<h:outputText value="#{item.discount}" />
 			</p:column>
 			<p:column>
 				<f:facet name="header"><h:outputText value="Description" /></f:facet>
@@ -63,7 +63,7 @@
 				<f:facet name="header"><h:outputText value="action delete"/></f:facet>
 				<h:form>
 					<h:commandLink action="delete">
-						<f:actionListener type="com.mpdmal.cloudental.web.listeners.OnDeletePricelistItemActionListener" />
+						<f:actionListener type="com.mpdmal.cloudental.web.listeners.OnDeleteDiscountActionListener" />
 						<h:outputText value="delete #{item.id}" />
 					</h:commandLink>
 				</h:form>
@@ -72,7 +72,7 @@
 				<f:facet name="header"><h:outputText value="update" /></f:facet>
 				<h:form>
 					<h:commandLink action="update">
-						<f:setPropertyActionListener value="#{item}" target="#{pricelistItemManagementBean.currentPricelistItem}" />
+						<f:setPropertyActionListener value="#{item}" target="#{discountManagementBean.currentDiscount}" />
 						<h:outputText value="get for update #{patient.surname}" />
 					</h:commandLink>
 				</h:form>

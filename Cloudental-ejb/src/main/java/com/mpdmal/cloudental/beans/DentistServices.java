@@ -12,6 +12,7 @@ import javax.persistence.Query;
 
 import com.mpdmal.cloudental.EaoManager;
 import com.mpdmal.cloudental.entities.Dentist;
+import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
@@ -33,6 +34,64 @@ public class DentistServices {
     	emgr.closeEM();
     }
 
+    //DISCOUNTS
+    public long countDiscounts() {
+    	Query q = emgr.getEM().createQuery("select count(d) from Discount d");
+        return emgr.executeSingleLongQuery(q);
+    }
+
+    @SuppressWarnings("unchecked")
+	public Collection<Discount> getDiscounts(int dentistid) {
+    	Query q = emgr.getEM().
+    			createQuery("select d from Discount d where d.dentist.id =:dentistid").
+    			setParameter("dentistid", dentistid);
+        return (Collection<Discount>) emgr.executeMultipleObjectQuery(q);
+    }
+
+	public Discount createDiscount(int dentistid, String title, String description, double value) throws InvalidPostitAlertException {
+		Dentist dentist = emgr.findOrFail(Dentist.class, dentistid);
+		if (dentist == null) {
+    		CloudentUtils.logWarning("Dentist does not exist:"+dentistid+", discount bined:"+title);
+			return null;
+		}
+		
+		Discount d = new Discount();
+		d.setDescription(description);
+		d.setTitle(title);
+		d.setDiscount(BigDecimal.valueOf(value));
+		d.setDentist(dentist);
+		dentist.addDiscount(d);
+
+		emgr.persist(d);
+		return d;
+	}
+
+	public void deleteDiscount(int id) {
+		Discount d= emgr.findOrFail(Discount.class, id);
+		if (d== null) {
+			//TODO
+			return ;
+		}
+		d.getDentist().removeDiscount(d);
+		emgr.delete(d);
+	}
+
+    public void updateDiscount(int id, String description, String title) {
+		Discount d= emgr.findOrFail(Discount.class, id);
+		if (d == null) {
+			//TODO
+			return ;
+		}
+		for (Discount ds : d.getDentist().getDiscounts()) {
+			if (ds.getId() == d.getId()) {
+				ds.setDescription(description);
+				ds.setTitle(title);
+				break;
+			}
+		}
+		emgr.update(d);
+    }
+
     //PRICABLES
     public long countPricelistItems() {
     	Query q = emgr.getEM().createQuery("select count(pi) from PricelistItem pi");
@@ -47,10 +106,6 @@ public class DentistServices {
         return (Collection<PricelistItem>) emgr.executeMultipleObjectQuery(q);
     }
 
-    public PricelistItem getPricelistItem (int id) {
-    	return emgr.findOrFail(PricelistItem.class, id);
-    }
-    
 	public PricelistItem createPricelistItem(int dentistid, String title, String description, double value) throws InvalidPostitAlertException {
 		Dentist dentist = emgr.findOrFail(Dentist.class, dentistid);
 		if (dentist == null) {
@@ -97,6 +152,6 @@ public class DentistServices {
 		return getPricelist(iD);
     }
 
-    //DISCOUNTS
+
     //POST-IT
 }

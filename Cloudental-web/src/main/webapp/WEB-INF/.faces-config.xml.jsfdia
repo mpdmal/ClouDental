@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PROCESS model-entity="JSFProcess">
  <PROCESS-ITEM NAME="rules:#frontend#login.xhtml"
-  PATH="/frontend/login.xhtml" model-entity="JSFProcessGroup">
+  PATH="/frontend/login.xhtml" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#frontend#login.xhtml:0" NAME="item"
    PATH="/frontend/login.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="loggedIn::#frontend#PatientManagement.xhtml"
@@ -10,7 +10,7 @@
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#frontend#PatientManagement.xhtml"
-  PATH="/frontend/PatientManagement.xhtml" model-entity="JSFProcessGroup">
+  PATH="/frontend/PatientManagement.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#frontend#PatientManagement.xhtml:0"
    NAME="item" PATH="/frontend/PatientManagement.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
@@ -21,5 +21,5 @@
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#frontend#MedicalHistoryManagement.xhtml"
-  PATH="/frontend/MedicalHistoryManagement.xhtml" model-entity="JSFProcessGroup"/>
+  PATH="/frontend/MedicalHistoryManagement.xhtml" SHAPE="448,17,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

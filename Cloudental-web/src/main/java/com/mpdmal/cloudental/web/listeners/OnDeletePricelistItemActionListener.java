@@ -9,20 +9,12 @@ import javax.faces.event.ActionListener;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.web.beans.DentistManagementBean;
 
-public class OnDeleteDentistActionListener implements ActionListener {
+public class OnDeletePricelistItemActionListener implements ActionListener {
 
 
 	@Override
 	public void processAction(ActionEvent event) throws AbortProcessingException {
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application app = context.getApplication();
-		Dentist d = (Dentist) app.evaluateExpressionGet(context, "#{dentist}",	Dentist.class);
-		System.out.println("OnDeleteDentistActionListener");
-		System.out.println(d.getUsername());
-		DentistManagementBean dmb = (DentistManagementBean) app.evaluateExpressionGet(context, "#{dentistManagementBean}",	DentistManagementBean.class);
-		dmb.setUsername(d.getUsername()); //delete by username
-		dmb.deleteDentist();
-		
 	}
-
 }

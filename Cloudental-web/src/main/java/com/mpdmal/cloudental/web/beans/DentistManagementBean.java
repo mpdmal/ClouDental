@@ -13,20 +13,14 @@ import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
 
 public class DentistManagementBean extends Dentist {
-
-
-
 	private static final long serialVersionUID = 1L;
 	@EJB
 	DentistBean dbn;
 	
 	public List<Dentist> getDentists() {
-		System.out.println("getDentists(): called" );
+		System.out.println("getDentists" );
 		return dbn.getDentists();
 	}
-
-
-
 
 	public String createDentist(){
 		System.out.println("create: "+getUsername());
@@ -51,7 +45,7 @@ public class DentistManagementBean extends Dentist {
 		System.out.println("delete: "+getUsername());
 
 		try {
-			dbn.deleteDentist(getUsername());
+			dbn.deleteDentist(this.getUsername());
 		} catch (DentistNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,8 +71,4 @@ public class DentistManagementBean extends Dentist {
 		setName(currentDentist.getName());
 		setSurname(currentDentist.getSurname());
 	}
-
-
-
-
 }
