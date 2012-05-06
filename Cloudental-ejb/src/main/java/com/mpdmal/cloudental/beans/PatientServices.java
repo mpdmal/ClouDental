@@ -26,11 +26,8 @@ import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 @LocalBean
 @WebService
 public class PatientServices extends AbstractEaoService {
-	@EJB
-	private EaoManager emgr;
-	
     public PatientServices() {}
-    public PatientServices(EaoManager mgr) { 
+    public PatientServices(EaoManager mgr)  { 
     	this.emgr = mgr;
     }
 
