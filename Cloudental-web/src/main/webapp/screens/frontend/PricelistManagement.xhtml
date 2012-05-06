@@ -8,14 +8,19 @@
 
 <ui:composition template="/screens/frontend/template.xhtml">
 	<ui:define name="header">
-    	Price List 
+    	Price List Page 
     	<br />
-		<h:outputText value="#{userHolder.currentUser.username}"></h:outputText>
+		<!-- ********** test  messages ********** -->
+		<h:outputFormat value="#{msgs.username}">
+			<f:param value="#{userHolder.currentUser.username}"/>
+		</h:outputFormat>
+		
 		<br />
 		<h:messages />
 	</ui:define>
 
 	<ui:define name="content">
+
 		<!-- ********** start ********** -->
 		
 		  

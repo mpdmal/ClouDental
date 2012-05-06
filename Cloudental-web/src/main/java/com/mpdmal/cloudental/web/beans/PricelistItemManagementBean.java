@@ -44,6 +44,10 @@ public class PricelistItemManagementBean extends PricelistItem {
 		try {
 			dentistService.createPricelistItem(user.getCurrentUser().getId(), getTitle(),getDescription(), getPrice().doubleValue() );
 		} catch (Exception e) {
+//			FacesMessage(FacesMessage.Severity severity, String summary, String detail) 
+			FacesMessage message = new  FacesMessage(FacesMessage.SEVERITY_ERROR, "Service unavailable", e.getMessage());
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, message);
 			e.printStackTrace();
 		} 
 		
