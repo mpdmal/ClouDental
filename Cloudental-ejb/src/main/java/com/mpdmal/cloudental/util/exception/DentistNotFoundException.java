@@ -20,6 +20,10 @@ public class DentistNotFoundException  extends Exception {
 		CloudentUtils.logError("Dentist id not found:"+dentistid+" ["+message+"]");
 	}
 
+	public DentistNotFoundException(int dentistid) {
+		this (dentistid, "");
+	}
+
 	public DentistNotFoundException(String username) {
 		this(username, "");
 	}

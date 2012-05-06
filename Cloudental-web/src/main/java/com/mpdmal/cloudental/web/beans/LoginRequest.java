@@ -6,6 +6,9 @@ import javax.faces.context.FacesContext;
 
 import com.mpdmal.cloudental.beans.LoginBean;
 import com.mpdmal.cloudental.entities.Dentist;
+import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
+import com.mpdmal.cloudental.util.exception.InvalidPasswordException;
 
 public class LoginRequest {
 	
@@ -34,28 +37,27 @@ public class LoginRequest {
 		this.password = password;
 	}
 	public String login() {
-		System.out.println("login");
-		Dentist d = loginBean.doLogin(username, password);
-		
-		
-		if (d!=null) {
-			UserHolder userHolder = new UserHolder();
-			
-			userHolder.setCurrentUser(d);
-			
-			//set session bean
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("userHolder",userHolder); 
-			
-			
-			return "loggedIn";
-		} else {
+		Dentist d = null;
+		try {
+			d = loginBean.doLogin(username, password);
+		} catch (DentistNotFoundException e) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, "Login failed", null));
-			return null;}
+					FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+			return null;
+		} catch (InvalidPasswordException e) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			CloudentUtils.logError(e.getMessage());
+			return null;
+		}
+		UserHolder userHolder = new UserHolder();
+		userHolder.setCurrentUser(d);
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("userHolder",userHolder); 
+		return "loggedIn";
 	}
-
-
-
-
 }

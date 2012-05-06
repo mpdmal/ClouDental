@@ -2,7 +2,6 @@ package com.mpdmal.cloudental.beans;
 
 import java.util.Vector;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
@@ -10,6 +9,7 @@ import javax.jws.WebService;
 import javax.persistence.Query;
 
 import com.mpdmal.cloudental.EaoManager;
+import com.mpdmal.cloudental.beans.base.AbstractEaoService;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
@@ -19,10 +19,7 @@ import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
 @Stateless
 @LocalBean
 @WebService
-public class DentistBean {
-	@EJB
-	private EaoManager emgr;
-	
+public class DentistBean extends AbstractEaoService {
     public DentistBean() {}
     public DentistBean(EaoManager mgr) { 
     	this.emgr = mgr;

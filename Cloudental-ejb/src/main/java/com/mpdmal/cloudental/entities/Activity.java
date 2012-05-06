@@ -111,6 +111,7 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 		ans.insert(ans.indexOf("</activity"), "<startdate>"+startdate+"</startdate>");
 		ans.insert(ans.indexOf("</activity"), "<enddate>"+enddate+"</enddate>");
 		ans.insert(ans.indexOf("</activity"), "<visits>");
+		if (visits != null)
 		for (Visit visit : visits) {
 			ans.insert(ans.indexOf("</activity"), visit.getXML());
 		}

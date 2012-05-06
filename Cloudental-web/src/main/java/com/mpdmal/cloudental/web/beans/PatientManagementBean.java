@@ -32,7 +32,7 @@ public class PatientManagementBean extends Patient {
 
 	public Vector<Patient> getPatientList() {
 
-		Vector<Patient>  ans  = patientServices.getPatients(user.getCurrentUser().getUsername());
+		Vector<Patient>  ans  = (Vector<Patient>) dentistService.getPatientlist(user.getCurrentUser().getId());
 		return  ans;
 	}
 
@@ -66,7 +66,7 @@ public class PatientManagementBean extends Patient {
 	
 	public List<Patient> completePatient(String query) {  
     	System.out.println("completePatient: ");
-    	Vector<Patient>  patients  = patientServices.getPatients(user.getCurrentUser().getUsername());
+    	Vector<Patient>  patients  = (Vector<Patient>) dentistService.getPatientlist(user.getCurrentUser().getId());
         List<Patient> suggestions = new ArrayList<Patient>();  
           
         for(Patient p : patients) {  

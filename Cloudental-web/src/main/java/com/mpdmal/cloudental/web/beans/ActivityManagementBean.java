@@ -35,11 +35,8 @@ public class ActivityManagementBean {
 	}
 
 	public String createActivity() throws Exception{
-
-		
 		System.out.println("create activity: "+ description);
-		
-//		patientServices.createActivity(patientID, description, startDate, endDate, null);
+		patientServices.createActivity(patientID, description, startDate, endDate, -1, -1);
 		return null;
 	}
 

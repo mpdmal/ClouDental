@@ -1,7 +1,6 @@
 package com.mpdmal.cloudental.beans;
 
 import java.math.BigDecimal;
-import java.security.interfaces.DSAKey;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Vector;
@@ -14,26 +13,24 @@ import javax.jws.WebService;
 import javax.persistence.Query;
 
 import com.mpdmal.cloudental.EaoManager;
+import com.mpdmal.cloudental.beans.base.AbstractEaoService;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Medicalhistory;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
-import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 import com.mpdmal.cloudental.util.exception.PatientExistsException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
+import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 
 @Named
 @Stateless
 @LocalBean
 @WebService
-public class DentistServices {
-	@EJB
-	private EaoManager emgr;
-	
+public class DentistServices extends AbstractEaoService {
     public DentistServices() {}
     public DentistServices(EaoManager mgr) { 
     	this.emgr = mgr;
@@ -42,6 +39,8 @@ public class DentistServices {
     public void close() {
     	emgr.closeEM();
     }
+
+    //DENTIST
 
     //DISCOUNTS
     public long countDiscounts() {
@@ -57,13 +56,9 @@ public class DentistServices {
         return (Collection<Discount>) emgr.executeMultipleObjectQuery(q);
     }
 
-	public Discount createDiscount(int dentistid, String title, String description, double value) throws InvalidPostitAlertException {
-		Dentist dentist = emgr.findOrFail(Dentist.class, dentistid);
-		if (dentist == null) {
-    		CloudentUtils.logWarning("Dentist does not exist:"+dentistid+", discount bined:"+title);
-			return null;
-		}
-		
+	public Discount createDiscount(int dentistid, String title, String description, double value) 
+											throws InvalidPostitAlertException, DentistNotFoundException {
+		Dentist dentist = findDentist(dentistid);
 		Discount d = new Discount();
 		d.setDescription(description);
 		d.setTitle(title);
@@ -102,6 +97,7 @@ public class DentistServices {
     }
 
     //PRICABLES
+
     public long countPricelistItems() {
     	Query q = emgr.getEM().createQuery("select count(pi) from PricelistItem pi");
         return emgr.executeSingleLongQuery(q);
@@ -117,10 +113,7 @@ public class DentistServices {
 
 	public PricelistItem createPricelistItem(int dentistid, String title, String description, double value) 
 														throws InvalidPostitAlertException, DentistNotFoundException {
-		Dentist dentist = emgr.findOrFail(Dentist.class, dentistid);
-		if (dentist == null) 
-			throw new DentistNotFoundException(dentistid, "cannot create pricelistitem:"+title);
-		
+		Dentist dentist = findDentist(dentistid);
 		PricelistItem item = new PricelistItem();
 		item.setDescription(description);
 		item.setTitle(title);
@@ -132,22 +125,15 @@ public class DentistServices {
 		return item;
 	}
 	
-	public void deletePricelistItem(int id) {
-		PricelistItem item = emgr.findOrFail(PricelistItem.class, id);
-		if (item == null) {
-			//TODO
-			return ;
-		}
+	public void deletePricelistItem(int id) throws PricelistItemNotFoundException {
+		PricelistItem item = findPricable(id);
 		item.getDentist().removePricelistItem(item);
 		emgr.delete(item);
 	}
 
-    public void updatePricelistItem(int id, String description, String title) {
-		PricelistItem item = emgr.findOrFail(PricelistItem.class, id);
-		if (item == null) {
-			//TODO
-			return ;
-		}
+    public void updatePricelistItem(int id, String description, String title) 
+    											throws PricelistItemNotFoundException {
+		PricelistItem item = findPricable(id);
 		item.getDentist().removePricelistItem(item);
 		item.setDescription(description);
 		item.setTitle(title);
@@ -158,6 +144,7 @@ public class DentistServices {
     //POST-IT
     
     //PATIENT
+ 
     @SuppressWarnings("unchecked")
 	public Collection<Patient> getPatientlist(int dentistid) {
     	Query q = emgr.getEM().
@@ -169,16 +156,10 @@ public class DentistServices {
 	public Patient createPatient(int dentistid, String name, String surname) 
 													throws DentistNotFoundException,
 													PatientExistsException {
-		Dentist dentist = emgr.findOrFail(Dentist.class, dentistid);
-		if (dentist == null) 
-			throw new DentistNotFoundException(dentistid, "cannot create Patient:"+surname);
+		Dentist dentist = findDentist(dentistid);
 
-		Patient p = emgr.findOrFail(Patient.class, dentistid); //dentistid ???? wrong!
-		if (p != null) 
-			throw new PatientExistsException(dentistid, "cannot create Patient:"+surname);
-		
 		//patient
-		p = new Patient();
+		Patient p = new Patient();
 		p.setCreated(new Timestamp(System.currentTimeMillis()));
 		p.setName(name);
 		p.setSurname(surname);
@@ -204,19 +185,13 @@ public class DentistServices {
     }
 
 	public void deletePatient (int patientid) throws PatientNotFoundException {
-		Patient p = emgr.findOrFail(Patient.class, patientid);
-		if (p == null) 
-			throw new PatientNotFoundException(patientid, "cannot delte Patient:");
-
+		Patient p = findPatient(patientid);
 		p.getDentist().removePatient(p);
 		emgr.delete(p);
 	}
 	
 	public void deletePatientList (int dentistid) throws DentistNotFoundException, PatientNotFoundException {
-		Dentist dentist = emgr.findOrFail(Dentist.class, dentistid);
-		if (dentist == null) 
-			throw new DentistNotFoundException(dentistid, "cannot delete Patientlist:");
-		
+		Dentist dentist = findDentist(dentistid);
 		Vector<Patient> ptns = (Vector<Patient>) dentist.getPatientList();
 		while (ptns.size() > 0) {
 			deletePatient(ptns.elementAt(0).getId());

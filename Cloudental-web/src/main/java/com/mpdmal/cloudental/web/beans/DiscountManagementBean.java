@@ -11,6 +11,7 @@ import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 
 public class DiscountManagementBean extends Discount {
@@ -32,7 +33,7 @@ public class DiscountManagementBean extends Discount {
 		return (Vector<Discount>)dentistService.getDiscounts(d.getId());
 	}
 
-	public int createDiscount(){
+	public int createDiscount() throws DentistNotFoundException{
 		try {
 			Discount d = dentistService.createDiscount(user.getCurrentUser().getId(), getTitle(),getDescription(), getDiscount().doubleValue() );
 			return d.getId();

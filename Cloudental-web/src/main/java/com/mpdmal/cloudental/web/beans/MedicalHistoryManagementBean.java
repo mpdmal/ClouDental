@@ -59,7 +59,7 @@ public class MedicalHistoryManagementBean {
 		try{
 
 			setCurrentPatient(currentPatient);
-			patientService.createMedicalHistoryEntry(currentPatient.getId(), comment, alert);
+//			patientService.createMedicalHistoryEntry(currentPatient.getId(), comment, alert);
 		}catch(Exception  e){
 			e.printStackTrace();
 			FacesContext context = FacesContext.getCurrentInstance();

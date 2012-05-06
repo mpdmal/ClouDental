@@ -21,6 +21,7 @@ import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 import com.mpdmal.cloudental.util.exception.PatientExistsException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
+import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -52,7 +53,7 @@ public class DentistServicesTests {
 	}
 	
 	@Test
-	public void updatePricelistItems() {
+	public void updatePricelistItems() throws PricelistItemNotFoundException {
 		DentistBean dbean = new DentistBean(egr);
 		DentistServices dsvcbean = new DentistServices(egr);
 
@@ -71,7 +72,7 @@ public class DentistServicesTests {
 	}
 	
 	@Test
-	public void deletePricelistItems() {
+	public void deletePricelistItems() throws PricelistItemNotFoundException {
 		DentistBean dbean = new DentistBean(egr);
 		DentistServices dsvcbean = new DentistServices(egr);
 
@@ -130,6 +131,6 @@ public class DentistServicesTests {
 		dsvcbean.deletePatientList(d.getId());
 		patients = (Vector<Patient>) d.getPatientList();
 		assertEquals(0, patients.size());
-		dbean.deleteDentist(d.getUsername());
+		dbean.deleteDentists();
 	}
 }

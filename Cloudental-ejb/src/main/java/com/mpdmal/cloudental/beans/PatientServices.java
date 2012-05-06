@@ -1,6 +1,5 @@
 package com.mpdmal.cloudental.beans;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Vector;
 
@@ -9,48 +8,70 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.jws.WebService;
+import javax.persistence.Query;
 
-import com.mpdmal.cloudental.dao.ActivityDAO;
-import com.mpdmal.cloudental.dao.DentistDAO;
-import com.mpdmal.cloudental.dao.MedicalhistoryentryDAO;
-import com.mpdmal.cloudental.dao.PatientDAO;
-import com.mpdmal.cloudental.dao.VisitDAO;
+import com.mpdmal.cloudental.EaoManager;
+import com.mpdmal.cloudental.beans.base.AbstractEaoService;
 import com.mpdmal.cloudental.entities.Activity;
-import com.mpdmal.cloudental.entities.Address;
-import com.mpdmal.cloudental.entities.Contactinfo;
-import com.mpdmal.cloudental.entities.ContactinfoPK;
-import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
-import com.mpdmal.cloudental.entities.Medicalhistoryentry;
-import com.mpdmal.cloudental.entities.MedicalhistoryentryPK;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
-import com.mpdmal.cloudental.entities.Visit;
-import com.mpdmal.cloudental.util.CloudentUtils;
-import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
-import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
-import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
+import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
+import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 
 @Named
 @Stateless
 @LocalBean
 @WebService
-public class PatientServices {
+public class PatientServices extends AbstractEaoService {
 	@EJB
-	private MedicalhistoryentryDAO _medentrydao;
-	@EJB
-	private PatientDAO _pdao;
-	@EJB
-	private ActivityDAO _acvdao;
-	@EJB
-	private DentistDAO _ddao;
-	@EJB
-	private VisitDAO _vdao;
-    
+	private EaoManager emgr;
+	
     public PatientServices() {}
-    
+    public PatientServices(EaoManager mgr) { 
+    	this.emgr = mgr;
+    }
+
+    public void close() {
+    	emgr.closeEM();
+    }
+
+    //ACTIVITIES
+    public Activity createActivity (int patientid, String description, Date start, Date end, int plitemid, int discountid) 
+																throws PatientNotFoundException, 
+																DiscountNotFoundException, 
+																PricelistItemNotFoundException {
+		Patient p = findPatient(patientid);
+		Discount d = findDiscount(discountid); 
+		PricelistItem plitem = findPricable(plitemid);
+		
+		Patienthistory ph = p.getDentalHistory();
+		Activity ac = new Activity();
+		
+		ac.setDescription(description);
+		ac.setStartdate(start);
+		ac.setEnddate(end);
+		ac.setPriceable(plitem);
+		ac.setDiscount(d);
+		ph.addActivity(ac);
+		
+		emgr.update(ph);
+		return ac;
+    }
+
+    @SuppressWarnings("unchecked")
+	public Vector<Activity> getActivities (int patientid) throws PatientNotFoundException {
+		Patient p = findPatient(patientid);
+
+    	Query q = emgr.getEM().
+    			createQuery("select av from Activity av where av.patienthistory.patient.id =:patientid").
+    			setParameter("patientid", patientid);
+        return (Vector<Activity>) emgr.executeMultipleObjectQuery(q);
+    }
+
+    /*
     //for OOC testing
     public void setVisitDao (VisitDAO dao) { _vdao = dao; }
     public void setPatientDao (PatientDAO dao) { _pdao = dao;}
@@ -122,12 +143,6 @@ public class PatientServices {
     }
     
         //ACTIVITIES
-    public Vector<Activity> getActivities (int patientID) throws PatientNotFoundException {
-    	Patient p = _pdao.getPatient(patientID);
-    	if (p == null) 
-    		throw new PatientNotFoundException(patientID, "Cannot get Activities:");
-    	return _acvdao.getActivities(p.getId());
-    }
 
     public Vector<Activity> getActivitiesByDate (int patientID, Date from , Date to) throws PatientNotFoundException {
     	Patient p = _pdao.getPatient(patientID);
@@ -136,26 +151,6 @@ public class PatientServices {
     	return _acvdao.getActivities(p.getId(), from , to);
     }
 
-    public Activity createActivity (int patientID, String description, Date start, Date end, PricelistItem price, Discount d) 
-    																		throws PatientNotFoundException {
-    	Patient p = _pdao.getPatient(patientID);
-    	if (p == null) 
-    		throw new PatientNotFoundException(patientID, "Cannot create Activity:");
-    	
-    	Patienthistory ph = p.getDentalHistory();
-    	Activity ac = new Activity();
-    	
-    	ac.setDescription(description);
-    	ac.setStartdate(start);
-    	ac.setEnddate(end);
-    	ac.setPriceable(price);
-    	ac.setDiscount(d);
-    	ph.addActivity(ac);
-    	
-    	_acvdao.updateCreate(ac, false);
-    	return ac;
-    }
-    
     public void deleteActivities (int patientID) throws PatientNotFoundException {
     	Patient p = _pdao.getPatient(patientID);
     	if (p == null) 
@@ -207,5 +202,5 @@ public class PatientServices {
 			_vdao.delete(v);
 		}
     }    
-
+*/
 }
