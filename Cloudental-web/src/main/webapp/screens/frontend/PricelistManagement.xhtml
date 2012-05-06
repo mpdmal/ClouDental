@@ -42,42 +42,53 @@
 		<!-- ********** end ********** -->
 		<br />
 		<br />
-		<p:dataTable value="#{pricelistItemManagementBean.pricelist}" var="item" >
-			<p:column>
-				<f:facet name="header"><h:outputText value="id"/></f:facet>
-				<h:outputText value="#{item.id}" />
-			</p:column>
-			<p:column>
-				<f:facet name="header"><h:outputText value="Title"/></f:facet>
-				<h:outputText value="#{item.title}" />
-			</p:column>
-			<p:column>
-				<f:facet name="header"><h:outputText value="Price"/></f:facet>
-				<h:outputText value="#{item.price}" />
-			</p:column>
-			<p:column>
-				<f:facet name="header"><h:outputText value="Description" /></f:facet>
-				<h:outputText value="#{item.description}"/>
-			</p:column>
-			<p:column>
-				<f:facet name="header"><h:outputText value="action delete"/></f:facet>
-				<h:form>
-					<h:commandLink action="delete">
-						<f:actionListener type="com.mpdmal.cloudental.web.listeners.OnDeletePricelistItemActionListener" />
-						<h:outputText value="delete #{item.id}" />
-					</h:commandLink>
-				</h:form>
-			</p:column>
-			<p:column>
-				<f:facet name="header"><h:outputText value="update" /></f:facet>
-				<h:form>
-					<h:commandLink action="update">
-						<f:setPropertyActionListener value="#{item}" target="#{pricelistItemManagementBean.currentPricelistItem}" />
-						<h:outputText value="get for update #{patient.surname}" />
-					</h:commandLink>
-				</h:form>
-			</p:column>
-		</p:dataTable>
+
+		<h:form id="form">
+		 <p:contextMenu for="priceList">  
+        	<p:menuitem value="Delete" update="priceList" icon="ui-icon-close" actionListener="#{pricelistItemManagementBean.deletePricelistItem}"/>  
+    	</p:contextMenu>  
+			<p:dataTable value="#{pricelistItemManagementBean.pricelist}" var="item" id="priceList" editable="true"
+			 rowKey="#{item.id}"  selection="#{pricelistItemManagementBean.selectedItem}" selectionMode="single">
+				<p:column headerText="id">
+					<h:outputText value="#{item.id}" />
+				</p:column>
+				<p:column headerText="Title">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.title}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{item.title}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Price">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.price}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{item.price}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Description">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.description}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{item.description}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Options" style="width:50px">
+					<p:rowEditor />
+				</p:column>
+				<p:ajax event="rowEdit"
+					listener="#{pricelistItemManagementBean.rowEditListener}"></p:ajax>
+			</p:dataTable>
+		</h:form>
 
 	</ui:define>
 
