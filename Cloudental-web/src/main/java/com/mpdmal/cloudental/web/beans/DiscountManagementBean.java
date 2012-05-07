@@ -33,14 +33,13 @@ public class DiscountManagementBean extends Discount {
 		return (Vector<Discount>)dentistService.getDiscounts(d.getId());
 	}
 
-	public int createDiscount() throws DentistNotFoundException{
+	public String createDiscount() throws DentistNotFoundException{
 		try {
 			Discount d = dentistService.createDiscount(user.getCurrentUser().getId(), getTitle(),getDescription(), getDiscount().doubleValue() );
-			return d.getId();
 		} catch (InvalidPostitAlertException e) {
 			e.printStackTrace();
 		}
-		return -1;
+		return null;
 	}
 
 	public String updateDiscount(){
