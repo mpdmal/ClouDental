@@ -13,6 +13,9 @@ import javax.persistence.Query;
 import com.mpdmal.cloudental.EaoManager;
 import com.mpdmal.cloudental.beans.base.AbstractEaoService;
 import com.mpdmal.cloudental.entities.Activity;
+import com.mpdmal.cloudental.entities.Address;
+import com.mpdmal.cloudental.entities.Contactinfo;
+import com.mpdmal.cloudental.entities.ContactinfoPK;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Medicalhistory;
 import com.mpdmal.cloudental.entities.Medicalhistoryentry;
@@ -20,7 +23,9 @@ import com.mpdmal.cloudental.entities.MedicalhistoryentryPK;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
+import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
@@ -97,15 +102,11 @@ public class PatientServices extends AbstractEaoService {
     	p.getMedicalhistory().deleteMedicalEntry(entry);
     	emgr.delete(entry);
     }
-    /*
 
     public Contactinfo createContactinfo(int patientID, String info, int type) throws 
     											PatientNotFoundException, 
     											InvalidContactInfoTypeException {
-    	Patient p = _pdao.getPatient(patientID);
-    	if (p == null) 
-    		throw new PatientNotFoundException(patientID, "Cannot add Contact info "+type+"|"+info);
-    	
+    	Patient p = findPatient(patientID);
     	ContactinfoPK id = new ContactinfoPK(); 
 		id.setId(p.getId());
 		id.setInfotype(type);
@@ -114,29 +115,23 @@ public class PatientServices extends AbstractEaoService {
 		cnt.setInfo(info);
 		cnt.setId(id);
 		p.addContactInfo(cnt);
-		_pdao.updateCreate(cnt, true);
+		
+		emgr.persist(cnt);
 		return cnt;
     }
 
     public Address createAddress(int patientID, Address adr) throws Exception {
-    	Patient p = _pdao.getPatient(patientID);
-    	if (p == null) 
-    		throw new PatientNotFoundException(patientID, "Cannot add Address");
-
-    	if (adr.getId()== null) {
-    		CloudentUtils.logError("cannot add Address with no id ..."+adr.getXML());
-    		throw new Exception ("cannot add Address with no id for patient:"+patientID);
-    	}
-    	//Address object enforces valid id.addressType , no need to check...
+      	Patient p = findPatient(patientID);
+      	//Address object enforces valid id.addressType , no need to check...
     	adr.getId().setId(patientID);
     	adr.setPatient(p);
     	p.addAddress(adr);
-    	_pdao.updateCreate(p, true);
+    	emgr.persist(adr);
     	return adr;
     }
     
         //ACTIVITIES
-
+/*
     public Vector<Activity> getActivitiesByDate (int patientID, Date from , Date to) throws PatientNotFoundException {
     	Patient p = _pdao.getPatient(patientID);
     	if (p == null) 
