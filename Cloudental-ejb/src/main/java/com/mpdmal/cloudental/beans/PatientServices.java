@@ -14,10 +14,14 @@ import com.mpdmal.cloudental.EaoManager;
 import com.mpdmal.cloudental.beans.base.AbstractEaoService;
 import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Discount;
+import com.mpdmal.cloudental.entities.Medicalhistory;
+import com.mpdmal.cloudental.entities.Medicalhistoryentry;
+import com.mpdmal.cloudental.entities.MedicalhistoryentryPK;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
+import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 
@@ -68,41 +72,33 @@ public class PatientServices extends AbstractEaoService {
         return (Vector<Activity>) emgr.executeMultipleObjectQuery(q);
     }
 
-    /*
-    //for OOC testing
-    public void setVisitDao (VisitDAO dao) { _vdao = dao; }
-    public void setPatientDao (PatientDAO dao) { _pdao = dao;}
-    public void setMedhistentryDao(MedicalhistoryentryDAO medentrydao) {_medentrydao = medentrydao; }
-    public void setActivityDao(ActivityDAO dao) { _acvdao = dao;}
-    public void setDentistDao(DentistDAO dao) {_ddao = dao; }
-
     //SERVICES
-	public Vector<Patient> getPatients (String dentistid) {
-		Dentist dentist = _ddao.getDentist(dentistid);
-		if (dentist == null) {
-			CloudentUtils.logError("Dentist does not exist:"+dentistid);
-			return null;
-		}
-		return _pdao.getPatients(dentistid);
-	}
-
-    public Medicalhistoryentry createMedicalHistoryEntry(int patientID, String comment, int alert) throws 
+    public Medicalhistoryentry createMedicalEntry(int patientID, String comment, int alert) throws 
     															PatientNotFoundException,
     															InvalidMedEntryAlertException {
-    	Patient p = _pdao.getPatient(patientID);
-    	if (p == null) 
-    		throw new PatientNotFoundException(patientID, "No such Patient/MedHistory cannot add entry");
-
+    	Patient p = findPatient(patientID);
+    	Medicalhistory hstr = p.getMedicalhistory();
+    	
     	MedicalhistoryentryPK id = new MedicalhistoryentryPK();
     	id.setAdded(new Date());
-    	id.setId(p.getId());
+    	id.setId(hstr.getId());
     	Medicalhistoryentry entry = new Medicalhistoryentry();
     	entry.setAlert(alert);
     	entry.setComments(comment);
     	entry.setId(id);
-    	_medentrydao.updateCreate(entry, false);
+    	
+    	hstr.addMedicalEntry(entry);
+    	emgr.update(hstr);
     	return entry;
     }
+    
+    public void deleteMedicalEntry(Medicalhistoryentry entry) throws PatientNotFoundException {
+    	Patient p = findPatient(entry.getId().getId());
+    	p.getMedicalhistory().deleteMedicalEntry(entry);
+    	emgr.delete(entry);
+    }
+    /*
+
     public Contactinfo createContactinfo(int patientID, String info, int type) throws 
     											PatientNotFoundException, 
     											InvalidContactInfoTypeException {
