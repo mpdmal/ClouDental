@@ -23,6 +23,14 @@
 		<converter-id>activityConverter</converter-id>
 		<converter-class>com.mpdmal.cloudental.web.converter.ActivityConverter</converter-class>
 	</converter>
+	<converter>
+		<converter-id>pricelistItemConverter</converter-id>
+		<converter-class>com.mpdmal.cloudental.web.converter.PricelistItemConverter</converter-class>
+	</converter>
+	<converter>
+		<converter-id>discountConverter</converter-id>
+		<converter-class>com.mpdmal.cloudental.web.converter.DiscountConverter</converter-class>
+	</converter>
 	<managed-bean>
 		<managed-bean-name>dentistManagementBean</managed-bean-name>
 		<managed-bean-class>com.mpdmal.cloudental.web.beans.DentistManagementBean</managed-bean-class>

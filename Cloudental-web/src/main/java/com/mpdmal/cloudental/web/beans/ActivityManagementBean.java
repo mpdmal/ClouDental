@@ -1,8 +1,5 @@
 package com.mpdmal.cloudental.web.beans;
 
-
-
-import java.util.Date;
 import java.util.Vector;
 
 import javax.ejb.EJB;
@@ -11,8 +8,13 @@ import javax.faces.context.FacesContext;
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Activity;
+import com.mpdmal.cloudental.entities.Discount;
+import com.mpdmal.cloudental.entities.Patient;
+import com.mpdmal.cloudental.entities.PricelistItem;
 
-public class ActivityManagementBean {
+public class ActivityManagementBean extends Activity{
+
+	private static final long serialVersionUID = 1L;
 
 	UserHolder user = (UserHolder)FacesContext.getCurrentInstance().
 			getExternalContext().getSessionMap().get("userHolder");
@@ -22,26 +24,28 @@ public class ActivityManagementBean {
 	@EJB
 	PatientServices patientServices;
 	
-	private final static int demoPatientId=1;
-	private Integer activityID;
-	private Integer patientID = new Integer(demoPatientId);
-	private String description;
-	private Date startDate;
-	private Date endDate;
+	private PricelistItem selectedPricelistItem;
+	private Discount selectedDiscount;
+	private Patient selectedPatient;
+	
+	
 
 	public Vector<Activity> getActivityListOfPatient() throws Exception {
-		Vector<Activity>  ans  = patientServices.getActivities(patientID);
+		Vector<Activity>  ans  = patientServices.getActivities(selectedPatient.getId());
 		return  ans;
 	}
 
 	public String createActivity() throws Exception{
-		System.out.println("create activity: "+ description);
-		patientServices.createActivity(patientID, description, startDate, endDate, -1, -1);
+		System.out.println("Patient ID:"+ selectedPatient.getId() );
+		System.out.println("create activity: "+ getDescription());
+		System.out.println("selectedPricelistItem.getId()" +selectedPricelistItem.getId());
+		System.out.println("Start Date" +getStartdate().toString() );
+		//patientServices.createActivity(selectedPatient.getId(), getDescription(), getStartdate(), getEnddate(), selectedPricelistItem.getId(), selectedDiscount.getId());
 		return null;
 	}
 
 	public String updateActivity(){
-		System.out.println("update activity: "+activityID);
+		System.out.println("update activity: "+getId());
 //		dentistService.update(this);
 		return null;
 	}
@@ -51,44 +55,31 @@ public class ActivityManagementBean {
 		
 	}
 
-	public Integer getActivityID() {
-		return activityID;
+	public PricelistItem getSelectedPricelistItem() {
+		return selectedPricelistItem;
 	}
 
-	public void setActivityID(Integer activityID) {
-		this.activityID = activityID;
+	public void setSelectedPricelistItem(PricelistItem selectedPricelistItem) {
+		this.selectedPricelistItem = selectedPricelistItem;
 	}
 
-	public Integer getPatientID() {
-		return patientID;
+	public Discount getSelectedDiscount() {
+		return selectedDiscount;
 	}
 
-	public void setPatientID(Integer patientID) {
-		this.patientID = patientID;
+	public void setSelectedDiscount(Discount selectedDiscount) {
+		this.selectedDiscount = selectedDiscount;
 	}
 
-	public String getDescription() {
-		return description;
+	public Patient getSelectedPatient() {
+		return selectedPatient;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setSelectedPatient(Patient selectedPatient) {
+		this.selectedPatient = selectedPatient;
 	}
+	
 
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+	
 
 }
