@@ -8,15 +8,22 @@
 	
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Insert title here</title>
+<ui:insert name="header">header</ui:insert>
 <h:outputStylesheet name="cloudental.css" library="css" />
 </h:head>
 <body>
-<ui:insert name="header">header</ui:insert>
+
+
+	<!-- ********** test  messages ********** -->
+	<h:outputFormat value="#{msgs.username}">
+		<f:param value="#{userHolder.currentUser.username}"/>
+	</h:outputFormat>
+	<br />
+	<h:messages />
 
     <table>
          <tr>
-              <td width="40%">
+              <td>
               	
               	<a href="/Cloudental-web/cloudental/faces/screens/frontend/login.xhtml">Login</a> <br />
               	<a href="/Cloudental-web/cloudental/faces/screens/frontend/PatientManagement.xhtml">Patient Management</a> <br />

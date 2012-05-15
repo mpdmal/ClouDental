@@ -7,23 +7,13 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/screens/frontend/template.xhtml">
+
 	<ui:define name="header">
-    	Price List Page 
-    	<br />
-		<!-- ********** test  messages ********** -->
-		<h:outputFormat value="#{msgs.username}">
-			<f:param value="#{userHolder.currentUser.username}"/>
-		</h:outputFormat>
-		
-		<br />
-		<h:messages />
+    	<title>Price List Page </title>
 	</ui:define>
 
 	<ui:define name="content">
-
 		<!-- ********** start ********** -->
-		
-		  
 		<h:form>
 			<p:panel header="Price List Item">
 				<h:panelGrid columns="2">
@@ -44,20 +34,25 @@
 				</h:panelGrid>
 			</p:panel>
 		</h:form>
+		
+		
 		<!-- ********** end ********** -->
 		<br />
 		<br />
-
-		<h:form id="form">
-		 <p:contextMenu for="priceList">  
-        	<p:menuitem value="Delete" update="priceList" icon="ui-icon-close" actionListener="#{pricelistItemManagementBean.deletePricelistItem}"/>  
-    	</p:contextMenu>  
+		<h:form id="priceListForm">
+		
+			<p:contextMenu for="priceList">  
+	        	<p:menuitem value="Delete" update="priceList" icon="ui-icon-close" actionListener="#{pricelistItemManagementBean.deletePricelistItem}"/>  
+	    	</p:contextMenu>
+	    	  
 			<p:dataTable value="#{pricelistItemManagementBean.pricelist}" var="item" id="priceList" editable="true"
-			 rowKey="#{item.id}"  selection="#{pricelistItemManagementBean.selectedItem}" selectionMode="single">
-				<p:column headerText="id">
+			 				rowKey="#{item.id}"  selection="#{pricelistItemManagementBean.selectedItem}" selectionMode="single">
+			 				
+				<p:column headerText="id" sortBy="#{item.id}" >
 					<h:outputText value="#{item.id}" />
 				</p:column>
-				<p:column headerText="Title">
+				
+				<p:column headerText="Title" sortBy="#{item.title}">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{item.title}" />
@@ -67,7 +62,7 @@
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="Price">
+				<p:column headerText="Price" sortBy="#{item.Price}">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{item.price}" />
@@ -77,7 +72,7 @@
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
-				<p:column headerText="Description">
+				<p:column headerText="Description" sortBy="#{item.description}">
 					<p:cellEditor>
 						<f:facet name="output">
 							<h:outputText value="#{item.description}" />
@@ -87,11 +82,13 @@
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
+				
 				<p:column headerText="Options" style="width:50px">
 					<p:rowEditor />
 				</p:column>
-				<p:ajax event="rowEdit"
-					listener="#{pricelistItemManagementBean.rowEditListener}"></p:ajax>
+				
+				<p:ajax event="rowEdit" listener="#{pricelistItemManagementBean.rowEditListener}"></p:ajax>
+				
 			</p:dataTable>
 		</h:form>
 

@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Vector;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;

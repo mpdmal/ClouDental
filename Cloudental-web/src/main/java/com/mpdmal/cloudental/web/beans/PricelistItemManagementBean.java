@@ -54,11 +54,7 @@ public class PricelistItemManagementBean extends PricelistItem {
 		return null;
 	}
 
-	public String updatePricelistItem(){
-		System.out.println("update PricelistItem: "+getTitle());
-//		dentistService.updatePricelistItem();
-		return null;
-	}
+
 	public String deletePricelistItem(){
 		System.out.println("delete PricelistItem: "+getSelectedItem().getTitle());
 		try {

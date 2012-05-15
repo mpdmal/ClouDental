@@ -3,130 +3,90 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/screens/frontend/template.xhtml">
+
 	<ui:define name="header">
-    	Patient Management 2
-    	<br />
-		<h:outputText value="#{userHolder.currentUser.username}"></h:outputText>
-		<br />
-		<h:messages />
+    	<title>Patient Management Page </title>
 	</ui:define>
 
 	<ui:define name="content">
-
-		<h:outputText value="Create Patient" />
-
+		<!-- ********** start ********** -->
 		<h:form>
-			<h:panelGrid columns="2">
-
-				<h:outputText value="name: " />
-				<h:inputText value="#{patientManagementBean.name}" label="Username"
-					required="true" />
-				<h:outputText value="surname: " />
-				<h:inputText value="#{patientManagementBean.surname}"
-					label="Password" required="true" />
-				<h:outputText value="comments: " />
-				<h:inputTextarea value="#{patientManagementBean.comments}"
-					label="comments" />
-
-				<h:outputText value=" " />
-				<h:panelGroup>
-					<h:commandButton value="Create"
-						action="#{patientManagementBean.createPatient}" />
+			<p:panel header="PatientManagement" >
+				<h:panelGrid columns="2">
+					<h:outputText value="Name: " />
+					<h:inputText value="#{patientManagementBean.name}" label="Name" required="true" />
+					<h:outputText value="Surname: " />
+					<h:inputText value="#{patientManagementBean.surname}" label="Surname" required="true" />
+					<h:outputText value="Comments: " />
+					<h:inputTextarea value="#{patientManagementBean.comments}" label="Surname" required="true" />
 					<h:outputText value=" " />
-					<h:commandButton value="Update"
-						action="#{patientManagementBean.updatePatient}" />
-				</h:panelGroup>
-
-			</h:panelGrid>
+					<h:commandButton value="Create" action="#{patientManagementBean.createPatient}" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+		
+		
+		<!-- ********** end ********** -->
+		<br />
+		<br />
+		<h:form id="patientListForm">
+		
+			<p:contextMenu for="patientList">  
+	        	<p:menuitem value="Delete" update="patientList" icon="ui-icon-close" actionListener="#{patientManagementBean.deletePatient}"/>  
+	    	</p:contextMenu>
+	    	  
+			<p:dataTable value="#{patientManagementBean.patientList}" var="patient" id="patientList" editable="true"
+			 				rowKey="#{patient.id}"  selection="#{patientManagementBean.selectedItem}" selectionMode="single">
+			 				
+				<p:column headerText="id" sortBy="#{patient.id}" >
+					<h:outputText value="#{patient.id}" />
+				</p:column>
+				
+				<p:column headerText="Name" sortBy="#{patient.name}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{patient.name}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{patient.name}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Surname" sortBy="#{patient.surname}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{patient.surname}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{patient.surname}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Comments" sortBy="#{patient.comments}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{patient.comments}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{patient.comments}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column headerText="Options" style="width:50px">
+					<p:rowEditor />
+				</p:column>
+				
+				<p:ajax event="rowEdit" listener="#{patientManagementBean.rowEditListener}"></p:ajax>
+				
+			</p:dataTable>
 		</h:form>
 
-
-		<br />
-
-
-		<br />
-		<h:dataTable value="#{patientManagementBean.patientList}"
-			var="patient" border="1">
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="name" />
-				</f:facet>
-				<h:outputText value="#{patient.name}" />
-			</h:column>
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="surname" />
-				</f:facet>
-				<h:outputText value="#{patient.surname}" />
-			</h:column>
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="created" />
-				</f:facet>
-				<h:outputText value="#{patient.created}">
-					<f:convertDateTime dateStyle="short" />
-				</h:outputText>
-			</h:column>
-
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="action delete" />
-				</f:facet>
-
-				<h:form>
-					<h:commandLink action="delete">
-						<f:actionListener
-							type="com.mpdmal.cloudental.web.listeners.OnDeleteDentistActionListener" />
-						<h:outputText value="delete #{patient.id}" />
-					</h:commandLink>
-				</h:form>
-
-			</h:column>
-
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="update" />
-				</f:facet>
-
-				<h:form>
-					<h:commandLink action="update">
-						<f:setPropertyActionListener value="#{patient}"
-							target="#{patientManagementBean.currentPatient}" />
-
-
-						<h:outputText value="get for update #{patient.surname}" />
-					</h:commandLink>
-				</h:form>
-
-			</h:column>
-			
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="medical history" />
-				</f:facet>
-
-				<h:form>
-					<h:commandLink action="view_medical_history">
-						<f:setPropertyActionListener value="#{patient}"
-							target="#{medicalHistoryManagementBean.currentPatient}" />
-
-						<h:outputText value="view" />
-					</h:commandLink>
-				</h:form>
-
-			</h:column>
-			
-
-
-		</h:dataTable>
-
-
-
 	</ui:define>
-
 
 
 
