@@ -34,12 +34,13 @@ public class DiscountConverter implements Converter {
 			return null;  
 		} else {  
 			try {
-				System.out.println("submittedValue" +submittedValue );
+				System.out.println("submittedValue: " +submittedValue );
 				int id = Integer.parseInt(submittedValue); 
 
 				discountVector = getDiscounts();
 				for (Discount p : discountVector) {  
-					if (p.getId() == id) {  
+					if (p.getId() == id) {
+						System.out.println("Returned object: "+p.getXML());
 						return p;  
 					}  
 				}  

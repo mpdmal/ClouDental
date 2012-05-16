@@ -30,14 +30,14 @@ public class PatientManagementBean extends Patient {
 	
 	Patient selectedPatient;
 	
-	Vector<Patient> patientList; 
+	private Vector<Patient> patientList; 
 	
 	public Vector<Patient> getPatientList() {
-		System.out.println("getPatientList");
-//		if(patientList!=null){
-			System.out.println("call service");
+		
+		if(patientList==null){
+			System.out.println("call service getPatientList");	
 			patientList  = (Vector<Patient>) dentistService.getPatientlist(user.getCurrentUser().getId());
-//		}
+		}
 		return  patientList;
 	}
 

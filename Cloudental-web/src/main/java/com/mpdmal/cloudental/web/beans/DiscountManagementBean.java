@@ -28,9 +28,14 @@ public class DiscountManagementBean extends Discount {
 	@EJB
 	DentistBean dentistBean;
 	
+	private Vector<Discount> discounts;
+	
 	public Vector<Discount> getDiscounts() {
 		Dentist d = user.getCurrentUser();
-		return (Vector<Discount>)dentistService.getDiscounts(d.getId());
+		if(discounts==null){
+			discounts =(Vector<Discount>)dentistService.getDiscounts(d.getId());
+		}
+		return discounts;
 	}
 
 	public String createDiscount() throws DentistNotFoundException{

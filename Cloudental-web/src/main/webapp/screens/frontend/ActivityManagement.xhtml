@@ -9,14 +9,12 @@
 <ui:composition template="/screens/frontend/template.xhtml">
 	<ui:define name="header">
     	Activity Management 
-    	<br />
-		<h:messages />
 	</ui:define>
 
 
 	<ui:define name="content">
 		<!-- ********** start ********** -->
-		<h:form>
+		<h:form id="activityForm">
 			<p:panel header="Activity">
 				<h:panelGrid columns="2">
 					
@@ -36,33 +34,34 @@
 					
 					
 					<h:outputText value="PricelistItem: " />  
-			        <p:selectOneMenu value="#{activityManagementBean.selectedPricelistItem}" effect="fade" converter="pricelistItemConverter" var="p">  
+			        <p:selectOneMenu value="#{activityManagementBean.selectedPricelistItem}" effect="fade" converter="pricelistItemConverter" var="p1" id="PricelistItem">  
 			            <f:selectItem itemLabel="Select One" itemValue="" />  
 			            <f:selectItems value="#{pricelistItemManagementBean.pricelist}" var="pricelistItem" itemLabel="#{pricelistItem.title}" itemValue="#{pricelistItem}"/>
 			            
 			            <p:column>
-							#{p.title}
+							#{p1.title} --#{p1.description}
 						</p:column>  
 			        </p:selectOneMenu> 
 			        
 			        <h:outputText value="Discount " />  
-			        <p:selectOneMenu value="#{activityManagementBean.selectedDiscount}" effect="fade" converter="discountConverter" var="p">  
+			        <p:selectOneMenu value="#{activityManagementBean.selectedDiscount}" effect="fade" converter="discountConverter" var="p2" id="Discount">  
 			            <f:selectItem itemLabel="Select One" itemValue="" />  
 			            <f:selectItems value="#{discountManagementBean.discounts}" var="discountItem" itemLabel="#{discountItem.title}" itemValue="#{discountItem}"/>
 			            
 			            <p:column>
-							#{p.title}
+							#{p2.title}
 						</p:column>  
 			        </p:selectOneMenu> 
 
+
 					
 					<h:outputText value="Start Date: " />
-					<h:inputText value="#{activityManagementBean.startdate}" label="startDate">
+					<h:inputText value="#{activityManagementBean.startdate}" label="startDate" id="startDate">
 						<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
 					</h:inputText>
 
 					<h:outputText value="End Date: " />
-					<h:inputText value="#{activityManagementBean.enddate}" label="endDate">
+					<h:inputText value="#{activityManagementBean.enddate}" label="endDate" id="endDate">
 						<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
 					</h:inputText>
 
@@ -72,7 +71,9 @@
 					<h:outputText value=" " />
 					
 					<h:panelGroup>
-						<h:commandButton value="Create" action="#{activityManagementBean.createActivity}" />
+						<h:commandButton value="Create" action="#{activityManagementBean.createActivity}" >
+						
+						</h:commandButton>
 					</h:panelGroup>
 				</h:panelGrid>
 			</p:panel>

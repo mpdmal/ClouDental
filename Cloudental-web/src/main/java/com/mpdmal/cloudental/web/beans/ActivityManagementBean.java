@@ -39,8 +39,10 @@ public class ActivityManagementBean extends Activity{
 		System.out.println("Patient ID:"+ selectedPatient.getId() );
 		System.out.println("create activity: "+ getDescription());
 		System.out.println("selectedPricelistItem.getId()" +selectedPricelistItem.getId());
+		System.out.println("selectedDiscount.getId()" +selectedDiscount.getId());
 		System.out.println("Start Date" +getStartdate().toString() );
-		//patientServices.createActivity(selectedPatient.getId(), getDescription(), getStartdate(), getEnddate(), selectedPricelistItem.getId(), selectedDiscount.getId());
+		System.out.println("End Date" +getEnddate().toString() );
+		patientServices.createActivity(selectedPatient.getId(), getDescription(), getStartdate(), getEnddate(), selectedPricelistItem.getId(), selectedDiscount.getId());
 		return null;
 	}
 
@@ -60,14 +62,27 @@ public class ActivityManagementBean extends Activity{
 	}
 
 	public void setSelectedPricelistItem(PricelistItem selectedPricelistItem) {
+		if(selectedPricelistItem!=null)
+			System.out.println("setSelectedPricelistItem: "+ selectedPricelistItem.getId());
+		else {
+			System.out.println("setSelectedPricelistItem: "+ null);
+		}
 		this.selectedPricelistItem = selectedPricelistItem;
 	}
 
 	public Discount getSelectedDiscount() {
+		if(selectedDiscount!=null)
+			System.out.println("ActivityManagementBean getSelectedDiscount()"+selectedDiscount.getTitle() );
+		else
+			System.out.println("ActivityManagementBean getSelectedDiscount()"+null );
 		return selectedDiscount;
 	}
 
 	public void setSelectedDiscount(Discount selectedDiscount) {
+		if(selectedDiscount!=null)
+			System.out.println("ActivityManagementBean setSelectedDiscount"+selectedDiscount.getTitle() );
+		else
+			System.out.println("ActivityManagementBean setSelectedDiscount"+null );
 		this.selectedDiscount = selectedDiscount;
 	}
 

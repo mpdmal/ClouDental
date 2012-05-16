@@ -1,40 +1,25 @@
 package com.mpdmal.cloudental.web.converter;
 
 
-import java.util.ArrayList;  
-import java.util.List;  
-import javax.faces.application.FacesMessage;  
-  
-import javax.faces.component.UIComponent;  
-import javax.faces.context.FacesContext;  
-import javax.faces.convert.Converter;  
-import javax.faces.convert.ConverterException;  
-  
+import java.util.List;
+import java.util.Vector;
+
+import javax.faces.application.Application;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
+
 import com.mpdmal.cloudental.entities.Patient;
+import com.mpdmal.cloudental.web.beans.PatientManagementBean;
 
   
 public class PatientConverter implements Converter {  
   
     public static List<Patient> patientDB;  
   
-    static {
-    	
-    	patientDB = new ArrayList<Patient>();
-    	Patient p1 =new Patient();
-    	p1.setName("p1");
-    	p1.setSurname("p1 sur");
-    	p1.setId(new Integer(1));
-    	
-    	Patient p2 =new Patient();
-    	p2.setName("p2");
-    	p2.setSurname("p2 sur");
-    	p2.setId(new Integer(1));
-  
-    	patientDB.add(p1);  
-    	patientDB.add(p2);  
-    	  
-       
-    }  
+
   
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {  
     	System.out.println("PatientConverter getAsObject");
@@ -45,7 +30,8 @@ public class PatientConverter implements Converter {
             	System.out.println("submittedValue" +submittedValue );
                 int id = Integer.parseInt(submittedValue); 
                 
-  
+                if(patientDB==null)
+                	patientDB = getPatientList();
                 for (Patient p : patientDB) {  
                     if (p.getId() == id) {  
                         return p;  
@@ -70,5 +56,12 @@ public class PatientConverter implements Converter {
         	
             return String.valueOf(  id );  
         }  
-    }  
+    } 
+    
+    public Vector<Patient> getPatientList() {
+		FacesContext context=FacesContext.getCurrentInstance();
+		Application app = context.getApplication();
+		PatientManagementBean p = (PatientManagementBean)app.evaluateExpressionGet(context, "#{patientManagementBean}", PatientManagementBean.class);
+		return  p.getPatientList();
+	}
 }  
