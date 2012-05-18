@@ -47,6 +47,11 @@ public class Patienthistory extends com.mpdmal.cloudental.entities.base.DBEntity
 		activity.setPatienthistory(this);
 		activities.add(activity);
 	}
+	
+	public void removeActivity (Activity a) {
+		if (activities.contains(a))
+			activities.remove(a);
+	}
 	public String getComments() 	{	return this.comments;	}
 	public Date getEnddate() 	{	return this.enddate;	}
 	public Date getStartdate() {	return this.startdate;	}

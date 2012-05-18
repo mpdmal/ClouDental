@@ -3,7 +3,6 @@ package com.mpdmal.cloudental.beans;
 import java.util.Date;
 import java.util.Vector;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
@@ -24,6 +23,7 @@ import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
@@ -45,6 +45,23 @@ public class PatientServices extends AbstractEaoService {
     }
 
     //ACTIVITIES
+    public Activity updateActivity (Activity act) throws 
+    										ActivityNotFoundException, 
+    										DiscountNotFoundException, 
+    										PricelistItemNotFoundException {
+
+    	//validate activity
+    	findDiscount(act.getDiscount().getId());
+    	findPricable(act.getPriceable().getId());
+    	if (act.getEnddate() != null && (act.getEnddate().getTime() <= act.getStartdate().getTime())) {
+    		CloudentUtils.logWarning("Activity enddate cannot precede start date, wont update:"+act.getId());
+    		return act;
+    	}
+    	
+    	emgr.update(act);
+		return act;
+    }
+    
     public Activity createActivity (int patientid, String description, Date start, Date end, int plitemid, int discountid) 
 																throws PatientNotFoundException, 
 																DiscountNotFoundException, 
@@ -73,7 +90,7 @@ public class PatientServices extends AbstractEaoService {
 
     	Query q = emgr.getEM().
     			createQuery("select av from Activity av where av.patienthistory.patient.id =:patientid").
-    			setParameter("patientid", patientid);
+    			setParameter("patientid", p.getId());
         return (Vector<Activity>) emgr.executeMultipleObjectQuery(q);
     }
 

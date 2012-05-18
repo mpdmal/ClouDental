@@ -1,7 +1,9 @@
 package com.mpdmal.cloudental.util.exception;
 
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
-public class InvalidPostitAlertException extends Exception {
+
+public class InvalidPostitAlertException extends CloudentException {
 	private static final long serialVersionUID = 1L;
 
 	public InvalidPostitAlertException(int invalidtype, Throwable x) {

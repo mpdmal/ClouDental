@@ -1,8 +1,9 @@
 package com.mpdmal.cloudental.util.exception;
 
 import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
-public class PricelistItemNotFoundException  extends Exception {
+public class PricelistItemNotFoundException  extends CloudentException {
 	private static final long serialVersionUID = 1L;
 
 	public PricelistItemNotFoundException(String title, String message, Throwable x) {

@@ -1,8 +1,9 @@
 package com.mpdmal.cloudental.util.exception;
 
 import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
-public class PatientNotFoundException  extends Exception {
+public class PatientNotFoundException  extends CloudentException {
 	private static final long serialVersionUID = 1L;
 
 	public PatientNotFoundException(int patientid, String message, Throwable x) {

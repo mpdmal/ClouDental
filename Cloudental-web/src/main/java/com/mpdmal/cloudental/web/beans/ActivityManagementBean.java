@@ -11,6 +11,9 @@ import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
+import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
+import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 
 public class ActivityManagementBean extends Activity{
 
@@ -46,9 +49,11 @@ public class ActivityManagementBean extends Activity{
 		return null;
 	}
 
-	public String updateActivity(){
+	public String updateActivity() throws ActivityNotFoundException, 
+											DiscountNotFoundException, 
+											PricelistItemNotFoundException{
 		System.out.println("update activity: "+getId());
-//		dentistService.update(this);
+		patientServices.updateActivity(this);
 		return null;
 	}
 

@@ -2,6 +2,8 @@ package com.mpdmal.cloudental.tdd.tests.bean;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
+
 import javax.persistence.Persistence;
 import org.junit.After;
 import org.junit.Before;
@@ -11,11 +13,13 @@ import com.mpdmal.cloudental.EaoManager;
 import com.mpdmal.cloudental.beans.DentistBean;
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
+import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
@@ -41,14 +45,15 @@ public class PatientServicesTests {
 		egr.closeEM();
 	}
 	@Test
-	public void createActivity() throws DentistExistsException,
+	public void crudActivity() throws DentistExistsException,
 												InvalidDentistCredentialsException,
 												DentistNotFoundException,
 												PatientExistsException, 
 												PatientNotFoundException,
 												InvalidPostitAlertException, 
 												DiscountNotFoundException, 
-												PricelistItemNotFoundException {
+												PricelistItemNotFoundException, 
+												ActivityNotFoundException {
 		DentistBean dbean = new DentistBean(egr);
 		DentistServices dsvcbean = new DentistServices(egr);
 		PatientServices psvcbean = new PatientServices(egr);
@@ -62,11 +67,30 @@ public class PatientServicesTests {
 		for (int i = 0; i < 10; i++) {
 			psvcbean.createActivity(p.getId(), "activity "+i, new Date(), null, item.getId(), dc.getId());			
 		}
+		
+		//get activities by dentist 
 		d = dbean.getDentist("arilou");
 		ArrayList<Patient> pts = (ArrayList<Patient>)d.getPatientList();
-		p = pts.get(0);
+		p = pts.get(0); //only 1 patient
 		assertEquals(10, p.getDentalHistory().getActivities().size());
-		dbean.deleteDentists();
+		
+		//get activities by patient id
+		Vector<Activity> activities = (Vector<Activity>)psvcbean.getActivities(p.getId());
+		Activity act = activities.iterator().next();
+		assertEquals("activity 0", act.getDescription());
+		
+		//update activity
+		act.setDescription("altered!");
+		psvcbean.updateActivity(act);
+		
+		activities = psvcbean.getActivities(p.getId());
+		act = activities.elementAt(9); //altered entry comes last 
+		assertEquals("altered!", act.getDescription());
+		
+		//cascade delete activities by patient 
+		dsvcbean.deletePatient(p.getId());
+		
+		dbean.deleteDentist(d);
 	}
 	
 	@Test

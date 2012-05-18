@@ -1,6 +1,8 @@
 package com.mpdmal.cloudental.util.exception;
 
-public class InvalidAddressTypeException extends Exception {
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
+
+public class InvalidAddressTypeException extends CloudentException {
 	private static final long serialVersionUID = 1L;
 
 	public InvalidAddressTypeException(int invalidtype, Throwable x) {

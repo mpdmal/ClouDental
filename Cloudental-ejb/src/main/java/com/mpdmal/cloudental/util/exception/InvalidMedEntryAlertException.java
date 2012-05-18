@@ -1,6 +1,8 @@
 package com.mpdmal.cloudental.util.exception;
 
-public class InvalidMedEntryAlertException extends Exception {
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
+
+public class InvalidMedEntryAlertException extends CloudentException {
 	private static final long serialVersionUID = 1L;
 
 	public InvalidMedEntryAlertException(int invalidtype, Throwable x) {
