@@ -101,7 +101,7 @@
 		</h:panelGrid>
 		
 		<p:contextMenu for="activityListTable">  
-	        	<p:menuitem value="Delete" update="activityListTable" icon="ui-icon-close" actionListener="#{activityManagementBean.deleteActivity}" />  
+	        	<p:menuitem value="Delete" update="activityListTable" icon="ui-icon-close" oncomplete="deleteConfirmation.show();"  />  
 	    </p:contextMenu>
 		<p:dataTable value="#{activityManagementBean.activityListOfPatient}" var="item" id="activityListTable" editable="true"
 			 				rowKey="#{item.id}"  selection="#{activityManagementBean.selectedActivity}" selectionMode="single">
@@ -193,6 +193,13 @@
 				<p:ajax event="rowEdit" listener="#{activityManagementBean.rowEditListener}"></p:ajax>
 				
 			</p:dataTable>
+			<p:confirmDialog id="deleteConfirmDialog" message="Are you sure?"
+                    header="Delete Activity" severity="alert"  widgetVar="deleteConfirmation">
+
+                    <p:commandButton id="confirm" value="Yes"  update="activityListForm:activityListTable"
+                     oncomplete="deleteConfirmation.hide()" actionListener="#{activityManagementBean.deleteActivity}" />
+                    <p:commandButton id="decline" value="No"  onclick="deleteConfirmation.hide()" type="button" />
+                </p:confirmDialog>
 		</h:form>
 			
 
