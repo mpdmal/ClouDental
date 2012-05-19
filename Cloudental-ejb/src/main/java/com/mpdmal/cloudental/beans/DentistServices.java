@@ -159,8 +159,9 @@ public class DentistServices extends AbstractEaoService {
 		Dentist dentist = findDentist(dentistid);
 
 		//patient
+		long created = new Date().getTime(); 
 		Patient p = new Patient();
-		p.setCreated(new Date());
+		p.setCreated(new Date(created));
 		p.setName(name);
 		p.setSurname(surname);
 
@@ -181,7 +182,13 @@ public class DentistServices extends AbstractEaoService {
 		dentist.addPatient(p);
 		
 		emgr.update(dentist);
-		return p;
+		for (Patient pt : dentist.getPatientList()) {
+			if (pt.getName().equals(name) 
+					&& pt.getSurname().equals(surname)
+					&& pt.getCreated().getTime() == created)
+					return pt;
+		}
+		return null;
     }
 
 	public void deletePatient (int patientid) throws PatientNotFoundException {

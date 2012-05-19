@@ -78,6 +78,7 @@ public class PatientServices extends AbstractEaoService {
 		ac.setEnddate(end);
 		ac.setPriceable(plitem);
 		ac.setDiscount(d);
+		ac.setPatienthistory(ph);
 		ph.addActivity(ac);
 		
 		emgr.update(ph);
