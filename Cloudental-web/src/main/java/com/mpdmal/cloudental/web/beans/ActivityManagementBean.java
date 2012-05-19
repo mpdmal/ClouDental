@@ -1,8 +1,10 @@
 package com.mpdmal.cloudental.web.beans;
 
+import java.util.Map;
 import java.util.Vector;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import com.mpdmal.cloudental.beans.DentistServices;
@@ -11,13 +13,12 @@ import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
-import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
-import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
-import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 
 public class ActivityManagementBean extends Activity{
 
 	private static final long serialVersionUID = 1L;
+	
+
 
 	UserHolder user = (UserHolder)FacesContext.getCurrentInstance().
 			getExternalContext().getSessionMap().get("userHolder");
@@ -31,29 +32,39 @@ public class ActivityManagementBean extends Activity{
 	private Discount selectedDiscount;
 	private Patient selectedPatient;
 	
+	private Activity selectedActivity;
+	private Vector<Activity> activityListOfPatient;
+	
 	
 
 	public Vector<Activity> getActivityListOfPatient() throws Exception {
-		Vector<Activity>  ans  = patientServices.getActivities(selectedPatient.getId());
-		return  ans;
+		Map<String,String> params =       FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+//		String selectedPatientId =  params.get("activityListForm:patient_hinput");
+//		System.out.println("selectedPatientId: "+selectedPatientId);
+		if(selectedPatient!=null){
+			if(activityListOfPatient==null){
+				System.out.println("getActivities from patientID: "+selectedPatient.getId());
+				activityListOfPatient  = patientServices.getActivities(selectedPatient.getId());
+			}
+		}
+//		if(selectedPatientId!=null){
+//			if(activityListOfPatient==null){
+//				System.out.println("getActivities from service");
+//				activityListOfPatient  = patientServices.getActivities(Integer.parseInt(selectedPatientId) );
+//			}
+//		}
+		
+		return  activityListOfPatient;
 	}
 
 	public String createActivity() throws Exception{
-		System.out.println("Patient ID:"+ selectedPatient.getId() );
-		System.out.println("create activity: "+ getDescription());
-		System.out.println("selectedPricelistItem.getId()" +selectedPricelistItem.getId());
-		System.out.println("selectedDiscount.getId()" +selectedDiscount.getId());
-		System.out.println("Start Date" +getStartdate().toString() );
-		System.out.println("End Date" +getEnddate().toString() );
 		patientServices.createActivity(selectedPatient.getId(), getDescription(), getStartdate(), getEnddate(), selectedPricelistItem.getId(), selectedDiscount.getId());
 		return null;
 	}
 
-	public String updateActivity() throws ActivityNotFoundException, 
-											DiscountNotFoundException, 
-											PricelistItemNotFoundException{
+	public String updateActivity(){
 		System.out.println("update activity: "+getId());
-		patientServices.updateActivity(this);
+//		patientServices.updateActivity(this);
 		return null;
 	}
 
@@ -67,27 +78,14 @@ public class ActivityManagementBean extends Activity{
 	}
 
 	public void setSelectedPricelistItem(PricelistItem selectedPricelistItem) {
-		if(selectedPricelistItem!=null)
-			System.out.println("setSelectedPricelistItem: "+ selectedPricelistItem.getId());
-		else {
-			System.out.println("setSelectedPricelistItem: "+ null);
-		}
 		this.selectedPricelistItem = selectedPricelistItem;
 	}
 
 	public Discount getSelectedDiscount() {
-		if(selectedDiscount!=null)
-			System.out.println("ActivityManagementBean getSelectedDiscount()"+selectedDiscount.getTitle() );
-		else
-			System.out.println("ActivityManagementBean getSelectedDiscount()"+null );
 		return selectedDiscount;
 	}
 
 	public void setSelectedDiscount(Discount selectedDiscount) {
-		if(selectedDiscount!=null)
-			System.out.println("ActivityManagementBean setSelectedDiscount"+selectedDiscount.getTitle() );
-		else
-			System.out.println("ActivityManagementBean setSelectedDiscount"+null );
 		this.selectedDiscount = selectedDiscount;
 	}
 
@@ -98,6 +96,37 @@ public class ActivityManagementBean extends Activity{
 	public void setSelectedPatient(Patient selectedPatient) {
 		this.selectedPatient = selectedPatient;
 	}
+	
+	
+	
+	public Activity getSelectedActivity() {
+		return selectedActivity;
+	}
+
+	public void setSelectedActivity(Activity selectedActivity) {
+		this.selectedActivity = selectedActivity;
+	}
+
+	public void rowEditListener(org.primefaces.event.RowEditEvent ev){
+		System.out.println("ActivityManagementBean rowEditListener()");
+        try {
+        	Activity activity = (Activity)ev.getObject();
+            //CarJpaController ctrlCar = new CarJpaController();
+            
+            if(activity == null) {
+                System.out.println("activity is null...");
+            } else {
+                System.out.println("activity is not null with id = " + activity.getId());
+                
+                
+            }
+            //patientServices.updateActivity(activity);
+            
+        } catch (Exception e) {
+            System.out.println("rowEditListener ERROR = " + e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRORE", e.toString()));
+        }        
+    }
 	
 
 	

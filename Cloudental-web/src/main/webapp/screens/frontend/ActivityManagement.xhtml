@@ -14,19 +14,17 @@
 
 	<ui:define name="content">
 		<!-- ********** start ********** -->
-		<h:form id="activityForm">
-			<p:panel header="Activity">
+		<h:form id="createActivityForm">
+			<p:panel header="Create Activity">
 				<h:panelGrid columns="2">
-					
 					<h:outputText value="Patient: " />
-					<p:autoComplete value="#{activityManagementBean.selectedPatient}" id="patient" 
+					<p:autoComplete value="#{activityManagementBean.selectedPatient}" id="patientId" 
 									completeMethod="#{patientManagementBean.completePatient}" var="p" 
 									itemLabel="#{p.name} #{p.surname}"	itemValue="#{p}"	
 									converter="patientConverter" forceSelection="true">
 						<p:column>
 							<h:outputText value="#{p.id}"/>
 						</p:column>
-
 						<p:column>  
 	                    		#{p.name} - #{p.surname}  
 	                	</p:column>
@@ -56,14 +54,11 @@
 
 					
 					<h:outputText value="Start Date: " />
-					<h:inputText value="#{activityManagementBean.startdate}" label="startDate" id="startDate">
-						<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
-					</h:inputText>
+					<p:calendar value="#{activityManagementBean.startdate}" id="startDate" showOn="button" /> 
+					
 
 					<h:outputText value="End Date: " />
-					<h:inputText value="#{activityManagementBean.enddate}" label="endDate" id="endDate">
-						<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
-					</h:inputText>
+					<p:calendar value="#{activityManagementBean.enddate}" id="endDate" showOn="button" />
 
 					
 					<h:outputText value="Description: " />
@@ -80,6 +75,89 @@
 		</h:form>
 		
 		<!-- ********** end ********** -->
+		
+		
+		<br />
+		
+		<h:form id="activityListForm">
+		<h:panelGrid columns="3" cellpadding="5">  
+        <h:outputLabel for="patientName" value="Select Patient:" style="font-weight:bold"/>  
+			<p:autoComplete value="#{activityManagementBean.selectedPatient}" id="patient"  
+				completeMethod="#{patientManagementBean.completePatient}" var="p" 
+				itemLabel="#{p.name} #{p.surname}"	itemValue="#{p}"	
+				converter="patientConverter" forceSelection="true">
+					<p:column>
+						<h:outputText value="#{p.id}"/>
+					</p:column>
+					<p:column>  
+	                   		#{p.name} - #{p.surname}  
+	               	</p:column>
+	               	
+	               	
+				</p:autoComplete>
+				<p:commandButton value="Submit" update="activityListTable">
+					<f:ajax  render="activityListTable"/>
+				</p:commandButton>
+		</h:panelGrid>
+		<p:dataTable value="#{activityManagementBean.activityListOfPatient}" var="item" id="activityListTable" editable="true"
+			 				rowKey="#{item.id}"  selection="#{activityManagementBean.selectedActivity}" selectionMode="single">
+			 				
+				<p:column headerText="id" sortBy="#{item.id}" >
+					<h:outputText value="#{item.id}" />
+				</p:column>
+				<p:column headerText="Description" sortBy="#{item.description}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.description}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{item.description}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column headerText="Start Date" sortBy="#{item.startdate}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.startdate}" >
+								<f:convertDateTime  pattern="MMM d, yyyy"/>
+							</h:outputText>
+							
+						</f:facet>
+						<f:facet name="input">
+							<p:calendar value="#{item.startdate}"  />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="End Date" sortBy="#{item.enddate}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText  value="#{item.enddate}" style="width:100%" >
+								<f:convertDateTime  pattern="MMM d, yyyy"/>
+							</h:outputText >
+							
+						</f:facet>
+						<f:facet name="input">
+							<p:calendar value="#{item.enddate}"  />	
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				
+				<p:column headerText="Activity Type" sortBy="#{item.priceable.description}" >
+					<h:outputText value="#{item.priceable.description}" />
+				</p:column>
+				
+				
+				<p:column headerText="Options" style="width:50px">
+					<p:rowEditor />
+				</p:column>
+				
+				<p:ajax event="rowEdit" listener="#{activityManagementBean.rowEditListener}"></p:ajax>
+				
+			</p:dataTable>
+		</h:form>
+			
 
 	</ui:define>
 
