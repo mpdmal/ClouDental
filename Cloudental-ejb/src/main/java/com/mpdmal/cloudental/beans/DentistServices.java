@@ -3,6 +3,7 @@ package com.mpdmal.cloudental.beans;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.ejb.LocalBean;
@@ -159,7 +160,7 @@ public class DentistServices extends AbstractEaoService {
 
 		//patient
 		Patient p = new Patient();
-		p.setCreated(new Timestamp(System.currentTimeMillis()));
+		p.setCreated(new Date());
 		p.setName(name);
 		p.setSurname(surname);
 
@@ -171,7 +172,7 @@ public class DentistServices extends AbstractEaoService {
 		//auto generate med history
 		Patienthistory dentalhistory = new Patienthistory();
 		dentalhistory.setComments("auto generated");
-		dentalhistory.setStartdate(new Timestamp(System.currentTimeMillis()));
+		dentalhistory.setStartdate(new Date());
 		dentalhistory.setPatient(p);
 
 		p.setDentist(dentist);
@@ -179,7 +180,7 @@ public class DentistServices extends AbstractEaoService {
 		p.setDentalhistory(dentalhistory);
 		dentist.addPatient(p);
 		
-		emgr.persist(dentist);
+		emgr.update(dentist);
 		return p;
     }
 
