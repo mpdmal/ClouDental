@@ -20,7 +20,6 @@ public class Medicalhistory extends com.mpdmal.cloudental.entities.base.DBEntity
 	@Column(nullable=true, length=1024)
 	private String comments;
 
-	@NotNull
     @OneToMany(cascade=CascadeType.ALL, mappedBy="medicalhistory")
 	private Collection<Medicalhistoryentry> entries;
 

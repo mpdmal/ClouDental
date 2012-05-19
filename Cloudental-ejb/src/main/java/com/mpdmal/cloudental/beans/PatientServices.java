@@ -78,9 +78,10 @@ public class PatientServices extends AbstractEaoService {
 		ac.setEnddate(end);
 		ac.setPriceable(plitem);
 		ac.setDiscount(d);
+		ac.setPatienthistory(ph);
 		ph.addActivity(ac);
 		
-		emgr.update(ph);
+		emgr.persist(ac);
 		return ac;
     }
 
@@ -131,6 +132,7 @@ public class PatientServices extends AbstractEaoService {
 		Contactinfo cnt = new Contactinfo();
 		cnt.setInfo(info);
 		cnt.setId(id);
+		cnt.setPatient(p);
 		p.addContactInfo(cnt);
 		
 		emgr.persist(cnt);

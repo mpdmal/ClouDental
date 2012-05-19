@@ -48,12 +48,13 @@ public class DiscountManagementBean extends Discount {
 	}
 
 	public String updateDiscount(){
-		System.out.println("update discount : "+getTitle());
+		if (getId() != null)
+			dentistService.updateDiscount(getId(), getDescription(), getTitle());
 		return null;
 	}
 
 	public void setCurrentDiscount(Discount d){
-		System.out.println("setCurrentPricelistItem: "+d.getTitle());
+		System.out.println("setDiscount: "+d.getId());
 		setId(d.getId());
 		setTitle(d.getTitle());
 		setDiscount(d.getDiscount());

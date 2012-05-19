@@ -19,16 +19,7 @@ import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.CloudentUtils;
-import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
-import com.mpdmal.cloudental.util.exception.DentistExistsException;
-import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
-import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
-import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
-import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
-import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
-import com.mpdmal.cloudental.util.exception.PatientExistsException;
-import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
-import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -45,15 +36,7 @@ public class PatientServicesTests {
 		egr.closeEM();
 	}
 	@Test
-	public void crudActivity() throws DentistExistsException,
-												InvalidDentistCredentialsException,
-												DentistNotFoundException,
-												PatientExistsException, 
-												PatientNotFoundException,
-												InvalidPostitAlertException, 
-												DiscountNotFoundException, 
-												PricelistItemNotFoundException, 
-												ActivityNotFoundException {
+	public void crudActivity() throws CloudentException {
 		DentistBean dbean = new DentistBean(egr);
 		DentistServices dsvcbean = new DentistServices(egr);
 		PatientServices psvcbean = new PatientServices(egr);
@@ -94,12 +77,7 @@ public class PatientServicesTests {
 	}
 	
 	@Test
-	public void createMedicalHistoryEntry() throws DentistExistsException,
-											InvalidDentistCredentialsException, 
-											DentistNotFoundException, 
-											PatientExistsException, 
-											PatientNotFoundException, 
-											InvalidMedEntryAlertException {
+	public void createMedicalHistoryEntry() throws CloudentException {
 		DentistBean dbean = new DentistBean(egr);
 		DentistServices dsvcbean = new DentistServices(egr);
 		PatientServices psvcbean = new PatientServices(egr);

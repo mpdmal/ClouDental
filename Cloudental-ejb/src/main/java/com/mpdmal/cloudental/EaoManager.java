@@ -1,5 +1,7 @@
 package com.mpdmal.cloudental;
 
+import java.util.Iterator;
+
 import javax.annotation.PreDestroy;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -7,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import com.mpdmal.cloudental.entities.base.DBEntity;
 import com.mpdmal.cloudental.util.CloudentUtils;
@@ -56,7 +60,15 @@ public class EaoManager {
     	if (_testmode)
     		_em.getTransaction().begin();
 
-        _em.persist(entity);
+        try {
+			_em.persist(entity);
+		} catch (ConstraintViolationException e) {
+			Iterator<?> it = e.getConstraintViolations().iterator();
+			while (it.hasNext()) {
+				System.out.println(it.next().toString());
+			}
+			
+		}
         //TODO RETURN WITH FINAL DBENTITY
 //        if (entity.getId() == null) {
 //            _em.flush();

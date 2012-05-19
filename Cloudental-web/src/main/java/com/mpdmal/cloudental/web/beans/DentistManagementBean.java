@@ -11,6 +11,7 @@ import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 public class DentistManagementBean extends Dentist {
 	private static final long serialVersionUID = 1L;
@@ -26,18 +27,13 @@ public class DentistManagementBean extends Dentist {
 		System.out.println("create: "+getUsername());
 		Dentist d = null;
 		try {
-			try {
-				d = dbn.createDentist(getName() ,getSurname() , getUsername(), getPassword());
-			} catch (InvalidDentistCredentialsException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (DentistExistsException e) {
-			// TODO Auto-generated catch block
+			d = dbn.createDentist(getName() ,getSurname() , getUsername(), getPassword());
+		} catch (CloudentException e) {
 			e.printStackTrace();
-		}
+		} 
 		if (d == null)
 			return null;
+		System.out.println(d.getId());
 		return d.getUsername();
 	}
 

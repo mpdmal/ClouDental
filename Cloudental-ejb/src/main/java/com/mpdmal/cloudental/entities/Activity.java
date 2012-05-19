@@ -38,7 +38,6 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	@JoinColumn(name="discount")
 	private Discount discount;
     private BigDecimal price;
-    @NotNull
     @OneToMany(cascade=CascadeType.ALL, mappedBy="activity", fetch=FetchType.EAGER)
 	private Set<Visit> visits;
     @NotNull

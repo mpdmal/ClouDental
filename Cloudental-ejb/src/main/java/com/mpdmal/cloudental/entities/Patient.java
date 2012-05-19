@@ -87,7 +87,6 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 				return;
 			}
 		}
-		adrs.setPatient(this);
 		addresses.add(adrs);	
 	}
 
@@ -104,6 +103,10 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		if (contactinfo == null)
 			contactinfo = new HashSet<Contactinfo>();
 		
+		contactinfo.add(cnt);
+	}
+	
+	public void updateContactInfo(Contactinfo cnt) {
 		for (Contactinfo info : contactinfo) {
 			if (info.getId().getInfotype().equals(cnt.getId().getInfotype())) { //replace
 				info.setId(cnt.getId());
@@ -111,8 +114,6 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 				return;
 			}
 		}
-		cnt.setPatient(this);
-		contactinfo.add(cnt);
 	}
 	public void setTeeth(Set<Patienttooth> teeth) {
 		if (this.teeth != null)
