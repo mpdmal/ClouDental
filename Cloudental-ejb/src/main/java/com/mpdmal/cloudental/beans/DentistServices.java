@@ -181,7 +181,7 @@ public class DentistServices extends AbstractEaoService {
 		p.setDentalhistory(dentalhistory);
 		dentist.addPatient(p);
 		
-		emgr.update(dentist);
+		emgr.persist(p);
 		for (Patient pt : dentist.getPatientList()) {
 			if (pt.getName().equals(name) 
 					&& pt.getSurname().equals(surname)

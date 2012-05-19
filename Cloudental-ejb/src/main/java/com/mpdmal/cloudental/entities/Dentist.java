@@ -101,7 +101,6 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		if (discounts == null)
 			discounts = new ArrayList<Discount>();
 		
-		ds.setDentist(this);
 		discounts.add(ds);
 	}
 	public void removeDiscount(Discount d) {

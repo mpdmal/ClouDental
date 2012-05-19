@@ -53,7 +53,7 @@ public class PatientServicesTests {
 		
 		//get activities by dentist 
 		d = dbean.getDentist("arilou");
-		Vector<Patient> pts = (Vector<Patient>)d.getPatientList();
+		ArrayList<Patient> pts = (ArrayList<Patient>)d.getPatientList();
 		p = pts.get(0); //only 1 patient
 		assertEquals(10, p.getDentalHistory().getActivities().size());
 		
@@ -91,7 +91,7 @@ public class PatientServicesTests {
 		}
 		
 		d = dbean.getDentist("arilou");
-		Vector<Patient> pts = (Vector<Patient>)d.getPatientList();
+		ArrayList<Patient> pts = (ArrayList<Patient>)d.getPatientList();
 		p = pts.get(0);
 		assertEquals(10, p.getMedicalhistory().getEntries().size());
 		dbean.deleteDentists();
