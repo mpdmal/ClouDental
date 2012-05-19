@@ -13,6 +13,7 @@ import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 
 public class ActivityManagementBean extends Activity{
 
@@ -39,20 +40,25 @@ public class ActivityManagementBean extends Activity{
 
 	public Vector<Activity> getActivityListOfPatient() throws Exception {
 		Map<String,String> params =       FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-//		String selectedPatientId =  params.get("activityListForm:patient_hinput");
-//		System.out.println("selectedPatientId: "+selectedPatientId);
+		String selectedPatientId =  params.get("activityListForm:patient_hinput");
+		System.out.println("selectedPatientId: "+selectedPatientId);
 		if(selectedPatient!=null){
 			if(activityListOfPatient==null){
 				System.out.println("getActivities from patientID: "+selectedPatient.getId());
 				activityListOfPatient  = patientServices.getActivities(selectedPatient.getId());
 			}
+		}else if(selectedPatientId!=null){
+			try{
+				Integer selectedPatientIdInt = Integer.parseInt(selectedPatientId);
+				if(activityListOfPatient==null){
+					System.out.println("getActivities from service");
+					activityListOfPatient  = patientServices.getActivities(selectedPatientIdInt);
+				}
+			}catch (Exception e) {
+
+			}
 		}
-//		if(selectedPatientId!=null){
-//			if(activityListOfPatient==null){
-//				System.out.println("getActivities from service");
-//				activityListOfPatient  = patientServices.getActivities(Integer.parseInt(selectedPatientId) );
-//			}
-//		}
+
 		
 		return  activityListOfPatient;
 	}
@@ -106,25 +112,31 @@ public class ActivityManagementBean extends Activity{
 	public void setSelectedActivity(Activity selectedActivity) {
 		this.selectedActivity = selectedActivity;
 	}
+	
+	public String deleteActivity(){
+		System.out.println("deleteActivity: "+getSelectedActivity().getId());
+		try {
+			//patientServices.deleteActivity(getSelectedActivity().getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Service error",""));
+		}
+		return null;
+	}
 
 	public void rowEditListener(org.primefaces.event.RowEditEvent ev){
 		System.out.println("ActivityManagementBean rowEditListener()");
         try {
         	Activity activity = (Activity)ev.getObject();
-            //CarJpaController ctrlCar = new CarJpaController();
-            
             if(activity == null) {
-                System.out.println("activity is null...");
+                System.out.println("activity to update is null...");
             } else {
-                System.out.println("activity is not null with id = " + activity.getId());
-                
-                
+                System.out.println("update activity" + activity.getId());
+                patientServices.updateActivity(activity);
             }
-            //patientServices.updateActivity(activity);
-            
         } catch (Exception e) {
-            System.out.println("rowEditListener ERROR = " + e.getMessage());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRORE", e.toString()));
+            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Service error", e.getMessage()));
         }        
     }
 	

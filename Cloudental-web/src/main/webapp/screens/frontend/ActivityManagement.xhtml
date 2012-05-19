@@ -99,8 +99,13 @@
 					<f:ajax  render="activityListTable"/>
 				</p:commandButton>
 		</h:panelGrid>
+		
+		<p:contextMenu for="activityListTable">  
+	        	<p:menuitem value="Delete" update="activityListTable" icon="ui-icon-close" actionListener="#{activityManagementBean.deleteActivity}" />  
+	    </p:contextMenu>
 		<p:dataTable value="#{activityManagementBean.activityListOfPatient}" var="item" id="activityListTable" editable="true"
 			 				rowKey="#{item.id}"  selection="#{activityManagementBean.selectedActivity}" selectionMode="single">
+			 				
 			 				
 				<p:column headerText="id" sortBy="#{item.id}" >
 					<h:outputText value="#{item.id}" />
@@ -144,14 +149,46 @@
 				</p:column>
 				
 				
-				<p:column headerText="Activity Type" sortBy="#{item.priceable.description}" >
-					<h:outputText value="#{item.priceable.description}" />
+				<p:column headerText="Activity Type" sortBy="#{item.priceable.title}" >
+					
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.priceable.title}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{item.priceable}" effect="fade" converter="pricelistItemConverter" var="p1" id="PricelistItem">  
+			            		<f:selectItems value="#{pricelistItemManagementBean.pricelist}" var="pricelistItem" itemLabel="#{pricelistItem.title}" itemValue="#{pricelistItem}"/>
+			            		<p:column>
+									#{p1.title} --#{p1.description}
+								</p:column>  
+			        		</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
 				</p:column>
 				
 				
+				<p:column headerText="Discount" sortBy="#{item.discount.title}" >
+					
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.discount.title}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{item.discount}" effect="fade" converter="discountConverter" var="p2" id="Discount">  
+			            		<f:selectItems value="#{discountManagementBean.discounts}" var="discountItem" itemLabel="#{discountItem.title}" itemValue="#{discountItem}"/>
+			            		<p:column>
+									#{p2.title}
+								</p:column>  
+			       			</p:selectOneMenu>
+							
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
 				<p:column headerText="Options" style="width:50px">
 					<p:rowEditor />
 				</p:column>
+				
+				
 				
 				<p:ajax event="rowEdit" listener="#{activityManagementBean.rowEditListener}"></p:ajax>
 				
