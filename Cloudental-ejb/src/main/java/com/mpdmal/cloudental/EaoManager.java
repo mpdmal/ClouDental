@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import com.mpdmal.cloudental.entities.base.DBEntity;
@@ -65,7 +64,7 @@ public class EaoManager {
 		} catch (ConstraintViolationException e) {
 			Iterator<?> it = e.getConstraintViolations().iterator();
 			while (it.hasNext()) {
-				System.out.println(it.next().toString());
+				CloudentUtils.logError(it.next().toString());
 			}
 			
 		}

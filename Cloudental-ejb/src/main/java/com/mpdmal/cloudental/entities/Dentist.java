@@ -133,6 +133,7 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	@Override
 	public String getXML() {
 		StringBuilder ans= new StringBuilder("<dentist></dentist>");
+		ans.insert(ans.indexOf("</dentist"), "<id>"+getId()+"</id>");
 		ans.insert(ans.indexOf("</dentist"), "<name>"+name+"</name>");
 		ans.insert(ans.indexOf("</dentist"), "<surname>"+surname+"</surname>");
 		ans.insert(ans.indexOf("</dentist"), "<username>"+username+"</username>");
@@ -156,9 +157,10 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		}
 		ans.insert(ans.indexOf("</dentist"), "</discounts>");
 		ans.insert(ans.indexOf("</dentist"), "<patientlist>");
-		for (Patient patient : patients) {
-			ans.insert(ans.indexOf("</dentist"), patient.getXML());
-		}
+		if (patients != null)
+			for (Patient patient : patients) {
+				ans.insert(ans.indexOf("</dentist"), patient.getXML());
+			}
 		ans.insert(ans.indexOf("</dentist"), "</patientlist>");
 
 		return ans.toString();

@@ -28,13 +28,13 @@ public class DentistBean extends AbstractEaoService {
     public Dentist createDentist(String name, String surname, String username, String password) 
     																throws DentistExistsException,
     																InvalidDentistCredentialsException  {
-    	Dentist d = getDentist(username); 
-    	if (d != null) 
-    		throw new DentistExistsException(username, "Already exists, wont create");
     	if (name.equals("") || surname.equals("") || password.equals(""))
     		throw new InvalidDentistCredentialsException(username, "Name, surname and password need to be filled \n");
+ 
+    	if (getDentist(username) != null) 
+    		throw new DentistExistsException(username, "Already exists, wont create");
     	
-    	d = new Dentist();
+    	Dentist d = new Dentist();
 		d.setName(name);
 		d.setSurname(surname);
 		d.setUsername(username);
@@ -52,10 +52,11 @@ public class DentistBean extends AbstractEaoService {
     }
     
     public void deleteDentist(Dentist d) throws DentistNotFoundException {
-    	if (emgr.findOrFail(Dentist.class, d.getId()) == null) {
-    		throw new DentistNotFoundException(d.getUsername());
+    	String uname = d.getUsername();
+    	d = emgr.findOrFail(Dentist.class, d.getId());
+    	if (d == null) {
+    		throw new DentistNotFoundException(uname);
     	}
-
     	emgr.delete(d);
     }
 
