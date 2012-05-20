@@ -21,7 +21,7 @@
 					<p:autoComplete value="#{activityManagementBean.selectedPatient}" id="patientId" 
 									completeMethod="#{patientManagementBean.completePatient}" var="p" 
 									itemLabel="#{p.name} #{p.surname}"	itemValue="#{p}"	
-									converter="patientConverter" forceSelection="true">
+									converter="patientConverter" forceSelection="true" global="false">
 						<p:column>
 							<h:outputText value="#{p.id}"/>
 						</p:column>
@@ -67,7 +67,7 @@
 					
 					<h:panelGroup>
 						<h:commandButton value="Create" action="#{activityManagementBean.createActivity}" >
-						
+							<f:ajax execute="@this" />
 						</h:commandButton>
 					</h:panelGroup>
 				</h:panelGrid>
@@ -79,7 +79,7 @@
 		
 		<br />
 		
-		<h:form id="activityListForm">
+		<h:form id="patientSelectionForm">
 		<h:panelGrid columns="3" cellpadding="5">  
         <h:outputLabel for="patientName" value="Select Patient:" style="font-weight:bold"/>  
 			<p:autoComplete value="#{activityManagementBean.selectedPatient}" id="patient"  
@@ -95,15 +95,16 @@
 	               	
 	               	
 				</p:autoComplete>
-				<p:commandButton value="Submit" update="activityListTable">
-					<f:ajax  render="activityListTable"/>
-				</p:commandButton>
+				<p:commandButton value="Submit" action="#{activityManagementBean.updateActivityList}" />
+				<h:commandButton value="Submit" action="#{activityManagementBean.updateActivityList}" />
 		</h:panelGrid>
+		</h:form>
 		
+		<h:form id="activityListForm">
 		<p:contextMenu for="activityListTable">  
 	        	<p:menuitem value="Delete" update="activityListTable" icon="ui-icon-close" oncomplete="deleteConfirmation.show();"  />  
 	    </p:contextMenu>
-		<p:dataTable value="#{activityManagementBean.activityListOfPatient}" var="item" id="activityListTable" editable="true"
+		<p:dataTable value="#{activityHolderBean.activityListOfPatient}" var="item" id="activityListTable" editable="true"
 			 				rowKey="#{item.id}"  selection="#{activityManagementBean.selectedActivity}" selectionMode="single">
 			 				
 			 				

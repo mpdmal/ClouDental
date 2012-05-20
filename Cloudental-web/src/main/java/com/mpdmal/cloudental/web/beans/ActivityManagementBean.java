@@ -13,6 +13,7 @@ import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 
 public class ActivityManagementBean extends Activity{
@@ -39,25 +40,7 @@ public class ActivityManagementBean extends Activity{
 	
 
 	public Vector<Activity> getActivityListOfPatient() throws Exception {
-		Map<String,String> params =       FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		String selectedPatientId =  params.get("activityListForm:patient_hinput");
-		System.out.println("selectedPatientId: "+selectedPatientId);
-		if(selectedPatient!=null){
-			if(activityListOfPatient==null){
-				System.out.println("getActivities from patientID: "+selectedPatient.getId());
-				activityListOfPatient  = patientServices.getActivities(selectedPatient.getId());
-			}
-		}else if(selectedPatientId!=null){
-			try{
-				Integer selectedPatientIdInt = Integer.parseInt(selectedPatientId);
-				if(activityListOfPatient==null){
-					System.out.println("getActivities from service");
-					activityListOfPatient  = patientServices.getActivities(selectedPatientIdInt);
-				}
-			}catch (Exception e) {
-
-			}
-		}
+		
 
 		
 		return  activityListOfPatient;
@@ -139,6 +122,29 @@ public class ActivityManagementBean extends Activity{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Service error", e.getMessage()));
         }        
     }
+
+	public String updateActivityList(){
+		System.out.println("getActivityListOfPatient()");
+		Map<String,String> params =       FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String selectedPatientId =  params.get("activityListForm:patient_hinput");
+		System.out.println("selectedPatientId: "+selectedPatientId);
+		if(selectedPatient!=null){
+			System.out.println("getActivities from patientID: "+selectedPatient.getId());
+			try {
+				activityListOfPatient  = patientServices.getActivities(selectedPatient.getId());
+			} catch (PatientNotFoundException e) {
+				e.printStackTrace();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Service error", e.getMessage()));
+			}
+		}
+		
+		
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+		ActivityHolderBean activityList = (ActivityHolderBean)context.getApplication() .evaluateExpressionGet(context, "#{activityHolderBean}", ActivityHolderBean.class);
+		activityList.setActivityListOfPatient(activityListOfPatient);
+		return null;
+	}
 	
 //Test TAG 2
 	
