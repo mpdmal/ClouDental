@@ -1,5 +1,6 @@
 package com.mpdmal.cloudental.beans;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Vector;
 
@@ -22,6 +23,7 @@ import com.mpdmal.cloudental.entities.MedicalhistoryentryPK;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
@@ -177,14 +179,13 @@ public class PatientServices extends AbstractEaoService {
 			_acvdao.delete(acv);
 		}
     }
+*/
 
     //VISITS
     public Visit createVisit (int activityID, String description,
     							String title, Date start, Date end, double deposit,
     							int color ) throws ActivityNotFoundException {
-    	Activity acvt = _acvdao.getActivity(activityID);
-    	if (acvt == null)
-    		throw new ActivityNotFoundException(activityID, "Cannot create Activity:");
+    	Activity act = findActivity(activityID);
     	
 		Visit v = new Visit();
 		v.setComments(description);
@@ -193,13 +194,24 @@ public class PatientServices extends AbstractEaoService {
 		v.setColor(color);
 		v.setTitle(title);
 		v.setDeposit(BigDecimal.valueOf(deposit));
-		v.setActivity(acvt);
-		acvt.addVisit(v);
+		v.setActivity(act);
+		act.addVisit(v);
 		
-		_vdao.updateCreate(v, false);
+		emgr.persist(v);
 		return v;
     }
+    
+    @SuppressWarnings("unchecked")
+	public Vector<Visit> getVisits (int activityid) throws ActivityNotFoundException {
+		Activity act = findActivity(activityid);
 
+    	Query q = emgr.getEM().
+    			createQuery("select v from Visit v where v.activity.id =:activityid").
+    			setParameter("activityid", act.getId());
+        return (Vector<Visit>) emgr.executeMultipleObjectQuery(q);
+    }
+
+/*
     public void deleteVisits (int activityid) throws PatientNotFoundException {
     	Activity acvt = _acvdao.getActivity(activityid);
     	if (acvt == null) 
@@ -208,6 +220,5 @@ public class PatientServices extends AbstractEaoService {
     	for (Visit v : acvt.getVisits()) {
 			_vdao.delete(v);
 		}
-    }    
-*/
+    }*/    
 }

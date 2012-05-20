@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Medicalhistory extends com.mpdmal.cloudental.entities.base.DBEntity implements Serializable {

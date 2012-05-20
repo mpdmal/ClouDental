@@ -17,20 +17,12 @@ import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.tests.base.ArquillianCloudentTest;
-import com.mpdmal.cloudental.util.exception.DentistExistsException;
-import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
-import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
-import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
-import com.mpdmal.cloudental.util.exception.PatientExistsException;
-import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
-import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 public class DentistServicesTest extends ArquillianCloudentTest{
 
 	@Test
-	public void createPricelistItem() throws DentistExistsException, 
-	InvalidDentistCredentialsException, 
-	InvalidPostitAlertException, DentistNotFoundException, NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+	public void createPricelistItem() throws CloudentException, NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
 		assertEquals(0, dsvcbean.countPricelistItems());
 		Dentist d = dbean.createDentist("qwe", "asd", "zxc", "vsd");
 		for (int i = 0; i < 10; i++) {
@@ -42,7 +34,7 @@ public class DentistServicesTest extends ArquillianCloudentTest{
 	}
 
 	@Test
-	public void updatePricelistItems() throws PricelistItemNotFoundException {
+	public void updatePricelistItems() throws CloudentException {
 
 		Dentist d = dbean.getDentist("zxc");
 		Collection<PricelistItem> pricelist = dsvcbean.getPricelist(d.getId());
@@ -59,7 +51,7 @@ public class DentistServicesTest extends ArquillianCloudentTest{
 	}
 
 	@Test
-	public void deletePricelistItems() throws PricelistItemNotFoundException {
+	public void deletePricelistItems() throws CloudentException {
 
 		assertEquals(1, dbean.countDentists());
 		Dentist d = dbean.getDentist("zxc");
@@ -81,9 +73,7 @@ public class DentistServicesTest extends ArquillianCloudentTest{
 	}
 
 	@Test
-	public void createPatient() throws DentistExistsException, 
-	InvalidDentistCredentialsException,
-	DentistNotFoundException, PatientExistsException, NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+	public void createPatient() throws CloudentException {
 		Dentist d = dbean.createDentist("qwe", "asd", "zxc", "vsd");
 		for (int i = 0; i < 10; i++) {
 			dsvcbean.createPatient(d.getId(), "PAtient", "PAtient surname");	
@@ -91,11 +81,7 @@ public class DentistServicesTest extends ArquillianCloudentTest{
 	}
 
 	@Test 
-	public void deletePatient() throws DentistExistsException,
-	InvalidDentistCredentialsException,
-	DentistNotFoundException,
-	PatientExistsException, 
-	PatientNotFoundException {
+	public void deletePatient() throws CloudentException {
 
 		Dentist d = dbean.getDentist("zxc");
 		Vector<Patient> patients = (Vector<Patient>) d.getPatientList();

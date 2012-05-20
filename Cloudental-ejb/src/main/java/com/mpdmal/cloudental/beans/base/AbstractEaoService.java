@@ -8,11 +8,13 @@ import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
+import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
 
 public class AbstractEaoService {
 	@EJB
@@ -49,6 +51,13 @@ public class AbstractEaoService {
     	if (ac == null)
     		throw new ActivityNotFoundException(id);
     	return ac;
+    }
+
+    public Visit findVisit(int id) throws VisitNotFoundException {
+    	Visit v = emgr.findOrFail(Visit.class, id);
+    	if (v == null)
+    		throw new VisitNotFoundException(id);
+    	return v;
     }
 
 }

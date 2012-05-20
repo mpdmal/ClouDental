@@ -15,15 +15,13 @@ import org.junit.runner.RunWith;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.tests.base.ArquillianCloudentTest;
 import com.mpdmal.cloudental.tests.util.TestUtils;
-import com.mpdmal.cloudental.util.exception.DentistExistsException;
-import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
-import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 @RunWith(Arquillian.class)
 public class DentistTest extends ArquillianCloudentTest{
 	
 	@Test
-	public void testCreate() throws DentistExistsException, InvalidDentistCredentialsException {
+	public void testCreate() throws CloudentException {
 		assertEquals(0, db.countDentists());
 		for (int i = 0; i < 10; i++) {
 			db.createDentist("Name_"+i, "surname", ""+i, "pwd"+i);
@@ -37,7 +35,7 @@ public class DentistTest extends ArquillianCloudentTest{
 	}
 	
 	@Test
-	public void testUpdate() throws DentistNotFoundException {
+	public void testUpdate() throws CloudentException {
 		Vector<Dentist> dentists = db.getDentists();
 		
 		Dentist d = dentists.elementAt(0);
@@ -49,7 +47,7 @@ public class DentistTest extends ArquillianCloudentTest{
 	}
 
 	@Test
-	public void testDelete() throws DentistNotFoundException, DentistExistsException, InvalidDentistCredentialsException {
+	public void testDelete() throws CloudentException {
 		
 		Vector<Dentist> dentists = db.getDentists();
 		assertEquals(10, dentists.size());

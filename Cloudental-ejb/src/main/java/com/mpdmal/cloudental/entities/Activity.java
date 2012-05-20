@@ -81,14 +81,6 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 		if (visits == null)
 			visits = new HashSet<Visit>();
 		
-		for (Visit visit : visits) {
-			if (visit.getVisitdate().getTime() == v.getVisitdate().getTime()
-					&& visit.getEnddate().getTime() == v.getEnddate().getTime()) {
-				CloudentUtils.logWarning("Visit already exists, wont add:"+visit.getComments());
-				return;
-			}
-		}
-		v.setActivity(this);
 		visits.add(v);
 	}
 	public String getDescription() 	{	return this.description;	}

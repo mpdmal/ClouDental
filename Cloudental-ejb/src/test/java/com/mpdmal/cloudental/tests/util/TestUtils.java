@@ -28,7 +28,7 @@ public class TestUtils {
             .addAsManifestResource("sun-ejb-jar.xml")
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
         
-        System.out.println(jar.toString(true));
+//        System.out.println(jar.toString(true));
         return jar;
     }
 }

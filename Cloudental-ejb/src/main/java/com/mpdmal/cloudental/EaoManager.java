@@ -19,15 +19,9 @@ import com.mpdmal.cloudental.util.CloudentUtils;
 public class EaoManager {
 	@PersistenceContext
 	protected EntityManager _em;
-	protected boolean _testmode = false;
 	
 	//CONSTRUCTORS
     public EaoManager() {}
-    public EaoManager(EntityManager em) {
-    	_em = em;
-    	_testmode = true;
-    }
-
     public EntityManager getEM() {
     	return _em;
     }
@@ -46,19 +40,10 @@ public class EaoManager {
     }
  
     public <T extends DBEntity> void update(T entity) {
-    	if (_testmode)
-    		_em.getTransaction().begin();
-
     	_em.merge(entity);
-    	
-    	if (_testmode)
-    		_em.getTransaction().commit();
     }
 
     public <T extends DBEntity> void persist(T entity) {
-    	if (_testmode)
-    		_em.getTransaction().begin();
-
         try {
 			_em.persist(entity);
 		} catch (ConstraintViolationException e) {
@@ -68,22 +53,10 @@ public class EaoManager {
 			}
 			
 		}
-        //TODO RETURN WITH FINAL DBENTITY
-//        if (entity.getId() == null) {
-//            _em.flush();
-//        }
-        
-    	if (_testmode)
-    		_em.getTransaction().commit();
     }
     
     public void delete(DBEntity dbe) {
-    	if (_testmode)
-    		_em.getTransaction().begin();
-
     	_em.remove(dbe);
-    	if (_testmode)
-    		_em.getTransaction().commit();
     }
 
     public int executeSingleIntQuery(Query q) {

@@ -1,7 +1,6 @@
 package com.mpdmal.cloudental.beans;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Vector;
@@ -182,13 +181,7 @@ public class DentistServices extends AbstractEaoService {
 		dentist.addPatient(p);
 		
 		emgr.persist(p);
-		for (Patient pt : dentist.getPatientList()) {
-			if (pt.getName().equals(name) 
-					&& pt.getSurname().equals(surname)
-					&& pt.getCreated().getTime() == created)
-					return pt;
-		}
-		return null;
+		return p;
     }
 
 	public void deletePatient (int patientid) throws PatientNotFoundException {
