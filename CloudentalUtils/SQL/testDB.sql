@@ -1,4 +1,4 @@
-drop table if exists dentist CASCADE;
+﻿drop table if exists dentist CASCADE;
 CREATE TABLE dentist
 (
   id serial NOT NULL,
@@ -196,6 +196,6 @@ insert into tooth values (31, 'wisdom tooth top right');
 insert into tooth values (32, 'wisdom tooth top left');
 
 --DEFAULTS
-insert into dentist values (-99, 'demo', 'demo', 'demo', 'demo');
+--insert into dentist values (-99, 'demo', 'demo', 'demo', 'demo');
 --insert into pricelist values (-1, null, 'noprice', 'used internally to represent a non-priced item', 0.0);
 
