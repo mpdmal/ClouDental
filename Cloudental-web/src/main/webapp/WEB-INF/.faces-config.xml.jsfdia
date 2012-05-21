@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PROCESS model-entity="JSFProcess">
- <PROCESS-ITEM NAME="rules:#frontend#login.xhtml"
-  PATH="/frontend/login.xhtml" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
-  <PROCESS-ITEM ID="rules:#frontend#login.xhtml:0" NAME="item"
-   PATH="/frontend/login.xhtml" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="loggedIn::#frontend#PatientManagement.xhtml"
-    NAME="output" PATH="/frontend/PatientManagement.xhtml"
-    TARGET="rules:#frontend#PatientManagement.xhtml" TITLE="loggedIn" model-entity="JSFProcessItemOutput"/>
-  </PROCESS-ITEM>
- </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#frontend#PatientManagement.xhtml"
-  PATH="/frontend/PatientManagement.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup">
-  <PROCESS-ITEM ID="rules:#frontend#PatientManagement.xhtml:0"
-   NAME="item" PATH="/frontend/PatientManagement.xhtml" model-entity="JSFProcessItem">
+ <PROCESS-ITEM NAME="rules:#screens#frontend#login.xhtml"
+  PATH="/screens/frontend/login.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#screens#frontend#login.xhtml:0" NAME="item"
+   PATH="/screens/frontend/login.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
-    ID="view_medical_history::#frontend#MedicalHistoryManagement.xhtml"
-    NAME="output" PATH="/frontend/MedicalHistoryManagement.xhtml"
-    TARGET="rules:#frontend#MedicalHistoryManagement.xhtml"
-    TITLE="view_medical_history" model-entity="JSFProcessItemOutput"/>
+    ID="loggedIn::#screens#frontend#PatientManagement.xhtml"
+    NAME="output" PATH="/screens/frontend/PatientManagement.xhtml"
+    TARGET="rules:#screens#frontend#PatientManagement.xhtml"
+    TITLE="loggedIn" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#frontend#MedicalHistoryManagement.xhtml"
-  PATH="/frontend/MedicalHistoryManagement.xhtml" SHAPE="448,17,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#screens#frontend#PatientManagement.xhtml"
+  PATH="/screens/frontend/PatientManagement.xhtml" SHAPE="240,257,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

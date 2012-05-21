@@ -12,38 +12,24 @@
 		<h:messages />
 	</ui:define>
 
-
+	<ui:define name="menu">
+	</ui:define>
 	<ui:define name="content">
-
 		<h:outputText value="Login" />
 		<h:messages/>
 		<h:form>
 			<h:panelGrid columns="2">
-
 				<h:outputText value="Username: " />
 				<h:inputText value="#{loginRequest.username}" label="Username"
 					required="true" />
 				<h:outputText value="Password: " />
 				<h:inputText value="#{loginRequest.password}" label="Password"
 					required="true" />
-
 				<h:outputText value=" " />
 				<h:commandButton value="Login" action="#{loginRequest.login}" />
-
-
 			</h:panelGrid>
 		</h:form>
-
-
 		<br />
-
-
-
-
-
-
-
 	</ui:define>
-
 </ui:composition>
 </html>

@@ -66,11 +66,11 @@
 		<managed-bean-class>com.mpdmal.cloudental.web.beans.ScheduleBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
-	<managed-bean>
+	<!-- managed-bean>
 		<managed-bean-name>autoCompleteBean</managed-bean-name>
 		<managed-bean-class>com.mpdmal.cloudental.web.beans.AutoCompleteBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
+	</managed-bean -->
 	<managed-bean>
 		<managed-bean-name>activityManagementBean</managed-bean-name>
 		<managed-bean-class>com.mpdmal.cloudental.web.beans.ActivityManagementBean</managed-bean-class>
@@ -92,20 +92,11 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<navigation-rule>
-		<display-name>frontend/login.xhtml</display-name>
-		<from-view-id>/frontend/login.xhtml</from-view-id>
+		<display-name>LoginRule</display-name>
+		<from-view-id>/screens/frontend/login.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>loggedIn</from-outcome>
-			<to-view-id>/frontend/PatientManagement.xhtml</to-view-id>
+			<to-view-id>/screens/frontend/PatientManagement.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
-	<navigation-rule>
-		<display-name>frontend/PatientManagement.xhtml</display-name>
-		<from-view-id>/frontend/PatientManagement.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>view_medical_history</from-outcome>
-			<to-view-id>/frontend/MedicalHistoryManagement.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-
 </faces-config>
