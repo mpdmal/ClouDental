@@ -127,7 +127,15 @@ public class PatientManagementBean extends Patient {
     public void setSelectedItem(Patient patient) {  
     	System.out.println("setSelectedItem: "+patient.getName());
         this.selectedPatient = patient;  
-    }  
+    } 
+    
+    public String viewActivities(){
+    	System.out.println("viewActivities");
+		FacesContext context = FacesContext.getCurrentInstance();
+		ActivityManagementBean activityManagementBean= (ActivityManagementBean)context.getApplication() .evaluateExpressionGet(context, "#{activityManagementBean}", ActivityManagementBean.class);
+		activityManagementBean.setSelectedPatient(getSelectedItem());
+    	return "viewActivities";
+    }
 	
 	
 

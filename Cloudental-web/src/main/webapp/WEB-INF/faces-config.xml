@@ -99,4 +99,12 @@
 			<to-view-id>/screens/frontend/PatientManagement.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<display-name>PatientManagement</display-name>
+		<from-view-id>/screens/frontend/PatientManagement.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>viewActivities</from-outcome>
+			<to-view-id>/screens/frontend/ActivityManagement.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 </faces-config>

@@ -36,14 +36,22 @@
 		<h:form id="patientListForm">
 		
 			<p:contextMenu for="patientList">  
-	        	<p:menuitem value="Delete" update="patientList" icon="ui-icon-close" actionListener="#{patientManagementBean.deletePatient}"/>  
+	        	<p:menuitem value="Delete" update="patientList" icon="ui-icon-close" actionListener="#{patientManagementBean.deletePatient}"/>
+	        	<p:menuitem value="View Activities" icon="ui-icon-extlink"  action="#{patientManagementBean.viewActivities}" ajax="false"  >
+	        			
+	        	</p:menuitem>
+	        	  
 	    	</p:contextMenu>
 	    	  
-			<p:dataTable value="#{patientManagementBean.patientList}" var="patient" id="patientList" editable="true"
+			<p:dataTable value="#{patientHolder.patientsList}" var="patient" id="patientList" editable="true"
 			 				rowKey="#{patient.id}"  selection="#{patientManagementBean.selectedItem}" selectionMode="single">
 			 				
 				<p:column headerText="id" sortBy="#{patient.id}" >
-					<h:outputText value="#{patient.id}" />
+					
+					<h:commandLink action="viewActivities">
+							<f:setPropertyActionListener value="#{patient}" target="#{activityManagementBean.selectedPatient}"/>
+							<h:outputText value="#{patient.id}" />
+					</h:commandLink>
 				</p:column>
 				
 				<p:column headerText="Name" sortBy="#{patient.name}">
