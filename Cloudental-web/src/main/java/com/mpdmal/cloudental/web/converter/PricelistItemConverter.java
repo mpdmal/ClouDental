@@ -24,7 +24,7 @@ public class PricelistItemConverter implements Converter {
 
 
 	public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {  
-		System.out.println("PricelistItemConverter getAsObject");
+		//System.out.println("PricelistItemConverter getAsObject");
 		
 		
 		if (submittedValue.trim().equals("")) {  
@@ -50,12 +50,12 @@ public class PricelistItemConverter implements Converter {
 	}  
 
 	public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
-		System.out.println("PricelistItemConverter getAsString");
+		//System.out.println("PricelistItemConverter getAsString");
 		if (value == null || value.equals("")) {  
 			return "";  
 		} else {  
 			String id = ( (PricelistItem) value).getId().toString();
-			System.out.println("PricelistItem getAsString "+id);
+			//System.out.println("PricelistItem getAsString "+id);
 
 			return String.valueOf(  id );  
 		}  

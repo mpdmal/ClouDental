@@ -29,7 +29,7 @@ public class PricelistItemManagementBean extends PricelistItem {
 	
 	public Collection<PricelistItem> getPricelist() {
 		Dentist d = user.getCurrentUser();
-		System.out.println("getPricelist()");
+//		System.out.println("getPricelist()");
 		if(pricelistCol==null){
 			System.out.println("call  service for:"+d.getName()+d.getId());
 			pricelistCol = dentistService.getPricelist(d.getId());

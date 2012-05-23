@@ -22,7 +22,7 @@ public class PatientConverter implements Converter {
 
   
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {  
-    	System.out.println("PatientConverter getAsObject");
+    	//System.out.println("PatientConverter getAsObject");
         if (submittedValue.trim().equals("")) {  
             return null;  
         } else {  
@@ -52,7 +52,7 @@ public class PatientConverter implements Converter {
             return "";  
         } else {  
         	String id = ( (Patient) value).getId().toString();
-        	System.out.println("PatientConverter getAsString "+id);
+        	//System.out.println("PatientConverter getAsString "+id);
         	
             return String.valueOf(  id );  
         }  

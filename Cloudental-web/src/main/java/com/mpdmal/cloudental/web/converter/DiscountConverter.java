@@ -54,12 +54,12 @@ public class DiscountConverter implements Converter {
 	}  
 
 	public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
-		System.out.println("DiscountConverter getAsString");
+		//System.out.println("DiscountConverter getAsString");
 		if (value == null || value.equals("")) {  
 			return "";  
 		} else {  
 			String id = ( (Discount) value).getId().toString();
-			System.out.println("Discount getAsString "+id);
+			//System.out.println("Discount getAsString "+id);
 
 			return String.valueOf(  id );  
 		}  

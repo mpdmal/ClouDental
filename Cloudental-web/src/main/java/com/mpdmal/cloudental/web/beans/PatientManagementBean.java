@@ -134,6 +134,7 @@ public class PatientManagementBean extends Patient {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ActivityManagementBean activityManagementBean= (ActivityManagementBean)context.getApplication() .evaluateExpressionGet(context, "#{activityManagementBean}", ActivityManagementBean.class);
 		activityManagementBean.setSelectedPatient(getSelectedItem());
+//		activityManagementBean.updateActivityList();
     	return "viewActivities";
     }
 	
