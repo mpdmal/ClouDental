@@ -11,7 +11,6 @@ import javax.inject.Named;
 import javax.jws.WebService;
 import javax.persistence.Query;
 
-import com.mpdmal.cloudental.EaoManager;
 import com.mpdmal.cloudental.beans.base.AbstractEaoService;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
@@ -20,46 +19,27 @@ import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
+import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 import com.mpdmal.cloudental.util.exception.PatientExistsException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
+import com.mpdmal.cloudental.util.exception.ValidationException;
 
 @Named
 @Stateless
 @LocalBean
 @WebService
 public class DentistServices extends AbstractEaoService {
-    public DentistServices() {}
-    public DentistServices(EaoManager mgr) { 
-    	this.emgr = mgr;
-    }
-
-    public void close() {
-    	emgr.closeEM();
-    }
-
-    //DENTIST
-
     //DISCOUNTS
-    public long countDiscounts() {
-    	Query q = emgr.getEM().createQuery("select count(d) from Discount d");
-        return emgr.executeSingleLongQuery(q);
-    }
-
-    @SuppressWarnings("unchecked")
-	public Collection<Discount> getDiscounts(int dentistid) {
-    	Query q = emgr.getEM().
-    			createQuery("select d from Discount d where d.dentist.id =:dentistid").
-    			setParameter("dentistid", dentistid);
-        return (Collection<Discount>) emgr.executeMultipleObjectQuery(q);
-    }
-
 	public Discount createDiscount(int dentistid, String title, String description, double value) 
-											throws InvalidPostitAlertException, DentistNotFoundException {
+											throws DentistNotFoundException, ValidationException {
 		Dentist dentist = findDentist(dentistid);
 		Discount d = new Discount();
-		d.setDescription(description);
+		if (description == null)
+			d.setDescription("");
+		else
+			d.setDescription(description);
 		d.setTitle(title);
 		d.setDiscount(BigDecimal.valueOf(value));
 		d.setDentist(dentist);
@@ -69,15 +49,10 @@ public class DentistServices extends AbstractEaoService {
 		return d;
 	}
 
-	public void deleteDiscount(int id) {
-		Discount d= emgr.findOrFail(Discount.class, id);
-		if (d== null) {
-			//TODO
-			return ;
-		}
-		d.getDentist().removeDiscount(d);
-		emgr.delete(d);
-	}
+    public long countDiscounts() {
+    	Query q = emgr.getEM().createQuery("select count(d) from Discount d");
+        return emgr.executeSingleLongQuery(q);
+    }
 
     public void updateDiscount(int id, String description, String title) {
 		Discount d= emgr.findOrFail(Discount.class, id);
@@ -95,6 +70,31 @@ public class DentistServices extends AbstractEaoService {
 		emgr.update(d);
     }
 
+	public void deleteDiscount(int id) throws DiscountNotFoundException {
+		Discount d = findDiscount(id);
+		if (d== null) {
+			//TODO
+			return ;
+		}
+		d.getDentist().removeDiscount(d);
+		emgr.delete(d);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Collection<Discount> getDiscounts(int dentistid) {
+    	Query q = emgr.getEM().
+    			createQuery("select d from Discount d where d.dentist.id =:dentistid").
+    			setParameter("dentistid", dentistid);
+        return (Collection<Discount>) emgr.executeMultipleObjectQuery(q);
+    }
+
+	public void deleteDiscounts (int dentistid) throws DentistNotFoundException {
+		Dentist d = findDentist(dentistid);
+		for (Discount discount : d.getDiscounts()) {
+			emgr.delete(discount);
+		}
+	}
+
     //PRICABLES
 
     public long countPricelistItems() {
@@ -111,7 +111,7 @@ public class DentistServices extends AbstractEaoService {
     }
 
 	public PricelistItem createPricelistItem(int dentistid, String title, String description, double value) 
-														throws InvalidPostitAlertException, DentistNotFoundException {
+														throws InvalidPostitAlertException, DentistNotFoundException, ValidationException {
 		Dentist dentist = findDentist(dentistid);
 		PricelistItem item = new PricelistItem();
 		item.setDescription(description);
@@ -154,7 +154,7 @@ public class DentistServices extends AbstractEaoService {
 
 	public Patient createPatient(int dentistid, String name, String surname) 
 													throws DentistNotFoundException,
-													PatientExistsException {
+													PatientExistsException, ValidationException {
 		Dentist dentist = findDentist(dentistid);
 
 		//patient

@@ -7,7 +7,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
 public class TestUtils {
 	
-    public static Archive<?> createDeployment() {
+    public static Archive<?> createBasicTestDeployment() {
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
             .addPackage("com.mpdmal.cloudental")
             .addPackage("com.mpdmal.cloudental.beans")
@@ -29,6 +29,11 @@ public class TestUtils {
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
         
 //        System.out.println(jar.toString(true));
+        return jar;
+    }
+    
+    public static Archive<?> createAlternateTestDeployment() {
+        JavaArchive jar = ShrinkWrap.create(JavaArchive.class);
         return jar;
     }
 }

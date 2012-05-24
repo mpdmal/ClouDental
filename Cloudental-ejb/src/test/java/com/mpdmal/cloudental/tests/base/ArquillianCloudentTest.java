@@ -9,26 +9,23 @@ import org.junit.runner.RunWith;
 
 import com.mpdmal.cloudental.beans.DentistBean;
 import com.mpdmal.cloudental.beans.DentistServices;
+import com.mpdmal.cloudental.beans.LoginBean;
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.tests.util.TestUtils;
 
 @RunWith(Arquillian.class)
 public class ArquillianCloudentTest {
-
 	@Inject
 	protected DentistBean dbean;
-	
 	@Inject
 	protected DentistServices dsvcbean;
-	
 	@Inject
 	protected PatientServices psvcbean;
-	
 	@Inject
-	protected DentistBean db;
+	protected LoginBean loginbean;
 	
 	@Deployment
     public static Archive<?> createDeployment() {
-        return TestUtils.createDeployment();  	
+        return TestUtils.createBasicTestDeployment();  	
     }
 }

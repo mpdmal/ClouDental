@@ -31,6 +31,7 @@ import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 @Named
 @Stateless
@@ -65,9 +66,7 @@ public class PatientServices extends AbstractEaoService {
     }
     
     public Activity createActivity (int patientid, String description, Date start, Date end, int plitemid, int discountid) 
-																throws PatientNotFoundException, 
-																DiscountNotFoundException, 
-																PricelistItemNotFoundException {
+																throws CloudentException {
 		Patient p = findPatient(patientid);
 		Discount d = findDiscount(discountid); 
 		PricelistItem plitem = findPricable(plitemid);
@@ -124,8 +123,7 @@ public class PatientServices extends AbstractEaoService {
     }
 
     public Contactinfo createContactinfo(int patientID, String info, int type) throws 
-    											PatientNotFoundException, 
-    											InvalidContactInfoTypeException {
+    																CloudentException {
     	Patient p = findPatient(patientID);
     	ContactinfoPK id = new ContactinfoPK(); 
 		id.setId(p.getId());
@@ -184,7 +182,7 @@ public class PatientServices extends AbstractEaoService {
     //VISITS
     public Visit createVisit (int activityID, String description,
     							String title, Date start, Date end, double deposit,
-    							int color ) throws ActivityNotFoundException {
+    							int color ) throws CloudentException {
     	Activity act = findActivity(activityID);
     	
 		Visit v = new Visit();

@@ -12,7 +12,9 @@ import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
+import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
+import com.mpdmal.cloudental.util.exception.ValidationException;
 
 public class DiscountManagementBean extends Discount {
 	
@@ -38,12 +40,8 @@ public class DiscountManagementBean extends Discount {
 		return discounts;
 	}
 
-	public String createDiscount() throws DentistNotFoundException{
-		try {
-			Discount d = dentistService.createDiscount(user.getCurrentUser().getId(), getTitle(),getDescription(), getDiscount().doubleValue() );
-		} catch (InvalidPostitAlertException e) {
-			e.printStackTrace();
-		}
+	public String createDiscount() throws DentistNotFoundException, ValidationException{
+		dentistService.createDiscount(user.getCurrentUser().getId(), getTitle(),getDescription(), getDiscount().doubleValue() );
 		return null;
 	}
 
@@ -62,7 +60,7 @@ public class DiscountManagementBean extends Discount {
 	}
 
 
-	public void delete(int id) {
+	public void delete(int id) throws DiscountNotFoundException {
 		dentistService.deleteDiscount(id);
 	}
 }

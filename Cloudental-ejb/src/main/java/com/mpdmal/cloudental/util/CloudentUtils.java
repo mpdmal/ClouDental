@@ -1,11 +1,17 @@
 package com.mpdmal.cloudental.util;
 
+import java.util.Iterator;
+
 import javax.persistence.Query;
+import javax.validation.ConstraintViolationException;
+
+import org.hibernate.validator.engine.ConstraintViolationImpl;
 
 import com.mpdmal.cloudental.util.exception.InvalidAddressTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
+import com.mpdmal.cloudental.util.exception.ValidationException;
 
 public class CloudentUtils {
 	//ENUMS
@@ -167,5 +173,20 @@ public class CloudentUtils {
 			default:
 				break;
 		}
+	}
+	
+	public static ValidationException createValidationException (ConstraintViolationException e) {
+		String msg = "";
+		Iterator<?> it = e.getConstraintViolations().iterator();
+		while (it.hasNext()) {
+			ConstraintViolationImpl<?> impl = (ConstraintViolationImpl<?>)it.next();
+			String name = impl.getRootBean().getClass().toString();
+			name = name.substring(name.lastIndexOf(".")+1, name.length());
+			msg = msg.concat("Property->"+impl.getPropertyPath().toString().toUpperCase());
+			msg = msg.concat(" on Entity->"+name.toUpperCase());
+			msg = msg.concat(" "+impl.getMessage()+"\n"); 
+		}
+		CloudentUtils.logError(msg);
+		return new ValidationException(msg,e);
 	}
 }

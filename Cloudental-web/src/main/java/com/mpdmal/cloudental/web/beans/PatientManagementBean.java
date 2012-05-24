@@ -14,6 +14,7 @@ import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.PatientExistsException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
+import com.mpdmal.cloudental.util.exception.ValidationException;
 
 public class PatientManagementBean extends Patient {
 
@@ -41,7 +42,7 @@ public class PatientManagementBean extends Patient {
 		return  patientList;
 	}
 
-	public String createPatient(){
+	public String createPatient() throws ValidationException{
 		System.out.println("create: "+getSurname());
 		try {
 			dentistService.createPatient(user.getCurrentUser().getId() , getName(), getSurname() );

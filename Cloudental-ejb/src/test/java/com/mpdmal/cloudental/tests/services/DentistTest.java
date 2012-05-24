@@ -22,12 +22,12 @@ public class DentistTest extends ArquillianCloudentTest{
 	
 	@Test
 	public void testCreate() throws CloudentException {
-		assertEquals(0, db.countDentists());
+		assertEquals(0, dbean.countDentists());
 		for (int i = 0; i < 10; i++) {
-			db.createDentist("Name_"+i, "surname", ""+i, "pwd"+i);
+			dbean.createDentist("Name_"+i, "surname", ""+i, "pwd"+i);
 			
 		}
-		Collection<Dentist> aaa = db.getDentists();
+		Collection<Dentist> aaa = dbean.getDentists();
 		for (Dentist dentist : aaa) {
 			System.out.println(dentist.getId());
 		}
@@ -36,45 +36,39 @@ public class DentistTest extends ArquillianCloudentTest{
 	
 	@Test
 	public void testUpdate() throws CloudentException {
-		Vector<Dentist> dentists = db.getDentists();
+		Vector<Dentist> dentists = dbean.getDentists();
 		
 		Dentist d = dentists.elementAt(0);
 		d.setUsername("Altered");
-		db.updateDentist(d);
+		dbean.updateDentist(d);
 		
-		d = db.getDentist("Altered");
+		d = dbean.getDentist("Altered");
 		assertNotNull(d);
 	}
 
 	@Test
 	public void testDelete() throws CloudentException {
 		
-		Vector<Dentist> dentists = db.getDentists();
+		Vector<Dentist> dentists = dbean.getDentists();
 		assertEquals(10, dentists.size());
 		Dentist d = dentists.elementAt(3);
-		db.deleteDentist(d);
-		assertEquals(9, db.countDentists());
+		dbean.deleteDentist(d);
+		assertEquals(9, dbean.countDentists());
 		
-		dentists = db.getDentists();
+		dentists = dbean.getDentists();
 		assertEquals(9, dentists.size());
 		for (Dentist dentist : dentists) {
-			db.deleteDentist(dentist);
+			dbean.deleteDentist(dentist);
 		}
-		assertEquals(0, db.countDentists());
+		assertEquals(0, dbean.countDentists());
 		
 		for (int i = 0; i < 10; i++) {
-			db.createDentist("Name_"+i, "seff", ""+i, "pwd"+i);
+			dbean.createDentist("Name_"+i, "seff", ""+i, "pwd"+i);
 		}
-		assertEquals(10, db.countDentists());
-		db.deleteDentist(""+4);
-		assertEquals(9, db.countDentists());
-		db.deleteDentists();
-		assertEquals(0, db.countDentists());
+		assertEquals(10, dbean.countDentists());
+		dbean.deleteDentist(""+4);
+		assertEquals(9, dbean.countDentists());
+		dbean.deleteDentists();
+		assertEquals(0, dbean.countDentists());
 	}
-	
-	@Deployment
-    public static Archive<?> createDeployment() {
-        return TestUtils.createDeployment();  	
-    }
-
 }
