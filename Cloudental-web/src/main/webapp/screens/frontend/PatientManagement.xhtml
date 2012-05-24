@@ -44,7 +44,7 @@
 	    	</p:contextMenu>
 	    	  
 			<p:dataTable value="#{patientHolder.patientsList}" var="patient" id="patientList" editable="true"
-			 				rowKey="#{patient.id}"  selection="#{patientManagementBean.selectedItem}" selectionMode="single">
+			 				rowKey="#{patient.id}"  selection="#{patientManagementBean.selectedPatient}" selectionMode="single">
 			 				
 				<p:column headerText="id" sortBy="#{patient.id}" >
 					

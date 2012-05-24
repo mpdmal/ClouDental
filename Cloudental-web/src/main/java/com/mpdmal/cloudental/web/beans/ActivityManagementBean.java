@@ -5,8 +5,6 @@ import java.util.Vector;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import com.mpdmal.cloudental.beans.DentistServices;
@@ -20,13 +18,6 @@ import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 public class ActivityManagementBean extends Activity{
 
 	private static final long serialVersionUID = 1L;
-
-
-	UserHolder user = (UserHolder)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userHolder");
-	
-	
-	//@ManagedProperty(value="#{activityHolderBean}")
-	//private ActivityHolderBean activityHolderBean;
 	
 	@EJB
 	DentistServices dentistService;
@@ -38,43 +29,15 @@ public class ActivityManagementBean extends Activity{
 	private Patient selectedPatient;
 	private Activity selectedActivity;
 
-
-
 	public ActivityManagementBean() {
 		System.out.println("ActivityManagementBean costructor:" +this.hashCode());
-		
 	}
-
-
-
-
-
-	public ActivityManagementBean(UserHolder user,
-			DentistServices dentistService, PatientServices patientServices,
-			PricelistItem selectedPricelistItem, Discount selectedDiscount,
-			Patient selectedPatient, Activity selectedActivity) {
-		super();
-		this.user = user;
-		this.dentistService = dentistService;
-		this.patientServices = patientServices;
-		this.selectedPricelistItem = selectedPricelistItem;
-		this.selectedDiscount = selectedDiscount;
-		this.selectedPatient = selectedPatient;
-		this.selectedActivity = selectedActivity;
-	}
-
-
-
-
 
 	public String createActivity() throws Exception{
 		patientServices.createActivity(selectedPatient.getId(), getDescription(), getStartdate(), getEnddate(), selectedPricelistItem.getId(), selectedDiscount.getId());
+		updateActivityList();
 		return null;
 	}
-
-
-
-
 
 	public PricelistItem getSelectedPricelistItem() {
 		return selectedPricelistItem;
@@ -99,8 +62,6 @@ public class ActivityManagementBean extends Activity{
 	public void setSelectedPatient(Patient selectedPatient) {
 		this.selectedPatient = selectedPatient;
 	}
-	
-	
 	
 	public Activity getSelectedActivity() {
 		return selectedActivity;
@@ -138,22 +99,10 @@ public class ActivityManagementBean extends Activity{
     }
 
 	public String updateActivityList(){
-		//Map<String,String> params =       FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		if(selectedPatient!=null){
-			System.out.println("getActivities for patientID: "+selectedPatient.getId());
-			try {
-				Vector<Activity> activityListOfPatient = patientServices.getActivities(selectedPatient.getId());
-				FacesContext context = FacesContext.getCurrentInstance();
-				ActivityHolderBean activityHolderBean = (ActivityHolderBean)context.getApplication() .evaluateExpressionGet(context, "#{activityHolderBean}", ActivityHolderBean.class);
-				activityHolderBean.setActivityListOfPatient(activityListOfPatient);
-			} catch (PatientNotFoundException e) {
-				e.printStackTrace();
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Service error", e.getMessage()));
-			}
-		}
-		
-
-		return null;
+			FacesContext context = FacesContext.getCurrentInstance();
+			ActivityHolderBean activityHolderBean = (ActivityHolderBean)context.getApplication() .evaluateExpressionGet(context, "#{activityHolderBean}", ActivityHolderBean.class);
+			activityHolderBean.setActivityListOfPatient(loadActivityList());
+			return null;
 	}
 	
 	public Vector<Activity> loadActivityList(){
