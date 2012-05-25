@@ -53,13 +53,16 @@ public class DentistServices extends AbstractEaoService {
     	Query q = emgr.getEM().createQuery("select count(d) from Discount d");
         return emgr.executeSingleLongQuery(q);
     }
+    
+	public long countDentistDiscounts(int dentistid) {
+    	Query q = emgr.getEM().
+    			createQuery("select count(d) from Discount d where d.dentist.id =:dentistid").
+    			setParameter("dentistid", dentistid);
+        return emgr.executeSingleLongQuery(q);
+    }
 
-    public void updateDiscount(int id, String description, String title) {
-		Discount d= emgr.findOrFail(Discount.class, id);
-		if (d == null) {
-			//TODO
-			return ;
-		}
+    public void updateDiscount(int id, String description, String title) throws DiscountNotFoundException {
+    	Discount d = findDiscount(id);
 		for (Discount ds : d.getDentist().getDiscounts()) {
 			if (ds.getId() == d.getId()) {
 				ds.setDescription(description);
@@ -115,6 +118,13 @@ public class DentistServices extends AbstractEaoService {
     
     public long countPricelistItems() {
     	Query q = emgr.getEM().createQuery("select count(pi) from PricelistItem pi");
+        return emgr.executeSingleLongQuery(q);
+    }
+
+    public long countDentistPricelistItems(int dentistid) {
+    	Query q = emgr.getEM().
+    			createQuery("select count(pi) from PricelistItem pi where pi.dentist.id =:dentistid").
+    			setParameter("dentistid", dentistid);
         return emgr.executeSingleLongQuery(q);
     }
 

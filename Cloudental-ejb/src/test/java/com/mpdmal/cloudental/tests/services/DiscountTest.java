@@ -79,7 +79,7 @@ public class DiscountTest extends ArquillianCloudentTest {
 	
 	@Test 
 	@InSequence (3)
-	public void update() {
+	public void update() throws CloudentException {
 		Collection<Discount> dscs = dsvcbean.getDiscounts(dbean.getDentist("Arilou").getId());
 		//update discounts
 		for (Discount discount : dscs) {
@@ -92,9 +92,10 @@ public class DiscountTest extends ArquillianCloudentTest {
 			assertEquals(" altered title", discount.getTitle());
 		}
 	}
+	
 	@Test
 	@InSequence (4)
-	public void delete() throws DiscountNotFoundException, DentistNotFoundException, ValidationException {
+	public void delete() throws CloudentException {
 		assertEquals(13, dsvcbean.countDiscounts());
 
 		Dentist dentist = dbean.getDentist("Arilou");

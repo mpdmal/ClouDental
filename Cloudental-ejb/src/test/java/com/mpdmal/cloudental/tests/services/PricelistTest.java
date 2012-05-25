@@ -92,6 +92,7 @@ public class PricelistTest extends ArquillianCloudentTest {
 			assertEquals(" altered title", item.getTitle());
 		}
 	}
+
 	@Test
 	@InSequence (4)
 	public void delete() throws CloudentException {
