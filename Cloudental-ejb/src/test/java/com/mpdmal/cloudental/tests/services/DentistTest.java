@@ -6,22 +6,20 @@ import static org.junit.Assert.assertNotNull;
 import java.util.Collection;
 import java.util.Vector;
 
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.arquillian.junit.InSequence;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.tests.base.ArquillianCloudentTest;
-import com.mpdmal.cloudental.tests.util.TestUtils;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 @RunWith(Arquillian.class)
 public class DentistTest extends ArquillianCloudentTest{
-	
 	@Test
-	public void testCreate() throws CloudentException {
+	@InSequence (1)
+	public void create() throws CloudentException {
 		assertEquals(0, dbean.countDentists());
 		for (int i = 0; i < 10; i++) {
 			dbean.createDentist("Name_"+i, "surname", ""+i, "pwd"+i);
@@ -35,7 +33,8 @@ public class DentistTest extends ArquillianCloudentTest{
 	}
 	
 	@Test
-	public void testUpdate() throws CloudentException {
+	@InSequence (2)
+	public void update() throws CloudentException {
 		Vector<Dentist> dentists = dbean.getDentists();
 		
 		Dentist d = dentists.elementAt(0);
@@ -47,7 +46,8 @@ public class DentistTest extends ArquillianCloudentTest{
 	}
 
 	@Test
-	public void testDelete() throws CloudentException {
+	@InSequence (3)
+	public void delete() throws CloudentException {
 		
 		Vector<Dentist> dentists = dbean.getDentists();
 		assertEquals(10, dentists.size());
