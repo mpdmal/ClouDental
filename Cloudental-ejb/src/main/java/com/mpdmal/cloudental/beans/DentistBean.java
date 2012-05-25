@@ -24,10 +24,9 @@ public class DentistBean extends AbstractEaoService {
     public DentistBean() {}
     
     public Dentist createDentist(String name, String surname, String username, String password) 
-    																throws CloudentException  {
-    	if (name.equals("") || surname.equals("") || password.equals(""))
-    		throw new InvalidDentistCredentialsException(username, "Name, surname and password need to be filled \n");
- 
+    																throws  InvalidDentistCredentialsException,
+    																DentistExistsException, ValidationException {
+    	
     	if (getDentist(username) != null) 
     		throw new DentistExistsException(username, "Already exists, wont create");
     	

@@ -2,6 +2,7 @@ package com.mpdmal.cloudental.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,13 +16,17 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(nullable=false, length=80)
+	@NotNull
+	@Column(length=80)
 	private String name;
-	@Column(nullable=false, length=16)
+	@NotNull
+	@Column(length=16)
 	private String password;
-	@Column(nullable=false, length=80)
+	@NotNull
+	@Column(length=80)
 	private String surname;
-	@Column(nullable=false, length=16)
+	@NotNull
+	@Column(length=16)
 	private String username;
 
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.LAZY)

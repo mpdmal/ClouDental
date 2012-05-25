@@ -96,25 +96,14 @@ public class DentistServices extends AbstractEaoService {
 	}
 
     //PRICABLES
-
-    public long countPricelistItems() {
-    	Query q = emgr.getEM().createQuery("select count(pi) from PricelistItem pi");
-        return emgr.executeSingleLongQuery(q);
-    }
-
-    @SuppressWarnings("unchecked")
-	public Collection<PricelistItem> getPricelist(int dentistid) {
-    	Query q = emgr.getEM().
-    			createQuery("select pi from PricelistItem pi where pi.dentist.id =:dentistid").
-    			setParameter("dentistid", dentistid);
-        return (Collection<PricelistItem>) emgr.executeMultipleObjectQuery(q);
-    }
-
-	public PricelistItem createPricelistItem(int dentistid, String title, String description, double value) 
+    public PricelistItem createPricelistItem(int dentistid, String title, String description, double value) 
 														throws InvalidPostitAlertException, DentistNotFoundException, ValidationException {
 		Dentist dentist = findDentist(dentistid);
 		PricelistItem item = new PricelistItem();
-		item.setDescription(description);
+		if (description == null)
+			item.setDescription("");
+		else
+			item.setDescription(description);
 		item.setTitle(title);
 		item.setPrice(BigDecimal.valueOf(value));
 		item.setDentist(dentist);
@@ -123,12 +112,11 @@ public class DentistServices extends AbstractEaoService {
 		emgr.persist(item);
 		return item;
 	}
-	
-	public void deletePricelistItem(int id) throws PricelistItemNotFoundException {
-		PricelistItem item = findPricable(id);
-		item.getDentist().removePricelistItem(item);
-		emgr.delete(item);
-	}
+    
+    public long countPricelistItems() {
+    	Query q = emgr.getEM().createQuery("select count(pi) from PricelistItem pi");
+        return emgr.executeSingleLongQuery(q);
+    }
 
     public void updatePricelistItem(int id, String description, String title) 
     											throws PricelistItemNotFoundException {
@@ -139,6 +127,27 @@ public class DentistServices extends AbstractEaoService {
 		item.getDentist().addPricelistItem(item);
 		emgr.update(item);
     }
+
+    @SuppressWarnings("unchecked")
+	public Collection<PricelistItem> getPricelist(int dentistid) {
+    	Query q = emgr.getEM().
+    			createQuery("select pi from PricelistItem pi where pi.dentist.id =:dentistid").
+    			setParameter("dentistid", dentistid);
+        return (Collection<PricelistItem>) emgr.executeMultipleObjectQuery(q);
+    }
+
+	public void deletePricelistItem(int id) throws PricelistItemNotFoundException {
+		PricelistItem item = findPricable(id);
+		item.getDentist().removePricelistItem(item);
+		emgr.delete(item);
+	}
+
+	public void deletePricelist (int dentistid) throws DentistNotFoundException {
+		Dentist d = findDentist(dentistid);
+		for (PricelistItem item : d.getPriceList()) {
+			emgr.delete(item);
+		}
+	}
 
     //POST-IT
     
