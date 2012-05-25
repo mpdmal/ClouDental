@@ -10,4 +10,10 @@ public class ValidationException extends CloudentException {
 		super(msg, t);
 		CloudentUtils.logError("Entity Constraint violated:"+msg);
 	}
+	
+	public ValidationException(String msg) {
+		super(msg);
+		CloudentUtils.logError("Entity Constraint violated:"+msg);
+	}
+
 }

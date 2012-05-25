@@ -37,7 +37,7 @@ public class DentistManagementBean extends Dentist {
 		System.out.println("delete: "+getUsername());
 
 		try {
-			dbn.deleteDentist(this.getUsername());
+			dbn.deleteDentist(getId());
 		} catch (DentistNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

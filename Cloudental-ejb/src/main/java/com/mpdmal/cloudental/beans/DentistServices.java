@@ -75,10 +75,6 @@ public class DentistServices extends AbstractEaoService {
 
 	public void deleteDiscount(int id) throws DiscountNotFoundException {
 		Discount d = findDiscount(id);
-		if (d== null) {
-			//TODO
-			return ;
-		}
 		d.getDentist().removeDiscount(d);
 		emgr.delete(d);
 	}

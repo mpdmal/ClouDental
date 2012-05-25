@@ -3,7 +3,6 @@ package com.mpdmal.cloudental.tests.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Collection;
 import java.util.Vector;
 
 import org.jboss.arquillian.junit.Arquillian;
@@ -12,9 +11,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.mpdmal.cloudental.entities.Dentist;
-import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.tests.base.ArquillianCloudentTest;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
+import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
@@ -31,68 +30,60 @@ public class DentistTest extends ArquillianCloudentTest{
 		assertEquals(10, dbean.getDentists().size());
 		
 		//create identical
-		dbean.createDentist("A", "surname", "asd", "pwd");
+		dbean.createDentist("Name_10", "surname", "10", "pwd10");
 		try {
-			dbean.createDentist("A", "surname", "asd", "pwd");
+			dbean.createDentist("Name_10", "surname", "10", "pwd10");
 		} catch (DentistExistsException e) {
-			assertEquals("Dentist already Exists:asd\nAlready exists, wont create", e.getMessage());
+			assertEquals("Dentist already Exists:10\n", e.getMessage());
 		}
-		
+		assertEquals(11, dbean.getDentists().size());
 		//failed create ..constraints violated
+		//also testing cloudental ValidationException
 		try {
-			dbean.createDentist(null, "surname", "asd1", "pwd");
+			dbean.createDentist(null, null,null,null);
 		} catch (ValidationException e) {
-			assertEquals("Property->NAME on Entity->DENTIST may not be null\n", e.getMessage());
+			assertEquals(true, e.getMessage().contains("Property->NAME on Entity->DENTIST may not be null"));
+			assertEquals(true, e.getMessage().contains("Property->NAME on Entity->DENTIST may not be empty"));
+			assertEquals(true, e.getMessage().contains("Property->SURNAME on Entity->DENTIST may not be null"));
+			assertEquals(true, e.getMessage().contains("Property->SURNAME on Entity->DENTIST may not be empty"));
+			assertEquals(true, e.getMessage().contains("Property->USERNAME on Entity->DENTIST may not be null"));
+			assertEquals(true, e.getMessage().contains("Property->USERNAME on Entity->DENTIST may not be empty"));
+			assertEquals(true, e.getMessage().contains("Property->PASSWORD on Entity->DENTIST may not be null"));
+			assertEquals(true, e.getMessage().contains("Property->PASSWORD on Entity->DENTIST may not be empty"));
 		}
-		
-		try {
-			dbean.createDentist("A", null, "as2d", "pwd");
-		} catch (ValidationException e) {
-			assertEquals("Property->SURNAME on Entity->DENTIST may not be null\n", e.getMessage());
-		}
-
-		try {
-			dbean.createDentist("A", "surname", null, "pwd");
-		} catch (ValidationException e) {
-			assertEquals("Property->USERNAME on Entity->DENTIST may not be null\n", e.getMessage());
-		}
-
-		try {
-			dbean.createDentist("A", "surname", "asd3", null);
-		} catch (ValidationException e) {
-			assertEquals("Property->PASSWORD on Entity->DENTIST may not be null\n", e.getMessage());
-		}
+		assertEquals(11, dbean.getDentists().size());
 	}
 	
 	
 	@Test
 	@InSequence (2)
-	public void getAndCount () {
+	public void getAndCount () throws DentistNotFoundException {
 		//get by username
-		Dentist d = dbean.getDentist("1");
+		Dentist d = dbean.findDentistByUsername("1");
+		assertEquals("Name_1", d.getName());
+		assertEquals("pwd1", d.getPassword());
 		
 		//failed get, wrong username 
-		d = dbean.getDentist("Arilou");
-		
-		System.out.println(d.getXML());
-		//get by dentist id
-		Collection<Discount> dscs = dsvcbean.getDiscounts(d.getId());
-		assertEquals(13, dscs.size());
-		//get from dentist object
-		assertEquals(13, d.getDiscounts().size());
-		
-		for (Discount discount : dscs) {
-			if (discount.getDiscount().doubleValue() == -100.0) {
-				assertEquals("neg discount title", discount.getTitle());
-				assertEquals("" , discount.getDescription());
-				continue;
-			}
-			assertEquals(d.getId(), discount.getDentist().getId());
-			assertEquals("some descr ...", discount.getDescription());
+		try {
+			d = dbean.findDentistByUsername("Arilou");	
+		} catch (DentistNotFoundException e) {
+			assertEquals(true, e.getMessage().contains("Dentist not found:Arilou"));
 		}
 		
+		//get from dentist object
+		assertEquals(11, dbean.countDentists());
+		
+		Vector<Dentist> dents = dbean.getDentists();
+		for (int i = 0; i < dents.size(); i++) {
+			Dentist dn = dents.elementAt(i);
+			assertEquals("surname", dn.getSurname());			
+			assertEquals("pwd"+i, dn.getPassword());
+			assertEquals(""+i, dn.getUsername());
+			assertEquals("Name_"+i, dn.getName()); 
+		}
+
 		//count discounts
-		assertEquals(13, dsvcbean.countDiscounts());
+		assertEquals(11, dbean.countDentists());
 	}
 	@Test
 	@InSequence (3)
@@ -103,7 +94,7 @@ public class DentistTest extends ArquillianCloudentTest{
 		d.setUsername("Altered");
 		dbean.updateDentist(d);
 		
-		d = dbean.getDentist("Altered");
+		d = dbean.findDentistByUsername("Altered");
 		assertNotNull(d);
 	}
 
@@ -114,13 +105,13 @@ public class DentistTest extends ArquillianCloudentTest{
 		Vector<Dentist> dentists = dbean.getDentists();
 		assertEquals(11, dentists.size());
 		Dentist d = dentists.elementAt(3);
-		dbean.deleteDentist(d);
+		dbean.deleteDentist(d.getId());
 		assertEquals(10, dbean.countDentists());
 		
 		dentists = dbean.getDentists();
 		assertEquals(10, dentists.size());
 		for (Dentist dentist : dentists) {
-			dbean.deleteDentist(dentist);
+			dbean.deleteDentist(dentist.getId());
 		}
 		assertEquals(0, dbean.countDentists());
 		
@@ -128,7 +119,7 @@ public class DentistTest extends ArquillianCloudentTest{
 			dbean.createDentist("Name_"+i, "seff", ""+i, "pwd"+i);
 		}
 		assertEquals(11, dbean.countDentists());
-		dbean.deleteDentist(""+4);
+		dbean.deleteDentistByUsername(""+4);
 		assertEquals(10, dbean.countDentists());
 		dbean.deleteDentists();
 		assertEquals(0, dbean.countDentists());

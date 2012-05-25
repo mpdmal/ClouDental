@@ -25,7 +25,7 @@ public class PatientTest extends ArquillianCloudentTest {
 	@Test 
 	@InSequence (2)
 	public void delete() throws CloudentException {
-		Dentist d = dbean.getDentist("zxc");
+		Dentist d = dbean.findDentistByUsername("zxc");
 		Vector<Patient> patients = (Vector<Patient>) d.getPatientList();
 		assertEquals(10, patients.size());
 		dsvcbean.deletePatient(patients.elementAt(0).getId());
@@ -33,11 +33,11 @@ public class PatientTest extends ArquillianCloudentTest {
 		dsvcbean.deletePatient(patients.elementAt(3).getId());
 		dsvcbean.deletePatient(patients.elementAt(5).getId());
 
-		patients = (Vector<Patient>) dbean.getDentist("zxc").getPatientList();
+		patients = (Vector<Patient>) dbean.findDentistByUsername("zxc").getPatientList();
 		assertEquals(6, patients.size());
 
 		dsvcbean.deletePatientList(d.getId());
-		patients = (Vector<Patient>) dbean.getDentist("zxc").getPatientList();
+		patients = (Vector<Patient>) dbean.findDentistByUsername("zxc").getPatientList();
 		assertEquals(0, patients.size());
 		dbean.deleteDentists();
 	}
