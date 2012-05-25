@@ -62,6 +62,6 @@ public class PatientConverter implements Converter {
 		FacesContext context=FacesContext.getCurrentInstance();
 		Application app = context.getApplication();
 		PatientManagementBean p = (PatientManagementBean)app.evaluateExpressionGet(context, "#{patientManagementBean}", PatientManagementBean.class);
-		return  p.getPatientList();
+		return  p.loadPatientList();
 	}
 }  

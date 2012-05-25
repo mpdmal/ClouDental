@@ -11,10 +11,7 @@ import javax.faces.context.FacesContext;
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Patient;
-import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
-import com.mpdmal.cloudental.util.exception.PatientExistsException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
-import com.mpdmal.cloudental.util.exception.ValidationException;
 
 public class PatientManagementBean extends Patient {
 
@@ -31,37 +28,42 @@ public class PatientManagementBean extends Patient {
 	
 	Patient selectedPatient;
 	
-	private Vector<Patient> patientList; 
-	
-	public Vector<Patient> getPatientList() {
-		
-		if(patientList==null){
-			System.out.println("call service getPatientList");	
-			patientList  = (Vector<Patient>) dentistService.getPatientlist(user.getCurrentUser().getId());
-		}
-		return  patientList;
+	public UserHolder getUser() {
+		return user;
 	}
 
-	public String createPatient() throws ValidationException{
+	public void setUser(UserHolder user) {
+		this.user = user;
+	}
+
+	public Vector<Patient> loadPatientList() {
+		Vector<Patient> result =null;
+		if(user!=null){
+			System.out.println("PatientManagementBean call service getPatientList");	
+			result  = (Vector<Patient>) dentistService.getPatientlist(user.getCurrentUser().getId());
+		}
+		
+		return  result;
+	}
+
+	public String createPatient() {
 		System.out.println("create: "+getSurname());
 		try {
 			dentistService.createPatient(user.getCurrentUser().getId() , getName(), getSurname() );
-		} catch (PatientExistsException e) {
+			updatePatientList();
+		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage( FacesMessage.SEVERITY_ERROR, e.getMessage(),"" ));
 			e.printStackTrace();
-		} catch (DentistNotFoundException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage( FacesMessage.SEVERITY_ERROR, e.getMessage(),"" ));
-			e.printStackTrace();
-		}
+		} 
 		return null;
 	}
 	
 	public String deletePatient(){
-		System.out.println("deletePatient: "+getSelectedItem().getName());
+		System.out.println("deletePatient: "+getSelectedPatient().getName());
 		try {
-			dentistService.deletePatient(getSelectedItem().getId() );
-			patientList  = (Vector<Patient>) dentistService.getPatientlist(user.getCurrentUser().getId());
-			
+			dentistService.deletePatient(getSelectedPatient().getId() );
+			updatePatientList();
+						
 		}catch (PatientNotFoundException e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage( FacesMessage.SEVERITY_ERROR, e.getMessage(),"" ));
 			e.printStackTrace();
@@ -112,21 +114,15 @@ public class PatientManagementBean extends Patient {
                // dentistService.updatePatient(selectedRow.getId(),selectedRow );
             }
         } catch (Exception e) {
-            System.out.println("rowEditListener ERROR = " + e.getMessage());
+            e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERRORE", e.toString()));
         }        
     }
 
-    public Patient getSelectedItem() {  
-    	if(selectedPatient!=null)
-    		System.out.println("getSelectedItem: "+selectedPatient.getName());
-    	else
-    		System.out.println("getSelectedItem: is null");
-    		
+    public Patient getSelectedPatient() {  
         return selectedPatient;  
     }  
-    public void setSelectedItem(Patient patient) {  
-    	System.out.println("setSelectedItem: "+patient.getName());
+    public void setSelectedPatient(Patient patient) {  
         this.selectedPatient = patient;  
     } 
     
@@ -134,11 +130,16 @@ public class PatientManagementBean extends Patient {
     	System.out.println("viewActivities");
 		FacesContext context = FacesContext.getCurrentInstance();
 		ActivityManagementBean activityManagementBean= (ActivityManagementBean)context.getApplication() .evaluateExpressionGet(context, "#{activityManagementBean}", ActivityManagementBean.class);
-		activityManagementBean.setSelectedPatient(getSelectedItem());
+		activityManagementBean.setSelectedPatient(getSelectedPatient());
 //		activityManagementBean.updateActivityList();
     	return "viewActivities";
     }
 	
+    private void updatePatientList(){
+    	FacesContext context = FacesContext.getCurrentInstance();
+		PatientHolder patientHolder = (PatientHolder)context.getApplication() .evaluateExpressionGet(context, "#{patientHolder}", PatientHolder.class);
+		patientHolder.setPatientsList(loadPatientList());
+    }
 	
 
 

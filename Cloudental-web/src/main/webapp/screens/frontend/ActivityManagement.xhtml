@@ -8,8 +8,9 @@
 
 <ui:composition template="/screens/frontend/template.xhtml">
 	<ui:define name="header">
-    	Activity Management 
+    	<title>Activity Management</title>
 	</ui:define>
+	
 
 
 	<ui:define name="content">
@@ -93,8 +94,8 @@
 	               	
 	               	
 				</p:autoComplete>
-				<p:commandButton value="Submit" action="#{activityManagementBean.updateActivityList}" />
-				<h:commandButton value="Submit" action="#{activityManagementBean.updateActivityList}" />
+				<p:commandButton value="Submit" action="#{activityManagementBean.updateActivityList}"  ajax="false"/>
+				
 		</h:panelGrid>
 		</h:form>
 		
