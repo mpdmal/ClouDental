@@ -4,17 +4,11 @@ import java.io.Serializable;
 import java.util.Vector;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Activity;
-import com.mpdmal.cloudental.entities.Patient;
-import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 
 @ManagedBean(name="activityHolderBean")
 @ViewScoped

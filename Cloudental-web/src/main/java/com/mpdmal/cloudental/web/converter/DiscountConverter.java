@@ -14,7 +14,6 @@ import javax.faces.convert.ConverterException;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.Discount;
-import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.web.beans.DiscountManagementBean;
 
 

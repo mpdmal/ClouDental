@@ -14,7 +14,6 @@ import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
-import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 @Named
 @Stateless

@@ -6,9 +6,6 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
-import com.mpdmal.cloudental.entities.Dentist;
-import com.mpdmal.cloudental.web.beans.DentistManagementBean;
-
 public class OnDeletePricelistItemActionListener implements ActionListener {
 
 

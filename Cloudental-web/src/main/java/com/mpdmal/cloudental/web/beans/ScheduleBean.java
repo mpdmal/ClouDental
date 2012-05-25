@@ -2,7 +2,6 @@ package com.mpdmal.cloudental.web.beans;
 
 
 import java.util.Date;
-import java.util.Vector;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -15,12 +14,10 @@ import org.primefaces.event.ScheduleEntrySelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.LazyScheduleModel;
-import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.Patient;
-import com.mpdmal.cloudental.util.exception.PatientExistsException;
 import com.mpdmal.cloudental.web.events.DentistScheduleEvent;
 
 public class ScheduleBean {

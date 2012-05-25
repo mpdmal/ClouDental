@@ -1,7 +1,5 @@
 package com.mpdmal.cloudental;
 
-import java.util.Iterator;
-
 import javax.annotation.PreDestroy;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -11,12 +9,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.validation.ConstraintViolationException;
 
-import org.hibernate.validator.engine.ConstraintViolationImpl;
-
 import com.mpdmal.cloudental.entities.base.DBEntity;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.ValidationException;
-import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 @Stateless
 @LocalBean

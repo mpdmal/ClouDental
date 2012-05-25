@@ -10,10 +10,8 @@ import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
-import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
-import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
 
 public class DiscountManagementBean extends Discount {

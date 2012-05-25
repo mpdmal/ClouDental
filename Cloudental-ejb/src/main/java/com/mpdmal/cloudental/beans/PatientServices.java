@@ -27,7 +27,6 @@ import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
-import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
