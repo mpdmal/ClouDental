@@ -35,7 +35,7 @@
 					<h:outputText value="PricelistItem: " />  
 			        <p:selectOneMenu value="#{activityManagementBean.selectedPricelistItem}" effect="fade" converter="pricelistItemConverter" var="p1" id="PricelistItem">  
 			            <f:selectItem itemLabel="Select One" itemValue="" />  
-			            <f:selectItems value="#{pricelistItemManagementBean.pricelist}" var="pricelistItem" itemLabel="#{pricelistItem.title}" itemValue="#{pricelistItem}"/>
+			            <f:selectItems value="#{pricelistHolder.pricelist}" var="pricelistItem" itemLabel="#{pricelistItem.title}" itemValue="#{pricelistItem}"/>
 			            
 			            <p:column>
 							#{p1.title} --#{p1.description}
@@ -157,7 +157,7 @@
 						</f:facet>
 						<f:facet name="input">
 							<p:selectOneMenu value="#{item.priceable}" effect="fade" converter="pricelistItemConverter" var="p1" id="PricelistItem">  
-			            		<f:selectItems value="#{pricelistItemManagementBean.pricelist}" var="pricelistItem" itemLabel="#{pricelistItem.title}" itemValue="#{pricelistItem}"/>
+			            		<f:selectItems value="#{pricelistHolder.pricelist}" var="pricelistItem" itemLabel="#{pricelistItem.title}" itemValue="#{pricelistItem}"/>
 			            		<p:column>
 									#{p1.title} --#{p1.description}
 								</p:column>  

@@ -18,7 +18,7 @@ public class PatientHolder implements Serializable{
 
 	public PatientHolder() {
 		super();
-		System.out.println("ActivityHolderBean costructor"+this.hashCode());
+		System.out.println("PatientHolder costructor"+this.hashCode());
 	}
 	private static final long serialVersionUID = 1L;
 	private Vector<Patient> patientsList;

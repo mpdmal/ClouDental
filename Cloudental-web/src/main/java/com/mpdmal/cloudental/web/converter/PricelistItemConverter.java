@@ -12,7 +12,7 @@ import javax.faces.convert.ConverterException;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.PricelistItem;
-import com.mpdmal.cloudental.web.beans.PricelistItemManagementBean;
+import com.mpdmal.cloudental.web.beans.PricelistHolder;
 
 
 public class PricelistItemConverter implements Converter {
@@ -63,7 +63,7 @@ public class PricelistItemConverter implements Converter {
 	public Collection<PricelistItem> getPricelist() {
 		FacesContext context=FacesContext.getCurrentInstance();
 		Application app = context.getApplication();
-		PricelistItemManagementBean p = (PricelistItemManagementBean)app.evaluateExpressionGet(context, "#{pricelistItemManagementBean}", PricelistItemManagementBean.class);
+		PricelistHolder p = (PricelistHolder)app.evaluateExpressionGet(context, "#{pricelistHolder}", PricelistHolder.class);
 		return  p.getPricelist();
 	}
 }  
