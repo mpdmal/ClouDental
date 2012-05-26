@@ -158,15 +158,6 @@ public class DentistServices extends AbstractEaoService {
     //POST-IT
     
     //PATIENT
- 
-    @SuppressWarnings("unchecked")
-	public Collection<Patient> getPatientlist(int dentistid) {
-    	Query q = emgr.getEM().
-    			createQuery("select p from Patient p where p.dentist.id =:dentistid").
-    			setParameter("dentistid", dentistid);
-        return (Collection<Patient>) emgr.executeMultipleObjectQuery(q);
-    }
-
 	public Patient createPatient(int dentistid, String name, String surname) 
 													throws DentistNotFoundException,
 													PatientExistsException, ValidationException {
@@ -197,6 +188,34 @@ public class DentistServices extends AbstractEaoService {
 		
 		emgr.persist(p);
 		return p;
+    }
+
+    public long countPatients() {
+    	Query q = emgr.getEM().createQuery("select count(p) from Patient p");
+        return emgr.executeSingleLongQuery(q);
+    }
+
+    public long countDentistPatients(int dentistid) {
+    	Query q = emgr.getEM().
+    			createQuery("select count(p) from Patient p where p.dentist.id =:dentistid").
+    			setParameter("dentistid", dentistid);
+        return emgr.executeSingleLongQuery(q);
+    }
+    
+    public void updatePatient(int id, String name, String surname, String comments) throws PatientNotFoundException {
+		Patient p = findPatient(id);
+		p.setSurname(surname);
+		p.setName(name);
+		p.setComments(comments);
+		emgr.update(p);
+	}
+    
+    @SuppressWarnings("unchecked")
+	public Collection<Patient> getPatientlist(int dentistid) {
+    	Query q = emgr.getEM().
+    			createQuery("select p from Patient p where p.dentist.id =:dentistid").
+    			setParameter("dentistid", dentistid);
+        return (Collection<Patient>) emgr.executeMultipleObjectQuery(q);
     }
 
 	public void deletePatient (int patientid) throws PatientNotFoundException {

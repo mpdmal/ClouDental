@@ -3,6 +3,9 @@ package com.mpdmal.cloudental.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.mpdmal.cloudental.util.CloudentUtils;
 
 import java.util.Date;
@@ -16,21 +19,34 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String comments;
+	
 	@NotNull
 	@Temporal( TemporalType.TIMESTAMP)
 	private Date created;
+	
 	@NotNull
+	@NotEmpty
 	private String name;
+	
 	@NotNull
+	@NotEmpty
 	private String surname;
+	
+	@NotNull
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="patient", fetch=FetchType.LAZY)
 	private Medicalhistory medicalhistory;
+	
+	@NotNull
 	@OneToOne(cascade=CascadeType.ALL, mappedBy="patient")
 	private Patienthistory dentalhistory;
+	
+	@NotNull
     @ManyToOne
 	@JoinColumn(name="dentistid")
 	private Dentist dentist;
+    
     @OneToMany(cascade=CascadeType.ALL, mappedBy="patient", fetch=FetchType.LAZY)
 	private Set<Address> addresses;
     @OneToMany(cascade=CascadeType.ALL, mappedBy="patient", fetch=FetchType.LAZY)

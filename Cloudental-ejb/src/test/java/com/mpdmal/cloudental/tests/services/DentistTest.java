@@ -27,7 +27,15 @@ public class DentistTest extends ArquillianCloudentTest{
 		for (int i = 0; i < 10; i++) {
 			dbean.createDentist("Name_"+i, "surname", ""+i, "pwd"+i);
 		}
-		assertEquals(10, dbean.getDentists().size());
+		Vector<Dentist> dents = dbean.getDentists();
+		assertEquals(10, dents.size());
+		for (int i = 0; i < dents.size(); i++) {
+			Dentist dn = dents.elementAt(i);
+			assertEquals("surname", dn.getSurname());			
+			assertEquals("pwd"+i, dn.getPassword());
+			assertEquals(""+i, dn.getUsername());
+			assertEquals("Name_"+i, dn.getName()); 
+		}
 		
 		//create identical
 		dbean.createDentist("Name_10", "surname", "10", "pwd10");

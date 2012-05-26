@@ -3,7 +3,6 @@ package com.mpdmal.cloudental.tests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.tests.services.ActivityTest;
 import com.mpdmal.cloudental.tests.services.DentistServicesTest;
 import com.mpdmal.cloudental.tests.services.DentistTest;
