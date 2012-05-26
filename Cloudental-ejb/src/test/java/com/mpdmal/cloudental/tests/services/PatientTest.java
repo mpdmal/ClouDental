@@ -35,7 +35,7 @@ public class PatientTest extends ArquillianCloudentTest {
 		
 		//create identical
 		dsvcbean.createPatient(d.getId(), "PAtient_10", "Patient surname_10");
-		dsvcbean.createPatient(d.getId(), "PAtient_11", "Patient surname_11");
+		dsvcbean.createPatient(d.getId(), "PAtient_10", "Patient surname_10");
 		pats= (Vector<Patient>)dbean.findDentist(d.getId()).getPatientList();
 		assertEquals(12, pats.size());
 		
@@ -71,13 +71,14 @@ public class PatientTest extends ArquillianCloudentTest {
 		//get from dentist object
 		assertEquals(12, d.getPatientList().size());
 		
-		for (int i = 0; i < pats.size(); i++) {
+		for (int i = 0; i < pats.size()-1; i++) { // last is identical
 			Patient p = pats.elementAt(i);
 			assertEquals("PAtient_"+i, p.getName());
 			assertEquals("Patient surname_"+i, p.getSurname());
 		}
 		
 		assertEquals(12, dsvcbean.countDentistPatients(d.getId()));
+		//count patients
 		assertEquals(12, dsvcbean.countPatients());
 	}
 	

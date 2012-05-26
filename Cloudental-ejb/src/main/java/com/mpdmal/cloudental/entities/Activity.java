@@ -8,9 +8,9 @@ import javax.validation.constraints.NotNull;
 
 import com.mpdmal.cloudental.util.CloudentUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity implements Serializable {
@@ -18,31 +18,41 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotNull
 	private String description;
 	
+	@NotNull
 	@Temporal( TemporalType.TIMESTAMP)
 	private java.util.Date enddate;
+	
+	@NotNull
     @Temporal( TemporalType.TIMESTAMP)
 	private java.util.Date startdate; 
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="patienthistid")
 	private Patienthistory patienthistory;
+    
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="priceable")
 	private PricelistItem priceable;
+    
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="discount")
 	private Discount discount;
-    private BigDecimal price;
+    
     @OneToMany(cascade=CascadeType.ALL, mappedBy="activity", fetch=FetchType.EAGER)
-	private Set<Visit> visits;
+	private Collection<Visit> visits;
+    
     @NotNull
     private boolean isopen = true;
     
+	@Column(precision=131089)
+    private BigDecimal price;
     
 	public Activity() {    }
 
@@ -50,13 +60,19 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 		return this.id;
 	}
 
-	public void setOpen(boolean isOpen) {	this.isopen = isOpen;	}
+	public void setOpen(boolean isOpen) {
+		if (enddate == null) {
+			CloudentUtils.logError("wont close an activity without an enddate "+getId()+"|"+getDescription());
+			return;
+		}
+		this.isopen = isOpen;	
+	}
 	public void setId(Integer id) {		this.id = id;	}
 	public void setDescription(String description) 	{	this.description = description;	}
 	public void setEnddate(Date enddate) 		{
 		if (enddate != null && enddate.getTime() > startdate.getTime()) {
 			this.enddate = enddate;
-			CloudentUtils.logMessage("Activity closed "+id);
+			CloudentUtils.logMessage("Activity closed "+id+"("+description+")");
 			isopen = false;
 		}
 	}
@@ -67,9 +83,9 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	public void setDiscount(Discount discount) 	{	this.discount= discount;	}
 	public void setPatienthistory(Patienthistory patienthistory) {		this.patienthistory = patienthistory;	}	
     public void setPrice(BigDecimal price) 			{	this.price= price;	}
-	public void setVisits(Set<Visit> visits) {	
+	public void setVisits(Collection<Visit> visits) {	
 		if (visits == null)
-			visits = new HashSet<Visit>();
+			visits = new ArrayList<Visit>();
 		else
 			visits.clear();
 		
@@ -79,7 +95,7 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	}
 	public void addVisit(Visit v) {
 		if (visits == null)
-			visits = new HashSet<Visit>();
+			visits = new ArrayList<Visit>();
 		
 		visits.add(v);
 	}
@@ -89,7 +105,7 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	public PricelistItem getPriceable() 	{	return this.priceable;	}
 	public Discount getDiscount() 	{	return this.discount;	}
 	public Patienthistory getPatienthistory() {		return this.patienthistory;	}
-	public Set<Visit> getVisits() {	return this.visits;	}
+	public Collection<Visit> getVisits() {	return this.visits;	}
     public BigDecimal getPrice() 	{	return this.price;	}
     public boolean isOpen() {	return isopen;	}
 

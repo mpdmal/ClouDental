@@ -42,7 +42,7 @@ public class VisitManagementBean extends Visit {
 	public Vector<Activity> getOpenActivities() {
 		Vector<Activity> result=null;
 		try {
-			result= patientServices.getActivities(patientID);
+			result= patientServices.getPatientActivities(patientID);
 		} catch (PatientNotFoundException e) {
 			e.printStackTrace();
 		}

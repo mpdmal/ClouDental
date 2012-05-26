@@ -26,7 +26,7 @@ public class ActivityTest extends ArquillianCloudentTest{
 		Discount dc = dsvcbean.createDiscount(d.getId(), "discount 1", "sddf", .30);
 		PricelistItem item = dsvcbean.createPricelistItem(d.getId(), "item 1", "asdasd", 23.12);
 		
-		psvcbean.createActivity(p.getId(), "activity 1", new Date(), null, item.getId(), dc.getId());
+//		psvcbean.createActivity(p.getId(), "activity 1", new Date(), null, item.getId(), dc.getId());
 		dbean.deleteDentists();
 	}
 	

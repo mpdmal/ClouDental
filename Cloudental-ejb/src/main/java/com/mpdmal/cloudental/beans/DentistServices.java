@@ -63,13 +63,8 @@ public class DentistServices extends AbstractEaoService {
 
     public void updateDiscount(int id, String description, String title) throws DiscountNotFoundException {
     	Discount d = findDiscount(id);
-		for (Discount ds : d.getDentist().getDiscounts()) {
-			if (ds.getId() == d.getId()) {
-				ds.setDescription(description);
-				ds.setTitle(title);
-				break;
-			}
-		}
+		d.setDescription(description);
+		d.setTitle(title);
 		emgr.update(d);
     }
 
@@ -127,10 +122,8 @@ public class DentistServices extends AbstractEaoService {
     public void updatePricelistItem(int id, String description, String title) 
     											throws PricelistItemNotFoundException {
 		PricelistItem item = findPricable(id);
-		item.getDentist().removePricelistItem(item);
 		item.setDescription(description);
 		item.setTitle(title);
-		item.getDentist().addPricelistItem(item);
 		emgr.update(item);
     }
 
