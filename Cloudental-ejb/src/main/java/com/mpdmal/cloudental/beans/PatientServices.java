@@ -29,6 +29,7 @@ import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
+import com.mpdmal.cloudental.util.exception.ValidationException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 @Named
@@ -190,6 +191,7 @@ public class PatientServices extends AbstractEaoService {
     							String title, Date start, Date end, double deposit,
     							int color ) throws CloudentException {
     	Activity act = findActivity(activityID);
+    	validateVisit(act, start, end);
     	
 		Visit v = new Visit();
 		v.setComments(description);
@@ -206,14 +208,40 @@ public class PatientServices extends AbstractEaoService {
     }
     
     @SuppressWarnings("unchecked")
-	public Vector<Visit> getVisits (int activityid) throws ActivityNotFoundException {
-		Activity act = findActivity(activityid);
-
+	public Vector<Visit> getActivityVisits (int activityid) throws ActivityNotFoundException {
     	Query q = emgr.getEM().
     			createQuery("select v from Visit v where v.activity.id =:activityid").
-    			setParameter("activityid", act.getId());
+    			setParameter("activityid", activityid);
         return (Vector<Visit>) emgr.executeMultipleObjectQuery(q);
     }
+
+    @SuppressWarnings("unchecked")
+	public Vector<Visit> getPatientVisits (int patientid) throws ActivityNotFoundException {
+    	Query q = emgr.getEM().
+    			createQuery("select v from Visit v where v.activity.patienthistory.patient.id =:patientid").
+    			setParameter("patientid", patientid);
+        return (Vector<Visit>) emgr.executeMultipleObjectQuery(q);
+    }
+
+    public long countVisits() {
+    	Query q = emgr.getEM().createQuery("select count(v) from Visit v");
+        return emgr.executeSingleLongQuery(q);
+    }
+
+    public long countActivityVisits(int activityid) throws ActivityNotFoundException {
+    	Query q = emgr.getEM().
+    			createQuery("select count(v) from Visit v where v.activity.id =:activityid").
+    			setParameter("activityid", activityid);
+        return emgr.executeSingleLongQuery(q);
+    }
+
+    public long countPatientVisits(int patientid) {
+    	Query q = emgr.getEM().
+    			createQuery("select count(v) from Visit v where v.activity.patienthistory.patient.id =:patientid").
+    			setParameter("patientid", patientid);
+        return emgr.executeSingleLongQuery(q);
+    }
+
 
 /*
     public void deleteVisits (int activityid) throws PatientNotFoundException {
@@ -225,4 +253,38 @@ public class PatientServices extends AbstractEaoService {
 			_vdao.delete(v);
 		}
     }*/    
+    
+    
+    //PRIVATE
+    private void validateVisit(Activity act, Date start, Date end) throws ValidationException, ActivityNotFoundException {
+    	long acstart = act.getStartdate().getTime();
+    	long acend = act.getEnddate().getTime();
+    	long vtstart  = start.getTime();
+    	long vtend = end.getTime();
+
+    	//visit dates should make sense ..
+    	if (vtend <= vtstart)
+    		throw new ValidationException("Visit END date must come after the start date");
+    	
+    	//visit dates should be within activity dates
+    	if (acstart > vtstart || acend < vtend) 
+    		throw new ValidationException("Visit START and END date must be within the respective Activity dates");
+    	
+
+    	//if first visit we are good
+    	if (act.getVisits().size() <= 0)
+    		return;
+
+    	//visits cannot overlap one another,try and find a spot
+    	//among PATIENT visits NOT just ACTIVITY visits
+    	boolean invalid = false;
+    	for (Visit vt : getPatientVisits(act.getPatienthistory().getPatient().getId())) {
+			if (vtend < vt.getVisitdate().getTime() || vtstart > vt.getEnddate().getTime())
+				continue;
+			invalid = true;
+		}
+    	//overlaps some existing visit 
+    	if (invalid)
+    		throw new ValidationException("Visit dates cannot overlap one another");
+    }
 }

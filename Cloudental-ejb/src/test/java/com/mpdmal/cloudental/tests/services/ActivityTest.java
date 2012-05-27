@@ -23,7 +23,6 @@ import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
-import com.sun.enterprise.util.OS;
 
 public class ActivityTest extends ArquillianCloudentTest{
 	
