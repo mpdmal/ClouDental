@@ -16,19 +16,31 @@ public class Visit extends com.mpdmal.cloudental.entities.base.DBEntity implemen
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotNull
 	private String comments;
+	
+	@NotNull
 	private int color;
+	
 	@NotNull
 	private String title;
+	
+	@NotNull
 	@Temporal( TemporalType.TIMESTAMP)
 	private Date visitdate;
+	
 	@Temporal( TemporalType.TIMESTAMP)
 	private Date enddate;
-    @ManyToOne
+	
+    @ManyToOne (fetch=FetchType.LAZY)
 	@JoinColumn(name="activityid")
 	private Activity activity;
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="visit")
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="visit", fetch=FetchType.LAZY)
 	private Collection<Toothhistory> toothhistory;
+    
+    @NotNull
     private BigDecimal deposit;
 
     public Visit() {    }

@@ -187,14 +187,14 @@ public class PatientServices extends AbstractEaoService {
 */
 
     //VISITS
-    public Visit createVisit (int activityID, String description,
+    public Visit createVisit (int activityID, String comments,
     							String title, Date start, Date end, double deposit,
     							int color ) throws CloudentException {
     	Activity act = findActivity(activityID);
     	validateVisit(act, start, end);
     	
 		Visit v = new Visit();
-		v.setComments(description);
+		v.setComments(comments);
 		v.setVisitdate(start);
 		v.setEnddate(end);
 		v.setColor(color);
@@ -259,18 +259,24 @@ public class PatientServices extends AbstractEaoService {
     private void validateVisit(Activity act, Date start, Date end) throws ValidationException, ActivityNotFoundException {
     	long acstart = act.getStartdate().getTime();
     	long acend = act.getEnddate().getTime();
-    	long vtstart  = start.getTime();
-    	long vtend = end.getTime();
 
+    	if (start == null) 
+    		throw new ValidationException("Visit START date cannot be NULL");
+    	long vtstart  = start.getTime();
+    	
+    	if (end == null) { //open visit
+    		validateOpenVisit(act, vtstart);
+        	return;
+    	}
+    	long vtend = end.getTime();
     	//visit dates should make sense ..
     	if (vtend <= vtstart)
-    		throw new ValidationException("Visit END date must come after the start date");
+    		throw new ValidationException("Visit END date must come after the AFTER date");
     	
     	//visit dates should be within activity dates
     	if (acstart > vtstart || acend < vtend) 
     		throw new ValidationException("Visit START and END date must be within the respective Activity dates");
     	
-
     	//if first visit we are good
     	if (act.getVisits().size() <= 0)
     		return;
@@ -279,12 +285,47 @@ public class PatientServices extends AbstractEaoService {
     	//among PATIENT visits NOT just ACTIVITY visits
     	boolean invalid = false;
     	for (Visit vt : getPatientVisits(act.getPatienthistory().getPatient().getId())) {
+    		if (vt.getEnddate() == null) {//closed visit against an open one
+    			//fail if an open visit startdate within new visit dates
+    			if (vt.getVisitdate().getTime() >= vtstart && 
+    					vt.getVisitdate().getTime() <= vtend) {
+    				invalid = true;
+    				break;
+    			}
+    			continue;
+    		}
+    		//closed visits
 			if (vtend < vt.getVisitdate().getTime() || vtstart > vt.getEnddate().getTime())
 				continue;
 			invalid = true;
 		}
     	//overlaps some existing visit 
     	if (invalid)
-    		throw new ValidationException("Visit dates cannot overlap one another");
+    		throw new ValidationException("Visit dates cannot OVERLAP one another");
+    }
+    
+    //validate an open visit, check start date does not fall inside some other visit dates.
+    private void validateOpenVisit(Activity act, long vtstart) throws ActivityNotFoundException, ValidationException {
+    	boolean invalid = false;
+    	for (Visit vt : getPatientVisits(act.getPatienthistory().getPatient().getId())) {
+    		if (vt.getEnddate() == null) {//open visit against open visit
+    			if (vtstart == vt.getVisitdate().getTime()) { //same visit time .. invalid
+					invalid = true;
+					break;
+    			}
+    			continue;
+    		}
+    		//open visit against closed visit
+    		//invalid if new open visit startdate falls inside existing closed visit dates
+			if (vtstart >= vt.getVisitdate().getTime()) {
+				if (vtstart <= vt.getEnddate().getTime()) {
+					invalid = true;
+					break;
+				}
+    		}
+		}
+    	//overlaps some existing visit 
+    	if (invalid)
+    		throw new ValidationException("Visit dates cannot OVERLAP one another");
     }
 }

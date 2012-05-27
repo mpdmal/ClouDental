@@ -32,54 +32,78 @@ public class VisitTestSet extends ArquillianCloudentTestBase {
 		long start = System.currentTimeMillis();
 		
 		//valid visits for activity1
-		Activity act1 = psvcbean.createActivity(p.getId(), "activity 1", new Date(start), new Date(start+110000), item.getId(), dc.getId(), null);
+		Activity act1 = psvcbean.createActivity(p.getId(), "activity 1", new Date(start), new Date(start+1100000), item.getId(), dc.getId(), null);
 		psvcbean.createVisit(act1.getId(), "some descr1", "a visit1_1", new Date(start+50000), new Date(start+60000), 100.0, 2);
 		psvcbean.createVisit(act1.getId(), "some descr2", "a visit1_2", new Date(start+80000), new Date(start+90000), 200.0, 2);
-		assertEquals(2, psvcbean.countPatientVisits(p.getId()));
+		psvcbean.createVisit(act1.getId(), "some descr3", "a visit1_3", new Date(start+20000), null, 300.0, 2);
+		assertEquals(3, psvcbean.countPatientVisits(p.getId()));
 		
 		//failed create , overlapping visits
 		try {
 			psvcbean.createVisit(act1.getId(), "some descr", "a visit1_fail1",new Date(start+80500),new Date(start+89000), 100.0, 2);
 		} catch (ValidationException e1) {
-			assertEquals("Visit dates cannot overlap one another", e1.getMessage());
+			assertEquals("Visit dates cannot OVERLAP one another", e1.getMessage());
 		}
-		assertEquals(2, psvcbean.countPatientVisits(p.getId()));
+		assertEquals(3, psvcbean.countPatientVisits(p.getId()));
 		try {
 			psvcbean.createVisit(act1.getId(), "some descr", "a visit1_fail2",new Date(start+40000),new Date(start+70000), 100.0, 2);
 		} catch (ValidationException e1) {
-			assertEquals("Visit dates cannot overlap one another", e1.getMessage());
+			assertEquals("Visit dates cannot OVERLAP one another", e1.getMessage());
 		}
-		assertEquals(2, psvcbean.countPatientVisits(p.getId()));
-		assertEquals(2, psvcbean.countActivityVisits(act1.getId()));
+		assertEquals(3, psvcbean.countPatientVisits(p.getId()));
+		assertEquals(3, psvcbean.countActivityVisits(act1.getId()));
 		
 		//valid visits for activity2
-		Activity act2 = psvcbean.createActivity(p.getId(), "activity 2", new Date(),new Date(start+220000000), item.getId(), dc.getId(), null);	
-		psvcbean.createVisit(act2.getId(), "some descr3", "a visit2_1",new Date(start+180000000),new Date(start+190000000), 10.0, 1);
-		psvcbean.createVisit(act2.getId(), "some descr4", "a visit2_2",new Date(start+80000000),new Date(start+90000000), 20.0, 1);
+		Activity act2 = psvcbean.createActivity(p.getId(), "activity 2", new Date(start),new Date(start+220000000), item.getId(), dc.getId(), null);	
+		psvcbean.createVisit(act2.getId(), "some descr4", "a visit2_1",new Date(start+180000000),new Date(start+190000000), 10.0, 1);
+		psvcbean.createVisit(act2.getId(), "some descr5", "a visit2_2",new Date(start+80000000),new Date(start+90000000), 20.0, 1);
 		assertEquals(2, psvcbean.countActivityVisits(act2.getId()));
+		
+		//valid create with no end date
+		psvcbean.createVisit(act2.getId(), "some descr6", "a visit2_3", new Date(start+130000), null, 10.0, 1);
+		assertEquals(3, psvcbean.countActivityVisits(act2.getId()));
+		
 		//failed create , overlapping visits of different activities
 		try {
 			psvcbean.createVisit(act2.getId(), "some descr2", "a visit2_failed", new Date(start+85000), new Date(start+95000), 200.0, 2);
 		} catch (ValidationException e1) {
-			assertEquals("Visit dates cannot overlap one another", e1.getMessage());
+			assertEquals("Visit dates cannot OVERLAP one another", e1.getMessage());
 		}
-		assertEquals(2, psvcbean.countActivityVisits(act2.getId()));
+		assertEquals(3, psvcbean.countActivityVisits(act2.getId()));
+		
 		//failed create ..outside activity dates
 		try {
 			psvcbean.createVisit(act2.getId(), "some descr", "a visit2_failed",new Date(start + 180000000), new Date(start + 340000000), 10.0, 1);
 		} catch (ValidationException e) {
 			assertEquals("Visit START and END date must be within the respective Activity dates", e.getMessage());
 		}
-		assertEquals(2, psvcbean.countActivityVisits(act2.getId()));
+		assertEquals(3, psvcbean.countActivityVisits(act2.getId()));
 		
 		try {
 			psvcbean.createVisit(act2.getId(), "some descr", "a visit2_", new Date(start-10000), new Date(start+190000000), 10.0, 1);
 		} catch (ValidationException e) {
 			assertEquals("Visit START and END date must be within the respective Activity dates", e.getMessage());
 		}
-		assertEquals(4, psvcbean.countPatientVisits(p.getId()));
-		assertEquals(2, psvcbean.countActivityVisits(act2.getId()));
-		assertEquals(2, psvcbean.countActivityVisits(act1.getId()));
+		assertEquals(3, psvcbean.countActivityVisits(act2.getId()));
+		
+		//failed create ..constraint violated
+		try {
+			psvcbean.createVisit(act2.getId(), null, null, new Date(start+10000), null, 10.0, 1);
+		} catch (ValidationException e) {
+			assertEquals(true, e.getMessage().contains("Property->COMMENTS on Entity->VISIT may not be null"));
+			assertEquals(true, e.getMessage().contains("Property->TITLE on Entity->VISIT may not be null"));
+		}
+		assertEquals(3, psvcbean.countActivityVisits(act2.getId()));
+		//failed create ..invalid act
+		try {
+			psvcbean.createVisit(-1, "", "", new Date(start+10000), null, 10.0, 1);
+		} catch (ActivityNotFoundException e) {
+			assertEquals("Activity not found:-1\n", e.getMessage());
+		}
+
+		assertEquals(6, psvcbean.countPatientVisits(p.getId()));
+		assertEquals(3, psvcbean.countActivityVisits(act2.getId()));
+		assertEquals(3, psvcbean.countActivityVisits(act1.getId()));
 	}
 	
 	@Test
@@ -89,8 +113,8 @@ public class VisitTestSet extends ArquillianCloudentTestBase {
 		Dentist d = dbean.findDentistByUsername("arilou");
 		Patient p = d.getPatientList().iterator().next();
 		for (Activity act : p.getDentalHistory().getActivities()) {
-			assertEquals(2, psvcbean.countActivityVisits(act.getId()));
-			assertEquals(2, psvcbean.getActivityVisits(act.getId()).size());
+			assertEquals(3, psvcbean.countActivityVisits(act.getId()));
+			assertEquals(3, psvcbean.getActivityVisits(act.getId()).size());
 		}
 		
 		//get by service
@@ -100,9 +124,9 @@ public class VisitTestSet extends ArquillianCloudentTestBase {
 			assertEquals(true, visit.getTitle().contains("a visit"));
 			assertEquals(true, visit.getComments().contains("some descr"));
 		}
-		assertEquals(4, visits.size());
-		assertEquals(4, psvcbean.countVisits());
-		assertEquals(4, psvcbean.countPatientVisits(p.getId()));
+		assertEquals(6, visits.size());
+		assertEquals(6, psvcbean.countVisits());
+		assertEquals(6, psvcbean.countPatientVisits(p.getId()));
 		
 	}
 	
@@ -111,7 +135,9 @@ public class VisitTestSet extends ArquillianCloudentTestBase {
 	public void update() {}
 	@Test
 	@InSequence (4)
-	public void delete() {}
+	public void delete() {
+		dbean.deleteDentists();
+	}
 }
 
 
