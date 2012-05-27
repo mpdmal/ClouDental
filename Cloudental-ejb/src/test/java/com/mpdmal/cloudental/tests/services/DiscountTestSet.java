@@ -10,13 +10,13 @@ import org.junit.Test;
 
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
-import com.mpdmal.cloudental.tests.base.ArquillianCloudentTest;
+import com.mpdmal.cloudental.tests.base.ArquillianCloudentTestBase;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
-public class DiscountTest extends ArquillianCloudentTest {
+public class DiscountTestSet extends ArquillianCloudentTestBase {
 	@Test 
 	@InSequence (1)
 	public void create() throws CloudentException {

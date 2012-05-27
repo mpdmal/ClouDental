@@ -12,7 +12,7 @@ import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.entities.Visit;
-import com.mpdmal.cloudental.tests.base.ArquillianCloudentTest;
+import com.mpdmal.cloudental.tests.base.ArquillianCloudentTestBase;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 import static org.junit.Assert.assertEquals;
 
@@ -20,7 +20,7 @@ import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
 
-public class VisitTest extends ArquillianCloudentTest {
+public class VisitTestSet extends ArquillianCloudentTestBase {
 	@Test 
 	@InSequence (1)
 	public void create() throws CloudentException {

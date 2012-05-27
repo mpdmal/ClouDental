@@ -14,7 +14,7 @@ import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.tests.util.TestUtils;
 
 @RunWith(Arquillian.class)
-public class ArquillianCloudentTest {
+public class ArquillianCloudentTestBase {
 	@Inject
 	protected DentistBean dbean;
 	@Inject

@@ -5,8 +5,7 @@ import java.util.Iterator;
 import javax.persistence.Query;
 import javax.validation.ConstraintViolationException;
 
-import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
-
+import org.hibernate.validator.engine.ConstraintViolationImpl;
 
 
 import com.mpdmal.cloudental.util.exception.InvalidAddressTypeException;

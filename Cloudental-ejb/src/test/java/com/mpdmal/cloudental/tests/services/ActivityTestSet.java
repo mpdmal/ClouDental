@@ -15,7 +15,8 @@ import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
-import com.mpdmal.cloudental.tests.base.ArquillianCloudentTest;
+
+import com.mpdmal.cloudental.tests.base.ArquillianCloudentTestBase;
 import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
@@ -24,7 +25,7 @@ import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
-public class ActivityTest extends ArquillianCloudentTest{
+public class ActivityTestSet extends ArquillianCloudentTestBase{
 	
 	@Test
 	@InSequence (1)

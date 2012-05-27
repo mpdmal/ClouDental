@@ -2,10 +2,10 @@ package com.mpdmal.cloudental.tests.services;
 
 import org.junit.Test;
 
-import com.mpdmal.cloudental.tests.base.ArquillianCloudentTest;
+import com.mpdmal.cloudental.tests.base.ArquillianCloudentTestBase;
 import static org.junit.Assert.assertEquals;
 
-public class DentistServicesTest extends ArquillianCloudentTest {
+public class DentistServicesTestSet extends ArquillianCloudentTestBase {
 	@Test
 	public void dbTest() {
 		//clean up the db before the rest of the tests :P

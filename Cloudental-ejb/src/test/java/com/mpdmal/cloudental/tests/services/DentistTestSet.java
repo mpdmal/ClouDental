@@ -11,14 +11,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.mpdmal.cloudental.entities.Dentist;
-import com.mpdmal.cloudental.tests.base.ArquillianCloudentTest;
+import com.mpdmal.cloudental.tests.base.ArquillianCloudentTestBase;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 @RunWith(Arquillian.class)
-public class DentistTest extends ArquillianCloudentTest{
+public class DentistTestSet extends ArquillianCloudentTestBase{
 	@Test
 	@InSequence (1)
 	public void create() throws CloudentException {
