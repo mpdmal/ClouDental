@@ -4,6 +4,8 @@ import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,19 +16,24 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true)
 	private Integer id;
 
 	@NotNull
+	@NotEmpty
 	@Column(length=80)
 	private String name;
 	@NotNull
+	@NotEmpty
 	@Column(length=16)
 	private String password;
 	@NotNull
+	@NotEmpty
 	@Column(length=80)
 	private String surname;
 	@NotNull
-	@Column(length=16)
+	@NotEmpty
+	@Column(unique=true, length=16)
 	private String username;
 
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.LAZY)

@@ -34,7 +34,7 @@ public class ActivityManagementBean extends Activity{
 	}
 
 	public String createActivity() throws Exception{
-		patientServices.createActivity(selectedPatient.getId(), getDescription(), getStartdate(), getEnddate(), selectedPricelistItem.getId(), selectedDiscount.getId());
+		patientServices.createActivity(selectedPatient.getId(), getDescription(), getStartdate(), getEnddate(), selectedPricelistItem.getId(), selectedDiscount.getId(), getPrice());
 		updateActivityList();
 		return null;
 	}
@@ -111,7 +111,7 @@ public class ActivityManagementBean extends Activity{
 		if(selectedPatient!=null){
 			System.out.println("getActivities for patientID: "+selectedPatient.getId());
 			try {
-				result = patientServices.getActivities(selectedPatient.getId());
+				result = patientServices.getPatientActivities(selectedPatient.getId());
 			} catch (PatientNotFoundException e) {
 				e.printStackTrace();
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Service error", e.getMessage()));

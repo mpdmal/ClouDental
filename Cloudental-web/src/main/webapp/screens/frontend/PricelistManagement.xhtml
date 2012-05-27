@@ -45,7 +45,7 @@
 	        	<p:menuitem value="Delete" update="priceList" icon="ui-icon-close" actionListener="#{pricelistItemManagementBean.deletePricelistItem}"/>  
 	    	</p:contextMenu>
 	    	  
-			<p:dataTable value="#{pricelistItemManagementBean.pricelist}" var="item" id="priceList" editable="true"
+			<p:dataTable value="#{pricelistHolder.pricelist}" var="item" id="priceList" editable="true"
 			 				rowKey="#{item.id}"  selection="#{pricelistItemManagementBean.selectedItem}" selectionMode="single">
 			 				
 				<p:column headerText="id" sortBy="#{item.id}" >

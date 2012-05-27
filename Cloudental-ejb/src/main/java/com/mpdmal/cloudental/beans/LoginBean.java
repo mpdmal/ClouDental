@@ -25,7 +25,7 @@ public class LoginBean extends AbstractEaoService {
     public Dentist doLogin(String username, String password) 
     									throws DentistNotFoundException, 
     									InvalidPasswordException {
-    	Dentist d = dentistEao.getDentist(username);
+    	Dentist d = dentistEao.findDentistByUsername(username);
     	if (d == null)
     		throw new DentistNotFoundException(username);
     	

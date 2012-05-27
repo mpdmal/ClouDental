@@ -43,7 +43,7 @@ public class DiscountManagementBean extends Discount {
 		return null;
 	}
 
-	public String updateDiscount(){
+	public String updateDiscount() throws DiscountNotFoundException{
 		if (getId() != null)
 			dentistService.updateDiscount(getId(), getDescription(), getTitle());
 		return null;

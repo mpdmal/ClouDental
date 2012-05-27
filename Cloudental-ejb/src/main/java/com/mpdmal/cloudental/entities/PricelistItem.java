@@ -13,21 +13,22 @@ public class PricelistItem extends com.mpdmal.cloudental.entities.base.DBEntity 
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
+	@Column(unique=true)
 	private Integer id;
 
 	@Column(length=256)
 	private String description;
 
 	@NotNull
-	@Column(updatable=false, nullable=false, precision=131089)
+	@Column(updatable=false, precision=131089)
 	private BigDecimal price;
 
 	@NotNull
-	@Column(nullable=false, length=80)
+	@Column(length=80)
 	private String title;
 
 	//bi-directional many-to-one association to Dentist
+	@NotNull
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="dentistid", nullable=true, insertable=true, updatable=false)
 	private Dentist dentist;

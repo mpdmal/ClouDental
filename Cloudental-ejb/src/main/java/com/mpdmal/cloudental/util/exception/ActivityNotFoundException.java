@@ -7,7 +7,7 @@ public class ActivityNotFoundException  extends CloudentException {
 	private static final long serialVersionUID = 1L;
 
 	public ActivityNotFoundException(int activityid) {
-		super("Activity not found:"+activityid);
+		super("Activity not found:"+activityid+"\n");
 		CloudentUtils.logError("Activity not found:"+activityid);
 	}
 

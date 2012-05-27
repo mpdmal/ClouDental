@@ -12,7 +12,6 @@ import com.mpdmal.cloudental.beans.base.AbstractEaoService;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
-import com.mpdmal.cloudental.util.exception.InvalidDentistCredentialsException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
 
 @Named
@@ -23,11 +22,12 @@ public class DentistBean extends AbstractEaoService {
     public DentistBean() {}
     
     public Dentist createDentist(String name, String surname, String username, String password) 
-    																throws  InvalidDentistCredentialsException,
-    																DentistExistsException, ValidationException {
-    	
-    	if (getDentist(username) != null) 
-    		throw new DentistExistsException(username, "Already exists, wont create");
+    																throws  DentistExistsException, 
+    																		ValidationException {
+    	try {
+			if (findDentistByUsername(username) != null)
+				throw new DentistExistsException(username);
+		} catch (DentistNotFoundException ignored) {}
     	
     	Dentist d = new Dentist();
 		d.setName(name);
@@ -39,10 +39,9 @@ public class DentistBean extends AbstractEaoService {
 		return d;
     }
 
-    public Dentist getDentist(String username) {
-    	Query q = emgr.getEM().createQuery("select d from Dentist d where d.username = :username")
-    			.setParameter("username", username);
-        return (Dentist) emgr.executeSingleObjectQuery(q);
+    public long countDentists() {
+    	Query q = emgr.getEM().createQuery("select count(d) from Dentist d");
+        return emgr.executeSingleLongQuery(q);
     }
 
     public void updateDentist(Dentist d) throws DentistNotFoundException {
@@ -52,28 +51,15 @@ public class DentistBean extends AbstractEaoService {
     	emgr.update(d);
     }
     
-    public void deleteDentist(Dentist d) throws DentistNotFoundException {
-    	String uname = d.getUsername();
-    	d = emgr.findOrFail(Dentist.class, d.getId());
-    	if (d == null) {
-    		throw new DentistNotFoundException(uname);
-    	}
+    public void deleteDentist(int id) throws DentistNotFoundException {
+    	Dentist d = findDentist(id);
     	emgr.delete(d);
     }
 
-    public void deleteDentist(String username) throws DentistNotFoundException {
-    	Dentist d = getDentist(username); 
-    	if (d == null) {
-    		throw new DentistNotFoundException(username);
-    	}
+    public void deleteDentistByUsername(String username) throws DentistNotFoundException {
+    	Dentist d = findDentistByUsername(username); 
     	emgr.delete(d);
     }
-
-    public long countDentists() {
-    	Query q = emgr.getEM().createQuery("select count(d) from Dentist d");
-        return emgr.executeSingleLongQuery(q);
-    }
-
 
     @SuppressWarnings("unchecked")
 	public Vector<Dentist> getDentists() {
@@ -85,7 +71,7 @@ public class DentistBean extends AbstractEaoService {
     	Vector<Dentist> dents = getDentists();
     	for (Dentist dentist : dents) {
 			try {
-				deleteDentist(dentist);
+				deleteDentist(dentist.getId());
 			} catch (DentistNotFoundException e) {
 				//should never happen
 				e.printStackTrace();

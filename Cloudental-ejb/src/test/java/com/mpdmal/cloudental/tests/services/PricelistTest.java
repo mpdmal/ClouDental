@@ -55,8 +55,8 @@ public class PricelistTest extends ArquillianCloudentTest {
 	
 	@Test
 	@InSequence (2)
-	public void getAndCount () {
-		Dentist d = dbean.getDentist("Arilou");
+	public void getAndCount () throws DentistNotFoundException {
+		Dentist d = dbean.findDentistByUsername("Arilou");
 		//get by dentist id
 		Collection<PricelistItem> dscs = dsvcbean.getPricelist(d.getId());
 		assertEquals(13, dscs.size());
@@ -80,24 +80,25 @@ public class PricelistTest extends ArquillianCloudentTest {
 	@Test 
 	@InSequence (3)
 	public void update() throws CloudentException {
-		Collection<PricelistItem> dscs = dsvcbean.getPricelist(dbean.getDentist("Arilou").getId());
+		Collection<PricelistItem> dscs = dsvcbean.getPricelist(dbean.findDentistByUsername("Arilou").getId());
 		//update pricelist items
 		for (PricelistItem item : dscs) {
 			dsvcbean.updatePricelistItem(item.getId(), "altered!!!", " altered title");
 		}
 		
-		dscs = (Collection<PricelistItem>)dsvcbean.getPricelist(dbean.getDentist("Arilou").getId());
+		dscs = (Collection<PricelistItem>)dsvcbean.getPricelist(dbean.findDentistByUsername("Arilou").getId());
 		for (PricelistItem item : dscs) {
 			assertEquals("altered!!!", item.getDescription());
 			assertEquals(" altered title", item.getTitle());
 		}
 	}
+
 	@Test
 	@InSequence (4)
 	public void delete() throws CloudentException {
 		assertEquals(13, dsvcbean.countPricelistItems());
 
-		Dentist dentist = dbean.getDentist("Arilou");
+		Dentist dentist = dbean.findDentistByUsername("Arilou");
 		Vector<PricelistItem> dscs = (Vector<PricelistItem>)dsvcbean.getPricelist(dentist.getId());
 		//delete by id
 		for (int i = 0; i < 5; i++) {
@@ -126,7 +127,7 @@ public class PricelistTest extends ArquillianCloudentTest {
 			dsvcbean.createPricelistItem(dentist.getId(), "pricelist item title"+i, "some descr ...", 10.0+i);
 		assertEquals(10, dsvcbean.countPricelistItems());
 
-		dbean.deleteDentist("Arilou");		
+		dbean.deleteDentistByUsername("Arilou");		
 		assertEquals(0, dsvcbean.countPricelistItems());
 	}
 }

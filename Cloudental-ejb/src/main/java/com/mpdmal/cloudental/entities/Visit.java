@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 public class Visit extends com.mpdmal.cloudental.entities.base.DBEntity implements Serializable {
@@ -28,7 +28,7 @@ public class Visit extends com.mpdmal.cloudental.entities.base.DBEntity implemen
 	@JoinColumn(name="activityid")
 	private Activity activity;
     @OneToMany(cascade=CascadeType.ALL, mappedBy="visit")
-	private Set<Toothhistory> toothhistory;
+	private Collection<Toothhistory> toothhistory;
     private BigDecimal deposit;
 
     public Visit() {    }
@@ -38,12 +38,12 @@ public class Visit extends com.mpdmal.cloudental.entities.base.DBEntity implemen
 	public String getComments() 	{	return this.comments;	}
 	public Integer getId() 			{	return this.id;	}
 	public Activity getActivity() 	{	return this.activity;	}
-	public Set<Toothhistory> getToothhistory() {	return this.toothhistory;	}
+	public Collection<Toothhistory> getToothhistory() {	return this.toothhistory;	}
     public BigDecimal getDeposit() 	{	return this.deposit;	}
 	public String getTitle() 	{	return this.title;	}
 	public Integer getColor() 			{	return this.color;	}
 	
-    public void setToothhistory(Set<Toothhistory> toothhistory) {	this.toothhistory= toothhistory;	}
+    public void setToothhistory(Collection<Toothhistory> toothhistory) {	this.toothhistory= toothhistory;	}
 	public void setActivity(Activity activity) 	{	this.activity = activity;	}
 	public void setComments(String comments) 	{	this.comments = comments;	}
 	public void setEnddate(Date enddate) 	{	this.enddate = enddate;	}

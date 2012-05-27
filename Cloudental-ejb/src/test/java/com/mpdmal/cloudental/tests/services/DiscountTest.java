@@ -55,8 +55,8 @@ public class DiscountTest extends ArquillianCloudentTest {
 	
 	@Test
 	@InSequence (2)
-	public void getAndCount () {
-		Dentist d = dbean.getDentist("Arilou");
+	public void getAndCount () throws DentistNotFoundException {
+		Dentist d = dbean.findDentistByUsername("Arilou");
 		//get by dentist id
 		Collection<Discount> dscs = dsvcbean.getDiscounts(d.getId());
 		assertEquals(13, dscs.size());
@@ -79,25 +79,26 @@ public class DiscountTest extends ArquillianCloudentTest {
 	
 	@Test 
 	@InSequence (3)
-	public void update() {
-		Collection<Discount> dscs = dsvcbean.getDiscounts(dbean.getDentist("Arilou").getId());
+	public void update() throws CloudentException {
+		Collection<Discount> dscs = dsvcbean.getDiscounts(dbean.findDentistByUsername("Arilou").getId());
 		//update discounts
 		for (Discount discount : dscs) {
 			dsvcbean.updateDiscount(discount.getId(), "altered!!!", " altered title");
 		}
 		
-		dscs = (Collection<Discount>)dsvcbean.getDiscounts(dbean.getDentist("Arilou").getId());
+		dscs = (Collection<Discount>)dsvcbean.getDiscounts(dbean.findDentistByUsername("Arilou").getId());
 		for (Discount discount : dscs) {
 			assertEquals("altered!!!", discount.getDescription());
 			assertEquals(" altered title", discount.getTitle());
 		}
 	}
+	
 	@Test
 	@InSequence (4)
-	public void delete() throws DiscountNotFoundException, DentistNotFoundException, ValidationException {
+	public void delete() throws CloudentException {
 		assertEquals(13, dsvcbean.countDiscounts());
 
-		Dentist dentist = dbean.getDentist("Arilou");
+		Dentist dentist = dbean.findDentistByUsername("Arilou");
 		Vector<Discount> dscs = (Vector<Discount>)dsvcbean.getDiscounts(dentist.getId());
 		//delete by id
 		for (int i = 0; i < 5; i++) {
@@ -126,7 +127,7 @@ public class DiscountTest extends ArquillianCloudentTest {
 			dsvcbean.createDiscount(dentist.getId(), "discount title"+i, "some descr ...", 10.0+i);
 		assertEquals(10, dsvcbean.countDiscounts());
 
-		dbean.deleteDentist("Arilou");		
+		dbean.deleteDentistByUsername ("Arilou");		
 		assertEquals(0, dsvcbean.countDiscounts());
 	}
 }

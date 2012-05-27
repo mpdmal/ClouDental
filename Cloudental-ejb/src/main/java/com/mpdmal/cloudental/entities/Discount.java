@@ -12,15 +12,23 @@ public class Discount extends com.mpdmal.cloudental.entities.base.DBEntity imple
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true)
 	private Integer id;
+	
+	@Column(length=256)
 	private String description;
+	
 	@NotNull
+	@Column(length=80)
 	private String title;
+	
 	@NotNull
+	@Column(updatable=false, precision=131089)
 	private BigDecimal discount;
+	
 	@NotNull
-    @ManyToOne
-	@JoinColumn(name="dentistid")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="dentistid", insertable=true, updatable=false)
 	private Dentist dentist;
 
     public Discount() {}

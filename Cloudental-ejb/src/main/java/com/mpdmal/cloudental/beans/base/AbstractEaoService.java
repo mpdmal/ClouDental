@@ -1,6 +1,7 @@
 package com.mpdmal.cloudental.beans.base;
 
 import javax.ejb.EJB;
+import javax.persistence.Query;
 
 import com.mpdmal.cloudental.EaoManager;
 import com.mpdmal.cloudental.entities.Activity;
@@ -26,7 +27,17 @@ public class AbstractEaoService {
 			throw new DentistNotFoundException(id);
 		return d;     
     }
-    
+
+    public Dentist findDentistByUsername(String username) throws DentistNotFoundException {
+    	Query q = emgr.getEM().createQuery("select d from Dentist d where d.username= :username")
+    			.setParameter("username", username);
+    	Dentist d = (Dentist)emgr.executeSingleObjectQuery(q);
+    	 
+		if (d == null) 
+			throw new DentistNotFoundException(username);
+		return d;     
+    }
+
     public PricelistItem findPricable(int id) throws PricelistItemNotFoundException {
     	PricelistItem item = emgr.findOrFail(PricelistItem.class, id);
     	if (item == null)
