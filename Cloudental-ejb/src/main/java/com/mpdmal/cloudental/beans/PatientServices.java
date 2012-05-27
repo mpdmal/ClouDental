@@ -1,6 +1,7 @@
 package com.mpdmal.cloudental.beans;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Vector;
 
@@ -30,6 +31,7 @@ import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
+import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 @Named
@@ -100,9 +102,14 @@ public class PatientServices extends AbstractEaoService {
 		return;
 		}
 		
-		emgr.update(act);
+		Activity ac = findActivity(act.getId());
+		ac.setDiscount(act.getDiscount());
+		ac.setDescription(act.getDescription());
+		ac.setOpen(act.isOpen());
+		ac.setPrice(act.getPrice());
+		ac.setPriceable(act.getPriceable());
+		emgr.update(ac);
 	}
-
    
     @SuppressWarnings("unchecked")
 	public Vector<Activity> getPatientActivities (int patientid) throws PatientNotFoundException {
@@ -114,7 +121,7 @@ public class PatientServices extends AbstractEaoService {
         return (Vector<Activity>) emgr.executeMultipleObjectQuery(q);
     }
 
-    //SERVICES
+    //OTHER SERVICES
     public Medicalhistoryentry createMedicalEntry(int patientID, String comment, int alert) throws 
     															PatientNotFoundException,
     															InvalidMedEntryAlertException {
@@ -242,20 +249,51 @@ public class PatientServices extends AbstractEaoService {
         return emgr.executeSingleLongQuery(q);
     }
 
+	public void deleteVisit (int visitid) throws VisitNotFoundException {
+		Visit v = findVisit(visitid);
+		v.getActivity().removeVisit(v);
+		emgr.delete(v);
+	}
 
-/*
-    public void deleteVisits (int activityid) throws PatientNotFoundException {
-    	Activity acvt = _acvdao.getActivity(activityid);
-    	if (acvt == null) 
-    		throw new PatientNotFoundException (activityid, "Cannot delete Visits");
-    	
-    	for (Visit v : acvt.getVisits()) {
-			_vdao.delete(v);
+	public void deleteActivityVisits (int activityid) throws PatientNotFoundException,
+	VisitNotFoundException, ActivityNotFoundException {
+		Activity act = findActivity(activityid);
+		Vector<Visit> visits = (Vector<Visit>)act.getVisits();
+		
+		while (visits.size() > 0) {
+			deleteVisit(visits.elementAt(0).getId());
 		}
-    }*/    
-    
-    
+	}
+	
+	public void deletePatientVisits (int patientid) throws PatientNotFoundException,
+											VisitNotFoundException, ActivityNotFoundException {
+		Patient p = findPatient(patientid);
+		Collection<Activity> acts = p.getDentalHistory().getActivities();
+		for (Activity activity : acts) {
+			Vector<Visit> visits = (Vector<Visit>) activity.getVisits();
+			while (visits.size() > 0) {
+				deleteVisit(visits.elementAt(0).getId());
+			}
+		}
+	}
+	
+    public void updateVisit (Visit v) throws VisitNotFoundException { 
+		//validate activity
+    	Visit vt = findVisit(v.getId());
+		if (v.getEnddate() != null && (v.getEnddate().getTime() <= v.getVisitdate().getTime())) {
+		CloudentUtils.logWarning("Visit enddate cannot precede start date, wont update:"+v.getId());
+		return;
+		}
+		//can only update these
+		//end and start date will be done through special methods
+		vt.setComments(v.getComments());
+		vt.setColor(v.getColor());
+		vt.setDeposit(v.getDeposit());
+		vt.setTitle(v.getTitle());
+		emgr.update(vt);
+	}
     //PRIVATE
+    //validate the [start date, end date] time period against the visits of the underlying patient. enddate may be null (open visits)
     private void validateVisit(Activity act, Date start, Date end) throws ValidationException, ActivityNotFoundException {
     	long acstart = act.getStartdate().getTime();
     	long acend = act.getEnddate().getTime();

@@ -99,6 +99,12 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 		
 		visits.add(v);
 	}
+	
+	public void removeVisit(Visit v) {
+		if (visits.contains(v))
+			visits.remove(v);
+	}
+	
 	public String getDescription() 	{	return this.description;	}
 	public Date getEnddate() 	{	return this.enddate;	}
 	public Date getStartdate() {	return this.startdate;	}

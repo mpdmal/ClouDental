@@ -18,7 +18,9 @@ import static org.junit.Assert.assertEquals;
 
 import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
+import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
+import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
 
 public class VisitTestSet extends ArquillianCloudentTestBase {
 	@Test 
@@ -135,8 +137,21 @@ public class VisitTestSet extends ArquillianCloudentTestBase {
 	public void update() {}
 	@Test
 	@InSequence (4)
-	public void delete() {
+	public void delete() throws DentistNotFoundException, PatientNotFoundException, VisitNotFoundException, ActivityNotFoundException {
+		Dentist d = dbean.findDentistByUsername("arilou");
+		Patient p = d.getPatientList().iterator().next();
+		Activity act1 = p.getDentalHistory().getActivities().iterator().next();
+
+		assertEquals(3, psvcbean.countActivityVisits(act1.getId()));
+		psvcbean.deleteVisit(act1.getVisits().iterator().next().getId());
+		assertEquals(2, psvcbean.countActivityVisits(act1.getId()));
+		psvcbean.deleteActivityVisits(act1.getId());
+		assertEquals(0, psvcbean.countActivityVisits(act1.getId()));
+		assertEquals(3, psvcbean.countPatientVisits(p.getId()));
+		psvcbean.deletePatientVisits(p.getId());
+		assertEquals(0, psvcbean.countPatientVisits(p.getId()));
 		dbean.deleteDentists();
+		assertEquals(0, psvcbean.countVisits());
 	}
 }
 
