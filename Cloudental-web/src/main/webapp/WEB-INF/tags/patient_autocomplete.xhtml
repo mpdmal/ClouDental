@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cde="http://cloudental.gr">
+
+<body>
+	<ui:component>
+		 
+		<p:autoComplete value="#{patient}" 
+			size="#{size}"
+			completeMethod="#{patientManagementBean.completePatient}" var="p"
+			itemLabel="#{p.name} #{p.surname}" itemValue="#{p}"
+			converter="patientConverter" forceSelection="true" global="false">
+			<p:column>  
+				<h:outputText value="#{p.name}" />&nbsp;-&nbsp;
+				<h:outputText value="#{p.surname}" />
+	        </p:column>
+		</p:autoComplete>
+	</ui:component>
+</body>
+</html>

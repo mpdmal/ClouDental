@@ -10,4 +10,8 @@
 		<tag-name>copyright</tag-name>
 		<source>tags/copyright.xhtml</source>
 	</tag>
+	<tag>
+		<tag-name>patientAutoComplete</tag-name>
+		<source>tags/patient_autocomplete.xhtml</source>
+	</tag>
 </facelet-taglib>

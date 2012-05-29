@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cde="http://cloudental.gr">
 
 <ui:composition template="/screens/frontend/template.xhtml">
 	<ui:define name="header">
@@ -18,21 +19,11 @@
 		<h:form id="createActivityForm">
 			<p:panel header="Create Activity">
 				<h:panelGrid columns="2">
-					<h:outputText value="Patient: " />
-					<p:autoComplete value="#{activityManagementBean.selectedPatient}" id="patientId" 
-									completeMethod="#{patientManagementBean.completePatient}" var="p" 
-									itemLabel="#{p.name} #{p.surname}"	itemValue="#{p}"	
-									converter="patientConverter" forceSelection="true" global="false">
-						<p:column>
-							<h:outputText value="#{p.id}"/>
-						</p:column>
-						<p:column>  
-	                    		#{p.name} - #{p.surname}  
-	                	</p:column>
-					</p:autoComplete>
-					
-					
-					<h:outputText value="PricelistItem: " />  
+				
+				<h:outputText value="Patient: " />
+				<cde:patientAutoComplete patient="#{activityManagementBean.selectedPatient}"  />
+				
+				<h:outputText value="PricelistItem: " />  
 			        <p:selectOneMenu value="#{activityManagementBean.selectedPricelistItem}" effect="fade" converter="pricelistItemConverter" var="p1" id="PricelistItem">  
 			            <f:selectItem itemLabel="Select One" itemValue="" />  
 			            <f:selectItems value="#{pricelistHolder.pricelist}" var="pricelistItem" itemLabel="#{pricelistItem.title}" itemValue="#{pricelistItem}"/>
@@ -80,22 +71,9 @@
 		
 		<h:form id="patientSelectionForm">
 		<h:panelGrid columns="3" cellpadding="5">  
-        <h:outputLabel for="patientName" value="Select Patient:" style="font-weight:bold"/>  
-			<p:autoComplete value="#{activityManagementBean.selectedPatient}" id="patient"  
-				completeMethod="#{patientManagementBean.completePatient}" var="p" 
-				itemLabel="#{p.name} #{p.surname}"	itemValue="#{p}"	
-				converter="patientConverter" forceSelection="true">
-					<p:column>
-						<h:outputText value="#{p.id}"/>
-					</p:column>
-					<p:column>  
-	                   		#{p.name} - #{p.surname}  
-	               	</p:column>
-	               	
-	               	
-				</p:autoComplete>
-				<p:commandButton value="Submit" action="#{activityManagementBean.updateActivityList}"  ajax="false"/>
-				
+        	<h:outputLabel for="patientName" value="Select Patient:" style="font-weight:bold"/>  
+			<cde:patientAutoComplete patient="#{activityManagementBean.selectedPatient}"  />
+			<p:commandButton value="Submit" action="#{activityManagementBean.updateActivityList}"  ajax="false"/>
 		</h:panelGrid>
 		</h:form>
 		
