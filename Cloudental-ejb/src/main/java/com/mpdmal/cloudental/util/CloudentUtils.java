@@ -6,7 +6,10 @@ import javax.persistence.Query;
 import javax.validation.ConstraintViolationException;
 
 import org.hibernate.validator.engine.ConstraintViolationImpl;
+import org.slf4j.LoggerFactory;
 
+
+import ch.qos.logback.classic.Logger;
 
 import com.mpdmal.cloudental.util.exception.InvalidAddressTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
@@ -17,6 +20,8 @@ import com.mpdmal.cloudental.util.exception.ValidationException;
 public class CloudentUtils {
 	//ENUMS
 	//POST-IT ALERTS
+	
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(CloudentUtils.class);
 	public static enum PostitAlertType {
 		NOTE (1, "Note"),
 		TODO (2, "To do"),
@@ -163,13 +168,13 @@ public class CloudentUtils {
 	public static void log(String entry, int type) {
 		switch (type) {
 			case LOG_TYPE_WARNING:
-				System.out.println("WARNING: "+entry);
+				logger.warn(entry);
 				break;
 			case LOG_TYPE_ERROR:
-				System.out.println("ERROR: "+entry);
+				logger.error(entry);
 				break;
 			case LOG_TYPE_MSG:
-				System.out.println("DEBUG: "+entry);
+				logger.info(entry);
 				break;							
 			default:
 				break;
