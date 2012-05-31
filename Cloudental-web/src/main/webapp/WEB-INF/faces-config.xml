@@ -66,11 +66,6 @@
 		<managed-bean-class>com.mpdmal.cloudental.web.beans.ScheduleBean</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
-	<!-- managed-bean>
-		<managed-bean-name>autoCompleteBean</managed-bean-name>
-		<managed-bean-class>com.mpdmal.cloudental.web.beans.AutoCompleteBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean -->
 	<managed-bean>
 		<managed-bean-name>activityManagementBean</managed-bean-name>
 		<managed-bean-class>com.mpdmal.cloudental.web.beans.ActivityManagementBean</managed-bean-class>
@@ -90,6 +85,16 @@
 		<managed-bean-name>discountManagementBean</managed-bean-name>
 		<managed-bean-class>com.mpdmal.cloudental.web.beans.DiscountManagementBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>activityHolderBean</managed-bean-name>
+		<managed-bean-class>com.mpdmal.cloudental.web.beans.ActivityHolderBean</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>visitHolder</managed-bean-name>
+		<managed-bean-class>com.mpdmal.cloudental.web.beans.VisitHolder</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
 	</managed-bean>
 	<navigation-rule>
 		<display-name>LoginRule</display-name>

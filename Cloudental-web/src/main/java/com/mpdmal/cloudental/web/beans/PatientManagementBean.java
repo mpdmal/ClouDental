@@ -8,6 +8,8 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.SelectEvent;
+
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Patient;
@@ -140,6 +142,12 @@ public class PatientManagementBean extends Patient {
 		PatientHolder patientHolder = (PatientHolder)context.getApplication() .evaluateExpressionGet(context, "#{patientHolder}", PatientHolder.class);
 		patientHolder.setPatientsList(loadPatientList());
     }
+    
+    public void handleSelect(SelectEvent event) {  
+    	//System.out.println("PatientManagementBean handleSelect: "+event.getObject().toString());
+        //FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected:" + event.getObject().toString(), null);  
+        //FacesContext.getCurrentInstance().addMessage(null, message);  
+    }  
 	
 
 

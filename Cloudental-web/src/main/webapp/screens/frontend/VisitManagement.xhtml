@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cde="http://cloudental.gr">
 
 <ui:composition template="/screens/frontend/template.xhtml">
 	<ui:define name="header">
@@ -17,25 +18,38 @@
 
 		<h:outputText value="Visit" />
 		<h:messages />
-		<h:form id="visit">
+		
+		
+		<cde:patientAutoComplete patient="#{visitManagementBean.selectedPatient}"  actionProvider="#{visitManagementBean}" />
+		
+		
+				
+		<h:form id="createVisitForm">
 			
 			<h:panelGrid columns="2">
-				<h:outputText value="Comments: " />
-				<h:inputText value="#{visitManagementBean.comments}" label="comments"/>
+				<h:outputText value="Activities: " />
+				<p:selectOneListbox id="activity" value="#{visitManagementBean.selectedActivity}" converter="activityConverter" style="height:100px" >
+					<f:selectItems value="#{activityHolderBean.activityListOfPatient}" var="activity" itemLabel="#{activity.id} - #{activity.description}" itemValue="#{activity}" />
+				</p:selectOneListbox>
 
 				<h:outputText value="Start Date: " />
-				<h:inputText value="#{visitManagementBean.visitdate}" label="startDate" required="true">
+				<h:inputText value="#{visitManagementBean.visitdate}" label="startDate" id="startDate" required="true">
 					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
 				</h:inputText>
 
 				<h:outputText value="End Date: " />
-				<h:inputText value="#{visitManagementBean.enddate}" label="endDate" required="true">
+				<h:inputText value="#{visitManagementBean.enddate}" label="endDate"  id="endDate" required="true">
 					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
 				</h:inputText>
 				
-				<p:selectOneListbox id="activity" value="#{visitManagementBean.selectedActivity}" converter="activityConverter" style="height:100px" >
-					<f:selectItems value="#{visitManagementBean.openActivities}" var="activity" itemLabel="#{activity.id} - #{activity.description}" itemValue="#{activity}" />
-				</p:selectOneListbox>
+				<h:outputText value="Comments: " />
+				<h:inputText value="#{visitManagementBean.comments}" label="comments" id="comments"/>
+				
+				<h:outputText value="color: " />
+				<h:inputText value="#{visitManagementBean.color}" id="color" />
+				
+				<h:outputText value="deposit: " />
+				<h:inputText value="#{visitManagementBean.deposit}" id="deposit" />
 				
 				<h:outputText value=" " />
 				<h:commandButton value="Create" action="#{visitManagementBean.createVisit}" />
@@ -44,22 +58,66 @@
 		</h:form>
 		<br />
 
-		<h:dataTable value="#{visitManagementBean.visitList }" var="visit"
-			border="1">
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="id" />
-				</f:facet>
-				<h:outputText value="#{visit.id}" />
-			</h:column>
-			<h:column>
-				<f:facet name="header">
-					<h:outputText value="comments" />
-				</f:facet>
-				<h:outputText value="#{visit.comments}" />
-			</h:column>
-		</h:dataTable>
+		
 		<br />
+		
+		<h:form id="visitListForm">
+		<p:contextMenu for="visitListTable">  
+	        	<p:menuitem value="Delete" update="visitListTable" icon="ui-icon-close" oncomplete="deleteConfirmation.show();"  />  
+	    </p:contextMenu>
+		<p:dataTable value="#{visitHolder.visitList}" var="item" id="visitListTable" editable="true"
+			 				rowKey="#{item.id}"  selection="#{visitManagementBean.selectedVisit}" selectionMode="single">
+			 				
+				<p:column headerText="id" sortBy="#{item.id}" >
+					<h:outputText value="#{item.id}" />
+				</p:column>
+				
+				
+				<p:column headerText="Start Date" sortBy="#{item.visitdate}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.visitdate}" >
+								<f:convertDateTime  pattern="MMM d, yyyy"/>
+							</h:outputText>
+							
+						</f:facet>
+						<f:facet name="input">
+							<p:calendar value="#{item.visitdate}"  />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="End Date" sortBy="#{item.enddate}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText  value="#{item.enddate}" style="width:100%" >
+								<f:convertDateTime  pattern="MMM d, yyyy"/>
+							</h:outputText >
+							
+						</f:facet>
+						<f:facet name="input">
+							<p:calendar value="#{item.enddate}"  />	
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				
+				<p:column headerText="Options" style="width:50px">
+					<p:rowEditor />
+				</p:column>
+				
+				
+				
+				<p:ajax event="rowEdit" listener="#{visitManagementBean.rowEditListener}"></p:ajax>
+				
+			</p:dataTable>
+			<p:confirmDialog id="deleteConfirmDialog" message="Are you sure?"
+                    header="Delete Activity" severity="alert"  widgetVar="deleteConfirmation">
+
+                    <p:commandButton id="confirm" value="Yes"  update="visitListForm:visitListTable"
+                     oncomplete="deleteConfirmation.hide()" actionListener="#{visitManagementBean.d}" />
+                    <p:commandButton id="decline" value="No"  onclick="deleteConfirmation.hide()" type="button" />
+                </p:confirmDialog>
+		</h:form>
 	</ui:define>
 
 </ui:composition>

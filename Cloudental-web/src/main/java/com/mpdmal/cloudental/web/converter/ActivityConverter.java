@@ -1,6 +1,8 @@
 package com.mpdmal.cloudental.web.converter;
 
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -10,48 +12,53 @@ import javax.faces.convert.ConverterException;
 
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Activity;
+import com.mpdmal.cloudental.entities.Patient;
+import com.mpdmal.cloudental.web.beans.ActivityHolderBean;
+import com.mpdmal.cloudental.web.beans.ActivityManagementBean;
 
   
 public class ActivityConverter implements Converter {  
   
-	@EJB
-	PatientServices patientServices;  
+	public static List<Activity> activityListFromDB; 
   
    
   
-    public Activity getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {  
-    	System.out.println("Activity getAsObject");
-    	Activity activity  = null;
-    	
-        if (submittedValue.trim().equals("")) {  
-            return null;  
-        } else {  
-            try {
-            	System.out.println("submittedValue:" +submittedValue );
-                int id = Integer.parseInt(submittedValue); 
-//                activity = patientServices.getActivitiesById(id);
-                activity = new Activity();
-                activity.setId(id);
-                activity.setDescription("a2");
-                
+	public Activity getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {  
+		
+		if (submittedValue.trim().equals("")) {  
+			return null;  
+		} else {  
+			try {
+				System.out.println("submittedValue" +submittedValue );
+				int id = Integer.parseInt(submittedValue); 
+
+				if(activityListFromDB==null)
+					activityListFromDB = getActivityList();
+				for (Activity a : activityListFromDB) {  
+					if (a.getId() == id) {  
+						return a;  
+					}  
+				}  
+
+			} catch(NumberFormatException exception) {  
+				throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid patient"));  
+			}  
+		}  
+		return null;  
+	}  
   
-            } catch(NumberFormatException exception) {  
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid patient"));  
-            }  
-        }  
-  
-        return activity;  
-    }  
-  
+    private List<Activity> getActivityList() {
+    	FacesContext context=FacesContext.getCurrentInstance();
+    	ActivityHolderBean activityManagementBean = (ActivityHolderBean)context.getApplication() .evaluateExpressionGet(context, "#{activityHolderBean}", ActivityHolderBean.class);
+		return activityManagementBean.getActivityListOfPatient();
+	}
+
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
-    	
-        if (value == null || value.equals("")) {  
-            return "";  
-        } else {  
-        	String id = ( (Activity) value).getId().toString();
-        	System.out.println("ActivityConverter getAsString "+id);
-        	
-            return String.valueOf(  id );  
-        }  
+    	if (value == null || value.equals("")) {  
+    		return "";  
+    	} else {  
+    		String id = ( (Activity) value).getId().toString();
+    		return String.valueOf(  id );  
+    	}  
     }  
 }  

@@ -109,7 +109,7 @@ public class ActivityManagementBean extends Activity{
 		//Map<String,String> params =       FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 		Vector<Activity> result =null;
 		if(selectedPatient!=null){
-			System.out.println("getActivities for patientID: "+selectedPatient.getId());
+			System.out.println("call service getActivities for patientID: "+selectedPatient.getId());
 			try {
 				result = patientServices.getPatientActivities(selectedPatient.getId());
 			} catch (PatientNotFoundException e) {

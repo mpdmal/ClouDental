@@ -9,9 +9,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import com.mpdmal.cloudental.entities.Activity;
+import com.mpdmal.cloudental.entities.Patient;
 
-@ManagedBean(name="activityHolderBean")
-@ViewScoped
+
 public class ActivityHolderBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -40,6 +40,14 @@ public class ActivityHolderBean implements Serializable{
 		ActivityManagementBean activityManagementBean = (ActivityManagementBean)context.getApplication() .evaluateExpressionGet(context, "#{activityManagementBean}", ActivityManagementBean.class);
 		if(activityManagementBean!=null)
 			activityListOfPatient = activityManagementBean.loadActivityList();
+	}
+	
+	public void loadActivityListOfPatient(Patient p){
+		FacesContext context = FacesContext.getCurrentInstance();
+		ActivityManagementBean activityManagementBean = (ActivityManagementBean)context.getApplication() .evaluateExpressionGet(context, "#{activityManagementBean}", ActivityManagementBean.class);
+		activityManagementBean.setSelectedPatient(p);
+		activityListOfPatient = activityManagementBean.loadActivityList();
+		
 	}
 
 
