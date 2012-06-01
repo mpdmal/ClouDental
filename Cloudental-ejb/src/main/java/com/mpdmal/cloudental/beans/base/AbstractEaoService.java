@@ -1,6 +1,12 @@
 package com.mpdmal.cloudental.beans.base;
 
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Set;
+
 import javax.ejb.EJB;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.InvocationContext;
 import javax.persistence.Query;
 
 import com.mpdmal.cloudental.EaoManager;
@@ -10,6 +16,7 @@ import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.entities.Visit;
+import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
@@ -21,6 +28,43 @@ public class AbstractEaoService {
 	@EJB
 	protected EaoManager emgr;
 	
+	//AOP interceptor to all business logic methods .. and those of extending classes ...
+    @AroundInvoke
+    public Object CloudentServiceAdvice(InvocationContext ic) throws Exception {
+    	logMethodInfo(ic.getMethod(), ic.getParameters());
+    	logContextData(ic.getContextData());
+    	return ic.proceed();
+    }
+    //private
+    private void logMethodInfo(Method m, Object[] prms) {
+    	StringBuilder sb = new StringBuilder("bean service fired:"+m.getName()+"\n");
+    	if (prms == null) {
+    		sb.append("no args\n");
+    		CloudentUtils.logMessage(sb.toString());
+    		return;
+    	}
+    	
+    	sb.append("Method params--------\n");
+    	for (Object o : prms) {
+			sb.append(o.toString()).append("\n");
+		}
+    	sb.append("end Method params----\n");
+    	CloudentUtils.logMessage(sb.toString());
+    }
+
+    private void logContextData(Map<String, Object> data) {
+    	Set<String> keys = data.keySet();
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("Context Data ------\n");
+    	for (String key : keys) {
+			Object val = data.get(key);
+			sb.append(key).append(":").append(val.toString()).append("\n");
+		}
+    	sb.append("End Context Data ------\n");
+		CloudentUtils.logMessage(sb.toString());
+    }
+
+    //inherited to children
     public Dentist findDentist(int id) throws DentistNotFoundException {
     	Dentist d = emgr.findOrFail(Dentist.class, id);
 		if (d == null) 
