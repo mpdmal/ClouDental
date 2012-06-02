@@ -2,13 +2,13 @@ package com.mpdmal.cloudental.web.converter;
 
 import java.util.Collection;
 
-import javax.ejb.EJB;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.PricelistItem;
@@ -17,10 +17,10 @@ import com.mpdmal.cloudental.web.beans.PricelistHolder;
 
 public class PricelistItemConverter implements Converter {
 	
-	@EJB
+	@Inject
 	DentistServices dentistService;
 	
-	private Collection<PricelistItem> pricelistItemCollection; 
+//	private Collection<PricelistItem> pricelistItemCollection; 
 
 
 	public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {  

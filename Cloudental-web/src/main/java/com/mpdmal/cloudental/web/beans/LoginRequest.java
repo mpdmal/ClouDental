@@ -1,8 +1,8 @@
 package com.mpdmal.cloudental.web.beans;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.LoginBean;
 import com.mpdmal.cloudental.entities.Dentist;
@@ -12,7 +12,7 @@ import com.mpdmal.cloudental.util.exception.InvalidPasswordException;
 
 public class LoginRequest {
 	
-	@EJB
+	@Inject
 	LoginBean loginBean;
 	
 	

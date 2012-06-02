@@ -2,9 +2,9 @@ package com.mpdmal.cloudental.web.beans;
 
 import java.util.Vector;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
@@ -12,16 +12,15 @@ import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
-import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 public class VisitManagementBean extends Visit {
 
 	private static final long serialVersionUID = 1L;
 
-	@EJB
+	@Inject
 	DentistServices dentistService;
-	@EJB
+	@Inject
 	PatientServices patientServices;
 	
 	UserHolder user = (UserHolder)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("userHolder");

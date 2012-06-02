@@ -2,13 +2,12 @@ package com.mpdmal.cloudental.web.beans;
 
 import java.util.Collection;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
-import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 
@@ -18,9 +17,9 @@ public class PricelistItemManagementBean extends PricelistItem {
 			getExternalContext().getSessionMap().get("userHolder");
 	
 	private static final long serialVersionUID = 1L;
-	@EJB
+	@Inject
 	DentistServices dentistService;
-	@EJB
+	@Inject
 	PatientServices patientServices;
 	
 	private PricelistItem selectedItem;

@@ -2,9 +2,9 @@ package com.mpdmal.cloudental.web.beans;
 
 import java.util.Vector;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.dao.MedicalhistoryentryDAO;
@@ -17,9 +17,9 @@ public class MedicalHistoryManagementBean {
 
 
 
-	@EJB
+	@Inject
 	PatientServices patientService;
-	@EJB
+	@Inject
 	MedicalhistoryentryDAO medicalhistoryentryDAO ;
 
 	private Integer patientId;

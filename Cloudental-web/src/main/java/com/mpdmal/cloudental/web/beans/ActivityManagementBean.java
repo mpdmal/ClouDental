@@ -3,9 +3,9 @@ package com.mpdmal.cloudental.web.beans;
 import java.util.Vector;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
@@ -20,9 +20,9 @@ public class ActivityManagementBean extends Activity{
 
 	private static final long serialVersionUID = 1L;
 	
-	@EJB
+	@Inject
 	DentistServices dentistService;
-	@EJB
+	@Inject
 	PatientServices patientServices;
 	
 	private PricelistItem selectedPricelistItem;

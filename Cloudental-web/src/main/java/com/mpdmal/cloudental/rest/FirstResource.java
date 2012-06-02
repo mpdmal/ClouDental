@@ -3,7 +3,7 @@ package com.mpdmal.cloudental.rest;
 import java.util.Vector;
 
 import javax.annotation.ManagedBean;
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -22,7 +22,7 @@ public class FirstResource {
     @Context
     private UriInfo context;
 
-    @EJB
+    @Inject
     DentistBean dbn;
     public FirstResource() {}
 

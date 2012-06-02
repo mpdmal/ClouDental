@@ -1,8 +1,8 @@
 package com.mpdmal.cloudental.beans;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.jws.WebService;
 
@@ -18,7 +18,8 @@ import com.mpdmal.cloudental.util.exception.InvalidPasswordException;
 @LocalBean
 @WebService
 public class LoginBean extends AbstractEaoService {
-	@EJB DentistBean dentistEao;
+	@Inject
+	DentistBean dentistEao;
 	
     public LoginBean() {}
 

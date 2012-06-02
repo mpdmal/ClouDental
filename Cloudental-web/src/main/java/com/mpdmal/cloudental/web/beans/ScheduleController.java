@@ -28,7 +28,7 @@ public class ScheduleController {
   
     private ScheduleEvent event = new DefaultScheduleEvent();  
       
-    private String theme;  
+//    private String theme;  
     
     Set<Postit> postits;
   
@@ -41,8 +41,9 @@ public class ScheduleController {
         eventModel.addEvent(new DefaultScheduleEvent("Plant the new garden stuff", theDayAfter3Pm(), fourDaysLater3pm()));  
           
         lazyEventModel = new LazyScheduleModel() {  
-              
-            @Override  
+			private static final long serialVersionUID = 1L;
+
+			@Override  
             public void loadEvents(Date start, Date end) {  
                 clear();  
                   

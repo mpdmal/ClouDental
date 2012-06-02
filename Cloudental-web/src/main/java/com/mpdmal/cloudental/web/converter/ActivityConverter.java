@@ -3,19 +3,14 @@ package com.mpdmal.cloudental.web.converter;
 
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Activity;
-import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.web.beans.ActivityHolderBean;
-import com.mpdmal.cloudental.web.beans.ActivityManagementBean;
-
   
 public class ActivityConverter implements Converter {  
   

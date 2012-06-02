@@ -2,8 +2,8 @@ package com.mpdmal.cloudental.web.beans;
 
 import java.util.Vector;
 
-import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.DentistBean;
 import com.mpdmal.cloudental.beans.DentistServices;
@@ -20,12 +20,12 @@ public class DiscountManagementBean extends Discount {
 			getExternalContext().getSessionMap().get("userHolder");
 	
 	private static final long serialVersionUID = 1L;
-	@EJB
+	@Inject
 	DentistServices dentistService;
-	@EJB
+	@Inject
 	PatientServices patientServices;
 
-	@EJB
+	@Inject
 	DentistBean dentistBean;
 	
 	private Vector<Discount> discounts;

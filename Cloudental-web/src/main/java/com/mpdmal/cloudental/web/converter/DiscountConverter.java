@@ -4,13 +4,13 @@ package com.mpdmal.cloudental.web.converter;
 
 import java.util.Vector;
 
-import javax.ejb.EJB;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.Discount;
@@ -19,7 +19,7 @@ import com.mpdmal.cloudental.web.beans.DiscountManagementBean;
 
 public class DiscountConverter implements Converter {
 	
-	@EJB
+	@Inject
 	DentistServices dentistService;
 	
 	private Vector<Discount> discountVector; 

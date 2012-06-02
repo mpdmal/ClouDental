@@ -2,7 +2,7 @@ package com.mpdmal.cloudental.web.beans;
 
 import java.util.List;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.DentistBean;
 import com.mpdmal.cloudental.entities.Dentist;
@@ -11,7 +11,7 @@ import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 public class DentistManagementBean extends Dentist {
 	private static final long serialVersionUID = 1L;
-	@EJB
+	@Inject
 	DentistBean dbn;
 	
 	public List<Dentist> getDentists() {

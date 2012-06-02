@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.persistence.Query;
@@ -25,7 +25,7 @@ import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
 
 public class AbstractEaoService {
-	@EJB
+	@Inject
 	protected EaoManager emgr;
 	
 	//AOP interceptor to all business logic methods .. and those of extending classes ...

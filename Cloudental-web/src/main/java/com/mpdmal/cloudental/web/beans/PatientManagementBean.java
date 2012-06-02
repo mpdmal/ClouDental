@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import org.primefaces.event.SelectEvent;
 
@@ -23,9 +23,9 @@ public class PatientManagementBean extends Patient {
 
 	private static final long serialVersionUID = 1L;
 
-	@EJB
+	@Inject
 	DentistServices dentistService;
-	@EJB
+	@Inject
 	PatientServices patientServices;
 	
 	Patient selectedPatient;

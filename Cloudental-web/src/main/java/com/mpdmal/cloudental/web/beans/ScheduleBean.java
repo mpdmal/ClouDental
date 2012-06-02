@@ -3,9 +3,9 @@ package com.mpdmal.cloudental.web.beans;
 
 import java.util.Date;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import org.primefaces.event.DateSelectEvent;
 import org.primefaces.event.ScheduleEntryMoveEvent;
@@ -22,7 +22,7 @@ import com.mpdmal.cloudental.web.events.DentistScheduleEvent;
 
 public class ScheduleBean {
 
-	@EJB
+	@Inject
 	DentistServices dentistServices;
 
 	UserHolder user = (UserHolder)FacesContext.getCurrentInstance().
