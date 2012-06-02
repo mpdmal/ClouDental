@@ -22,6 +22,8 @@ public class CloudentUtils {
 	//POST-IT ALERTS
 	
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(CloudentUtils.class);
+	private static final Logger servicelogger = (Logger) LoggerFactory.getLogger("com.mpdmal");
+	
 	public static enum PostitAlertType {
 		NOTE (1, "Note"),
 		TODO (2, "To do"),
@@ -148,9 +150,14 @@ public class CloudentUtils {
 	private static final int LOG_TYPE_MSG = 1; 
 	private static final int LOG_TYPE_WARNING = 2;
 	private static final int LOG_TYPE_ERROR = 3;
+	private static final int LOG_TYPE_SVCLOG  = 4;
 	
 	public static void logQueryString(Query q) {
 		System.out.println(q.toString());
+	}
+	
+	public static void logServicecall(String entry) {
+		log(entry, LOG_TYPE_SVCLOG);
 	}
 	
 	public static void logMessage(String entry) {
@@ -175,6 +182,9 @@ public class CloudentUtils {
 				break;
 			case LOG_TYPE_MSG:
 				logger.info(entry);
+				break;
+			case LOG_TYPE_SVCLOG:
+				servicelogger.debug(entry);
 				break;							
 			default:
 				break;

@@ -37,31 +37,32 @@ public class AbstractEaoService {
     }
     //private
     private void logMethodInfo(Method m, Object[] prms) {
-    	StringBuilder sb = new StringBuilder("bean service fired:"+m.getName()+"\n");
+    	StringBuilder sb = new StringBuilder("\nbean service fired:"+m.getName());
     	if (prms == null) {
-    		sb.append("no args\n");
-    		CloudentUtils.logMessage(sb.toString());
+    		sb.append("  [no args]");
+    		CloudentUtils.logServicecall(sb.toString());
     		return;
     	}
     	
-    	sb.append("Method params--------\n");
+    	sb.append("  [ ");
     	for (Object o : prms) {
-			sb.append(o.toString()).append("\n");
+			sb.append(o.toString()).append(", ");
 		}
-    	sb.append("end Method params----\n");
-    	CloudentUtils.logMessage(sb.toString());
+    	sb.delete(sb.length()-2, sb.length());
+    	sb.append("]");
+    	CloudentUtils.logServicecall(sb.toString());
     }
 
     private void logContextData(Map<String, Object> data) {
     	Set<String> keys = data.keySet();
     	StringBuilder sb = new StringBuilder();
-    	sb.append("Context Data ------\n");
+    	sb.append("\nContext Data ------\n");
     	for (String key : keys) {
 			Object val = data.get(key);
 			sb.append(key).append(":").append(val.toString()).append("\n");
 		}
-    	sb.append("End Context Data ------\n");
-		CloudentUtils.logMessage(sb.toString());
+    	sb.append("End Context Data ------");
+		CloudentUtils.logServicecall(sb.toString());
     }
 
     //inherited to children
