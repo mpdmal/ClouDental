@@ -51,6 +51,9 @@
 
 					<h:outputText value="End Date: " />
 					<p:calendar value="#{activityManagementBean.enddate}" id="endDate" showOn="button" />
+					
+					<h:outputText value="Price: " />
+					<p:inputText value="#{activityManagementBean.price }" id="price"  required="true" />
 
 					
 					<h:outputText value="Description: " />
@@ -176,7 +179,7 @@
 
                     <p:commandButton id="confirm" value="Yes"  update="activityListForm:activityListTable"
                      oncomplete="deleteConfirmation.hide()" actionListener="#{activityManagementBean.deleteActivity}" />
-                    <p:commandButton id="decline" value="No"  onclick="deleteConfirmation.hide()" type="button" />
+                    <p:commandButton id="decline" value="No"  onclick="deleteConfirmation.hide()" type="button"  />
                 </p:confirmDialog>
 		</h:form>
 			

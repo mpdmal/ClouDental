@@ -9,9 +9,8 @@
 
 <body>
 	<ui:component>
-		 <h:form>
-		 <h:panelGrid columns="3" cellpadding="5">  
-		 <h:outputLabel  value="Select Patient:" style="font-weight:bold"/>
+		 
+		
 		<p:autoComplete value="#{patient}" 
 			size="#{size}"
 			completeMethod="#{patientManagementBean.completePatient}" var="p"
@@ -23,9 +22,9 @@
 	        </p:column>
 	        <p:ajax event="itemSelect" listener="#{patientManagementBean.handleSelect}"  />
 		</p:autoComplete>
-		<p:commandButton value="Submit" action="#{actionProvider.onPatientSelected}"  ajax="false" />
-		</h:panelGrid>
-		</h:form>
+		
+		
+		
 		
 	</ui:component>
 </body>

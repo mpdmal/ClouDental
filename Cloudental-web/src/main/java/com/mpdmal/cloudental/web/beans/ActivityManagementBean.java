@@ -14,6 +14,7 @@ import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 public class ActivityManagementBean extends Activity{
 
@@ -33,8 +34,14 @@ public class ActivityManagementBean extends Activity{
 		System.out.println("ActivityManagementBean costructor:" +this.hashCode());
 	}
 
-	public String createActivity() throws Exception{
-		patientServices.createActivity(selectedPatient.getId(), getDescription(), getStartdate(), getEnddate(), selectedPricelistItem.getId(), selectedDiscount.getId(), getPrice());
+	public String createActivity() {
+		try {
+			patientServices.createActivity(selectedPatient.getId(), getDescription(), getStartdate(), getEnddate(), selectedPricelistItem.getId(), selectedDiscount.getId(), getPrice());
+		} catch (CloudentException e) {
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Service error", e.getMessage()));
+			e.printStackTrace();
+		}
 		updateActivityList();
 		return null;
 	}
@@ -74,7 +81,8 @@ public class ActivityManagementBean extends Activity{
 	public String deleteActivity(){
 		System.out.println("deleteActivity: "+getSelectedActivity().getId());
 		try {
-			//patientServices.deleteActivity(getSelectedActivity().getId());
+			patientServices.deleteActivity(getSelectedActivity().getId());
+			updateActivityList();
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Service error",""));
