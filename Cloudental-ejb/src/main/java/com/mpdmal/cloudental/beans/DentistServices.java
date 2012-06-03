@@ -18,6 +18,8 @@ import com.mpdmal.cloudental.entities.Medicalhistory;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.entities.Visit;
+import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
@@ -224,4 +226,14 @@ public class DentistServices extends AbstractEaoService {
 			deletePatient(ptns.elementAt(0).getId());
 		}
 	}
+	
+    
+    @SuppressWarnings("unchecked")
+	public Vector<Visit> getDentistVisits (int dentistid) throws ActivityNotFoundException {
+    	Query q = emgr.getEM().
+    			createQuery("select v from Visit v where v.activity.patienthistory.patient.dentist.id =:dentistid").
+    			setParameter("dentistid", dentistid);
+        return (Vector<Visit>) emgr.executeMultipleObjectQuery(q);
+    }
+
 }
