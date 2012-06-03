@@ -46,7 +46,8 @@ public class AbstractEaoService {
     	
     	sb.append("  [ ");
     	for (Object o : prms) {
-			sb.append(o.toString()).append(", ");
+    		if (o!=null)
+			  sb.append(o.toString()).append(", ");
 		}
     	sb.delete(sb.length()-2, sb.length());
     	sb.append("]");

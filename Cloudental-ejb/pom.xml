@@ -30,6 +30,22 @@
 	</dependencyManagement>
 	<!-- Arquillian Addition -->
 	<dependencies>
+		<!-- logging -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.4</version>
+		</dependency>
 		<!--test -->
 		<dependency>
 			<groupId>org.glassfish.main.extras</groupId>
@@ -52,6 +68,11 @@
 			<groupId>org.jboss.arquillian.container</groupId>
 			<artifactId>arquillian-glassfish-remote-3.1</artifactId>
 			<version>1.0.0.CR3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<!-- End of Test Section -->
@@ -86,22 +107,6 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.0.2.GA</version>
 			<scope>provided</scope>
-		</dependency>
-		<!-- logging -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>1.0.3</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.0.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.6.4</version>
 		</dependency>
 	</dependencies>
 
