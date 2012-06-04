@@ -7,12 +7,12 @@
 
 	<h:head>
 		<title>Welcome to Cloudental Services</title>
-		<link rel="stylesheet" type="text/css" href="../../../files/css/styles.css"/>
+		<link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
 	</h:head>
 	<h:body>
 		<p:panelGrid columns="3">
 			<ui:insert name="menu">
-				<p:graphicImage value="../../../files/images/logo.png"></p:graphicImage>
+				<p:graphicImage value="/resources/images/logo.png"></p:graphicImage>
 			</ui:insert>
 			<ui:insert name="searchPatients">
 				<h:outputLabel value="Find Patient :" style="width: 200px;" /> 
@@ -20,28 +20,10 @@
 			</ui:insert>
 		</p:panelGrid> 
 	 	<p/>
-		<ui:insert name="body">Body</ui:insert>
+	 	<h:outputLabel value="Dentist Name: #{officeState.currentUser.name}" />
+		<ui:insert name="content">Body</ui:insert>
 		<br clear="all"/>
 		<hr/>
-		<!--  ui:insert name="footer">
-			<h:form>
-			  <p:growl id="messages" />
-			  <p:toolbar>
-			    <p:toolbarGroup align="left">
-			        <p:commandButton type="button" value="New Patient" icon="ui-icon-document" />
-			        <p:commandButton type="button" value="Reports" icon="ui-icon-folder-open"/>
-	   		        <p:commandButton type="button" value="Print Daily Report" icon="ui-icon-print"/>
-			    </p:toolbarGroup>
-			    <p:toolbarGroup align="right">
-			        <p:menuButton value="Options">
-			            <p:menuitem value="Home" />
-			            <p:menuitem value="Billing" />
-			            <p:menuitem value="My Account" />
-			        </p:menuButton>
-			    </p:toolbarGroup>
-			  </p:toolbar>
-			</h:form>
-		</ui:insert -->
 	</h:body>
 </html>
 

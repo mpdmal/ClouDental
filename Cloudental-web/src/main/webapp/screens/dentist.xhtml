@@ -4,45 +4,15 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/screens/templates/main-template.xhtml">
-	<ui:define name="body">
+	<ui:define name="content">
 		<h:form>
 		<p:tabView id="tabView" dynamic="true" cache="true">  
-  	        <p:tab id="dentistTab" title="Daily Management">
-			<p:panelGrid columns="2">
-				<p:panelGrid columns="1">
-					<p:button value="Print Daily Report"></p:button>
-					<p:panel header="My Information">
-					blah blah! <br/>
-					blah blah! <br/>
-					blah blah! <br/>
-					blah blah! <br/>
-			    	</p:panel>
-					<p:panel header="Post-it board">
-						<p:dataTable id="dataTable" var="postit" value="#{scheduleController.postits}">  
-						       <p:column >  
-						           <f:facet name="header">  
-						               <h:outputText value="Note" />  
-						           </f:facet>  
-						           <h:outputText value="#{postit.post}" />  
-						       </p:column>  
-						       <p:column sortBy="#{postit.alert}">  
-						           <f:facet name="header">  
-						               <h:outputText value="Alert" />  
-						           </f:facet>  
-						           <h:outputText value="#{postit.alertDescr}" />  
-						       </p:column>  
-						   </p:dataTable>  
-			    	</p:panel>
-				</p:panelGrid>
-				
+  	        <p:tab id="managementTab" title="Office">
 				<p:panel header="Scheduler" style="width: 720px;">
-					<p:schedule value="#{scheduleController.eventModel}" />
+					<p:schedule value="#{officeManagementBean.eventModel}" />
 				</p:panel>
-				
-				
-			</p:panelGrid>
   	        </p:tab>
-  	        <p:tab id="rssTab" title="Newsletter / RSS">
+  	        <p:tab id="billingTab" title="Billing">
   	        	<p:panel header="RSS Feeds "/>
   	        </p:tab>
   	        <p:tab id="reportsTab" title="Reports"/>
