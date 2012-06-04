@@ -10,13 +10,14 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.web.beans.DiscountManagementBean;
 
-
+@FacesConverter (value="discountConverter", forClass=DiscountConverter.class)
 public class DiscountConverter implements Converter {
 	
 	@Inject

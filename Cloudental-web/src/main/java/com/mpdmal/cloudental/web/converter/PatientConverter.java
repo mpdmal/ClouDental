@@ -10,11 +10,12 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.web.beans.PatientManagementBean;
 
-  
+@FacesConverter (value="patientConverter", forClass=PatientConverter.class)
 public class PatientConverter implements Converter {  
   
     public static List<Patient> patientDB;  

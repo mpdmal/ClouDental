@@ -8,13 +8,14 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.web.beans.PricelistHolder;
 
-
+@FacesConverter (forClass=PricelistItemConverter.class, value="pricelistItemConverter")
 public class PricelistItemConverter implements Converter {
 	
 	@Inject

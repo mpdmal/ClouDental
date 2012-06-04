@@ -8,10 +8,12 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 
 import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.web.beans.ActivityHolderBean;
-  
+
+@FacesConverter (forClass=ActivityConverter.class, value="activityConverter")
 public class ActivityConverter implements Converter {  
   
 	public static List<Activity> activityListFromDB; 
