@@ -11,36 +11,52 @@
 	<ui:define name="header">
     	<title>Visit Management</title>
 	</ui:define>
-	
-
-
 	<ui:define name="content">
-
-		<h:outputText value="Visit" />
-		<h:messages />
-		
-		
-		<cde:patientAutoComplete patient="#{visitManagementBean.selectedPatient}"  actionProvider="#{visitManagementBean}" />
-		
-		
 				
 		<h:form id="createVisitForm">
+			<p:panel header="Create Visit">
 			
 			<h:panelGrid columns="2">
-				<h:outputText value="Activities: " />
-				<p:selectOneListbox id="activity" value="#{visitManagementBean.selectedActivity}" converter="activityConverter" style="height:100px" >
-					<f:selectItems value="#{activityHolderBean.activityListOfPatient}" var="activity" itemLabel="#{activity.id} - #{activity.description}" itemValue="#{activity}" />
-				</p:selectOneListbox>
+				
+				<h:outputText value="Select Patient: " />
+				<p:autoComplete value="#{visitManagementBean.selectedPatient}" completeMethod="#{patientManagementBean.completePatient}" var="p"	
+											itemLabel="#{p.name} #{p.surname}" itemValue="#{p}" 	converter="patientConverter" forceSelection="true" global="false">
+						<p:column>  
+							<h:outputText value="#{p.name}" />&nbsp;-&nbsp;
+							<h:outputText value="#{p.surname}" />
+		        		</p:column>
+		        	<p:ajax event="itemSelect" listener="#{visitManagementBean.handleSelectedPatient}"  update="activity" />
+				</p:autoComplete>
+				
+			
+				
+				
+				
+				<h:outputText value="Select Activity: " />
+				<p:selectOneMenu value="#{visitManagementBean.selectedActivity}" effect="fade" converter="activityConverter" var="activity" id="activity" style="width:200px">  
+			            <f:selectItem itemLabel="Select One" itemValue="" />  
+			            <f:selectItems value="#{activityHolderBean.activityListOfPatient}" var="activityItem" itemLabel="#{activityItem.id} - #{activityItem.description}" itemValue="#{activityItem}"/>
+			            
+			            <p:column>
+							#{activity.id} - 
+							<h:outputText value="#{activity.description}"/> - 
+							<h:outputText value="#{activity.startdate}" >
+              						<f:convertDateTime pattern="dd.MM.yy" />
+ 							</h:outputText> - 
+ 							<h:outputText value="#{activity.enddate}" >
+              						<f:convertDateTime pattern="dd.MM.yy" />
+ 							</h:outputText>
+						</p:column>  
+			        </p:selectOneMenu>
 
 				<h:outputText value="Start Date: " />
-				<h:inputText value="#{visitManagementBean.visitdate}" label="startDate" id="startDate" required="true">
-					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
-				</h:inputText>
+				<p:calendar value="#{visitManagementBean.visitdate}" id="startDate" showOn="button"  pattern="MM/dd/yyyy HH:mm"/>
 
 				<h:outputText value="End Date: " />
-				<h:inputText value="#{visitManagementBean.enddate}" label="endDate"  id="endDate" required="true">
-					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
-				</h:inputText>
+				<p:calendar value="#{visitManagementBean.enddate}" id="endDate" showOn="button" pattern="MM/dd/yyyy HH:mm"/>
+				
+				<h:outputText value="Title: " />
+				<h:inputText value="#{visitManagementBean.title}" label="comments" id="title"/>
 				
 				<h:outputText value="Comments: " />
 				<h:inputText value="#{visitManagementBean.comments}" label="comments" id="comments"/>
@@ -55,6 +71,7 @@
 				<h:commandButton value="Create" action="#{visitManagementBean.createVisit}" />
 
 			</h:panelGrid>
+			</p:panel>
 		</h:form>
 		<br />
 
@@ -62,6 +79,18 @@
 		<br />
 		
 		<h:form id="visitListForm">
+		<h:panelGrid columns="2">
+		<h:outputText value="Select Patient: " />
+			<p:autoComplete value="#{visitManagementBean.selectedPatient}" completeMethod="#{patientManagementBean.completePatient}" var="p"	
+												itemLabel="#{p.name} #{p.surname}" itemValue="#{p}" 	converter="patientConverter" forceSelection="true" global="false">
+							<p:column>  
+								<h:outputText value="#{p.name}" />&nbsp;-&nbsp;
+								<h:outputText value="#{p.surname}" />
+			        		</p:column>
+			        	<p:ajax event="itemSelect" listener="#{visitManagementBean.handleSelectedPatient}"  update="visitListTable" />
+			</p:autoComplete>
+		</h:panelGrid>
+				
 		<p:contextMenu for="visitListTable">  
 	        	<p:menuitem value="Delete" update="visitListTable" icon="ui-icon-close" oncomplete="deleteConfirmation.show();"  />  
 	    </p:contextMenu>

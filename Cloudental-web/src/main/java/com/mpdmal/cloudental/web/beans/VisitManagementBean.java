@@ -6,6 +6,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import org.primefaces.event.SelectEvent;
+
+
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Activity;
@@ -70,8 +73,10 @@ public class VisitManagementBean extends Visit {
 	public Vector<Visit> loadPatientVisits() {
 		Vector<Visit> result=null;
 		try {
-			if(selectedPatient!=null)
+			if(selectedPatient!=null){
+				System.out.println("VisitManagementBean callService getPatientVisits()");
 				result= patientServices.getPatientVisits(selectedPatient.getId());
+			}
 		} catch (ActivityNotFoundException e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Service error", e.getMessage()));
@@ -116,5 +121,15 @@ public class VisitManagementBean extends Visit {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Service error", e.getMessage()));
         }        
     }
+	
+	public void handleSelectedPatient(SelectEvent event) {  
+    	System.out.println("VisitManagementBean handleSelect: "+event.getObject().toString());
+    	loadActivityListOfPatient();
+    	loadPatientVisits();
+        //FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected:" + event.getObject().toString(), null);  
+        //FacesContext.getCurrentInstance().addMessage(null, message);  
+    }  
+	
+
 
 }
