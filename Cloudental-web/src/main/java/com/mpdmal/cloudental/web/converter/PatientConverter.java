@@ -12,6 +12,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
 import com.mpdmal.cloudental.entities.Patient;
+import com.mpdmal.cloudental.web.beans.PatientHolder;
 import com.mpdmal.cloudental.web.beans.PatientManagementBean;
 
   
@@ -61,7 +62,7 @@ public class PatientConverter implements Converter {
     public Vector<Patient> getPatientList() {
 		FacesContext context=FacesContext.getCurrentInstance();
 		Application app = context.getApplication();
-		PatientManagementBean p = (PatientManagementBean)app.evaluateExpressionGet(context, "#{patientManagementBean}", PatientManagementBean.class);
-		return  p.loadPatientList();
+		PatientHolder p = (PatientHolder)app.evaluateExpressionGet(context, "#{patientHolder}", PatientHolder.class);
+		return  p.getPatientsList();
 	}
 }  

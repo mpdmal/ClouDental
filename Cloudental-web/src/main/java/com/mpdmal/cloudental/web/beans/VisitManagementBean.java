@@ -4,10 +4,10 @@ import java.util.Vector;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 
 import org.primefaces.event.SelectEvent;
-
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
@@ -52,11 +52,7 @@ public class VisitManagementBean extends Visit {
 	public void setSelectedActivity(Activity selectedActivity) {
 		this.selectedActivity = selectedActivity;
 	}
-	public void loadActivityListOfPatient(){
-		FacesContext context = FacesContext.getCurrentInstance();
-		ActivityHolderBean activityHolderBean = (ActivityHolderBean)context.getApplication() .evaluateExpressionGet(context, "#{activityHolderBean}", ActivityHolderBean.class);
-		activityHolderBean.loadActivityListOfPatient(selectedPatient);
-	}
+
 
 
 	public Vector<Visit> loadActivityVisits() {
@@ -84,6 +80,23 @@ public class VisitManagementBean extends Visit {
 		return result;
 	}
 	
+	public void updateActivityListOfPatient(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		ActivityHolderBean activityHolderBean = (ActivityHolderBean)context.getApplication() .evaluateExpressionGet(context, "#{activityHolderBean}", ActivityHolderBean.class);
+		activityHolderBean.loadActivityListOfPatient(selectedPatient);
+	}
+	
+	public void updatePatientVisitsList(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		VisitHolder visitHolder = (VisitHolder)context.getApplication() .evaluateExpressionGet(context, "#{visitHolder}", VisitHolder.class);
+		visitHolder.loadPatientVisits(selectedPatient);
+	}
+	public void updateActivityVisits(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		VisitHolder visitHolder = (VisitHolder)context.getApplication() .evaluateExpressionGet(context, "#{visitHolder}", VisitHolder.class);
+		visitHolder.loadActivityVisits(selectedActivity);
+	}
+	
 	public String createVisit() {
 		System.out.println("call sercvice createVisit: ");
 		try {
@@ -103,7 +116,7 @@ public class VisitManagementBean extends Visit {
 	}
 	
 	public String onPatientSelected(){
-		loadActivityListOfPatient();
+		updateActivityListOfPatient();
 		return null;
 	}
 	
@@ -124,11 +137,18 @@ public class VisitManagementBean extends Visit {
 	
 	public void handleSelectedPatient(SelectEvent event) {  
     	System.out.println("VisitManagementBean handleSelect: "+event.getObject().toString());
-    	loadActivityListOfPatient();
-    	loadPatientVisits();
+    	updateActivityListOfPatient();
+    	updatePatientVisitsList();
         //FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected:" + event.getObject().toString(), null);  
         //FacesContext.getCurrentInstance().addMessage(null, message);  
-    }  
+    }
+	public void handleSelectedActivity(AjaxBehaviorEvent event) {  
+    	System.out.println("VisitManagementBean handleSelectedActivity: ");
+    	updateActivityVisits();
+    	
+        //FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected:" + event.getObject().toString(), null);  
+        //FacesContext.getCurrentInstance().addMessage(null, message);  
+    } 
 	
 
 

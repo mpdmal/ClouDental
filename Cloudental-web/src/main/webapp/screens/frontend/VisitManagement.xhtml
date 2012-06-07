@@ -80,6 +80,7 @@
 		
 		<h:form id="visitListForm">
 		<h:panelGrid columns="2">
+		
 		<h:outputText value="Select Patient: " />
 			<p:autoComplete value="#{visitManagementBean.selectedPatient}" completeMethod="#{patientManagementBean.completePatient}" var="p"	
 												itemLabel="#{p.name} #{p.surname}" itemValue="#{p}" 	converter="patientConverter" forceSelection="true" global="false">
@@ -87,9 +88,28 @@
 								<h:outputText value="#{p.name}" />&nbsp;-&nbsp;
 								<h:outputText value="#{p.surname}" />
 			        		</p:column>
-			        	<p:ajax event="itemSelect" listener="#{visitManagementBean.handleSelectedPatient}"  update="visitListTable" />
+			        	<p:ajax event="itemSelect" listener="#{visitManagementBean.handleSelectedPatient}"  update="visitListTable, activity" />
 			</p:autoComplete>
 		</h:panelGrid>
+		
+		<h:outputText value="Select Activity: " />
+		<p:selectOneMenu value="#{visitManagementBean.selectedActivity}" effect="fade" 
+									converter="activityConverter" var="activity" id="activity" style="width:200px" >
+			<p:ajax  listener="#{visitManagementBean.handleSelectedActivity}"  update="visitListTable" />									   
+			<f:selectItem itemLabel="Select One" itemValue="" />  
+			<f:selectItems value="#{activityHolderBean.activityListOfPatient}" var="activityItem" itemLabel="#{activityItem.id} - #{activityItem.description}" itemValue="#{activityItem}"/>
+	            <p:column>
+					#{activity.id} - 
+					<h:outputText value="#{activity.description}"/> - 
+					<h:outputText value="#{activity.startdate}" >
+	              		<f:convertDateTime pattern="dd.MM.yy" />
+	 				</h:outputText> - 
+	 				<h:outputText value="#{activity.enddate}" >
+	              		<f:convertDateTime pattern="dd.MM.yy" />
+	 				</h:outputText>
+				</p:column>
+				
+		</p:selectOneMenu>
 				
 		<p:contextMenu for="visitListTable">  
 	        	<p:menuitem value="Delete" update="visitListTable" icon="ui-icon-close" oncomplete="deleteConfirmation.show();"  />  
