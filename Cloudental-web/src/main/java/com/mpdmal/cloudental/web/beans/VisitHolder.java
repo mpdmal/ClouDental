@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 
 import com.mpdmal.cloudental.entities.Activity;
+import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Visit;
 
 
@@ -48,6 +49,16 @@ public class VisitHolder implements Serializable{
 		visitManagementBean.setActivity(activity);
 		visitList = visitManagementBean.loadActivityVisits();
 	}
+	
+	public void loadPatientVisits(Patient p ){
+		FacesContext context = FacesContext.getCurrentInstance();
+		VisitManagementBean visitManagementBean = (VisitManagementBean)context.getApplication() .evaluateExpressionGet(context, "#{visitManagementBean}", VisitManagementBean.class);
+		visitManagementBean.setSelectedPatient(p);
+		visitList = visitManagementBean.loadPatientVisits();
+		
+	}
+	
+	
 
 
 
