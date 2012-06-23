@@ -7,6 +7,9 @@
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  <welcome-file-list>
+	<welcome-file>cloudental/faces/screens/frontend/login.xhtml</welcome-file>
+  </welcome-file-list>
   <servlet-mapping>
     <servlet-name>Jersey Servlet</servlet-name>
     <url-pattern>/cloudental/*</url-pattern>
