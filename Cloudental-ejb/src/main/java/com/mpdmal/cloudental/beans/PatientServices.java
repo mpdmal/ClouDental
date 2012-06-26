@@ -39,7 +39,9 @@ import com.mpdmal.cloudental.util.exception.base.CloudentException;
 @LocalBean
 @WebService
 public class PatientServices extends AbstractEaoService {
-    //ACTIVITIES
+	private static final long serialVersionUID = 1L;
+
+	//ACTIVITIES
     public Activity createActivity (int patientid, String description, Date start, Date end, int plitemid, int discountid, BigDecimal price) 
 																throws CloudentException {
 		Patient p = findPatient(patientid);

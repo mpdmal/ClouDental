@@ -7,7 +7,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.mpdmal.cloudental.beans.PatientServices;
-import com.mpdmal.cloudental.dao.MedicalhistoryentryDAO;
 import com.mpdmal.cloudental.entities.Medicalhistoryentry;
 import com.mpdmal.cloudental.entities.Patient;
 
@@ -19,8 +18,6 @@ public class MedicalHistoryManagementBean {
 
 	@Inject
 	PatientServices patientService;
-	@Inject
-	MedicalhistoryentryDAO medicalhistoryentryDAO ;
 
 	private Integer patientId;
 	private String comment;
@@ -86,11 +83,6 @@ public class MedicalHistoryManagementBean {
 
 	public Vector<Medicalhistoryentry> getMedicalHistoryList(){
 		Vector<Medicalhistoryentry> v = new Vector<Medicalhistoryentry>(); 
-		try{
-			v =medicalhistoryentryDAO.getMedicalhistoryentrys(currentPatient.getId());
-		}catch(Exception e){
-			e.printStackTrace();
-		}
 		return v;
 
 	}

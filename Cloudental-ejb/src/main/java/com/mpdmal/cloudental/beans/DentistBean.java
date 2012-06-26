@@ -1,5 +1,6 @@
 package com.mpdmal.cloudental.beans;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 import javax.ejb.LocalBean;
@@ -18,8 +19,10 @@ import com.mpdmal.cloudental.util.exception.ValidationException;
 @Stateless
 @LocalBean
 @WebService
-public class DentistBean extends AbstractEaoService {
-    public DentistBean() {}
+public class DentistBean extends AbstractEaoService implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	public DentistBean() {}
     
     public Dentist createDentist(String name, String surname, String username, String password) 
     																throws  DentistExistsException, 

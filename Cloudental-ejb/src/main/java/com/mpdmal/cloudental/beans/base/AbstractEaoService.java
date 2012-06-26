@@ -1,10 +1,12 @@
 package com.mpdmal.cloudental.beans.base;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 import javax.persistence.Query;
@@ -24,7 +26,9 @@ import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
 
-public class AbstractEaoService {
+@Named
+public class AbstractEaoService implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Inject
 	protected EaoManager emgr;
 	

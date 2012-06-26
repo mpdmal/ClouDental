@@ -18,6 +18,7 @@ import com.mpdmal.cloudental.util.exception.InvalidPasswordException;
 @LocalBean
 @WebService
 public class LoginBean extends AbstractEaoService {
+	private static final long serialVersionUID = 1L;
 	@Inject
 	DentistBean dentistEao;
 	

@@ -33,7 +33,10 @@ import com.mpdmal.cloudental.util.exception.ValidationException;
 @LocalBean
 @WebService
 public class DentistServices extends AbstractEaoService {
-    //DISCOUNTS
+	private static final long serialVersionUID = 1L;
+
+
+	//DISCOUNTS
 	public Discount createDiscount(int dentistid, String title, String description, double value) 
 											throws DentistNotFoundException, ValidationException {
 		Dentist dentist = findDentist(dentistid);
