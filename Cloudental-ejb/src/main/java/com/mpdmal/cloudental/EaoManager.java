@@ -1,8 +1,11 @@
 package com.mpdmal.cloudental;
 
+import java.io.Serializable;
+
 import javax.annotation.PreDestroy;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -15,7 +18,9 @@ import com.mpdmal.cloudental.util.exception.ValidationException;
 
 @Stateless
 @LocalBean
-public class EaoManager {
+@Named
+public class EaoManager implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@PersistenceContext
 	protected EntityManager _em;
 	
