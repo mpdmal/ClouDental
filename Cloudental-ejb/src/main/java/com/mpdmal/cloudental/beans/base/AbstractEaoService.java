@@ -41,7 +41,7 @@ public class AbstractEaoService implements Serializable {
     }
     //private
     private void logMethodInfo(Method m, Object[] prms) {
-    	StringBuilder sb = new StringBuilder("\nbean service fired:"+m.getName());
+    	StringBuilder sb = new StringBuilder("bean service fired:"+m.getName());
     	if (prms == null) {
     		sb.append("  [no args]");
     		CloudentUtils.logServicecall(sb.toString());
@@ -61,12 +61,12 @@ public class AbstractEaoService implements Serializable {
     private void logContextData(Map<String, Object> data) {
     	Set<String> keys = data.keySet();
     	StringBuilder sb = new StringBuilder();
-    	sb.append("\nContext Data ------\n");
+    	sb.append("Context Data ------>");
     	for (String key : keys) {
 			Object val = data.get(key);
-			sb.append(key).append(":").append(val.toString()).append("\n");
+			sb.append(key).append(":").append(val.toString()).append("");
 		}
-    	sb.append("End Context Data ------");
+    	sb.append("<------ End Context Data ");
 		CloudentUtils.logServicecall(sb.toString());
     }
 
