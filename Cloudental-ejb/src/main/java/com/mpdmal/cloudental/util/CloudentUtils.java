@@ -1,6 +1,9 @@
 package com.mpdmal.cloudental.util;
 
+import java.lang.reflect.Method;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Query;
 import javax.validation.ConstraintViolationException;
@@ -205,4 +208,35 @@ public class CloudentUtils {
 		CloudentUtils.logError(msg);
 		return new ValidationException(msg,e);
 	}
+	
+	public static void logMethodInfo(Method m, Object[] prms) {
+    	StringBuilder sb = new StringBuilder("bean service fired:"+m.getName());
+    	if (prms == null) {
+    		sb.append("  [no args]");
+    		CloudentUtils.logServicecall(sb.toString());
+    		return;
+    	}
+    	
+    	sb.append("  [ ");
+    	for (Object o : prms) {
+    		if (o!=null)
+			  sb.append(o.toString()).append(", ");
+		}
+    	sb.delete(sb.length()-2, sb.length());
+    	sb.append("]");
+    	CloudentUtils.logServicecall(sb.toString());
+    }
+
+    public static void logContextData(Map<String, Object> data) {
+    	Set<String> keys = data.keySet();
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("Context Data ------>");
+    	for (String key : keys) {
+			Object val = data.get(key);
+			sb.append(key).append(":").append(val.toString()).append("");
+		}
+    	sb.append("<------ End Context Data ");
+		CloudentUtils.logServicecall(sb.toString());
+    }
+
 }

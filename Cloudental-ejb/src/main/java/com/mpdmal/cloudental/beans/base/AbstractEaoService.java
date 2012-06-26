@@ -1,9 +1,6 @@
 package com.mpdmal.cloudental.beans.base;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,39 +32,9 @@ public class AbstractEaoService implements Serializable {
 	//AOP interceptor to all business logic methods .. and those of extending classes ...
     @AroundInvoke
     public Object CloudentServiceAdvice(InvocationContext ic) throws Exception {
-    	logMethodInfo(ic.getMethod(), ic.getParameters());
-    	logContextData(ic.getContextData());
+    	CloudentUtils.logMethodInfo(ic.getMethod(), ic.getParameters());
+    	CloudentUtils.logContextData(ic.getContextData());
     	return ic.proceed();
-    }
-    //private
-    private void logMethodInfo(Method m, Object[] prms) {
-    	StringBuilder sb = new StringBuilder("bean service fired:"+m.getName());
-    	if (prms == null) {
-    		sb.append("  [no args]");
-    		CloudentUtils.logServicecall(sb.toString());
-    		return;
-    	}
-    	
-    	sb.append("  [ ");
-    	for (Object o : prms) {
-    		if (o!=null)
-			  sb.append(o.toString()).append(", ");
-		}
-    	sb.delete(sb.length()-2, sb.length());
-    	sb.append("]");
-    	CloudentUtils.logServicecall(sb.toString());
-    }
-
-    private void logContextData(Map<String, Object> data) {
-    	Set<String> keys = data.keySet();
-    	StringBuilder sb = new StringBuilder();
-    	sb.append("Context Data ------>");
-    	for (String key : keys) {
-			Object val = data.get(key);
-			sb.append(key).append(":").append(val.toString()).append("");
-		}
-    	sb.append("<------ End Context Data ");
-		CloudentUtils.logServicecall(sb.toString());
     }
 
     //inherited to children
