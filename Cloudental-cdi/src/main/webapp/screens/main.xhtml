@@ -8,10 +8,27 @@
    	
    <h:body>
    	<h:form>
-   		<h:selectOneListbox value="#{mainBean.selection}">
-   			<f:selectItems value="#{mainBean.values}" />
+   		Dentist Name : #{mainBean.dentistName} <br/>
+   		Patients  
+   		<h:selectOneListbox label="patients" value="#{mainBean.selectedPatient}">
+   			<f:selectItems value="#{mainBean.patientNames}" />
    		</h:selectOneListbox>
-   	<h:commandButton action="#{mainBean.doStuff()}" value="press" />
+   		<h:commandButton label="selectPatients" action="#{mainBean.selectPatient()}" value="Load Activities" />
+   		<br/>
+   		Patient Activities
+   		<h:selectOneListbox label="acts" value="#{mainBean.selectedActivity}">
+   			<f:selectItems value="#{mainBean.activityNames}" />
+   		</h:selectOneListbox>
+   		<br/>
+   		<h:inputText label="visitTitle" value="#{mainBean.visitTitle}" />
+   		<h:inputText label="visitdepo" value="#{mainBean.visitDeposit}" />
+   		<h:commandButton label="createVisit" action="#{mainBean.createVisit()}" value="Create Visit" />
+   		<br/>
+   		Activity Visits
+   		<h:selectOneListbox label="visits" value="#{mainBean.selectedVisit}">
+   			<f:selectItems value="#{mainBean.visitNames}" />
+   		</h:selectOneListbox>
+   		
    	</h:form>
    </h:body>
 </html>

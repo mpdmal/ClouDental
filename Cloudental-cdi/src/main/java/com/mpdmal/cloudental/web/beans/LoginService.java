@@ -18,19 +18,23 @@ import com.mpdmal.cloudental.web.beans.base.BaseBean;
 @RequestScoped
 public class LoginService extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
+	//CDI BEANS
 	@Inject
 	CloudentSession session;
 	@Inject
 	LoginBean loginBean;
-	private String name = "arilou", password = "arilou";
+	
+	//MODEL
+	private String name = "demo", password = "demo";
 
+	//GETTERS/SETTERS
 	public String getName() {	return name;	}
 	public String getPassword() {	return password;	}
 
 	public void setName(String name) {	this.name = name;	}
 	public void setPassword(String password) {	this.password = password;	}
 
-
+	//INTERFACE
 	public String login() {
 		Dentist d = null;
 		try {
