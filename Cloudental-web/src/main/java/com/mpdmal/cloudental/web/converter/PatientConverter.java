@@ -14,7 +14,6 @@ import javax.faces.convert.FacesConverter;
 
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.web.beans.PatientHolder;
-import com.mpdmal.cloudental.web.beans.PatientManagementBean;
 
 @FacesConverter (value="patientConverter", forClass=PatientConverter.class)
 public class PatientConverter implements Converter {  

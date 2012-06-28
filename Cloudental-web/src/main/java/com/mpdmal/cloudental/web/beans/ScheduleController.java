@@ -13,7 +13,6 @@ import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.ScheduleEntrySelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
-import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
@@ -24,7 +23,6 @@ public class ScheduleController {
     
     private ScheduleModel eventModel;  
       
-    private ScheduleModel lazyEventModel;  
   
     private ScheduleEvent event = new DefaultScheduleEvent();  
       
@@ -40,25 +38,6 @@ public class ScheduleController {
         eventModel.addEvent(new DefaultScheduleEvent("Breakfast at Tiffanys", nextDay9Am(), nextDay11Am()));  
         eventModel.addEvent(new DefaultScheduleEvent("Plant the new garden stuff", theDayAfter3Pm(), fourDaysLater3pm()));  
           
-        lazyEventModel = new LazyScheduleModel() {  
-			private static final long serialVersionUID = 1L;
-
-			@Override  
-            public void loadEvents(Date start, Date end) {  
-                clear();  
-                  
-                Date random = getRandomDate(start);  
-                addEvent(new DefaultScheduleEvent("Lazy Event 1", random, random));  
-                  
-                random = getRandomDate(start);  
-                addEvent(new DefaultScheduleEvent("Lazy Event 2", random, random));  
-            }
-
-			private Date getRandomDate(Date start) {
-				// TODO Auto-generated method stub
-				return getDateExample(3);
-			}     
-        };  
     }  
       
     

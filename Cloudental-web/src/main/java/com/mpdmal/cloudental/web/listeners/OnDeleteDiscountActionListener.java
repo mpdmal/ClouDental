@@ -13,6 +13,7 @@ public class OnDeleteDiscountActionListener implements ActionListener {
 	public void processAction(ActionEvent event) throws AbortProcessingException {
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application app = context.getApplication();
+		System.out.println(app.toString());
 	}
 
 }
