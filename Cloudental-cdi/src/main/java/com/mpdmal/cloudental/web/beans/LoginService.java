@@ -20,7 +20,7 @@ public class LoginService extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	//CDI BEANS
 	@Inject
-	CloudentSession session;
+	OfficeBean office;
 	@Inject
 	LoginBean loginBean;
 	
@@ -54,7 +54,7 @@ public class LoginService extends BaseBean implements Serializable {
 			CloudentUtils.logError(e.getMessage());
 			return null;
 		}
-		session.setDentistid(d.getId());
+		office.setOwnerAndPopulate(d.getId());
 		return "ok";
 	}
 }
