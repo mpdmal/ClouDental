@@ -33,6 +33,7 @@ public class SchedulerControler {
 	public void populateScheduler(int dentistid) {
 		Vector<Visit> vsts;
 		vsts = _dsvc.getDentistVisits(dentistid);
+		_visitModel.clear();
 		for (Visit visit : vsts) {
 			_visitModel.addEvent(new DefaultScheduleEvent(visit.getTitle(),visit.getVisitdate(), visit.getEnddate()));
 		}

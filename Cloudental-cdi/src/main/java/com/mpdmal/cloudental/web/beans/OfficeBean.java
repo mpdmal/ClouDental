@@ -27,6 +27,7 @@ public class OfficeBean extends BaseBean implements Serializable {
 	@PostConstruct
 	public void init () {
 		scheduleControler = new SchedulerControler(_dsvc);
+		//populateScheduler();
 	}
 
 	//GETTERS/SETTERS
@@ -40,8 +41,13 @@ public class OfficeBean extends BaseBean implements Serializable {
 	
 	//INTERFACE
 	public void setOwnerAndPopulate(int ownerID) {	
-		this.ownerID = ownerID;			
+		this.ownerID = ownerID;
+		populateScheduler();
+	}
+	
+	public void populateScheduler() {	
 		scheduleControler.populateScheduler(getOWnerID());
 	}
+
 }
 
