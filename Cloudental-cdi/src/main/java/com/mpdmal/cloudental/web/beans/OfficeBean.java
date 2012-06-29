@@ -33,13 +33,15 @@ public class OfficeBean extends BaseBean implements Serializable {
 	public int getOWnerID() {	return ownerID;	}
 	public int getSelectedPatientID() {	return selectedPatientID;	}
 	public ScheduleModel getVisitModel() { return scheduleControler.getModel(); }
+	public SchedulerControler getScheduleControler() {	return scheduleControler;	}
+
+	public void setScheduleControler(SchedulerControler scheduleControler) {	this.scheduleControler = scheduleControler;	}
+	public void setSelectedPatientID(int patientid) {	this.selectedPatientID = patientid;	}
 	
+	//INTERFACE
 	public void setOwnerAndPopulate(int ownerID) {	
 		this.ownerID = ownerID;			
 		scheduleControler.populateScheduler(getOWnerID());
 	}
-	
-	public void setSelectedPatientID(int patientid) {	this.selectedPatientID = patientid;	}
-	
 }
 

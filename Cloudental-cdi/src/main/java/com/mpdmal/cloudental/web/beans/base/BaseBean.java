@@ -21,7 +21,7 @@ public class BaseBean implements Serializable {
 	}
 
 	@AroundInvoke
-	public Object testicept(InvocationContext t) throws Exception {
+	public Object interceptPublic(InvocationContext t) throws Exception {
 		CloudentUtils.logMethodInfo(t.getMethod(), t.getParameters());
 		return t.proceed();
 	}
