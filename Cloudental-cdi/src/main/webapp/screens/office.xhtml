@@ -8,13 +8,14 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:composition template="/screens/base/office-template.xhtml">
+		<ui:define name="title">My Office</ui:define>>
+		
 		<ui:define name="scheduler">
-			<h:head></h:head>
 			<p:schedule value="#{office.visitModel}" editable="true" widgetVar="visitSchedule">
 				<p:ajax event="dateSelect" listener="#{office.scheduleControler.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
 				<p:ajax event="eventSelect" listener="#{office.scheduleControler.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
 			</p:schedule>
-					
+
 			<p:dialog widgetVar="eventDialog" header="Event Details">
 				<h:panelGrid id="eventDetails" columns="2">
 					<h:outputLabel for="title" value="Title:" />
