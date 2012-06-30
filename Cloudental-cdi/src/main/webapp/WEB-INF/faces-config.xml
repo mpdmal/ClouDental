@@ -6,11 +6,12 @@
   <display-name>LoginRule</display-name>
   <from-view-id>/screens/welcome.xhtml</from-view-id>
   <navigation-case>
-   <from-outcome>Office</from-outcome>
-   <to-view-id>/screens/Office.xhtml</to-view-id>
+   <from-outcome>office</from-outcome>
+   <to-view-id>/screens/office.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
  <navigation-rule>
+  <display-name>CreateUserRule</display-name>
   <from-view-id>/screens/createUser.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>welcome</from-outcome>
