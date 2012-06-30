@@ -1,27 +1,29 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
       xmlns:ui="http://java.sun.com/jsf/facelets" 
       xmlns:h="http://java.sun.com/jsf/html" 
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      template="/screens/base/cloudentTemplate.xhtml">
 
    
-   <h:body>
-   	<h:form>
-   		<h:outputText value="Login" />
-		<h:messages/>
-		<h:form>
-			<h:panelGrid columns="2">
-				<h:outputText value="Username: " />
-				<h:inputText value="#{loginSvc.name}" label="Username"
-					required="true" />
-				<h:outputText value="Password: " />
-				<h:inputText value="#{loginSvc.password}" label="Password"
-					required="true" />
-				<h:outputText value=" " />
-				<h:commandButton value="Login" action="#{loginSvc.login()}" />
-			</h:panelGrid>
-		</h:form>
-		<br />
-   	</h:form>
-   </h:body>
-</html>
+   <ui:define name="body">
+      <h:body>
+	   	<h:form>
+	   		<h:outputText value="Login" />
+			<h:messages/>
+			<h:form>
+				<h:panelGrid columns="2">
+					<h:outputText value="Username: " />
+					<h:inputText value="#{loginSvc.name}" label="Username"
+						required="true" />
+					<h:outputText value="Password: " />
+					<h:inputText value="#{loginSvc.password}" label="Password"
+						required="true" />
+					<h:outputText value=" " />
+					<h:commandButton value="Login" action="#{loginSvc.login()}" />
+				</h:panelGrid>
+			</h:form>
+			<br />
+	   	</h:form>
+	   </h:body>
+   </ui:define>
+</ui:composition>

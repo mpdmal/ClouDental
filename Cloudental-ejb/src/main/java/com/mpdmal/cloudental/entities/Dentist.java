@@ -152,23 +152,27 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		ans.insert(ans.indexOf("</dentist"), "<password>"+password+"</password>");
 		
 		ans.insert(ans.indexOf("</dentist"), "<pinboard>");
+		if (postits != null)
 		for (Postit note: postits) {
 			ans.insert(ans.indexOf("</dentist"), note.getXML());
 		}
 		ans.insert(ans.indexOf("</dentist"), "</pinboard>");
 		
 		ans.insert(ans.indexOf("</dentist"), "<pricelist>");
+		if (priceables != null)
 		for (PricelistItem pbl : priceables) {
 			ans.insert(ans.indexOf("</dentist"), pbl.getXML());
 		}
 		ans.insert(ans.indexOf("</dentist"), "</pricelist>");
 
 		ans.insert(ans.indexOf("</dentist"), "<discounts>");
+		if (discounts!= null)
 		for (Discount ds: discounts) {
 			ans.insert(ans.indexOf("</discount"), ds.getXML());
 		}
 		ans.insert(ans.indexOf("</dentist"), "</discounts>");
 		ans.insert(ans.indexOf("</dentist"), "<patientlist>");
+		if (patients != null)
 		if (patients != null)
 			for (Patient patient : patients) {
 				ans.insert(ans.indexOf("</dentist"), patient.getXML());

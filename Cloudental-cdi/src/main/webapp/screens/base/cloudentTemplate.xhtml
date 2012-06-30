@@ -2,33 +2,23 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<head>
-	  <title><ui:insert name="title">Default title</ui:insert></title>
+	  <title><ui:insert name="title">Cloudent 0.1</ui:insert></title>
 	</head>
 
 	<body>
 		<div id="header">
 		    <ui:insert name="header">
-		    	Header area.  See comments below this line in the source.
-		    	<!--  include your header file or uncomment the include below and create header.xhtml in this directory -->
-		    	<!-- <ui:include src="header.xhtml"/> -->
+		    	<ui:include src="/screens/base/header.xhtml"/>
 		    </ui:insert>
 		</div>
 		
-		<div id="content">
-		  <ui:insert name="content">
-		    	Content area.  See comments below this line in the source.
-		    	<!--  include your content file or uncomment the include below and create content.xhtml in this directory -->
-			  	<!-- <div> -->
-		    	<!-- <ui:include src="content.xhtml"/> -->  
-		    	<!-- </div> -->
-		  </ui:insert>
+		<div id="body">
+		  <ui:insert name="body"/>
 		</div>
 		
 		<div id="footer">
 		  <ui:insert name="footer">
-		    	Footer area.  See comments below this line in the source.
-		    	<!--  include your header file or uncomment the include below and create footer.xhtml in this directory -->
-				<!--<ui:include src="footer.xhtml"/>  -->
+				<ui:include src="/screens/base/footer.xhtml"/>
 		  </ui:insert>
 		</div>
 	</body>

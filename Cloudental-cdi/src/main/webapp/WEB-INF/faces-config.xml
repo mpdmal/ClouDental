@@ -6,8 +6,15 @@
   <display-name>LoginRule</display-name>
   <from-view-id>/screens/welcome.xhtml</from-view-id>
   <navigation-case>
-   <from-outcome>ok</from-outcome>
+   <from-outcome>Office</from-outcome>
    <to-view-id>/screens/Office.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/screens/createUser.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>welcome</from-outcome>
+   <to-view-id>/screens/welcome.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
 </faces-config>

@@ -55,6 +55,6 @@ public class LoginService extends BaseBean implements Serializable {
 			return null;
 		}
 		office.setOwnerAndPopulate(d.getId());
-		return "ok";
+		return "Office";
 	}
 }

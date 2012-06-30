@@ -9,6 +9,13 @@
 	
 	<h:body>
 		<h:form>
+			Create a new Cloudental User<br/>
+			<h:outputLabel for="name" value="Name " /> <p:inputText id="name" value="#{createBean.dentist.name}"/> <br/>
+			<h:outputLabel for="sname" value="Surname " /> <p:inputText id="sname" value="#{createBean.dentist.surname}"/> <br/>
+			<h:outputLabel for="uname" value="Username " /> <p:inputText id="uname" value="#{createBean.dentist.username}"/> <br/>
+			<h:outputLabel for="pwd" value="Password " /> <p:password id="pwd" value="#{createBean.dentist.password}"/> <br/>
+			<h:outputLabel for="pwd2" value="Re-type " /> <p:password id="pwd2" value="#{createBean.passwordConfirm}"/> <br/>
+			<h:commandButton value="Create" action="#{createBean.createDentist()}" />
 		</h:form>
 	</h:body>
 </html>
