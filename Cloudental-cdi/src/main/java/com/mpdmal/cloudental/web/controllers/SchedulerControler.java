@@ -1,4 +1,4 @@
-package com.mpdmal.cloudental.web.beans;
+package com.mpdmal.cloudental.web.controllers;
 
 import java.util.Vector;
 

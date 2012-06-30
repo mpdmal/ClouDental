@@ -11,6 +11,7 @@ import org.primefaces.model.ScheduleModel;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.web.beans.base.BaseBean;
+import com.mpdmal.cloudental.web.controllers.SchedulerControler;
 
 @Named("office")
 @SessionScoped
