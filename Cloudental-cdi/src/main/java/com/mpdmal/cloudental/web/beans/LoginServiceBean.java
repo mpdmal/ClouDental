@@ -13,14 +13,15 @@ import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidPasswordException;
 import com.mpdmal.cloudental.web.beans.base.BaseBean;
+import com.mpdmal.cloudental.web.controllers.Office;
 
 @Named("loginSvc")
 @RequestScoped
-public class LoginService extends BaseBean implements Serializable {
+public class LoginServiceBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	//CDI BEANS
 	@Inject
-	OfficeBean office;
+	Office office;
 	@Inject
 	LoginBean loginBean;
 	

@@ -1,4 +1,4 @@
-package com.mpdmal.cloudental.web.controllers;
+package com.mpdmal.cloudental.web.beans;
 
 import java.util.Vector;
 
@@ -13,13 +13,13 @@ import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.web.events.DentistScheduleEvent;
 
-public class SchedulerControler {
+public class SchedulerBean {
 	//MODEL
 	private ScheduleModel _visitModel = new DefaultScheduleModel();
 	private DentistServices _dsvc;
 	private DentistScheduleEvent event = new DentistScheduleEvent();
 
-	public SchedulerControler(DentistServices ds) {
+	public SchedulerBean(DentistServices ds) {
 		_dsvc = ds;
 	}
 	
