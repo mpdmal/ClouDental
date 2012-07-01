@@ -1,4 +1,4 @@
-package com.mpdmal.cloudental.web.beans;
+package com.mpdmal.cloudental.web.beans.backingbeans;
 
 import java.util.Vector;
 
