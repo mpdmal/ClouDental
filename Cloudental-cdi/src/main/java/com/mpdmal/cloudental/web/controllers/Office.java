@@ -28,7 +28,7 @@ public class Office extends BaseBean implements Serializable {
 	//MODEL
 	private SchedulerBean scheduleControler; //scheduler backing bean
 	private PatientManagerBean patientManagment; //patient mngmnt backing bean
-	private int ownerID , selectedPatientID;
+	private int ownerID, selectedPatientID;
 	
 	@Override
 	public void init () {
@@ -53,10 +53,15 @@ public class Office extends BaseBean implements Serializable {
 	public void setOwnerAndPopulate(int ownerID) {	
 		this.ownerID = ownerID;
 		populateScheduler();
+		populatePatientList();
 	}
 	
 	public void populateScheduler() {	
 		scheduleControler.populateScheduler(getOWnerID());
+	}
+	
+	public void populatePatientList() {
+		patientManagment.populatePatients(getOWnerID());
 	}
 }
 

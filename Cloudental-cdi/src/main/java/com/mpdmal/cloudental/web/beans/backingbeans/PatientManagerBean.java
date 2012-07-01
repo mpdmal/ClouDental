@@ -1,5 +1,7 @@
 package com.mpdmal.cloudental.web.beans.backingbeans;
 
+import java.util.Vector;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -13,6 +15,7 @@ public class PatientManagerBean {
 	DentistServices dentistService;
 	PatientServices patientServices;
 	Office office;
+	Vector<Patient> patientList;
 	Patient patient;
 	
 	public PatientManagerBean(Office office, DentistServices dsvc, PatientServices psvc) {
@@ -24,9 +27,15 @@ public class PatientManagerBean {
 
 	//GETTERS/SETTERS
 	public Patient getPatient() {	return patient;	}
+	public Vector<Patient> getPatientList() {	return patientList;	}
+
 	public void setPatient(Patient patient) {	this.patient = patient;	}
 
 	//INTERFACE
+	public void populatePatients (int dentistid) {
+		patientList = (Vector<Patient>) dentistService.getPatientlist(dentistid);
+	}
+	
 	public String createPatient() {
 		try {
 			dentistService.createPatient(office.getOWnerID(), patient.getName(), patient.getSurname());
