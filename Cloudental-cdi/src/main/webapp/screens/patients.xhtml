@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui">
+      
+	<h:form>
+		<p:panel header="PatientManagement" >
+			<h:panelGrid columns="2">
+				<h:outputLabel for="name" value="Name " /> <p:inputText id="name" value="#{office.patientManagment.patient.name}"/> 
+				<h:outputLabel for="sname" value="Surname " /> <p:inputText id="sname" value="#{office.patientManagment.patient.surname}"/> 
+				<h:outputLabel for="comments" value="Comments " />
+				<h:inputTextarea id="comments" value="#{office.patientManagment.patient.comments}" label="comments"/>
+				<h:outputLabel value=" " />
+				<h:commandButton value="Create" action="#{office.patientManagment.createPatient()}" />
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</html>

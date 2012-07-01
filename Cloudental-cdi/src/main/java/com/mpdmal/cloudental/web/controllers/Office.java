@@ -33,7 +33,7 @@ public class Office extends BaseBean implements Serializable {
 	@Override
 	public void init () {
 		scheduleControler = new SchedulerBean(_dsvc);
-		patientManagment = new PatientManagerBean(_dsvc, _psvc);
+		patientManagment = new PatientManagerBean(this, _dsvc, _psvc);
 		//populateScheduler();
 	}
 
@@ -57,10 +57,6 @@ public class Office extends BaseBean implements Serializable {
 	
 	public void populateScheduler() {	
 		scheduleControler.populateScheduler(getOWnerID());
-	}
-
-	public void createPatient() {
-		patientManagment.createPatient(ownerID);
 	}
 }
 
