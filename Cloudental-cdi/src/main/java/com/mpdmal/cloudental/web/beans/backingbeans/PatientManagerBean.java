@@ -16,20 +16,23 @@ public class PatientManagerBean {
 	PatientServices patientServices;
 	Office office;
 	Vector<Patient> patientList;
-	Patient patient;
+	Patient selectedPatient, createPatient;
+	
 	
 	public PatientManagerBean(Office office, DentistServices dsvc, PatientServices psvc) {
 		dentistService = dsvc;
 		patientServices = psvc;
 		this.office = office;
-		patient = new Patient();
+		createPatient = new Patient();
 	}
 
 	//GETTERS/SETTERS
-	public Patient getPatient() {	return patient;	}
 	public Vector<Patient> getPatientList() {	return patientList;	}
+	public Patient getSelectedPatient() {	return selectedPatient;	}
+	public Patient getCreatePatient() {	return createPatient;	}
 
-	public void setPatient(Patient patient) {	this.patient = patient;	}
+	public void setSelectedPatient(Patient patient) {	this.selectedPatient = patient;	}
+	public void setCreatePatient(Patient patient) {	this.createPatient = patient;	}
 
 	//INTERFACE
 	public void populatePatients (int dentistid) {
@@ -38,7 +41,8 @@ public class PatientManagerBean {
 	
 	public String createPatient() {
 		try {
-			dentistService.createPatient(office.getOWnerID(), patient.getName(), patient.getSurname());
+			dentistService.createPatient(office.getOWnerID(), getCreatePatient().getName(), getCreatePatient().getSurname());
+			populatePatients(office.getOWnerID());
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage( FacesMessage.SEVERITY_ERROR, e.getMessage(),"" ));
 			e.printStackTrace();
