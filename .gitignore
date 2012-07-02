@@ -7,6 +7,11 @@ Cloudental-web/.classpath
 Cloudental-web/.directory
 Cloudental-web/.settings/
 Cloudental-web/target/
+Cloudental-cdi/.project
+Cloudental-cdi/.classpath
+Cloudental-cdi/.directory
+Cloudental-cdi/.settings/
+Cloudental-cdi/target/
 Cloudental-ear/.project
 Cloudental-ear/.classpath
 Cloudental-ear/.directory
