@@ -9,8 +9,8 @@
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>Cloudental-cdi</artifactId>
-    <packaging>war</packaging>
-    <name>Cloudental-cdi</name>
+	<packaging>war</packaging>
+	<name>Cloudental-cdi</name>
 
 	<dependencies>
 		<dependency>
@@ -34,6 +34,12 @@
 			<groupId>org.primefaces</groupId>
 			<artifactId>mobile</artifactId>
 			<version>0.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.myfaces.extensions.cdi.bundles</groupId>
+			<artifactId>myfaces-extcdi-bundle-jsf20</artifactId>
+			<version>${codi.version}</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 	<build>
