@@ -1,5 +1,6 @@
 package com.mpdmal.cloudental.web.beans.backingbeans;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 import org.primefaces.event.DateSelectEvent;
@@ -13,7 +14,8 @@ import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.web.events.DentistScheduleEvent;
 
-public class SchedulerBean {
+public class SchedulerBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 	//MODEL
 	private ScheduleModel _visitModel = new DefaultScheduleModel();
 	private DentistServices _dsvc;

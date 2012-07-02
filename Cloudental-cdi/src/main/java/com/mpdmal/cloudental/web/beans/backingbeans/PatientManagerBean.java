@@ -1,5 +1,6 @@
 package com.mpdmal.cloudental.web.beans.backingbeans;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 import javax.faces.application.FacesMessage;
@@ -10,7 +11,8 @@ import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.web.controllers.Office;
 
-public class PatientManagerBean {
+public class PatientManagerBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 	//MODEL
 	DentistServices dentistService;
 	PatientServices patientServices;
