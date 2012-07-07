@@ -28,7 +28,7 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 	LoginBean loginBean;
 	
 	//MODEL
-	private String name = "demo", password = "demo";
+	private String name = "", password = "";
 
 	//GETTERS/SETTERS
 	public String getName() {	return name;	}

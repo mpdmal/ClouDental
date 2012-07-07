@@ -5,9 +5,9 @@
       xmlns:p="http://primefaces.org/ui"
       template="/screens/base/cloudent-template.xhtml">
 
-   <h:outputScript library="js" name="jquery-1.7.2.js" />
-   <ui:define name="body">
-   	<h:body onload="onLoad()">
+	<h:outputScript library="js" name="jquery-1.7.2.js" />
+	<ui:define name="body">
+	   	<h:body onload="onLoad()">
 		<p:growl id="growl" showDetail="true" life="3000" />
 			<h:form id="mainform">
 				<p:menubar>  
@@ -15,11 +15,10 @@
 			    </p:menubar>  
 			</h:form>
 			<br/> 
-			<h:outputStylesheet library="css" name="ui-styles.css"  />
 	   		<h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" title="Create New User">     
 			    <p:graphicImage value="/resources/images/new-user.png" />  
-			</h:outputLink>  			  
-			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate" showEffect="explode" modal="true" styleClass="createDlgCSS">  
+			</h:outputLink>
+			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate" showEffect="explode" modal="true">
 			    <h:form>
    			        <h:panelGrid columns="2" cellpadding="5">
 						<h:outputLabel for="name" value="Name " /> <p:inputText id="name" value="#{createBean.dentist.name}"/>
@@ -40,21 +39,14 @@
 			    <p:graphicImage value="/resources/images/cloudM.png" />  
 			</h:outputLink>  			  
 			<p:graphicImage id="bgImage" value="/resources/images/cloudM2.png" />
-			<p:dialog id="dialogLogin" header="Login" widgetVar="dlgLogin" hideEffect="explode">  
-			    <h:form>  
-			        <h:panelGrid columns="2" cellpadding="5">  
-			            <h:outputLabel for="username" value="Username:" />  
-			            <p:inputText value="#{loginSvc.name}"   
-			                    id="username" required="true" label="username" />  
-			              
-			            <h:outputLabel for="password" value="Password:" />  
-			            <h:inputSecret value="#{loginSvc.password}"   
-			                    id="password" required="true" label="password" />  
-			              
+			<p:dialog id="dialogLogin" header="Login" widgetVar="dlgLogin" hideEffect="explode">
+				<h:form>  
+			    	<h:panelGrid columns="2" cellpadding="5">  
+			            <h:outputLabel for="username" value="Username:" /><p:inputText value="#{loginSvc.name}" id="username" required="true" label="username" />  
+			            <h:outputLabel for="password" value="Password:" /><h:inputSecret value="#{loginSvc.password}" id="password" required="true" label="password" />  
 			            <f:facet name="footer">  
-			                <p:commandButton id="loginButton" value="Login" update=":growl"   
-			                    actionListener="#{loginSvc.login}"   
-			                    oncomplete="handleLoginRequest(xhr, status, args)"/>  
+			                <p:commandButton id="loginButton" value="Login" update=":growl" actionListener="#{loginSvc.login}"
+			                				oncomplete="handleLoginRequest(xhr, status, args)"/>  
 			            </f:facet>  
 			        </h:panelGrid>  
 			    </h:form>  
@@ -69,7 +61,7 @@
 			            jQuery('#mainform').fadeIn();
 			            jQuery('#bgImage').show();
 			            jQuery('#newUser').fadeOut();
-			            jQuery('#loginLink').hide();  
+			            jQuery('#loginLink').fadeOut();  
 			        }  
 			    }  
 			</script>  
@@ -81,6 +73,8 @@
 			            dlgCreate.hide();
 			            jQuery('#newUser').fadeOut();  
 			            
+			            jQuery('#username').val(args.uname);
+			            jQuery('#password').val(args.pwd);
 			        }  
 			    }   
 			</script>
@@ -90,6 +84,6 @@
 		            jQuery('#bgImage').hide();
 			    }  
 			</script>
-	</h:body>
-   </ui:define>
+		</h:body>
+	</ui:define>
 </ui:composition>

@@ -41,6 +41,11 @@
 			<version>${codi.version}</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>cupertino</artifactId>			
+			<version>1.0.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
