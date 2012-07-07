@@ -2,28 +2,94 @@
       xmlns:ui="http://java.sun.com/jsf/facelets" 
       xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
       template="/screens/base/cloudent-template.xhtml">
 
-   
+   <h:outputScript library="js" name="jquery-1.7.2.js" />
    <ui:define name="body">
-      <h:body>
-	   	<h:form>
-	   		<h:outputText value="Login" />
-			<h:messages/>
-			<h:form>
-				<h:panelGrid columns="2">
-					<h:outputText value="Username: " />
-					<h:inputText value="#{loginSvc.name}" label="Username"
-						required="true" />
-					<h:outputText value="Password: " />
-					<h:inputText value="#{loginSvc.password}" label="Password"
-						required="true" />
-					<h:outputText value=" " />
-					<h:commandButton value="Login" action="#{loginSvc.login()}" />
-				</h:panelGrid>
+   	<h:body onload="onLoad()">
+		<p:growl id="growl" showDetail="true" life="3000" />
+			<h:form id="mainform">
+				<p:menubar>  
+		            <p:menuitem value="My Office" action="office" ajax="false" />  
+			    </p:menubar>  
 			</h:form>
-			<br />
-	   	</h:form>
-	   </h:body>
+			<br/> 
+			<h:outputStylesheet library="css" name="ui-styles.css"  />
+	   		<h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" title="Create New User">     
+			    <p:graphicImage value="/resources/images/new-user.png" />  
+			</h:outputLink>  			  
+			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate" showEffect="explode" modal="true" styleClass="createDlgCSS">  
+			    <h:form>
+   			        <h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="name" value="Name " /> <p:inputText id="name" value="#{createBean.dentist.name}"/>
+						<h:outputLabel for="sname" value="Surname " /> <p:inputText id="sname" value="#{createBean.dentist.surname}"/>
+						<h:outputLabel for="uname" value="Username " /> <p:inputText id="uname" value="#{createBean.dentist.username}"/>
+						<h:outputLabel for="pwd" value="Password " /> <p:password id="pwd" value="#{createBean.dentist.password}"/>
+						<h:outputLabel for="pwd2" value="Re-type " /> <p:password id="pwd2" value="#{createBean.passwordConfirm}"/>
+			            <f:facet name="footer">  
+			                <p:commandButton id="createButton" value="Create" update=":growl"   
+			                    actionListener="#{createBean.createDentist()}"   
+			                    oncomplete="handleCreateRequest(xhr, status, args)"/>  
+			            </f:facet>
+			        </h:panelGrid>  
+			    </h:form>  
+			</p:dialog>  
+			<br/> 
+	   		<h:outputLink id="loginLink" value="javascript:void(0)" onclick="dlgLogin.show()" title="login">     
+			    <p:graphicImage value="/resources/images/cloudM.png" />  
+			</h:outputLink>  			  
+			<p:graphicImage id="bgImage" value="/resources/images/cloudM2.png" />
+			<p:dialog id="dialogLogin" header="Login" widgetVar="dlgLogin" hideEffect="explode">  
+			    <h:form>  
+			        <h:panelGrid columns="2" cellpadding="5">  
+			            <h:outputLabel for="username" value="Username:" />  
+			            <p:inputText value="#{loginSvc.name}"   
+			                    id="username" required="true" label="username" />  
+			              
+			            <h:outputLabel for="password" value="Password:" />  
+			            <h:inputSecret value="#{loginSvc.password}"   
+			                    id="password" required="true" label="password" />  
+			              
+			            <f:facet name="footer">  
+			                <p:commandButton id="loginButton" value="Login" update=":growl"   
+			                    actionListener="#{loginSvc.login}"   
+			                    oncomplete="handleLoginRequest(xhr, status, args)"/>  
+			            </f:facet>  
+			        </h:panelGrid>  
+			    </h:form>  
+			</p:dialog>  
+			  
+			<script type="text/javascript">  
+			    function handleLoginRequest(xhr, status, args) {  
+			        if(args.validationFailed || !args.loggedIn) {  
+			            jQuery('#dialogLogin').effect("shake", { times:3 }, 100);  
+			        } else {  
+			            dlgLogin.hide();
+			            jQuery('#mainform').fadeIn();
+			            jQuery('#bgImage').show();
+			            jQuery('#newUser').fadeOut();
+			            jQuery('#loginLink').hide();  
+			        }  
+			    }  
+			</script>  
+			<script type="text/javascript">  
+			    function handleCreateRequest(xhr, status, args) {  
+			        if(!args.created) {  
+			            jQuery('#dialogCreate').effect("shake", { times:3 }, 100);  
+			        } else {  
+			            dlgCreate.hide();
+			            jQuery('#newUser').fadeOut();  
+			            
+			        }  
+			    }   
+			</script>
+			<script type="text/javascript">  
+			    function onLoad() {  
+		            jQuery('#mainform').hide();  
+		            jQuery('#bgImage').hide();
+			    }  
+			</script>
+	</h:body>
    </ui:define>
 </ui:composition>

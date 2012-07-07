@@ -8,6 +8,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.context.RequestContext;
+
 import com.mpdmal.cloudental.beans.DentistBean;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
@@ -39,22 +41,25 @@ public class UserCreateBean extends BaseBean implements Serializable {
 	public void setPasswordConfirm(String passwordConfirm) {	_passwordConfirm = passwordConfirm;	}
 	
 	//INTERFACE
-	public String createDentist() {
+	public void createDentist() {
+        RequestContext context = RequestContext.getCurrentInstance();  
+        FacesMessage msg = null;  
+        boolean created = false;  
+
 		try {
 			if (!_d.getPassword().equals(_passwordConfirm))
 				throw new ValidationException("Passwords do not match");
 			_dbn.createDentist(_d.getName(), _d.getSurname(), _d.getUsername(), _d.getPassword());
 		} catch (DentistExistsException e) {
-			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
-			return null;
+			 msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", e.getMessage());
+	            created = false; 
 		} catch (ValidationException e) {
-				FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(
-						FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
-				return null;
+			 msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", e.getMessage());
+	            created = false; 
 		}
-		return "welcome";
+		created = true;
+        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "User Created ", _d.getUsername());  
+        FacesContext.getCurrentInstance().addMessage(null, msg);  
+        context.addCallbackParam("created", created);  
 	}
 }
