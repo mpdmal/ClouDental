@@ -14,6 +14,7 @@ import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 @Named
 @Stateless
@@ -25,12 +26,9 @@ public class DentistBean extends AbstractEaoService implements Serializable {
 	public DentistBean() {}
     
     public Dentist createDentist(String name, String surname, String username, String password) 
-    																throws  DentistExistsException, 
-    																		ValidationException {
-    	try {
-			if (findDentistByUsername(username) != null)
-				throw new DentistExistsException(username);
-		} catch (DentistNotFoundException ignored) {}
+    																throws  CloudentException {
+		if (findDentistByUsername(username) != null)
+			throw new DentistExistsException(username);
     	
     	Dentist d = new Dentist();
 		d.setName(name);

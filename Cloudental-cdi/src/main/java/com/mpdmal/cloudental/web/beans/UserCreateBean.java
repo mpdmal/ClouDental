@@ -12,8 +12,7 @@ import org.primefaces.context.RequestContext;
 
 import com.mpdmal.cloudental.beans.DentistBean;
 import com.mpdmal.cloudental.entities.Dentist;
-import com.mpdmal.cloudental.util.exception.DentistExistsException;
-import com.mpdmal.cloudental.util.exception.ValidationException;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 import com.mpdmal.cloudental.web.beans.base.BaseBean;
 
 @Named("createBean")
@@ -48,20 +47,18 @@ public class UserCreateBean extends BaseBean implements Serializable {
 
 		try {
 			if (!_d.getPassword().equals(_passwordConfirm))
-				throw new ValidationException("Passwords do not match");
+				throw new CloudentException("Passwords do not match");
 			_dbn.createDentist(_d.getName(), _d.getSurname(), _d.getUsername(), _d.getPassword());
-		} catch (DentistExistsException e) {
+			created = true;
+	        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "User Created ", _d.getUsername());
+		} catch (CloudentException e) {
+            created = false;
 			 msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", e.getMessage());
-	            created = false; 
-		} catch (ValidationException e) {
-			 msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", e.getMessage());
-	            created = false; 
+		} finally {
+	        FacesContext.getCurrentInstance().addMessage(null, msg);  
+	        context.addCallbackParam("created", created);  
+	        context.addCallbackParam("uname", _d.getUsername());
+	        context.addCallbackParam("pwd", _d.getPassword());
 		}
-		created = true;
-        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "User Created ", _d.getUsername());  
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
-        context.addCallbackParam("created", created);  
-        context.addCallbackParam("uname", _d.getUsername());
-        context.addCallbackParam("pwd", _d.getPassword());
 	}
 }

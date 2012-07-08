@@ -1,0 +1,14 @@
+bugs - todo 
+
+8/7/2012 - dimaz
+
+LOGIN 
+-----------------------------------------
+CREATE USER
+	1.emprty fields - only one validation msg
+	2.dentist exists message ..bug
+	3.dialog skinning - css
+	4.after create , ensuing get throws exception .. bug
+RECEPTION
+	4.background switch at succ. login - custom backgroung image?
+	5.Reception area menu
