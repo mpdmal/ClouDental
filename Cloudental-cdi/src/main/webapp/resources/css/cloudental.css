@@ -1,0 +1,8 @@
+/*
+	Default font size of themes might be bigger than expected, to change the font-size of PrimeFaces
+	components globally, use the .ui-widget style class.
+*/
+
+.ui-widget,.ui-widget .ui-widget {
+	font-size: 90% !important;
+}

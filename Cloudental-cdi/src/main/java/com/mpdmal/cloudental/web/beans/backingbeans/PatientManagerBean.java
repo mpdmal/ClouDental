@@ -43,8 +43,8 @@ public class PatientManagerBean implements Serializable {
 	
 	public String createPatient() {
 		try {
-			dentistService.createPatient(office.getOWnerID(), getCreatePatient().getName(), getCreatePatient().getSurname());
-			populatePatients(office.getOWnerID());
+			dentistService.createPatient(office.getOwnerID(), getCreatePatient().getName(), getCreatePatient().getSurname());
+			populatePatients(office.getOwnerID());
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage( FacesMessage.SEVERITY_ERROR, e.getMessage(),"" ));
 			e.printStackTrace();

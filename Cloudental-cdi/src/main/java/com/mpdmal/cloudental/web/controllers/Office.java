@@ -2,7 +2,8 @@ package com.mpdmal.cloudental.web.controllers;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -10,12 +11,13 @@ import org.primefaces.model.ScheduleModel;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
+import com.mpdmal.cloudental.web.beans.OfficeSession;
 import com.mpdmal.cloudental.web.beans.backingbeans.PatientManagerBean;
 import com.mpdmal.cloudental.web.beans.backingbeans.SchedulerBean;
 import com.mpdmal.cloudental.web.beans.base.BaseBean;
 
 @Named("office")
-@SessionScoped
+@ViewScoped
 public class Office extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -24,42 +26,46 @@ public class Office extends BaseBean implements Serializable {
 	DentistServices _dsvc;
 	@Inject
 	PatientServices _psvc;
+	@Inject
+	OfficeSession _session;
 	
 	//MODEL
 	private SchedulerBean scheduleControler; //scheduler backing bean
 	private PatientManagerBean patientManagment; //patient mngmnt backing bean
-	private int ownerID;
 	
-	@Override
+	@PostConstruct
 	public void init () {
+		super.init();
 		scheduleControler = new SchedulerBean(_dsvc);
 		patientManagment = new PatientManagerBean(this, _dsvc, _psvc);
-		//populateScheduler();
+		refresh(_session.getUserID());
 	}
 
+	public Office() {
+		super();
+		_baseName = "Office";
+	}
 	//GETTERS/SETTERS
-	public int getOWnerID() {	return ownerID;	}
+	public int getOwnerID() { return _session.getUserID(); }
 	public ScheduleModel getVisitModel() { return scheduleControler.getModel(); }
 	public SchedulerBean getScheduleControler() {	return scheduleControler;	}
 	public PatientManagerBean getPatientManagment() {	return patientManagment;	}
 
 	public void setPatientManagment(PatientManagerBean patientManagment) {	this.patientManagment = patientManagment;	}
 	public void setScheduleControler(SchedulerBean scheduleControler) {	this.scheduleControler = scheduleControler;	}
-	public void setOwner(int ownerID) {	this.ownerID = ownerID;	}
 	
 	//INTERFACE
-	public void setOwnerAndPopulate(int ownerID) {	
-		this.ownerID = ownerID;
+	public void refresh(int userID) {	
 		populateScheduler();
 		populatePatientList();
 	}
 	
 	public void populateScheduler() {	
-		scheduleControler.populateScheduler(getOWnerID());
+		scheduleControler.populateScheduler(getOwnerID());
 	}
 	
 	public void populatePatientList() {
-		patientManagment.populatePatients(getOWnerID());
+		patientManagment.populatePatients(getOwnerID());
 	}
 }
 

@@ -11,13 +11,15 @@ import com.mpdmal.cloudental.util.CloudentUtils;
 @Named
 public class BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	protected String _baseName = "BASE BEAN";
+	
 	public BaseBean() {
 		CloudentUtils.logServicecall("created (from base):"  +getClass());
 	}
+	
 	@PostConstruct
 	public void init() {
-		CloudentUtils.logServicecall("instantiated (from base):"  +getClass());
+		CloudentUtils.logServicecall("instantiated (from base):["  +_baseName+"]");
 	}
 
 	@AroundInvoke
@@ -25,5 +27,9 @@ public class BaseBean implements Serializable {
 		CloudentUtils.logMethodInfo(t.getMethod(), t.getParameters());
 		return t.proceed();
 	}
-	
+
+	//INTERFACE
+	public String getName() {	return _baseName;	}
+	public void setName(String name) {	_baseName = name;	}
+
 }

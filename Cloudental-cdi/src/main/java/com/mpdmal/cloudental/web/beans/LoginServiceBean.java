@@ -1,7 +1,7 @@
 package com.mpdmal.cloudental.web.beans;
 import java.io.Serializable;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -15,19 +15,22 @@ import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 import com.mpdmal.cloudental.web.beans.base.BaseBean;
-import com.mpdmal.cloudental.web.controllers.Office;
 
 @Named("loginSvc")
-@RequestScoped
+@SessionScoped
 public class LoginServiceBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	//CDI BEANS
 	@Inject
-	Office office;
-	@Inject
 	LoginBean loginBean;
+	@Inject
+	OfficeSession sess;
 	
-	//MODEL
+	public LoginServiceBean() {
+		super();
+		_baseName = "Login Service";
+	}
+	//MODEL 
 	private String name = "", password = "";
 
 	//GETTERS/SETTERS
@@ -54,9 +57,9 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 			CloudentUtils.logError(e.getMessage());
             loggedIn = false;  
 		}
-		office.setOwnerAndPopulate(d.getId());
+		sess.setUserID(d.getId());
         loggedIn = true;  
-        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome to CLoud M ", d.getUsername());  
+        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome to Cloud.M ", d.getUsername());  
         FacesContext.getCurrentInstance().addMessage(null, msg);  
         context.addCallbackParam("loggedIn", loggedIn);  
     }  
