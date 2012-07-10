@@ -11,14 +11,20 @@ import com.mpdmal.cloudental.web.beans.base.BaseBean;
 @SessionScoped
 public class OfficeSession extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	int userID;
+	private int userID;
+	private boolean loggedIn = false;
 	
 	public OfficeSession() {
 		super();
 		_baseName = "OfficeSession";
 	}
-	//INTERFACE
+	//GETTERS/SETTERS
+	public boolean isLoggedIn() {	return loggedIn;	}
 	public int getUserID() {	return userID;	}
-	public void setUserID(int userID) {	this.userID = userID;	}
+
+	public void setUserID(int userID) {	
+		this.userID = userID;
+		loggedIn = true;
+	}
 }
 

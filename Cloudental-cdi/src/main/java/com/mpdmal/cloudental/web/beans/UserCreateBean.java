@@ -12,6 +12,7 @@ import org.primefaces.context.RequestContext;
 
 import com.mpdmal.cloudental.beans.DentistBean;
 import com.mpdmal.cloudental.entities.Dentist;
+import com.mpdmal.cloudental.util.exception.ValidationException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 import com.mpdmal.cloudental.web.beans.base.BaseBean;
 
@@ -51,12 +52,11 @@ public class UserCreateBean extends BaseBean implements Serializable {
 
 		try {
 			if (!_d.getPassword().equals(_passwordConfirm))
-				throw new CloudentException("Passwords do not match");
+				throw new ValidationException("Passwords do not match");
 			_dbn.createDentist(_d.getName(), _d.getSurname(), _d.getUsername(), _d.getPassword());
-			created = true;
 	        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "User Created ", _d.getUsername());
+			created = true;
 		} catch (CloudentException e) {
-            created = false;
 			 msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", e.getMessage());
 		} finally {
 	        FacesContext.getCurrentInstance().addMessage(null, msg);  

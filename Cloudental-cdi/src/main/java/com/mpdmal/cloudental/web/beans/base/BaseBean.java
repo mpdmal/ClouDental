@@ -19,7 +19,7 @@ public class BaseBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		CloudentUtils.logServicecall("instantiated (from base):["  +_baseName+"]");
+		CloudentUtils.logServicecall("instantiated (from base):["  +getBaseName()+"]");
 	}
 
 	@AroundInvoke
@@ -29,7 +29,7 @@ public class BaseBean implements Serializable {
 	}
 
 	//INTERFACE
-	public String getName() {	return _baseName;	}
-	public void setName(String name) {	_baseName = name;	}
+	public String getBaseName() {	return _baseName;	}
+	public void setBaseName(String name) {	_baseName = name;	}
 
 }
