@@ -38,7 +38,7 @@ public class UserCreateBean extends BaseBean implements Serializable {
 		_baseName = "UserCreate";
 	}
 	//GETTERS/SETTERS
-	public Dentist getDentist() {	;return _d;	}
+	public Dentist getDentist() {	return _d;	}
 	public String getPasswordConfirm() {	return _passwordConfirm;	}
 
 	public void setDentist(Dentist d) {	_d = d;	}

@@ -45,14 +45,10 @@ public class AbstractEaoService implements Serializable {
 		return d;     
     }
 
-    public Dentist findDentistByUsername(String username) throws DentistNotFoundException {
+    public Dentist findDentistByUsername(String username) {
     	Query q = emgr.getEM().createQuery("select d from Dentist d where d.username= :username")
     			.setParameter("username", username);
-    	Dentist d = (Dentist)emgr.executeSingleObjectQuery(q);
-    	 
-		if (d == null) 
-			throw new DentistNotFoundException(username);
-		return d;     
+    	return (Dentist)emgr.executeSingleObjectQuery(q);
     }
 
     public PricelistItem findPricable(int id) throws PricelistItemNotFoundException {

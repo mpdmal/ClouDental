@@ -32,7 +32,7 @@
 			</h:outputLink>
 			<p:growl id="growl" showDetail="true" life="3000" /> 
 			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate" showEffect="explode" modal="true" styleClass="createDlgCSS">  
-			    <h:form>
+			    <h:form id="dlgFrm">
    			        <h:panelGrid columns="2" cellpadding="5">
 						<h:outputLabel for="name" value="Name " /> <p:inputText id="name" value="#{createUserService.dentist.name}"/>
 						<h:outputLabel for="sname" value="Surname " /> <p:inputText id="sname" value="#{createUserService.dentist.surname}"/>
@@ -41,7 +41,7 @@
 						<h:outputLabel for="pwd2" value="Re-type " /> <p:password id="pwd2" value="#{createUserService.passwordConfirm}"/>
 			            <f:facet name="footer">  
 			                <p:commandButton id="createButton" value="Create" update=":growl"   
-			                    actionListener="#{createBean.createDentist()}"   
+			                    actionListener="#{createUserService.createDentist()}"   
 			                    oncomplete="handleCreateRequest(xhr, status, args)"/>  
 			            </f:facet>
 			        </h:panelGrid>  
@@ -56,7 +56,8 @@
 		        } else {  
 		            dlgCreate.hide();
 		            jQuery('#newUser').fadeOut();  
-		            
+		            $('#dlgCreate').get(0).get(0).get(0).val('ad');
+		            $('#dlgFrm').val('fghfgh');
 		        }  
 		    }   
 		</script>
