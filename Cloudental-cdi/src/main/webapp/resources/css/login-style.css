@@ -1,21 +1,24 @@
 @charset "utf-8";
 
-.username {
+.username, .password {
 	position:fixed;
-	left:220px;
-	width:146px;
-	height:24px;
-	top:234px;
+	width: 120px;
+	left: 353px;
+}
+
+.username {
+	top:304px;
+	height: 19px;
 }
 
 .password {
-	position:fixed;
-	left:222px;
-	top:272px;
+	top:346px;
 }
 
 .lbutton {
 	position:fixed;
-	left:255px;
-	top:322px;
+	width: 60px;
+	height: 28px;
+	left: 385px;
+	top:393px;
 }	

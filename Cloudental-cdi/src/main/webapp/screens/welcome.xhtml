@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       template="/screens/base/cloudent-template.xhtml">
 
-	<ui:define name="header">
+	<ui:define name="title">
 		<link href="../resources/css/login-style.css" rel="stylesheet" type="text/css" />
 		<style type="text/css">
 			body {
@@ -19,12 +19,10 @@
 		</style>
 	</ui:define>
 	<ui:define name="body">
-	   	<h:body>
-	   		<h:form>
-            <p:inputText value="#{loginService.name}" id="username" required="true" label="username" styleClass="username"/>  
-            <h:inputSecret value="#{loginService.password}" id="password" required="true" label="password" styleClass="password" />
-            <h:commandButton id="loginButton" value="Login" action="#{loginService.login}" styleClass="lbutton"/>    
-	        </h:form>
-		</h:body>
+   		<h:form>
+           <p:inputText value="#{loginService.name}" id="username" required="true" label="username" styleClass="username"/>  
+           <h:inputSecret value="#{loginService.password}" id="password" required="true" label="password" styleClass="password" />
+           <h:commandButton id="loginButton" value="Login" action="#{loginService.login}" styleClass="lbutton"/>    
+        </h:form>
 	</ui:define>
 </ui:composition>

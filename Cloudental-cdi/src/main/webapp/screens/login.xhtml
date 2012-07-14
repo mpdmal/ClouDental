@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Untitled Document</title>
+		<link href="../resources/css/login-style.css" rel="stylesheet" type="text/css" />
+		<style type="text/css">
+		body {
+			background-image: url(../resources/images/cloudM7.png);
+			background-repeat: no-repeat;
+			margin-left: 10px;
+			margin-top: 10px;
+			margin-right: 10px;
+			margin-bottom: 10px;
+		}
+		</style>
+	</h:head>
+
+	<body>
+		<div> 
+	        <h:form id="form1" name="form1" method="post" action="">
+	           <p:inputText value="#{loginService.name}" id="username" required="true" label="username" styleClass="username"/>  
+	           <h:inputSecret value="#{loginService.password}" id="password" required="true" label="password" styleClass="password" />
+	           <h:commandButton id="loginButton" value="Login" action="#{loginService.login}" styleClass="lbutton"/>    
+	        </h:form>
+		</div>
+	</body>
+</html>

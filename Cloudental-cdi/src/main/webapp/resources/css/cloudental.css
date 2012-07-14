@@ -6,3 +6,5 @@
 .ui-widget,.ui-widget .ui-widget {
 	font-size: 90% !important;
 }
+
+h1 { font-family: Garamond, "Times New Roman",  serif; font-size: 200%; color: blue}

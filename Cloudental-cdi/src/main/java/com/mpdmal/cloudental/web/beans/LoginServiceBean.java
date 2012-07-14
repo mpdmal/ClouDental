@@ -4,11 +4,8 @@ import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.context.RequestContext;
 
 import com.mpdmal.cloudental.beans.LoginBean;
 import com.mpdmal.cloudental.entities.Dentist;
