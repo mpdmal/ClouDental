@@ -16,7 +16,7 @@ import com.mpdmal.cloudental.util.exception.ValidationException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 import com.mpdmal.cloudental.web.beans.base.BaseBean;
 
-@Named("createBean")
+@Named("createUserService")
 @RequestScoped
 public class UserCreateBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;

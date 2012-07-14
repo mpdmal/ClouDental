@@ -1,6 +1,21 @@
-@CHARSET "UTF-8";
+@charset "utf-8";
 
-.tWelcome
- {     
-   background-image: url(../images/cloudM.png) !important;
- }	
+.username {
+	position:fixed;
+	left:220px;
+	width:146px;
+	height:24px;
+	top:234px;
+}
+
+.password {
+	position:fixed;
+	left:222px;
+	top:272px;
+}
+
+.lbutton {
+	position:fixed;
+	left:255px;
+	top:322px;
+}	

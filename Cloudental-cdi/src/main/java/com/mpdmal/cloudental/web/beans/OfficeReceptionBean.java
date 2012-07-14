@@ -7,16 +7,16 @@ import javax.inject.Named;
 
 import com.mpdmal.cloudental.web.beans.base.BaseBean;
 
-@Named("officeSession")
+@Named("officeReception")
 @SessionScoped
-public class OfficeSession extends BaseBean implements Serializable {
+public class OfficeReceptionBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int userID;
 	private boolean loggedIn = false;
 	
-	public OfficeSession() {
+	public OfficeReceptionBean() {
 		super();
-		_baseName = "OfficeSession";
+		_baseName = "OfficeReception";
 	}
 	//GETTERS/SETTERS
 	public boolean isLoggedIn() {	return loggedIn;	}

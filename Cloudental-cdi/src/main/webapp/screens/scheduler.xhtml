@@ -4,7 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-	<p:schedule value="#{office.visitModel}" editable="true" widgetVar="visitSchedule">
+	<p:schedule value="#{office.scheduleControler.model}" editable="true" widgetVar="visitSchedule">
 		<p:ajax event="dateSelect" listener="#{office.scheduleControler.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
 		<p:ajax event="eventSelect" listener="#{office.scheduleControler.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
 	</p:schedule>

@@ -7,11 +7,9 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.model.ScheduleModel;
-
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
-import com.mpdmal.cloudental.web.beans.OfficeSession;
+import com.mpdmal.cloudental.web.beans.OfficeReceptionBean;
 import com.mpdmal.cloudental.web.beans.backingbeans.PatientManagerBean;
 import com.mpdmal.cloudental.web.beans.backingbeans.SchedulerBean;
 import com.mpdmal.cloudental.web.beans.base.BaseBean;
@@ -27,7 +25,7 @@ public class Office extends BaseBean implements Serializable {
 	@Inject
 	PatientServices _psvc;
 	@Inject
-	OfficeSession _session;
+	OfficeReceptionBean _session;
 	
 	//MODEL
 	private SchedulerBean scheduleControler; //scheduler backing bean
@@ -47,7 +45,6 @@ public class Office extends BaseBean implements Serializable {
 	}
 	//GETTERS/SETTERS
 	public int getOwnerID() { return _session.getUserID(); }
-	public ScheduleModel getVisitModel() { return scheduleControler.getModel(); }
 	public SchedulerBean getScheduleControler() {	return scheduleControler;	}
 	public PatientManagerBean getPatientManagment() {	return patientManagment;	}
 

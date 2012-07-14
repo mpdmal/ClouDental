@@ -43,7 +43,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
-			<artifactId>cupertino</artifactId>			
+			<artifactId>south-street</artifactId>			
 			<version>1.0.2</version>
 		</dependency>
 	</dependencies>
