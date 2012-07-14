@@ -21,4 +21,10 @@
 	height: 28px;
 	left: 752px;
 	top:423px;
-}	
+}
+
+.newuser {
+	position:fixed;
+	top:505px;
+	left: 752px;
+}

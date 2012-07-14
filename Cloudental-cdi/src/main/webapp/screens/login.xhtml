@@ -20,13 +20,45 @@
 		</style>
 	</h:head>
 
-	<body>
+ 	<body>
 		<div> 
 	        <h:form id="form1" name="form1" method="post" action="">
 	           <p:inputText value="#{loginService.name}" id="username" required="true" label="username" styleClass="username"/>  
 	           <h:inputSecret value="#{loginService.password}" id="password" required="true" label="password" styleClass="password" />
 	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}" styleClass="lbutton"/>    
 	        </h:form>
+	        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" title="Create New User" styleClass="newuser">     
+			    <p:graphicImage value="/resources/images/new-user.png" />  
+			</h:outputLink>
+			<p:growl id="growl" showDetail="true" life="3000" /> 
+			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate" showEffect="explode" modal="true" styleClass="createDlgCSS">  
+			    <h:form>
+   			        <h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="name" value="Name " /> <p:inputText id="name" value="#{createUserService.dentist.name}"/>
+						<h:outputLabel for="sname" value="Surname " /> <p:inputText id="sname" value="#{createUserService.dentist.surname}"/>
+						<h:outputLabel for="uname" value="Username " /> <p:inputText id="uname" value="#{createUserService.dentist.username}"/>
+						<h:outputLabel for="pwd" value="Password " /> <p:password id="pwd" value="#{createUserService.dentist.password}"/>
+						<h:outputLabel for="pwd2" value="Re-type " /> <p:password id="pwd2" value="#{createUserService.passwordConfirm}"/>
+			            <f:facet name="footer">  
+			                <p:commandButton id="createButton" value="Create" update=":growl"   
+			                    actionListener="#{createBean.createDentist()}"   
+			                    oncomplete="handleCreateRequest(xhr, status, args)"/>  
+			            </f:facet>
+			        </h:panelGrid>  
+			    </h:form>  
+			</p:dialog>  
+			<br/> 
 		</div>
+		<script type="text/javascript">  
+		    function handleCreateRequest(xhr, status, args) {  
+		        if(!args.created) {  
+		            jQuery('#dialogCreate').effect("shake", { times:3 }, 100);  
+		        } else {  
+		            dlgCreate.hide();
+		            jQuery('#newUser').fadeOut();  
+		            
+		        }  
+		    }   
+		</script>
 	</body>
 </html>
