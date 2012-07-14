@@ -3,28 +3,28 @@
 .username, .password {
 	position:fixed;
 	width: 120px;
-	left: 716px;
+	left: 712px;
 }
 
 .username {
-	top:330px;
+	top:260px;
 	height: 19px;
 }
 
 .password {
-	top:378px;
+	top:302px;
 }
 
 .lbutton {
 	position:fixed;
 	width: 90px;
 	height: 28px;
-	left: 752px;
-	top:423px;
+	left: 712px;
+	top:335px;
 }
 
 .newuser {
 	position:fixed;
-	top:505px;
-	left: 752px;
+	top:445px;
+	left: 712px;
 }
