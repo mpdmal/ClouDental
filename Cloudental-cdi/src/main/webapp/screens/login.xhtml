@@ -28,7 +28,7 @@
 	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}" styleClass="lbutton"/>    
 	        </h:form>
 	        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" title="Create New User" styleClass="newuser">     
-			    <p:graphicImage value="/resources/images/new-user.png" />  
+			    <p:graphicImage value="../resources/images/new-user.png" />  
 			</h:outputLink>
 			<p:growl id="growl" showDetail="true" life="3000" /> 
 			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate" showEffect="explode" modal="true" styleClass="createDlgCSS">  
