@@ -3,22 +3,22 @@
 .username, .password {
 	position:fixed;
 	width: 120px;
-	left: 353px;
+	left: 716px;
 }
 
 .username {
-	top:304px;
+	top:330px;
 	height: 19px;
 }
 
 .password {
-	top:346px;
+	top:378px;
 }
 
 .lbutton {
 	position:fixed;
-	width: 60px;
+	width: 90px;
 	height: 28px;
-	left: 385px;
-	top:393px;
+	left: 752px;
+	top:423px;
 }	
