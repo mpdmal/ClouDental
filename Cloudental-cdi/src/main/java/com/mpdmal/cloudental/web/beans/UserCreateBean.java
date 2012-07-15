@@ -61,8 +61,6 @@ public class UserCreateBean extends BaseBean implements Serializable {
 		} finally {
 	        FacesContext.getCurrentInstance().addMessage(null, msg);  
 	        context.addCallbackParam("created", created);  
-	        context.addCallbackParam("uname", _d.getUsername());
-	        context.addCallbackParam("pwd", _d.getPassword());
 		}
 	}
 }

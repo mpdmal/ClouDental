@@ -2,30 +2,60 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
       xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<p:schedule value="#{office.scheduleControler.model}" editable="true" widgetVar="visitSchedule">
-		<p:ajax event="dateSelect" listener="#{office.scheduleControler.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
-		<p:ajax event="eventSelect" listener="#{office.scheduleControler.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
-	</p:schedule>
-
-	<p:dialog widgetVar="eventDialog" header="Event Details">
-		<h:panelGrid id="eventDetails" columns="2">
-			<h:outputLabel for="title" value="Title:" />
-			<h:inputText id="title" value="#{office.scheduleControler.event.title}" />
-			<h:outputLabel for="from" value="From:" />
-			<p:inputText id="from" value="#{office.scheduleControler.event.startDate}" mask="99/99/9999">
-				<f:convertDateTime pattern="dd/MM/yyyy" />
-			</p:inputText>
-			<h:outputLabel for="to" value="To:" />
-			<p:inputMask id="to" value="#{office.scheduleControler.event.endDate}" mask="99/99/9999">
-				<f:convertDateTime pattern="dd/MM/yyyy" />
-			</p:inputMask>
-			<h:outputLabel for="allDay" value="All Day:" />
-			<h:selectBooleanCheckbox id="allDay" value="#{office.scheduleControler.event.allDay}" />
-			<p:commandButton type="reset" value="Reset" />
-			<p:commandButton value="Save" actionListener="#{office.scheduleControler.addEvent}"
-				oncomplete="myschedule.update();eventDialog.hide();" />
-		</h:panelGrid>
-	</p:dialog>
+	<ui:composition template="/screens/base/cloudent-template.xhtml">
+		<ui:define name="head">
+			<link href="../resources/css/scheduler-style.css" rel="stylesheet" type="text/css" />
+			<style type="text/css">
+			body {
+				background-image: url(../resources/images/ReceptionBackground.png);
+				background-repeat: no-repeat;
+				margin-left: 10px;
+				margin-top: 10px;
+				margin-right: 10px;
+				margin-bottom: 10px;
+			}
+			</style>
+		</ui:define>
+		<ui:define name="header">
+		</ui:define>
+		<ui:define name="body">
+			<p:growl id="growl" showDetail="true" life="3000" />
+			<h:form id="schedulerForm">
+				<p:schedule value="#{office.scheduleControler.model}" editable="true" widgetVar="visitSchedule" styleClass="scheduler" aspectRatio="1.9">
+					<p:ajax event="dateSelect" listener="#{office.scheduleControler.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
+					<p:ajax event="eventSelect" listener="#{office.scheduleControler.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
+				</p:schedule>
+	
+				<p:dialog widgetVar="eventDialog" header="Event Details">
+					<h:panelGrid id="eventDetails" columns="2">
+						<h:outputLabel for="title" value="Title:" />
+						<h:inputText id="title" value="#{office.scheduleControler.event.title}" />
+						<h:outputLabel for="from" value="From:" />
+						<p:inputText id="from" value="#{office.scheduleControler.event.startDate}" mask="99/99/9999">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:inputText>
+						<h:outputLabel for="to" value="To:" />
+						<p:inputMask id="to" value="#{office.scheduleControler.event.endDate}" mask="99/99/9999">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:inputMask>
+						<h:outputLabel for="allDay" value="All Day:" />
+						<h:selectBooleanCheckbox id="allDay" value="#{office.scheduleControler.event.allDay}" />
+						<p:commandButton type="reset" value="Reset" />
+						<p:commandButton value="Save" actionListener="#{office.scheduleControler.addEvent}"
+							oncomplete="myschedule.update();eventDialog.hide();" />
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			<h:form id="infoForm">
+				<p:panel header="Latest Activity" styleClass="latestActivity">
+				</p:panel>
+			</h:form>
+			
+		</ui:define>
+		<ui:define name="footer"> 
+		</ui:define>
+	</ui:composition>
 </html>

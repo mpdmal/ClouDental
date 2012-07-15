@@ -4,7 +4,63 @@
       xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
+	<ui:composition template="/screens/base/cloudent-template.xhtml">
+		<ui:define name="head">
+			<link href="../resources/css/scheduler-style.css" rel="stylesheet" type="text/css" />
+			<style type="text/css">
+			body {
+				background-image: url(../resources/images/ReceptionBackground.png);
+				background-repeat: no-repeat;
+				margin-left: 10px;
+				margin-top: 10px;
+				margin-right: 10px;
+				margin-bottom: 10px;
+			}
+			</style>
+		</ui:define>
+		<ui:define name="header">
+		</ui:define>
+		<ui:define name="body">
+			<p:growl id="growl" showDetail="true" life="3000" />
+			<h:form id="patientsForm">
+				<p:treeTable value="#{office.patientManagment.paritentListRoot}" var="patient">
+				<p:column>
+					<f:facet name="header">Name</f:facet>
+					<h:outputText value="#{patient}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Surname</f:facet>
+					<h:outputText value="#{patient}" />
+				</p:column>
+				</p:treeTable>			
+			</h:form>
+		</ui:define>
+		<ui:define name="footer"> 
+		</ui:define>
+	</ui:composition>
 
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
    			<h:panelGrid columns="2">
 				<p:dataTable value="#{office.patientManagment.patientList}" var="patient" id="patientList" editable="true"
 				 				rowKey="#{patient.id}"  selection="#{office.patientManagment.selectedPatient}" selectionMode="single">
@@ -52,5 +108,4 @@
 					<h:commandButton value="Create" action="#{office.patientManagment.createPatient()}" />
 				</h:panelGrid>
 			</h:panelGrid>	
-</html>
-
+ -->

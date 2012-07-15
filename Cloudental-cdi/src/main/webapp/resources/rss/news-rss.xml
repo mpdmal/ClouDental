@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+	<channel>
+		<title>Cloudent RSS</title>
+		<description>aha hu ha!!!! </description>
+		<item>
+			<title>Welcome to Cloudental!</title>
+			<description>Sun, 15 Jul 2012 -  
+				This is an alpha version of the service.Uptime is limited and erratic.
+				Note,data is bound to change. Thank you, Arilou.
+			</description>
+		</item>
+		<item>
+			<title>Contact Info</title>
+			<description>Sun, 15 Jul 2012 -  
+			Feel free to contact Mpadmal at
+			arilou_npl@hotmail.com
+			</description>
+		</item>
+		<item>
+			<title>Next Release</title>
+			<description>Sun, 15 Jul 2012 -  
+			Next release expected by start of September.
+			Arilou
+			</description>
+			
+		</item>
+	</channel>
+</rss>

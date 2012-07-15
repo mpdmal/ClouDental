@@ -6,9 +6,15 @@ import java.util.Vector;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
+
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
+import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Patient;
+import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.web.controllers.Office;
 
 public class PatientManagerBean implements Serializable {
@@ -20,6 +26,7 @@ public class PatientManagerBean implements Serializable {
 	Vector<Patient> patientList;
 	Patient selectedPatient, createPatient;
 	
+	TreeNode root, selectedPatientNode;
 	
 	public PatientManagerBean(Office office, DentistServices dsvc, PatientServices psvc) {
 		dentistService = dsvc;
@@ -29,16 +36,35 @@ public class PatientManagerBean implements Serializable {
 	}
 
 	//GETTERS/SETTERS
+	public TreeNode getParitentListRoot() {	return root;	}
 	public Vector<Patient> getPatientList() {	return patientList;	}
 	public Patient getSelectedPatient() {	return selectedPatient;	}
 	public Patient getCreatePatient() {	return createPatient;	}
 
+	
+	public void setSelectedPatientNode(TreeNode nd ) {	this.selectedPatientNode = nd;	}
 	public void setSelectedPatient(Patient patient) {	this.selectedPatient = patient;	}
 	public void setCreatePatient(Patient patient) {	this.createPatient = patient;	}
 
 	//INTERFACE
 	public void populatePatients (int dentistid) {
 		patientList = (Vector<Patient>) dentistService.getPatientlist(dentistid);
+		root = new DefaultTreeNode("Root", null);
+		for (Patient  patient : patientList) {
+			TreeNode nd = new DefaultTreeNode(patient.getSurname(), root);
+			CloudentUtils.logMessage("for patient:"+patient.getId());
+			try {
+				Vector<Activity> activities = patientServices.getPatientActivities(patient.getId());
+				CloudentUtils.logMessage("found activities:"+activities.size());
+				if (activities != null)
+				for (Activity activity : activities) {
+					CloudentUtils.logMessage("created activity node:"+activity.getDescription());
+					new DefaultTreeNode(activity.getDescription(), nd);   
+				}
+			} catch (PatientNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public String createPatient() {

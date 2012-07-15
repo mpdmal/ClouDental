@@ -7,6 +7,7 @@
       
 	<ui:composition template="/screens/base/cloudent-template.xhtml">
 		<ui:define name="head">
+			<link href="../resources/css/reception-style.css" rel="stylesheet" type="text/css" />
 			<style type="text/css">
 			body {
 				background-image: url(../resources/images/ReceptionBackground.png);
@@ -31,6 +32,15 @@
 			<p:growl id="growl" showDetail="true" life="3000" />
 			<h:form id="mainform">
 			</h:form>
+		</ui:define>
+		<ui:define name="footer">
+			<p:scrollPanel styleClass="rss">
+				<p:feedReader value="http://localhost:8080/Cloudental-cdi/resources/rss/news-rss.xml" var="feed" >
+					<h:outputText value="#{feed.title}" style="font-weight: bold"/><br/>
+					<h:outputText value="#{feed.description.value}" escape="false"/>
+					<p:separator />
+				</p:feedReader>
+			</p:scrollPanel>
 		</ui:define>
 	</ui:composition>
 </html>
