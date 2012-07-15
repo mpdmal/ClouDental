@@ -72,11 +72,8 @@ public class DentistTestSet extends ArquillianCloudentTestBase{
 		assertEquals("pwd1", d.getPassword());
 		
 		//failed get, wrong username 
-		try {
-			d = dbean.findDentistByUsername("Arilou");	
-		} catch (DentistNotFoundException e) {
-			assertEquals(true, e.getMessage().contains("Dentist not found:Arilou"));
-		}
+		d = dbean.findDentistByUsername("Arilou");	
+		assertEquals(null, d);
 		
 		//get from dentist object
 		assertEquals(11, dbean.countDentists());

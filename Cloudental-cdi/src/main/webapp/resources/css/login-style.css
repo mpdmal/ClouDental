@@ -6,6 +6,13 @@
 	left: 712px;
 }
 
+.loginbutton, .newuserbutton {
+	position:fixed;
+	width: 90px;
+	height: 28px;
+	left: 712px;
+}
+
 .username {
 	top:260px;
 	height: 19px;
@@ -15,16 +22,10 @@
 	top:302px;
 }
 
-.lbutton {
-	position:fixed;
-	width: 90px;
-	height: 28px;
-	left: 712px;
+.loginbutton {
 	top:335px;
 }
 
-.newuser {
-	position:fixed;
-	top:445px;
-	left: 712px;
+.newuserbutton {
+	top:370px;
 }

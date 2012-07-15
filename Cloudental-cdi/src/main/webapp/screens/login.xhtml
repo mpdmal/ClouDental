@@ -25,9 +25,10 @@
 	        <h:form id="form1" name="form1" method="post" action="">
 	           <p:inputText value="#{loginService.name}" id="username" required="true" label="username" styleClass="username"/>  
 	           <h:inputSecret value="#{loginService.password}" id="password" required="true" label="password" styleClass="password" />
-	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}" styleClass="lbutton"/>    
+	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}" styleClass="loginbutton" image="../resources/images/login.png"/>     
 	        </h:form>
-	        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" title="Create New User" styleClass="newuser">     
+	        or
+	        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" title="Create New User" styleClass="newuserbutton">     
 			    <p:graphicImage value="../resources/images/new-user.png" />  
 			</h:outputLink>
 			<p:growl id="growl" showDetail="true" life="3000" /> 
@@ -56,8 +57,6 @@
 		        } else {  
 		            dlgCreate.hide();
 		            jQuery('#newUser').fadeOut();  
-		            $('#dlgCreate').get(0).get(0).get(0).val('ad');
-		            $('#dlgFrm').val('fghfgh');
 		        }  
 		    }   
 		</script>
