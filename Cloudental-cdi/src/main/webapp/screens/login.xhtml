@@ -27,7 +27,6 @@
 	           <h:inputSecret value="#{loginService.password}" id="password" required="true" label="password" styleClass="password" />
 	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}" styleClass="loginbutton" image="../resources/images/login.png"/>     
 	        </h:form>
-	        or
 	        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" title="Create New User" styleClass="newuserbutton">     
 			    <p:graphicImage value="../resources/images/new-user.png" />  
 			</h:outputLink>
