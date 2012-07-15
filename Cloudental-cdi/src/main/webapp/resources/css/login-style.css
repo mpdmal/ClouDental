@@ -5,27 +5,21 @@
 	width: 120px;
 	left: 712px;
 }
-
-.loginbutton, .newuserbutton {
-	position:fixed;
-	width: 90px;
-	height: 28px;
-	left: 712px;
-}
-
+.password {	top:302px;}
 .username {
 	top:260px;
 	height: 19px;
 }
 
-.password {
-	top:302px;
+.loginbutton, .newuserbutton, .contactUs {
+	position:fixed;
+	width: 90px;
+	height: 28px;
+	left: 712px;
 }
-
-.loginbutton {
-	top:335px;
-}
-
-.newuserbutton {
-	top:370px;
+.loginbutton 	{	top:335px;	}
+.newuserbutton 	{	top:440px; 	}
+.contactUs		{
+	top:5px;
+	left: 5px; 	
 }

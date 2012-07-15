@@ -27,11 +27,12 @@
 	           <h:inputSecret value="#{loginService.password}" id="password" required="true" label="password" styleClass="password" />
 	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}" styleClass="loginbutton" image="../resources/images/login.png"/>     
 	        </h:form>
+			<p:growl id="growl" showDetail="true" life="3000" />
+
 	        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" title="Create New User" styleClass="newuserbutton">     
 			    <p:graphicImage value="../resources/images/new-user.png" />  
 			</h:outputLink>
-			<p:growl id="growl" showDetail="true" life="3000" /> 
-			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate" showEffect="explode" modal="true" styleClass="createDlgCSS">  
+			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate" showEffect="explode" >  
 			    <h:form id="dlgFrm">
    			        <h:panelGrid columns="2" cellpadding="5">
 						<h:outputLabel for="name" value="Name " /> <p:inputText id="name" value="#{createUserService.dentist.name}"/>
@@ -47,8 +48,16 @@
 			        </h:panelGrid>  
 			    </h:form>  
 			</p:dialog>  
+	        <h:outputLink id="contactUs" value="javascript:void(0)" onclick="dlgContact.show()" title="Contact Cloud.M" styleClass="contactUs">     
+			    <p:graphicImage value="../resources/images/contact.png" />  
+			</h:outputLink>
 			<br/> 
+			<p:dialog id="dialogContact" header="Contact Cloud.M" widgetVar="dlgContact" showEffect="explode" modal="true">  
+			    <h:form id="dlgFrmContact">
+			    </h:form>  
+			</p:dialog>  
 		</div>
+		
 		<script type="text/javascript">  
 		    function handleCreateRequest(xhr, status, args) {  
 		        if(!args.created) {  
