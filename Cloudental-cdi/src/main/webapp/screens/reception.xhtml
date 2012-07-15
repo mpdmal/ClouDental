@@ -5,16 +5,31 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
       
-	<h:outputScript library="js" name="jquery-1.7.2.js" />
-	<ui:composition template="/screens/base/cloudent-template.xhtml">>
-		<ui:define name="body">
-			<p:growl id="growl" showDetail="true" life="3000" />
-			<h:form id="mainform">
+	<ui:composition template="/screens/base/cloudent-template.xhtml">
+		<ui:define name="head">
+			<style type="text/css">
+			body {
+				background-image: url(../resources/images/ReceptionBackground.png);
+				background-repeat: no-repeat;
+				margin-left: 10px;
+				margin-top: 10px;
+				margin-right: 10px;
+				margin-bottom: 10px;
+			}
+			</style>
+		
+		</ui:define>
+		<ui:define name="header">
+			<h:form id="menuForm">
 				<p:menubar>  
 		            <p:menuitem value="My Office" action="office" ajax="false" />  
 		            <p:menuitem value="My Account" action="office" ajax="false" />
 			    </p:menubar>
-   				<p:graphicImage id="bgImage" value="/resources/images/cloudM5.png" />  
+		    </h:form>
+		</ui:define>
+		<ui:define name="body">
+			<p:growl id="growl" showDetail="true" life="3000" />
+			<h:form id="mainform">
 			</h:form>
 		</ui:define>
 	</ui:composition>
