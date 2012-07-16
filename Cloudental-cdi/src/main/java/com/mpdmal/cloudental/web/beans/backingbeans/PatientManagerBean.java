@@ -13,7 +13,6 @@ import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Patient;
-import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.web.controllers.Office;
 
@@ -36,7 +35,7 @@ public class PatientManagerBean implements Serializable {
 	}
 
 	//GETTERS/SETTERS
-	public TreeNode getParitentListRoot() {	return root;	}
+	public TreeNode getPatientListRoot() {	return root;	}
 	public Vector<Patient> getPatientList() {	return patientList;	}
 	public Patient getSelectedPatient() {	return selectedPatient;	}
 	public Patient getCreatePatient() {	return createPatient;	}
@@ -49,22 +48,7 @@ public class PatientManagerBean implements Serializable {
 	//INTERFACE
 	public void populatePatients (int dentistid) {
 		patientList = (Vector<Patient>) dentistService.getPatientlist(dentistid);
-		root = new DefaultTreeNode("Root", null);
-		for (Patient  patient : patientList) {
-			TreeNode nd = new DefaultTreeNode(patient.getSurname(), root);
-			CloudentUtils.logMessage("for patient:"+patient.getId());
-			try {
-				Vector<Activity> activities = patientServices.getPatientActivities(patient.getId());
-				CloudentUtils.logMessage("found activities:"+activities.size());
-				if (activities != null)
-				for (Activity activity : activities) {
-					CloudentUtils.logMessage("created activity node:"+activity.getDescription());
-					new DefaultTreeNode(activity.getDescription(), nd);   
-				}
-			} catch (PatientNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
+		createPatientTreeStructure(patientList);
 	}
 	
 	public String createPatient() {
@@ -77,5 +61,21 @@ public class PatientManagerBean implements Serializable {
 		} 
 		return null;
 	}
+	
+	//PRIVATE 
+	private void createPatientTreeStructure(Vector<Patient> patientList) {
+		root = new DefaultTreeNode(new TreeNodeWrap("Root"), null);
+		for (Patient  patient : patientList) {
+			TreeNode nd = new DefaultTreeNode(new TreeNodeWrap(patient), root);
+			try {
+				Vector<Activity> activities = patientServices.getPatientActivities(patient.getId());
+				if (activities != null)
+				for (Activity activity : activities) {
+					new DefaultTreeNode(new TreeNodeWrap(activity), nd);   
+				}
+			} catch (PatientNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
-

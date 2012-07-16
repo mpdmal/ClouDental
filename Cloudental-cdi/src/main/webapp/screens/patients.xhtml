@@ -23,15 +23,29 @@
 		<ui:define name="body">
 			<p:growl id="growl" showDetail="true" life="3000" />
 			<h:form id="patientsForm">
-				<p:treeTable value="#{office.patientManagment.paritentListRoot}" var="patient">
+				<p:treeTable value="#{office.patientManagment.patientListRoot}" var="v">
 				<p:column>
 					<f:facet name="header">Name</f:facet>
-					<h:outputText value="#{patient}" />
+					<h:outputText value="#{v.name}" />
 				</p:column>
 				<p:column>
-					<f:facet name="header">Surname</f:facet>
-					<h:outputText value="#{patient}" />
+					<f:facet name="header">Start Date (Created)</f:facet>
+					<h:outputText value="#{v.startDate}" />
 				</p:column>
+				<p:column>
+					<f:facet name="header">End Date</f:facet>
+					<h:outputText value="#{v.endDate}" />
+				</p:column>
+				
+				<p:column>
+					<f:facet name="header">Discount</f:facet>
+					<h:outputText value="#{v.discount}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Type</f:facet>
+					<h:outputText value="#{v.priceable}" />
+				</p:column>
+				
 				</p:treeTable>			
 			</h:form>
 		</ui:define>
