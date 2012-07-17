@@ -2,16 +2,42 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
-	<ui:composition template="/screens/base/office-template.xhtml">
-		<ui:define name="title">Cloud Office</ui:define>>
-		
-		<ui:define name="scheduler">
-			<ui:include src="/screens/scheduler.xhtml"/>
+	<ui:composition template="/screens/base/cloudent-template.xhtml">
+		<ui:define name="title">My Office </ui:define>
+		<ui:define name="head">
+			<link href="../resources/css/scheduler-style.css" rel="stylesheet" type="text/css" />
+			<style type="text/css">
+			body {
+				background-image: url(../resources/images/ReceptionBackground.png);
+				background-repeat: no-repeat;
+				margin-left: 10px;
+				margin-top: 10px;
+				margin-right: 10px;
+				margin-bottom: 10px;
+			}
+			</style>
 		</ui:define>
-		<ui:define name="patients">
-			<ui:include src="/screens/patientManagement.xhtml"/>
+		<ui:define name="header">
 		</ui:define>
-	</ui:composition>
+		<ui:define name="body">
+			<h:form>
+				<p:tabView id="tabContainer">
+					<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar !">
+						<ui:include src="/screens/scheduler.xhtml"/>
+					</p:tab>
+					<p:tab id="patientsTab" title="Patients" titletip="Patient Management!">
+						<p:panel header="Patients">
+						</p:panel>
+						<p:panel header="Activities">
+						</p:panel>
+					</p:tab>
+				</p:tabView>
+			</h:form>	 
+	 	</ui:define>
+</ui:composition>
 </html>
