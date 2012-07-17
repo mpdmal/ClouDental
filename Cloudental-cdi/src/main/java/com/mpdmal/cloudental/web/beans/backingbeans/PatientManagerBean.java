@@ -13,6 +13,7 @@ import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Patient;
+import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.web.controllers.Office;
 
@@ -37,12 +38,16 @@ public class PatientManagerBean implements Serializable {
 	//GETTERS/SETTERS
 	public TreeNode getPatientListRoot() {	return root;	}
 	public Vector<Patient> getPatientList() {	return patientList;	}
-	public Patient getSelectedPatient() {	return selectedPatient;	}
+	public Patient getSelectedPatient() {	System.out.println("!!");return selectedPatient;	}
 	public Patient getCreatePatient() {	return createPatient;	}
 	public TreeNode getSelectedPatientNode() {	return selectedPatientNode;	}
 	
 	public void setSelectedPatientNode(TreeNode nd ) {	this.selectedPatientNode = nd;	}
-	public void setSelectedPatient(Patient patient) {	this.selectedPatient = patient;	}
+	public void setSelectedPatient(Patient patient) {	
+		System.out.println("!@#!@#!@#!@#!@#!@#!@#!@#!@#!#!@#!@#");
+		this.selectedPatient = patient;
+		createPatientTreeStructure();
+	}
 	public void setCreatePatient(Patient patient) {	this.createPatient = patient;	}
   
 	//INTERFACE
@@ -66,10 +71,11 @@ public class PatientManagerBean implements Serializable {
 	private void createPatientTreeStructure() {
 		root = new DefaultTreeNode("Root", null);
 		if (selectedPatient == null) {
+			CloudentUtils.logWarning("CREATING TREE FOR NO PATIENT");
 			new DefaultTreeNode("No Patient Selected ...", root);
 			return;
 		}
-		
+		CloudentUtils.logWarning("CREATING TREE FOR PATIENT :"+selectedPatient.getId());
 		for (Activity activity  : selectedPatient.getDentalHistory().getActivities()) {
 			new DefaultTreeNode(activity.getDescription(), root);
 		}

@@ -4,14 +4,27 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
 
-	<p:treeTable value="#{office.patientManagment.patientListRoot}" var="patient">
-		<p:column>
-			<f:facet name="header">Name</f:facet>
-			<h:outputText value="#{patient}" />
-		</p:column>
-		<p:column>
-			<f:facet name="header">Surname</f:facet>
-			<h:outputText value="#{patient}" />
-		</p:column>
-	</p:treeTable>		
+		<h:form>
+			<p:panel header="PatientManagement" >
+				<h:panelGrid columns="2">
+					<h:outputText value="Name: " />
+					<h:inputText value="#{office.patientManagment.createPatient.name}" label="Name" required="true"   />
+					<h:outputText value="Surname: " />
+					<h:inputText value="#{office.patientManagment.createPatient.surname}" label="Surname" required="true" />
+					<h:outputText value="Comments: " />
+					<h:inputTextarea value="#{office.patientManagment.createPatient.comments}" label="Surname" required="true" />
+					<h:outputText value=" " />
+					<h:commandButton value="Create" action="#{office.patientManagment.createPatient()}" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+		<h:form id="patientListForm">
+			<p:dataTable var="patient" value="#{office.patientManagment.patientList}" 
+			 			selectionMode="single" selection="#{office.patientManagment.selectedPatient}" rowKey="#{patient.id}">
+			 				
+				<p:column headerText="Name" sortBy="#{patient.name}">
+					<h:outputText value="#{patient.name}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
 </html>
