@@ -39,16 +39,16 @@ public class PatientManagerBean implements Serializable {
 	public Vector<Patient> getPatientList() {	return patientList;	}
 	public Patient getSelectedPatient() {	return selectedPatient;	}
 	public Patient getCreatePatient() {	return createPatient;	}
-
+	public TreeNode getSelectedPatientNode() {	return selectedPatientNode;	}
 	
 	public void setSelectedPatientNode(TreeNode nd ) {	this.selectedPatientNode = nd;	}
 	public void setSelectedPatient(Patient patient) {	this.selectedPatient = patient;	}
 	public void setCreatePatient(Patient patient) {	this.createPatient = patient;	}
-
+  
 	//INTERFACE
 	public void populatePatients (int dentistid) {
 		patientList = (Vector<Patient>) dentistService.getPatientlist(dentistid);
-		createPatientTreeStructure(patientList);
+		createPatientTreeStructure();
 	}
 	
 	public String createPatient() {
@@ -63,19 +63,15 @@ public class PatientManagerBean implements Serializable {
 	}
 	
 	//PRIVATE 
-	private void createPatientTreeStructure(Vector<Patient> patientList) {
-		root = new DefaultTreeNode(new TreeNodeWrap("Root"), null);
-		for (Patient  patient : patientList) {
-			TreeNode nd = new DefaultTreeNode(new TreeNodeWrap(patient), root);
-			try {
-				Vector<Activity> activities = patientServices.getPatientActivities(patient.getId());
-				if (activities != null)
-				for (Activity activity : activities) {
-					new DefaultTreeNode(new TreeNodeWrap(activity), nd);   
-				}
-			} catch (PatientNotFoundException e) {
-				e.printStackTrace();
-			}
+	private void createPatientTreeStructure() {
+		root = new DefaultTreeNode("Root", null);
+		if (selectedPatient == null) {
+			new DefaultTreeNode("No Patient Selected ...", root);
+			return;
+		}
+		
+		for (Activity activity  : selectedPatient.getDentalHistory().getActivities()) {
+			new DefaultTreeNode(activity.getDescription(), root);
 		}
 	}
 }

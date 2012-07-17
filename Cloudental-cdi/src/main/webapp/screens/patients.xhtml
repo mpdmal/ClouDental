@@ -1,78 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" 
-      xmlns:ui="http://java.sun.com/jsf/facelets" 
       xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-      
-      
+
+	<p:treeTable value="#{office.patientManagment.patientListRoot}" var="patient">
+		<p:column>
+			<f:facet name="header">Name</f:facet>
+			<h:outputText value="#{patient}" />
+		</p:column>
+		<p:column>
+			<f:facet name="header">Surname</f:facet>
+			<h:outputText value="#{patient}" />
+		</p:column>
+	</p:treeTable>		
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-   			<h:panelGrid columns="2">
-				<p:dataTable value="#{office.patientManagment.patientList}" var="patient" id="patientList" editable="true"
-				 				rowKey="#{patient.id}"  selection="#{office.patientManagment.selectedPatient}" selectionMode="single">
-					<p:column headerText="id" sortBy="#{patient.id}" />
-					<p:column headerText="Name" sortBy="#{patient.name}">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{patient.name}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{patient.name}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
-					<p:column headerText="Surname" sortBy="#{patient.surname}">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{patient.surname}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{patient.surname}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
-					<p:column headerText="Comments" sortBy="#{patient.comments}">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{patient.comments}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{patient.comments}" style="width:100%" />
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
-					<p:column headerText="Options" style="width:50px">
-						<p:rowEditor />
-					</p:column>
-				</p:dataTable>
-				<h:panelGrid columns="2">
-					<h:outputLabel for="name" value="Name " /> <p:inputText id="name" value="#{office.patientManagment.createPatient.name}"/> 
-					<h:outputLabel for="sname" value="Surname " /> <p:inputText id="sname" value="#{office.patientManagment.createPatient.surname}"/> 
-					<h:outputLabel for="comments" value="Comments " />
-					<h:inputTextarea id="comments" value="#{office.patientManagment.createPatient.comments}" label="comments"/>
-					<h:outputLabel value=" " />
-					<h:commandButton value="Create" action="#{office.patientManagment.createPatient()}" />
-				</h:panelGrid>
-			</h:panelGrid>	
- -->

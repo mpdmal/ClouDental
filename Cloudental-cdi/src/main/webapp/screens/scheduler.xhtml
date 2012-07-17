@@ -5,12 +5,11 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<p:growl id="growl" showDetail="true" life="3000" />
 	<p:schedule value="#{office.scheduleControler.model}" editable="true" widgetVar="visitSchedule" styleClass="scheduler" aspectRatio="1.9">
 		<p:ajax event="dateSelect" listener="#{office.scheduleControler.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
 		<p:ajax event="eventSelect" listener="#{office.scheduleControler.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
 	</p:schedule>
-
+ 
 	<p:dialog widgetVar="eventDialog" header="Event Details">
 		<h:panelGrid id="eventDetails" columns="2">
 			<h:outputLabel for="title" value="Title:" />

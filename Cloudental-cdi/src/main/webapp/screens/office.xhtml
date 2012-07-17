@@ -4,7 +4,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 	<ui:composition template="/screens/base/cloudent-template.xhtml">
@@ -16,7 +15,7 @@
 				background-image: url(../resources/images/ReceptionBackground.png);
 				background-repeat: no-repeat;
 				margin-left: 10px;
-				margin-top: 10px;
+				margin-top: 10px;  
 				margin-right: 10px;
 				margin-bottom: 10px;
 			}
@@ -25,15 +24,18 @@
 		<ui:define name="header">
 		</ui:define>
 		<ui:define name="body">
-			<h:form>
+			<p:growl id="growl" showDetail="true" life="3000" />
+			<h:form id="mainForm">
 				<p:tabView id="tabContainer">
 					<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar !">
 						<ui:include src="/screens/scheduler.xhtml"/>
 					</p:tab>
 					<p:tab id="patientsTab" title="Patients" titletip="Patient Management!">
-						<p:panel header="Patients">
+						<p:panel header="Patient Information">
+							<ui:include src="/screens/patients.xhtml"/>
 						</p:panel>
-						<p:panel header="Activities">
+						<p:panel header="Activities and Visits">
+							<ui:include src="/screens/activities.xhtml"/>
 						</p:panel>
 					</p:tab>
 				</p:tabView>
