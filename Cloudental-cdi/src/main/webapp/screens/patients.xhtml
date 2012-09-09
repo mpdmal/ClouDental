@@ -19,9 +19,10 @@
 			</p:panel>
 		</h:form>
 		<h:form id="patientListForm">
-			<p:dataTable var="patient" value="#{office.patientManagment.patientList}" 
+			<p:dataTable id="sd" var="patient" value="#{office.patientManagment.patientList}" 
 			 			selectionMode="single" selection="#{office.patientManagment.selectedPatient}" rowKey="#{patient.id}">
-			 				
+
+ 				<p:ajax event="rowSelect" process=":patientListForm" update=":form" />
 				<p:column headerText="Name" sortBy="#{patient.name}">
 					<h:outputText value="#{patient.name}" />
 				</p:column>

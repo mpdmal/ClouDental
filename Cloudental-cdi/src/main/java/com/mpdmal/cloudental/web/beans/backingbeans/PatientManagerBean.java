@@ -14,7 +14,6 @@ import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.util.CloudentUtils;
-import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.web.controllers.Office;
 
 public class PatientManagerBean implements Serializable {

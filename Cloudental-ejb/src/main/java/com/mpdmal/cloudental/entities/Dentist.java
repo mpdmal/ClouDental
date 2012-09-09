@@ -142,42 +142,56 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 			postits.remove(note);
 	}
 	
+	
+	public static final String DENTIST_NODE = "<dentist>";
+	public static final String DENTIST_ENDNODE = "</dentist>";
+	public static final String DENTIST_NAMENODE = "<name>";
+	public static final String DENTIST_NAMEENDNODE = "</name>";
+	public static final String DENTIST_SURNAMENODE = "<surname>";
+	public static final String DENTIST_SURNAMEENDNODE = "</surname>";
+	public static final String DENTIST_USERNAMENODE = "<username>";
+	public static final String DENTIST_USERNAMEENDNODE = "</username>";
+	public static final String DENTIST_PASSWORDNODE = "<password>";
+	public static final String DENTIST_PASSWORDENDNODE = "</password>";
+	public static final String DENTIST_IDNODE = "<id>";
+	public static final String DENTIST_IDENDNODE = "</id>";
+
+	public String getBASICXML() {
+		StringBuilder ans= new StringBuilder(DENTIST_NODE+DENTIST_ENDNODE);
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), DENTIST_IDNODE+getId()+DENTIST_IDENDNODE);
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), DENTIST_NAMENODE+name+DENTIST_NAMEENDNODE);
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), DENTIST_SURNAMENODE+surname+DENTIST_SURNAMEENDNODE);
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), DENTIST_USERNAMENODE+username+DENTIST_USERNAMEENDNODE);
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), DENTIST_PASSWORDNODE+password+DENTIST_PASSWORDENDNODE);
+		return ans.toString();
+	}
 	@Override
 	public String getXML() {
-		StringBuilder ans= new StringBuilder("<dentist></dentist>");
-		ans.insert(ans.indexOf("</dentist"), "<id>"+getId()+"</id>");
-		ans.insert(ans.indexOf("</dentist"), "<name>"+name+"</name>");
-		ans.insert(ans.indexOf("</dentist"), "<surname>"+surname+"</surname>");
-		ans.insert(ans.indexOf("</dentist"), "<username>"+username+"</username>");
-		ans.insert(ans.indexOf("</dentist"), "<password>"+password+"</password>");
-		
-		ans.insert(ans.indexOf("</dentist"), "<pinboard>");
+		StringBuilder ans= new StringBuilder(getBASICXML());
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), "<pinboard>");
 		if (postits != null)
 		for (Postit note: postits) {
-			ans.insert(ans.indexOf("</dentist"), note.getXML());
+			ans.insert(ans.indexOf(DENTIST_ENDNODE), note.getXML());
 		}
-		ans.insert(ans.indexOf("</dentist"), "</pinboard>");
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), "</pinboard>");
 		
-		ans.insert(ans.indexOf("</dentist"), "<pricelist>");
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), "<pricelist>");
 		if (priceables != null)
-		for (PricelistItem pbl : priceables) {
-			ans.insert(ans.indexOf("</dentist"), pbl.getXML());
-		}
-		ans.insert(ans.indexOf("</dentist"), "</pricelist>");
+			for (PricelistItem pbl : priceables) 
+				ans.insert(ans.indexOf(DENTIST_ENDNODE), pbl.getXML());
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), "</pricelist>");
 
-		ans.insert(ans.indexOf("</dentist"), "<discounts>");
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), "<discounts>");
 		if (discounts!= null)
-		for (Discount ds: discounts) {
-			ans.insert(ans.indexOf("</discount"), ds.getXML());
-		}
-		ans.insert(ans.indexOf("</dentist"), "</discounts>");
-		ans.insert(ans.indexOf("</dentist"), "<patientlist>");
-		if (patients != null)
-		if (patients != null)
-			for (Patient patient : patients) {
-				ans.insert(ans.indexOf("</dentist"), patient.getXML());
-			}
-		ans.insert(ans.indexOf("</dentist"), "</patientlist>");
+			for (Discount ds: discounts) 
+				ans.insert(ans.indexOf(DENTIST_ENDNODE), ds.getXML());
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), "</discounts>");
+		
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), "<patientlist>");
+		if (patients != null) 
+			for (Patient patient : patients) 
+				ans.insert(ans.indexOf(DENTIST_ENDNODE), patient.getXML());
+		ans.insert(ans.indexOf(DENTIST_ENDNODE), "</patientlist>");
 
 		return ans.toString();
 	}

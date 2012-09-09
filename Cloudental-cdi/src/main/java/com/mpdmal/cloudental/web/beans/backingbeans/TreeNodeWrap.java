@@ -3,8 +3,6 @@ package com.mpdmal.cloudental.web.beans.backingbeans;
 import java.text.DateFormat;
 import java.util.Date;
 
-import javax.swing.text.DateFormatter;
-
 import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Patient;
 
