@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 		<h:form>
-			<p:panel header="PatientManagement" >
+			<p:panel header="New Patient" >
 				<h:panelGrid columns="2">
 					<h:outputText value="Name: " />
 					<h:inputText value="#{office.patientManagment.createPatient.name}" label="Name" required="true"   />
@@ -17,15 +17,5 @@
 					<h:commandButton value="Create" action="#{office.patientManagment.createPatient()}" />
 				</h:panelGrid>
 			</p:panel>
-		</h:form>
-		<h:form id="patientListForm">
-			<p:dataTable id="sd" var="patient" value="#{office.patientManagment.patientList}" 
-			 			selectionMode="single" selection="#{office.patientManagment.selectedPatient}" rowKey="#{patient.id}">
-
- 				<p:ajax event="rowSelect" process=":patientListForm" update=":form" />
-				<p:column headerText="Name" sortBy="#{patient.name}">
-					<h:outputText value="#{patient.name}" />
-				</p:column>
-			</p:dataTable>
 		</h:form>
 </html>
