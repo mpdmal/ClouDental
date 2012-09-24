@@ -12,6 +12,7 @@ import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 import com.mpdmal.cloudental.web.beans.base.BaseBean;
+import com.mpdmal.cloudental.web.util.CloudentWebUtils;
 
 @Named("loginService")
 @RequestScoped
@@ -39,14 +40,11 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 
 	//INTERFACE
 	public String login() {  
-        FacesMessage msg = null;  
-
 		Dentist d = null;
 		try {
 			d = loginBean.doLogin(name, password);
 		} catch (CloudentException e) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "", e.getMessage());
-            FacesContext.getCurrentInstance().addMessage(null, msg);  
+            CloudentWebUtils.showJSFErrorMessage("", e.getMessage());
             return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,8 +52,7 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 			return null;
 		}
 		sess.setUserID(d.getId());
-        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome to Cloud.M ", d.getUsername());  
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
+		CloudentWebUtils.showJSFInfoMessage("Welcome to Cloud.M", d.getUsername());
         return "reception";
     }  
 }

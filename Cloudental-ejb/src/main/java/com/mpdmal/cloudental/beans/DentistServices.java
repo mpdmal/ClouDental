@@ -216,6 +216,7 @@ public class DentistServices extends AbstractEaoService {
     }
 
 	public void deletePatient (int patientid) throws PatientNotFoundException {
+		System.out.println("@@");
 		Patient p = findPatient(patientid);
 		p.getDentist().removePatient(p);
 		emgr.delete(p);

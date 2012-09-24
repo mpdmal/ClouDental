@@ -4,18 +4,39 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
 
-		<h:form>
-			<p:panel header="New Patient" >
-				<h:panelGrid columns="2">
-					<h:outputText value="Name: " />
-					<h:inputText value="#{office.patientManagment.createPatient.name}" label="Name" required="true"   />
-					<h:outputText value="Surname: " />
-					<h:inputText value="#{office.patientManagment.createPatient.surname}" label="Surname" required="true" />
-					<h:outputText value="Comments: " />
-					<h:inputTextarea value="#{office.patientManagment.createPatient.comments}" label="Surname" required="true" />
-					<h:outputText value=" " />
-					<h:commandButton value="Create" action="#{office.patientManagment.createPatient()}" />
-				</h:panelGrid>
-			</p:panel>
-		</h:form>
+	<p:panel header="New Patient" >
+		<h:panelGrid id="grid" columns="2">
+            <f:facet name="header">  
+                <p:messages />  
+            </f:facet>
+			<h:outputText value="Name: " />
+			<p:inputText id="name" value="#{office.patientManagment.createPatient.name}" required="true" requiredMessage="Name is required"  />
+			<h:outputText value="Surname: " />
+			<p:inputText id="surname" value="#{office.patientManagment.createPatient.surname}" required="true" requiredMessage="Surname is required"/>
+			<h:outputText value="Comments: " />
+			<p:inputTextarea id="comment" value="#{office.patientManagment.createPatient.comments}" />
+			<h:outputText value=" " />
+			<p:commandButton value="Create" id="crtBtn" process="@this,name,surname,comment" update="grid, patientList" 
+						 actionListener="#{office.patientManagment.createPatient}" />
+		</h:panelGrid>
+	</p:panel>
+
+ 	<p:contextMenu for="patientList">  
+        <p:menuitem value="Delete" icon="ui-icon-close" actionListener="#{office.patientManagment.deletePatient}" 
+        	process="@this,patientList" update="patientList"/>
+    </p:contextMenu>  
+    
+	<p:dataTable id="patientList" var="patient" value="#{office.patientManagment.patientList}"   
+		rowKey="#{patient.id}"  selection="#{office.patientManagment.selectedPatient}" selectionMode="single">
+	 				
+		<p:column headerText="id" sortBy="#{patient.id}" >
+			#{patient.id}  
+		</p:column>
+		<p:column headerText="Surname" sortBy="#{patient.name}" >
+			#{patient.name}  
+		</p:column>
+		<p:column headerText="Surname" sortBy="#{patient.surname}" >
+			#{patient.surname}  
+		</p:column>
+	</p:dataTable>
 </html>

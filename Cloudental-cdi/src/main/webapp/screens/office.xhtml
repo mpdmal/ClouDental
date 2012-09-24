@@ -1,43 +1,35 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
-
-	<ui:composition template="/screens/base/cloudent-template.xhtml">
-		<ui:define name="title">My Office </ui:define>
-		<ui:define name="head">
-			<link href="../resources/css/scheduler-style.css" rel="stylesheet" type="text/css" />
-			<style type="text/css">
-			body {
-				background-image: url(../resources/images/ReceptionBackground.png);
-				background-repeat: no-repeat;
-				margin-left: 10px;
-				margin-top: 10px;  
-				margin-right: 10px;
-				margin-bottom: 10px;
-			}
-			</style>
-		</ui:define>
-		<ui:define name="header">
-		</ui:define>
-		<ui:define name="body">
-			<p:growl id="growl" showDetail="true" life="3000" />
-			<h:form id="mainForm">
-				<p:tabView id="tabContainer">
-					<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar !">
-						<ui:include src="/screens/scheduler.xhtml"/>
-					</p:tab>
-					<p:tab id="patientsTab" title="Patients" titletip="Patient Management!">
-							<ui:include src="/screens/patients.xhtml"/>
-						<!--  p:panel header="Activities and Visits">
-							<ui:include src="/screens/activities.xhtml"/>
-						</p:panel -->
-					</p:tab>
-				</p:tabView>
-			</h:form>	 
-	 	</ui:define>
+	xmlns:p="http://primefaces.org/ui"
+	template="/screens/base/cloudent-template.xhtml">
+	
+	<ui:define name="title">My Office </ui:define>
+	<ui:define name="head">
+		<link href="../resources/css/scheduler-style.css" rel="stylesheet" type="text/css" />
+		<style type="text/css">
+		body {
+			background-image: url(../resources/images/ReceptionBackground.png);
+			background-repeat: no-repeat;
+			margin-left: 10px;
+			margin-top: 10px;  
+			margin-right: 10px;
+			margin-bottom: 10px;
+		}
+		</style>
+	</ui:define>
+	<ui:define name="header"/>
+	<ui:define name="body">
+		<p:growl id="growl" showDetail="true" life="3000" />
+		<h:form id="mainForm">
+			<p:tabView id="tabContainer">
+				<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar !">
+					<ui:include src="/screens/scheduler.xhtml"/>
+				</p:tab>
+				<p:tab id="patientsTab" title="Patients" titletip="Patient Management!">
+					<ui:include src="/screens/patients.xhtml"/>
+				</p:tab>
+			</p:tabView>
+		</h:form>	 
+ 	</ui:define>
 </ui:composition>
-</html>
