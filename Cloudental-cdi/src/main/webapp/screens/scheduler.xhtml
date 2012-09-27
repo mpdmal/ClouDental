@@ -5,30 +5,37 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<p:schedule value="#{office.scheduleControler.model}" editable="true" widgetVar="visitSchedule" styleClass="scheduler" aspectRatio="1.9">
-		<p:ajax event="dateSelect" listener="#{office.scheduleControler.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
-		<p:ajax event="eventSelect" listener="#{office.scheduleControler.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />
-	</p:schedule>
- 
-	<p:dialog widgetVar="eventDialog" header="Event Details">
-		<h:panelGrid id="eventDetails" columns="2">
-			<h:outputLabel for="title" value="Title:" />
-			<h:inputText id="title" value="#{office.scheduleControler.event.title}" />
-			<h:outputLabel for="from" value="From:" />
-			<p:inputText id="from" value="#{office.scheduleControler.event.startDate}" mask="99/99/9999">
-				<f:convertDateTime pattern="dd/MM/yyyy" />
-			</p:inputText>
-			<h:outputLabel for="to" value="To:" />
-			<p:inputMask id="to" value="#{office.scheduleControler.event.endDate}" mask="99/99/9999">
-				<f:convertDateTime pattern="dd/MM/yyyy" />
-			</p:inputMask>
-			<h:outputLabel for="allDay" value="All Day:" />
-			<h:selectBooleanCheckbox id="allDay" value="#{office.scheduleControler.event.allDay}" />
-			<p:commandButton type="reset" value="Reset" />
-			<p:commandButton value="Save" actionListener="#{office.scheduleControler.addEvent}"
-				oncomplete="myschedule.update();eventDialog.hide();" />
-		</h:panelGrid>
-	</p:dialog>
-	<p:panel header="Latest Activity" styleClass="latestActivity">
-	</p:panel>
+					<p:schedule id="scheduler" value="#{office.scheduleControler.model}" editable="true" 
+									widgetVar="visitSchedule" styleClass="scheduler" aspectRatio="1.9"
+									firstHour="8" slotMinutes="5">
+						<p:ajax event="dateSelect" listener="#{office.scheduleControler.onDateSelect}" update="eventDetails" oncomplete="createDialog.show()" />
+						<p:ajax event="eventSelect" listener="#{office.scheduleControler.onVisitSelect}" update="eventDetails" oncomplete="modifyDialog.show()" />
+					</p:schedule>
+				 
+					<p:dialog widgetVar="createDialog" header="Event Details">
+						<h:panelGrid id="eventDetails" columns="2">
+							<h:outputLabel for="title" value="Title:" />
+							<h:inputText id="title" value="#{office.scheduleControler.event.title}" />
+							<h:outputLabel for="from" value="From:" />
+							<p:inputText id="from" value="#{office.scheduleControler.event.startDate}" mask="99/99/9999">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:inputText>
+							<h:outputLabel for="to" value="To:" />
+							<p:inputMask id="to" value="#{office.scheduleControler.event.endDate}" mask="99/99/9999">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:inputMask>
+							<h:outputLabel for="allDay" value="All Day:" />
+							<h:selectBooleanCheckbox id="allDay" value="#{office.scheduleControler.event.allDay}" />
+							<p:commandButton type="reset" value="Reset" />
+							<p:commandButton value="Save" actionListener="#{office.scheduleControler.addEvent}" 
+											 process="@this, title, from, to" oncomplete="myschedule.update();createDialog.hide();" />
+						</h:panelGrid>
+					</p:dialog>
+					<p:dialog widgetVar="modifyDialog" header="Event Details">
+						<h:panelGrid id="modEventDetails" columns="1">
+							<p:commandButton value="Delete" actionListener="#{office.scheduleControler.deleteVisit()}"/>
+						</h:panelGrid>
+					</p:dialog>
+					<p:panel header="Latest Activity" styleClass="latestActivity">
+					</p:panel>
 </html>

@@ -21,11 +21,11 @@ public class Office extends BaseBean implements Serializable {
 	
 	//CDI BEANS
 	@Inject
-	DentistServices _dsvc;
+	private DentistServices _dsvc;
 	@Inject
-	PatientServices _psvc;
+	private PatientServices _psvc;
 	@Inject
-	OfficeReceptionBean _session;
+	private OfficeReceptionBean _session;
 	
 	//MODEL
 	private SchedulerBean scheduleControler; //scheduler backing bean
@@ -34,8 +34,8 @@ public class Office extends BaseBean implements Serializable {
 	@PostConstruct
 	public void init () {
 		super.init();
-		scheduleControler = new SchedulerBean(_dsvc);
-		patientManagment = new PatientManagerBean(this, _dsvc, _psvc);
+		scheduleControler = new SchedulerBean(this);
+		patientManagment = new PatientManagerBean(this);
 		refresh(_session.getUserID());
 	}
 
@@ -47,6 +47,9 @@ public class Office extends BaseBean implements Serializable {
 	public int getOwnerID() { return _session.getUserID(); }
 	public SchedulerBean getScheduleControler() {	return scheduleControler;	}
 	public PatientManagerBean getPatientManagment() {	return patientManagment;	}
+	public DentistServices getDentistServices() { return _dsvc; }
+	public PatientServices getPatientServices() { return _psvc; }
+	public OfficeReceptionBean getSession() { return _session; }
 
 	public void setPatientManagment(PatientManagerBean patientManagment) {	this.patientManagment = patientManagment;	}
 	public void setScheduleControler(SchedulerBean scheduleControler) {	this.scheduleControler = scheduleControler;	}

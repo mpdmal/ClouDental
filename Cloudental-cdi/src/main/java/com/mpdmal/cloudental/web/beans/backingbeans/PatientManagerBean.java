@@ -18,17 +18,13 @@ import com.mpdmal.cloudental.web.util.CloudentWebUtils;
 public class PatientManagerBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	//MODEL
-	DentistServices dentistService;
-	PatientServices patientServices;
 	Office office;
 	Vector<Patient> patientList;
 	Patient selectedPatient, createPatient;
 	
 	TreeNode root, selectedPatientNode;
 	
-	public PatientManagerBean(Office office, DentistServices dsvc, PatientServices psvc) {
-		dentistService = dsvc;
-		patientServices = psvc;
+	public PatientManagerBean(Office office) {
 		this.office = office;
 		createPatient = new Patient();
 	}
@@ -57,18 +53,19 @@ public class PatientManagerBean implements Serializable {
 	//INTERFACE
 	public void populatePatients (int dentistid) {
 		System.out.println("patient list for "+dentistid);
-		patientList = (Vector<Patient>) dentistService.getPatientlist(dentistid);
+		patientList = (Vector<Patient>) office.getDentistServices().getPatientlist(dentistid);
 		createPatientTreeStructure();
 	}
 	
 	public String createPatient() {
+		System.out.println("!create patient!");
 		if (createPatient == null) {
 			CloudentUtils.logWarning("cannot create null patient");
 			return null;
 		}
 
 		try {
-			dentistService.createPatient(office.getOwnerID(), getCreatePatient().getName(), getCreatePatient().getSurname());
+			office.getDentistServices().createPatient(office.getOwnerID(), getCreatePatient().getName(), getCreatePatient().getSurname());
 			populatePatients(office.getOwnerID());
 		} catch (Exception e) {
 			CloudentWebUtils.showJSFErrorMessage(e.getMessage());
@@ -78,14 +75,14 @@ public class PatientManagerBean implements Serializable {
 	}
 	
 	public void deletePatient() {
-		System.out.println("!delete!!");
+		System.out.println("!delete patient!");
 		if (selectedPatient == null) {
 			CloudentUtils.logWarning("cannot delete null patient, make a selection first");
 			return;
 		}
 		
 		try {
-			dentistService.deletePatient(selectedPatient.getId());
+			office.getDentistServices().deletePatient(selectedPatient.getId());
 			populatePatients(office.getOwnerID());
 		} catch (PatientNotFoundException e) {
 			CloudentWebUtils.showJSFErrorMessage(e.getMessage());
