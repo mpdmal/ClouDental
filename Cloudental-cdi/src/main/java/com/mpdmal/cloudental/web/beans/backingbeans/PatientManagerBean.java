@@ -1,6 +1,8 @@
 package com.mpdmal.cloudental.web.beans.backingbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import org.primefaces.model.DefaultTreeNode;
@@ -38,7 +40,7 @@ public class PatientManagerBean implements Serializable {
 	public void setSelectedPatient(Patient patient) {	
 		System.out.println("set selected:"+patient.getSurname());
 		this.selectedPatient = patient;
-		createPatientTreeStructure();
+		//createPatientTreeStructure();
 	}
 	public void setCreatePatient(Patient patient) {	this.createPatient = patient;	}
   
@@ -46,7 +48,7 @@ public class PatientManagerBean implements Serializable {
 	public void populatePatients (int dentistid) {
 		System.out.println("patient list for "+dentistid);
 		patientList = (Vector<Patient>) office.getDentistServices().getPatientlist(dentistid);
-		createPatientTreeStructure();
+		//createPatientTreeStructure();
 	}
 	
 	public String createPatient() {
@@ -81,6 +83,20 @@ public class PatientManagerBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	public List<String> completePatient(String query) {  
+    	System.out.println("completePatient: ");
+    	Vector<Patient>  patients  = (Vector<Patient>) office.getPatientManagment().getPatientList();
+        List<String> suggestions = new ArrayList<String>();  
+          
+        for(Patient p : patients) {  
+        	query = query.toLowerCase(); // case insensitive 
+            if(p.getName().toLowerCase().startsWith(query) ||
+           		p.getSurname().toLowerCase().startsWith(query) )  
+                	suggestions.add(p.getUIfriendlyForm());  
+        }  
+          
+        return suggestions;  
+    }
 	//PRIVATE 
 	private void createPatientTreeStructure() {
 		root = new DefaultTreeNode("Root", null);

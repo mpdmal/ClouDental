@@ -10,6 +10,7 @@ import org.primefaces.event.ScheduleEntrySelectEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
 
+import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
@@ -67,16 +68,15 @@ public class SchedulerBean implements Serializable {
 	public void addEvent() {
 		System.out.println("add event");
 		if(_event.getTitle() == null){
-			System.out.println("event NULL");
+			System.out.println("cannot add NULL event ");
 		}else{
 			System.out.println("add event:"+_event.getTitle());
 			try {
-				_event.setVisitId(_office.getPatientServices().createVisit(7, "", 
+				_event.setVisitId(_office.getPatientServices().createVisit(Activity.DEFAULT_ACTIVITY_ID, "", 
 						_event.getTitle(), 
 						_event.getStartDate(), 
 						_event.getEndDate(), 
-						1, 
-						2).getId());
+						1, 2).getId());
 				populateScheduler(_office.getOwnerID());
 			} catch (CloudentException e) {
 				// TODO Auto-generated catch block

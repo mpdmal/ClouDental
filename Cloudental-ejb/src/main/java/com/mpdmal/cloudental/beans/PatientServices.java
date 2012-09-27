@@ -196,9 +196,22 @@ public class PatientServices extends AbstractEaoService {
 */
 
     //VISITS
+    /*
+     * patientID makes sense only when the activity is 'default' (no activityid)
+     */
+    
+    public Visit createVisit (int activityID, String comments,
+			String title, Date start, Date end, double deposit,
+			int color) throws CloudentException {
+    	return createVisit(activityID, comments, title, start, end, deposit, color, -1);
+    }
     public Visit createVisit (int activityID, String comments,
     							String title, Date start, Date end, double deposit,
-    							int color ) throws CloudentException {
+    							int color, int patientid ) throws CloudentException {
+    	if (activityID == Activity.DEFAULT_ACTIVITY_ID) {
+    		activityID = createActivity(patientid, "", start, null, -1, -1, BigDecimal.ZERO).getId();
+    	}
+    	
     	Activity act = findActivity(activityID);
     	validateVisit(act, start, end);
     	

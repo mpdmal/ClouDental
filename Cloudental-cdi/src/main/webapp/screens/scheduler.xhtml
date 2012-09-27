@@ -3,6 +3,7 @@
       xmlns:h="http://java.sun.com/jsf/html" 
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:cde="http://cloudental.gr"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
 					<p:schedule id="scheduler" value="#{office.scheduleControler.model}" editable="true" 
@@ -17,18 +18,31 @@
 							<h:outputLabel for="title" value="Title:" />
 							<h:inputText id="title" value="#{office.scheduleControler.event.title}" />
 							<h:outputLabel for="from" value="From:" />
-							<p:inputText id="from" value="#{office.scheduleControler.event.startDate}" mask="99/99/9999">
-								<f:convertDateTime pattern="dd/MM/yyyy" />
-							</p:inputText>
+							<p:calendar id="from" value="#{office.scheduleControler.event.startDate}" pattern="MM/dd/yyyy HH:mm" />							
 							<h:outputLabel for="to" value="To:" />
-							<p:inputMask id="to" value="#{office.scheduleControler.event.endDate}" mask="99/99/9999">
-								<f:convertDateTime pattern="dd/MM/yyyy" />
-							</p:inputMask>
-							<h:outputLabel for="allDay" value="All Day:" />
+						    <p:calendar id="to" value="#{office.scheduleControler.event.endDate}" pattern="MM/dd/yyyy HH:mm" />
+						    <h:outputLabel for="patient" value="Patient:" />
+		
+		
+						    <p:autoComplete id="patient" value="#{office.scheduleControler.event.autocompletePatient}"
+								completeMethod="#{office.patientManagment.completePatient}"
+								var="p" itemLabel="#{p.name} #{p.surname}" itemValue="#{p}"
+								converter="patientConverter" forceSelection="true">
+								<p:column>
+									<h:outputText value="#{p.id}"/>
+								</p:column>
+		
+								<p:column>  
+			                    		#{p.name} - #{p.surname}  
+			                	</p:column>
+							</p:autoComplete>
+							
+														
+						    <h:outputLabel for="allDay" value="All Day:" />
 							<h:selectBooleanCheckbox id="allDay" value="#{office.scheduleControler.event.allDay}" />
 							<p:commandButton type="reset" value="Reset" />
 							<p:commandButton value="Save" actionListener="#{office.scheduleControler.addEvent}" 
-											 process="@this, title, from, to" oncomplete="myschedule.update();createDialog.hide();" />
+											 process="@this, title, from, to, patient" oncomplete="myschedule.update();createDialog.hide();" />
 						</h:panelGrid>
 					</p:dialog>
 					<p:dialog widgetVar="modifyDialog" header="Event Details">

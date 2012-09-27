@@ -147,6 +147,11 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		tooth.setPatient(this);
 		teeth.add(tooth);
 	}
+	
+	public String getUIfriendlyForm () {
+		return id+" - "+name+" "+surname;
+	}
+	
 	@Override
 	public String getXML() {
 		StringBuilder ans= new StringBuilder("<patient></patient>");

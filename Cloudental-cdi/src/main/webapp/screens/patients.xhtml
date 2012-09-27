@@ -16,7 +16,7 @@
 			<h:outputText value="Comments: " />
 			<p:inputTextarea id="comment" value="#{office.patientManagment.createPatient.comments}" />
 			<h:outputText value=" " />
-			<p:commandButton value="Create" id="crtBtn" process="@this,name,surname,comment" update="grid, patientList" 
+			<p:commandButton value="Create" id="crtBtn" process="@this,name,surname,comment" update="patientList" 
 						 actionListener="#{office.patientManagment.createPatient}" />
 		</h:panelGrid>
 	</p:panel>

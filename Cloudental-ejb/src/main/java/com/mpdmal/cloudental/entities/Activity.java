@@ -15,6 +15,7 @@ import java.util.Date;
 @Entity
 public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public static final int DEFAULT_ACTIVITY_ID = -99;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
