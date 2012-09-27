@@ -22,7 +22,8 @@
 	</p:panel>
 
  	<p:contextMenu for="patientList">  
-        <p:menuitem value="Delete" icon="ui-icon-close" action="#{office.patientManagment.deletePatient}" />
+        <p:menuitem value="Delete" icon="ui-icon-close" process="@this,patientList" 
+        			actionListener="#{office.patientManagment.deletePatient}" update="patientList"/>
     </p:contextMenu>  
     
 	<p:dataTable id="patientList" var="patient" value="#{office.patientManagment.patientList}" scrollable="false"   
@@ -32,7 +33,7 @@
 		<p:column headerText="id" sortBy="#{patient.id}" width="100">
 			#{patient.id}  
 		</p:column>
-		<p:column headerText="Surname" sortBy="#{patient.name}" width="400">
+		<p:column headerText="Name" sortBy="#{patient.name}" width="400">
 			#{patient.name}  
 		</p:column>
 		<p:column headerText="Surname" sortBy="#{patient.surname}" width="800">

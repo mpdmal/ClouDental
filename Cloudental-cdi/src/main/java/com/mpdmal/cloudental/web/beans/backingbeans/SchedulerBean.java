@@ -2,19 +2,14 @@ package com.mpdmal.cloudental.web.beans.backingbeans;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import org.primefaces.event.DateSelectEvent;
 import org.primefaces.event.ScheduleEntrySelectEvent;
-import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
-import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
-import com.mpdmal.cloudental.beans.DentistServices;
-import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;

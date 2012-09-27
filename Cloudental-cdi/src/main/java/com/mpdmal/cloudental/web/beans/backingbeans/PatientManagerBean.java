@@ -6,8 +6,6 @@ import java.util.Vector;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import com.mpdmal.cloudental.beans.DentistServices;
-import com.mpdmal.cloudental.beans.PatientServices;
 import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.util.CloudentUtils;
@@ -30,16 +28,10 @@ public class PatientManagerBean implements Serializable {
 	}
 
 	//GETTERS/SETTERS
+	public Patient getCreatePatient() {		return createPatient;	}
 	public TreeNode getPatientListRoot() {	return root;	}
-	public Vector<Patient> getPatientList() {	System.out.println("getpatient list");return patientList;	}
-	public Patient getSelectedPatient() {	
-		if (selectedPatient != null)
-			System.out.println("get selected "+selectedPatient.getSurname());
-		else
-			System.out.println("get selcted is NULL");
-		return selectedPatient;	
-	}
-	public Patient getCreatePatient() {	return createPatient;	}
+	public Patient getSelectedPatient() {	return selectedPatient; }
+	public Vector<Patient> getPatientList() {	return patientList;	}
 	public TreeNode getSelectedPatientNode() {	return selectedPatientNode;	}
 	
 	public void setSelectedPatientNode(TreeNode nd ) {	this.selectedPatientNode = nd;	}
