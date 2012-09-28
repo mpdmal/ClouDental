@@ -209,7 +209,9 @@ public class PatientServices extends AbstractEaoService {
     							String title, Date start, Date end, double deposit,
     							int color, int patientid ) throws CloudentException {
     	if (activityID == Activity.DEFAULT_ACTIVITY_ID) {
-    		activityID = createActivity(patientid, "", start, null, -1, -1, BigDecimal.ZERO).getId();
+    		activityID = createActivity(patientid, "", start, null, 
+    							CloudentUtils.DEFAULT_PRICEABLE_ID, CloudentUtils.DEFAULT_DISCOUNT_ID,
+    							BigDecimal.ZERO).getId();
     	}
     	
     	Activity act = findActivity(activityID);

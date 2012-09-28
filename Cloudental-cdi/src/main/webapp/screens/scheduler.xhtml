@@ -22,8 +22,6 @@
 							<h:outputLabel for="to" value="To:" />
 						    <p:calendar id="to" value="#{office.scheduleControler.event.endDate}" pattern="MM/dd/yyyy HH:mm" />
 						    <h:outputLabel for="patient" value="Patient:" />
-		
-		
 						    <p:autoComplete id="patient" value="#{office.scheduleControler.event.autocompletePatient}"
 								completeMethod="#{office.patientManagment.completePatient}"
 								var="p" itemLabel="#{p.name} #{p.surname}" itemValue="#{p}"

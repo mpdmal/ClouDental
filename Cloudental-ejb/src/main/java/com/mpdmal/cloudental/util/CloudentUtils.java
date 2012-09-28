@@ -21,6 +21,10 @@ import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
 
 public class CloudentUtils {
+	public static final int DEFAULT_USER_ID = -1;
+	public static final int DEFAULT_DISCOUNT_ID = -1;
+	public static final int DEFAULT_PRICEABLE_ID = -1;
+	
 	//ENUMS
 	//POST-IT ALERTS
 	

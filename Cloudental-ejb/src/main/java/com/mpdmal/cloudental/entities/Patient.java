@@ -6,14 +6,16 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.mpdmal.cloudental.entities.base.DBEntity;
 import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implements Serializable {
+public class Patient extends DBEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -148,10 +150,6 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		teeth.add(tooth);
 	}
 	
-	public String getUIfriendlyForm () {
-		return id+" - "+name+" "+surname;
-	}
-	
 	@Override
 	public String getXML() {
 		StringBuilder ans= new StringBuilder("<patient></patient>");
@@ -179,4 +177,23 @@ public class Patient extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		ans.insert(ans.indexOf("</patient"), dentalhistory.getXML());
 		return ans.toString();
 	}
+	
+	//PATIENT TO STRING
+	public String unboxPatient() {
+		return id+" "+name+" "+surname;
+	}
+
+	//PATIENT FROM STRING - REVERSE OF UNBOXPATIENT
+	public static Patient boxPatient(String value) throws CloudentException {
+		Patient ans = new Patient();
+		
+		String[] vals = value.split(" ");
+		ans.setId(Integer.parseInt(vals[0]));
+		ans.setName(vals[1]);
+		ans.setSurname(vals[2]);
+		
+		return ans;
+	}
+	
+
 }

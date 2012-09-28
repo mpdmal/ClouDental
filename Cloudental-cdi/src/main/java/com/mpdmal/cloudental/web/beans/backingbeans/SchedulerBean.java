@@ -1,8 +1,6 @@
 package com.mpdmal.cloudental.web.beans.backingbeans;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Vector;
 
 import org.primefaces.event.DateSelectEvent;
@@ -11,6 +9,7 @@ import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
 
 import com.mpdmal.cloudental.entities.Activity;
+import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
@@ -36,7 +35,6 @@ public class SchedulerBean implements Serializable {
 
 	//INTERFACE
 	public void populateScheduler(int dentistid) {
-		System.out.println("POPULATE SCHEDULER");
 		Vector<Visit> vsts;
 		vsts = _office.getDentistServices().getDentistVisits(dentistid);
 		_visitModel.clear();
@@ -56,7 +54,6 @@ public class SchedulerBean implements Serializable {
 	}
 	
 	public void deleteVisit() {
-		System.out.println("!delete visit:");
 		try {
 			_office.getPatientServices().deleteVisit(_event.getVisitId());
 			_event = new DentistScheduleEvent();
@@ -66,28 +63,20 @@ public class SchedulerBean implements Serializable {
 	}
 	
 	public void addEvent() {
-		System.out.println("add event");
-		if(_event.getTitle() == null){
-			System.out.println("cannot add NULL event ");
-		}else{
-			System.out.println("add event:"+_event.getTitle());
-			try {
-				_event.setVisitId(_office.getPatientServices().createVisit(Activity.DEFAULT_ACTIVITY_ID, "", 
-						_event.getTitle(), 
-						_event.getStartDate(), 
-						_event.getEndDate(), 
-						1, 2).getId());
-				populateScheduler(_office.getOwnerID());
-			} catch (CloudentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+		if(_event.getTitle() == null)
+			return;
 
-	public static void main(String[] args) {
-		Calendar c = new GregorianCalendar();
-		int mins = (c.get(Calendar.ZONE_OFFSET) + c.get(Calendar.DST_OFFSET)) / (60 * 1000);
-		System.out.println(mins);
+		try {
+			Patient p = _office.getScheduleControler().getEvent().getAutocompletePatient();
+			_event.setVisitId(_office.getPatientServices().createVisit(Activity.DEFAULT_ACTIVITY_ID, "", 
+					_event.getTitle(), 
+					_event.getStartDate(), 
+					_event.getEndDate(), 
+					1, 2, p.getId()).getId());
+			populateScheduler(_office.getOwnerID());
+		} catch (CloudentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

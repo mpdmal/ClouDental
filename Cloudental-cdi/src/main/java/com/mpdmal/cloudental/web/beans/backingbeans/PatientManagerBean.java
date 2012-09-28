@@ -83,16 +83,16 @@ public class PatientManagerBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	public List<String> completePatient(String query) {  
+	public List<Patient> completePatient(String query) {  
     	System.out.println("completePatient: ");
     	Vector<Patient>  patients  = (Vector<Patient>) office.getPatientManagment().getPatientList();
-        List<String> suggestions = new ArrayList<String>();  
+        List<Patient> suggestions = new ArrayList<Patient>();  
           
         for(Patient p : patients) {  
         	query = query.toLowerCase(); // case insensitive 
             if(p.getName().toLowerCase().startsWith(query) ||
            		p.getSurname().toLowerCase().startsWith(query) )  
-                	suggestions.add(p.getUIfriendlyForm());  
+                	suggestions.add(p);  
         }  
           
         return suggestions;  

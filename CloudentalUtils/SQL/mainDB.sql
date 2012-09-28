@@ -199,6 +199,7 @@ insert into tooth values (31, 'wisdom tooth top right');
 insert into tooth values (32, 'wisdom tooth top left');
 
 --DEFAULTS
-insert into dentist values (-99, 'demo', 'demo', 'demo', 'demo');
---insert into pricelist values (-1, null, 'noprice', 'used internally to represent a non-priced item', 0.0);
+insert into dentist values (-99, 'internal', '', 'demo', 'demo');
+insert into pricelist values (-1, -99, 'zeroprice', 'used internally to represent a zero-priced item', 0.0);
+insert into discount values (-1, -99, 'zerodiscount', 'used internally to represent a zero-discount item', 0.0);
 
