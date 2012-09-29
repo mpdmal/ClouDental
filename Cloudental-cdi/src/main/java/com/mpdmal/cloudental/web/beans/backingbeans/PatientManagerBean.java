@@ -21,6 +21,7 @@ public class PatientManagerBean implements Serializable {
 	public PatientManagerBean(Office office) {
 		this.office = office;
 		createPatient = new Patient();
+		
 	}
 
 	//GETTERS/SETTERS
@@ -38,6 +39,10 @@ public class PatientManagerBean implements Serializable {
 	public void populatePatients (int dentistid) {
 		System.out.println("patient list for "+dentistid);
 		patientList = (Vector<Patient>) office.getDentistServices().getPatientlist(dentistid);
+		if (patientList.size() > 0)
+			selectedPatient = patientList.elementAt(0);
+		else
+			selectedPatient = new Patient();
 		//createPatientTreeStructure();
 	}
 	

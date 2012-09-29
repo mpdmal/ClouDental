@@ -26,18 +26,13 @@
         			actionListener="#{office.patientManagment.deletePatient}" update="patientList,scheduler"/>
     </p:contextMenu>  
     
-	<p:dataTable id="patientList" var="patient" value="#{office.patientManagment.patientList}" scrollable="false"   
-		rowKey="#{patient.id}"  selection="#{office.patientManagment.selectedPatient}" selectionMode="single"
-		scrollHeight="400" scrollWidth="1000">
-	 				
-		<p:column headerText="id" sortBy="#{patient.id}" width="100">
-			#{patient.id}  
-		</p:column>
-		<p:column headerText="Name" sortBy="#{patient.name}" width="400">
-			#{patient.name}  
-		</p:column>
-		<p:column headerText="Surname" sortBy="#{patient.surname}" width="800">
+	<p:dataTable id="patientList" var="patient" value="#{office.patientManagment.patientList}"    
+		rowKey="#{patient.id}"  selection="#{office.patientManagment.selectedPatient}" selectionMode="single">
+		<p:column headerText="Surname" sortBy="#{patient.surname}" width="200">
 			#{patient.surname}  
+		</p:column>
+		<p:column headerText="Name" sortBy="#{patient.name}" width="200">
+			#{patient.name}  
 		</p:column>
 	</p:dataTable>
 </html>
