@@ -116,7 +116,6 @@ public class DiscountTestSet extends ArquillianCloudentTestBase {
 		try {
 			dsvcbean.deleteDiscounts(dentist.getId());
 		} catch (DentistNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(0, dsvcbean.countDiscounts());

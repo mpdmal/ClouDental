@@ -116,7 +116,6 @@ public class PricelistTestSet extends ArquillianCloudentTestBase {
 		try {
 			dsvcbean.deletePricelist(dentist.getId());
 		} catch (DentistNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(0, dsvcbean.countPricelistItems());

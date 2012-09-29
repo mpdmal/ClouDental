@@ -187,7 +187,6 @@ public class ActivityTestSet extends ArquillianCloudentTestBase{
 		try {
 			psvcbean.deletePatientActivities(p.getId());
 		} catch (PatientNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//check else everything unaffected
