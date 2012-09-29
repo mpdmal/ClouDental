@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.mpdmal.cloudental.entities.base.DBEntity;
 import com.mpdmal.cloudental.util.CloudentUtils;
 
 import java.util.ArrayList;
@@ -13,9 +14,9 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity implements Serializable {
+public class Activity extends DBEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public static final int DEFAULT_ACTIVITY_ID = -99;
+	public static final String DEFAULT_ACTIVITY_IDENTIFIER_DESCR= "def act| cdent";
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
@@ -23,7 +24,6 @@ public class Activity extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	@NotNull
 	private String description;
 	
-	@NotNull
 	@Temporal( TemporalType.TIMESTAMP)
 	private java.util.Date enddate;
 	

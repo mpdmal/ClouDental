@@ -17,7 +17,6 @@ public class PatientConverter implements Converter {
     public static List<Patient> patientDB;  
   
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-    	System.out.println("!!!!!"+submittedValue);
         if (submittedValue.trim().equals(""))     
             return null;  
 

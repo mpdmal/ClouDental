@@ -39,13 +39,14 @@
 						    <h:outputLabel for="allDay" value="All Day:" />
 							<h:selectBooleanCheckbox id="allDay" value="#{office.scheduleControler.event.allDay}" />
 							<p:commandButton type="reset" value="Reset" />
-							<p:commandButton value="Save" actionListener="#{office.scheduleControler.addEvent}" 
-											 process="@this, title, from, to, patient" oncomplete="myschedule.update();createDialog.hide();" />
+							<p:commandButton value="Create Visit" actionListener="#{office.scheduleControler.addEvent}" 
+											 process="@this, title, from, to, patient" update="scheduler" oncomplete="createDialog.hide();" />
 						</h:panelGrid>
 					</p:dialog>
 					<p:dialog widgetVar="modifyDialog" header="Event Details">
 						<h:panelGrid id="modEventDetails" columns="1">
-							<p:commandButton value="Delete" actionListener="#{office.scheduleControler.deleteVisit()}"/>
+							<p:commandButton value="Delete" actionListener="#{office.scheduleControler.deleteVisit()}"
+											process="@this" update="scheduler" oncomplete="modifyDialog.hide();" />
 						</h:panelGrid>
 					</p:dialog>
 					<p:panel header="Latest Activity" styleClass="latestActivity">

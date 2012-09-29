@@ -8,13 +8,13 @@ import org.primefaces.event.ScheduleEntrySelectEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
 
-import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 import com.mpdmal.cloudental.web.controllers.Office;
 import com.mpdmal.cloudental.web.events.DentistScheduleEvent;
+import com.mpdmal.cloudental.web.util.CloudentWebUtils;
 
 public class SchedulerBean implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -57,6 +57,7 @@ public class SchedulerBean implements Serializable {
 		try {
 			_office.getPatientServices().deleteVisit(_event.getVisitId());
 			_event = new DentistScheduleEvent();
+			populateScheduler(_office.getOwnerID());
 		} catch (VisitNotFoundException e1) {
 			e1.printStackTrace();
 		}
@@ -68,15 +69,18 @@ public class SchedulerBean implements Serializable {
 
 		try {
 			Patient p = _office.getScheduleControler().getEvent().getAutocompletePatient();
-			_event.setVisitId(_office.getPatientServices().createVisit(Activity.DEFAULT_ACTIVITY_ID, "", 
+			// default activity ID, see Patient.boxPatient(string);
+			int activityID = p.getDentalHistory().getActivities().iterator().next().getId(); 
+			
+			_event.setVisitId(_office.getPatientServices().createVisit(activityID, "", 
 					_event.getTitle(), 
 					_event.getStartDate(), 
 					_event.getEndDate(), 
-					1, 2, p.getId()).getId());
+					0, 0).getId());
 			populateScheduler(_office.getOwnerID());
 		} catch (CloudentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			CloudentWebUtils.showJSFErrorMessage("Cannot create Visit", e.getMessage());
 		}
 	}
 }

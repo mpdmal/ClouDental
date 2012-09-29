@@ -43,6 +43,7 @@ public class Patienthistory extends com.mpdmal.cloudental.entities.base.DBEntity
 		if (activities == null)
 			activities = new ArrayList<Activity>();
 		
+		activity.setPatienthistory(this);
 		activities.add(activity);
 	}
 	

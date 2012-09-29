@@ -78,6 +78,7 @@ public class PatientManagerBean implements Serializable {
 		try {
 			office.getDentistServices().deletePatient(selectedPatient.getId());
 			populatePatients(office.getOwnerID());
+			office.getScheduleControler().populateScheduler(office.getOwnerID());
 		} catch (PatientNotFoundException e) {
 			CloudentWebUtils.showJSFErrorMessage(e.getMessage());
 			e.printStackTrace();

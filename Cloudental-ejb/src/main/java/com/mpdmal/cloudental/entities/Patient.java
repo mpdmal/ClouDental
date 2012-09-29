@@ -180,10 +180,16 @@ public class Patient extends DBEntity implements Serializable {
 	
 	//PATIENT TO STRING
 	public String unboxPatient() {
-		return id+" "+name+" "+surname;
+		String ans = id+" "+name+" "+surname; 
+		for (Activity act : dentalhistory.getActivities()) {
+			if (act.getDescription().equals(Activity.DEFAULT_ACTIVITY_IDENTIFIER_DESCR))
+				return ans+" "+act.getId();
+		} 
+		
+		return ans;
 	}
 
-	//PATIENT FROM STRING - REVERSE OF UNBOXPATIENT
+	//PATIENT FROM STRING - REVERSE OF UNBOXPATIENT - used by PatientConverter
 	public static Patient boxPatient(String value) throws CloudentException {
 		Patient ans = new Patient();
 		
@@ -191,6 +197,15 @@ public class Patient extends DBEntity implements Serializable {
 		ans.setId(Integer.parseInt(vals[0]));
 		ans.setName(vals[1]);
 		ans.setSurname(vals[2]);
+		
+		if (vals.length == 4) {
+			//set the def activity id for use by SchedulerBean.addEvent
+			Patienthistory ph = new Patienthistory();
+			Activity activity = new Activity();
+			activity.setId(Integer.parseInt(vals[3]));
+			ph.addActivity(activity);
+			ans.setDentalhistory(ph);
+		}
 		
 		return ans;
 	}

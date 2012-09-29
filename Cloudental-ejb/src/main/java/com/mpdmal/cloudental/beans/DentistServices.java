@@ -12,6 +12,7 @@ import javax.jws.WebService;
 import javax.persistence.Query;
 
 import com.mpdmal.cloudental.beans.base.AbstractEaoService;
+import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Medicalhistory;
@@ -19,6 +20,7 @@ import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.entities.Visit;
+import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
@@ -157,7 +159,8 @@ public class DentistServices extends AbstractEaoService {
     //PATIENT
 	public Patient createPatient(int dentistid, String name, String surname) 
 													throws DentistNotFoundException,
-													PatientExistsException, ValidationException {
+													PatientExistsException, ValidationException, 
+													DiscountNotFoundException, PricelistItemNotFoundException {
 		Dentist dentist = findDentist(dentistid);
 
 		//patient
@@ -172,12 +175,23 @@ public class DentistServices extends AbstractEaoService {
 		medhistory.setComments("Auto Generated");
 		medhistory.setPatient(p);
 
+		//auto generate default activity 
+		Activity ac = new Activity();
+		ac.setDescription(Activity.DEFAULT_ACTIVITY_IDENTIFIER_DESCR);
+		ac.setDiscount(findDiscount(CloudentUtils.DEFAULT_DISCOUNT_ID));
+		ac.setEnddate(null);
+		ac.setOpen(true);
+		ac.setPrice(BigDecimal.ZERO);
+		ac.setPriceable(findPricable(CloudentUtils.DEFAULT_PRICEABLE_ID));
+		ac.setStartdate(new Date());
+
 		//auto generate med history
 		Patienthistory dentalhistory = new Patienthistory();
 		dentalhistory.setComments("auto generated");
 		dentalhistory.setStartdate(new Date());
 		dentalhistory.setPatient(p);
-
+		dentalhistory.addActivity(ac);
+		
 		p.setDentist(dentist);
 		p.setMedicalhistory(medhistory);
 		p.setDentalhistory(dentalhistory);
