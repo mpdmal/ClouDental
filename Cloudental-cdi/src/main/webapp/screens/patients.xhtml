@@ -23,7 +23,7 @@
 
  	<p:contextMenu for="patientList">  
         <p:menuitem value="Delete" icon="ui-icon-close" process="@this,patientList" 
-        			actionListener="#{office.patientManagment.deletePatient}" update="patientList,scheduler"/>
+        			actionListener="#{office.patientManagment.deletePatient}" update="patientList,scheduler,latestActivities"/>
     </p:contextMenu>  
     
 	<p:dataTable id="patientList" var="patient" value="#{office.patientManagment.patientList}"    

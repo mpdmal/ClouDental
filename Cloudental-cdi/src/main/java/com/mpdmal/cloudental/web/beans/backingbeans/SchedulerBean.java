@@ -22,7 +22,8 @@ public class SchedulerBean implements Serializable {
 	private ScheduleModel _visitModel = new DefaultScheduleModel();
 	private DentistScheduleEvent _event = new DentistScheduleEvent();
 	private Office _office;
-
+	private Vector<Visit> _visits;
+	
 	public SchedulerBean(Office office) {
 		_office = office;
 	}
@@ -30,15 +31,16 @@ public class SchedulerBean implements Serializable {
 	//GETTERS/SETTERS
 	public ScheduleModel getModel() { return _visitModel; }
 	public DentistScheduleEvent getEvent() {	return _event;	}
-	
+	public Vector<Visit> getVisits() {	return _visits;	}
+
+	public void setVisits(Vector<Visit> visits) {	this._visits = visits;	}
 	public void setEvent(DentistScheduleEvent event) {	this._event = event;	}
 
 	//INTERFACE
 	public void populateScheduler(int dentistid) {
-		Vector<Visit> vsts;
-		vsts = _office.getDentistServices().getDentistVisits(dentistid);
+		_visits = _office.getDentistServices().getDentistVisits(dentistid);
 		_visitModel.clear();
-		for (Visit visit : vsts) {
+		for (Visit visit : _visits) {
 			System.out.println(visit.getTitle()+visit.getVisitdate()+visit.getEnddate());
 			_visitModel.addEvent(new DentistScheduleEvent(
 					visit.getTitle(), visit.getVisitdate(), visit.getEnddate(), visit.getId()));

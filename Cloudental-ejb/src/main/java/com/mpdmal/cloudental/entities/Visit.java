@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -83,4 +85,28 @@ public class Visit extends com.mpdmal.cloudental.entities.base.DBEntity implemen
 		
 		return ans.toString();
 	}	
+	
+	@Override
+	public String toString() {
+		String ans = title+" ["+activity.getPatienthistory().getPatient().getSurname()+"]\n ";
+		
+		SimpleDateFormat dftime = new SimpleDateFormat("hh:mm a");
+		SimpleDateFormat dfdate = new SimpleDateFormat("d/MMM");
+		Calendar c = Calendar.getInstance();
+		
+		c.setTime(visitdate);
+		int startday = c.get(Calendar.DAY_OF_MONTH);
+		String starttime = dftime.format(visitdate);
+		String startdate = dfdate.format(visitdate);
+		
+		c.setTime(enddate);
+		int endday = c.get(Calendar.DAY_OF_MONTH);
+		String endtime = dftime.format(enddate);
+		String enddatestr = dfdate.format(enddate);
+		
+		if (startday == endday)
+			return ans+ startdate +" "+starttime+" - "+endtime;
+
+		return ans+ startdate +" "+starttime+" - "+enddatestr +" "+endtime;
+	}
 }

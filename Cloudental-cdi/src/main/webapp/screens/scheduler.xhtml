@@ -40,7 +40,7 @@
 							<h:selectBooleanCheckbox id="allDay" value="#{office.scheduleControler.event.allDay}" />
 							<p:commandButton type="reset" value="Reset" />
 							<p:commandButton value="Create Visit" actionListener="#{office.scheduleControler.addEvent}" 
-											 process="@this, title, from, to, patient" update="scheduler" oncomplete="createDialog.hide();" />
+											 process="@this, title, from, to, patient" update="scheduler, latestActivities" oncomplete="createDialog.hide();" />
 						</h:panelGrid>
 					</p:dialog>
 					<p:dialog widgetVar="modifyDialog" header="Event Details">
@@ -49,6 +49,12 @@
 											process="@this" update="scheduler" oncomplete="modifyDialog.hide();" />
 						</h:panelGrid>
 					</p:dialog>
-					<p:panel header="Latest Activity" styleClass="latestActivity">
-					</p:panel>
+					<p:scrollPanel id="latestActivities"  styleClass="latestActivity" mode="native">
+						<p:panel id="pnlLatest" header="Latest Activity" style="width:300px;height:500px">
+							<p:dataList value="#{office.scheduleControler.visits}" var="visit" itemType="disc"
+								rows="10">
+								#{visit.toString()}
+							</p:dataList>
+						</p:panel>
+					</p:scrollPanel>
 </html>
