@@ -1,0 +1,6 @@
+todo for 0.3
+
+show ui messages for create visit/patient errors
+implement 'directly to office ' login
+implement visit/patient update
+basic css
