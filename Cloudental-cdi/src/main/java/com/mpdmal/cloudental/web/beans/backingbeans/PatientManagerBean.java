@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import org.primefaces.model.DefaultTreeNode;
-import org.primefaces.model.TreeNode;
-
-import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
@@ -22,8 +18,6 @@ public class PatientManagerBean implements Serializable {
 	Vector<Patient> patientList;
 	Patient selectedPatient, createPatient;
 	
-	TreeNode root, selectedPatientNode;
-	
 	public PatientManagerBean(Office office) {
 		this.office = office;
 		createPatient = new Patient();
@@ -31,12 +25,8 @@ public class PatientManagerBean implements Serializable {
 
 	//GETTERS/SETTERS
 	public Patient getCreatePatient() {		return createPatient;	}
-	public TreeNode getPatientListRoot() {	return root;	}
 	public Patient getSelectedPatient() {	return selectedPatient; }
 	public Vector<Patient> getPatientList() {	return patientList;	}
-	public TreeNode getSelectedPatientNode() {	return selectedPatientNode;	}
-	
-	public void setSelectedPatientNode(TreeNode nd ) {	this.selectedPatientNode = nd;	}
 	public void setSelectedPatient(Patient patient) {	
 		System.out.println("set selected:"+patient.getSurname());
 		this.selectedPatient = patient;
@@ -99,6 +89,7 @@ public class PatientManagerBean implements Serializable {
         return suggestions;  
     }
 	//PRIVATE 
+	/*
 	private void createPatientTreeStructure() {
 		root = new DefaultTreeNode("Root", null);
 		if (selectedPatient == null) {
@@ -111,4 +102,5 @@ public class PatientManagerBean implements Serializable {
 			new DefaultTreeNode(activity.getDescription(), root);
 		}
 	}
+	*/
 }
