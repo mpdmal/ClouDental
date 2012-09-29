@@ -5,56 +5,59 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:cde="http://cloudental.gr"
       xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<!--  p:panel id="pnlLatest" header="Latest Activity" styleClass="latestActivity">
+		<p:scrollPanel id="latestActivities" mode="native">
+			<p:dataList value="#{office.scheduleControler.visits}" var="visit" itemType="disc"
+				rows="10">
+				#{visit.toString()}
+			</p:dataList>
+		</p:scrollPanel>
+	</p:panel -->
+	<p:schedule id="scheduler" value="#{office.scheduleControler.model}" editable="true" 
+					widgetVar="visitSchedule" styleClass="scheduler" aspectRatio="1.9"
+					firstHour="8" slotMinutes="5">
+		<p:ajax event="dateSelect" listener="#{office.scheduleControler.onDateSelect}" update="eventDetails" oncomplete="createDialog.show()" />
+		<p:ajax event="eventSelect" listener="#{office.scheduleControler.onVisitSelect}" update="eventDetails" oncomplete="modifyDialog.show()" />
+	</p:schedule>
+	<p:dialog widgetVar="createDialog" header="Event Details">
+		<h:panelGrid id="eventDetails" columns="2">
+            <f:facet name="header">  
+                <p:messages />  
+            </f:facet>
+			<h:outputLabel for="title" value="Title:" />
+			<h:inputText id="title" value="#{office.scheduleControler.event.title}" />
+			<h:outputLabel for="from" value="From:" />
+			<p:calendar id="from" value="#{office.scheduleControler.event.startDate}" pattern="MM/dd/yyyy HH:mm" />							
+			<h:outputLabel for="to" value="To:" />
+		    <p:calendar id="to" value="#{office.scheduleControler.event.endDate}" pattern="MM/dd/yyyy HH:mm" />
+		    <h:outputLabel for="patient" value="Patient:" />
+		    <p:autoComplete id="patient" value="#{office.scheduleControler.event.autocompletePatient}"
+				completeMethod="#{office.patientManagment.completePatient}"
+				var="p" itemLabel="#{p.name} #{p.surname}" itemValue="#{p}"
+				converter="patientConverter" forceSelection="true">
+				<p:column>
+					<h:outputText value="#{p.id}"/>
+				</p:column>
 
-					<p:schedule id="scheduler" value="#{office.scheduleControler.model}" editable="true" 
-									widgetVar="visitSchedule" styleClass="scheduler" aspectRatio="1.9"
-									firstHour="8" slotMinutes="5">
-						<p:ajax event="dateSelect" listener="#{office.scheduleControler.onDateSelect}" update="eventDetails" oncomplete="createDialog.show()" />
-						<p:ajax event="eventSelect" listener="#{office.scheduleControler.onVisitSelect}" update="eventDetails" oncomplete="modifyDialog.show()" />
-					</p:schedule>
-				 
-					<p:dialog widgetVar="createDialog" header="Event Details">
-						<h:panelGrid id="eventDetails" columns="2">
-							<h:outputLabel for="title" value="Title:" />
-							<h:inputText id="title" value="#{office.scheduleControler.event.title}" />
-							<h:outputLabel for="from" value="From:" />
-							<p:calendar id="from" value="#{office.scheduleControler.event.startDate}" pattern="MM/dd/yyyy HH:mm" />							
-							<h:outputLabel for="to" value="To:" />
-						    <p:calendar id="to" value="#{office.scheduleControler.event.endDate}" pattern="MM/dd/yyyy HH:mm" />
-						    <h:outputLabel for="patient" value="Patient:" />
-						    <p:autoComplete id="patient" value="#{office.scheduleControler.event.autocompletePatient}"
-								completeMethod="#{office.patientManagment.completePatient}"
-								var="p" itemLabel="#{p.name} #{p.surname}" itemValue="#{p}"
-								converter="patientConverter" forceSelection="true">
-								<p:column>
-									<h:outputText value="#{p.id}"/>
-								</p:column>
-		
-								<p:column>  
-			                    		#{p.name} - #{p.surname}  
-			                	</p:column>
-							</p:autoComplete>
-							
-														
-						    <h:outputLabel for="allDay" value="All Day:" />
-							<h:selectBooleanCheckbox id="allDay" value="#{office.scheduleControler.event.allDay}" />
-							<p:commandButton type="reset" value="Reset" />
-							<p:commandButton value="Create Visit" actionListener="#{office.scheduleControler.addEvent}" 
-											 process="@this, title, from, to, patient" update="scheduler, latestActivities" oncomplete="createDialog.hide();" />
-						</h:panelGrid>
-					</p:dialog>
-					<p:dialog widgetVar="modifyDialog" header="Event Details">
-						<h:panelGrid id="modEventDetails" columns="1">
-							<p:commandButton value="Delete" actionListener="#{office.scheduleControler.deleteVisit()}"
-											process="@this" update="scheduler" oncomplete="modifyDialog.hide();" />
-						</h:panelGrid>
-					</p:dialog>
-					<p:scrollPanel id="latestActivities"  styleClass="latestActivity" mode="native">
-						<p:panel id="pnlLatest" header="Latest Activity" style="width:300px;height:500px">
-							<p:dataList value="#{office.scheduleControler.visits}" var="visit" itemType="disc"
-								rows="10">
-								#{visit.toString()}
-							</p:dataList>
-						</p:panel>
-					</p:scrollPanel>
+				<p:column>  
+                   		#{p.name} - #{p.surname}  
+               	</p:column>
+			</p:autoComplete>
+			
+										
+		    <h:outputLabel for="allDay" value="All Day:" />
+			<h:selectBooleanCheckbox id="allDay" value="#{office.scheduleControler.event.allDay}" />
+			<p:commandButton type="reset" value="Reset" />
+			<p:commandButton id="createBtn" value="Create Visit" actionListener="#{office.scheduleControler.addEvent}" 
+							 process="@this, title, from, to, patient" update="scheduler" oncomplete="createDialog.hide();" />
+										 
+		</h:panelGrid>
+	</p:dialog>
+	<p:dialog widgetVar="modifyDialog" header="Event Details">
+		<h:panelGrid id="modEventDetails" columns="1">
+			<p:commandButton value="Delete" actionListener="#{office.scheduleControler.deleteVisit()}"
+							process="@this" update="scheduler" oncomplete="modifyDialog.hide();" />
+		</h:panelGrid>
+	</p:dialog>
 </html>

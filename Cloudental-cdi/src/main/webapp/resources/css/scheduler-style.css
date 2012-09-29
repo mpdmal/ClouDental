@@ -2,16 +2,16 @@
 
 .scheduler {
 	position: fixed;
-	width: 75%;
+	width:80%;
 	top: 65px;
 	left: 15px;
 }
 
 .latestActivity {
-	position: fixed;
-	width: 340px;
+	position: relative;
+	width: 25%;
 	height: 500px;
-	top: 110px;
-	left: 77%;
+	top: 115px;
+	left: 1000px;
 }
  
