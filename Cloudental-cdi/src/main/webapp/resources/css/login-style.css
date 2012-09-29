@@ -5,6 +5,11 @@
 	width: 120px;
 	left: 712px;
 }
+.directLogin { 
+	position:fixed;
+	top:342px;
+	left: 800px;
+}
 .password {	top:302px;}
 .username {
 	top:260px;
@@ -17,7 +22,7 @@
 	height: 28px;
 	left: 712px;
 }
-.loginbutton 	{	top:335px;	}
+.loginbutton 	{	top:410px;	}
 .newuserbutton 	{	top:440px; 	}
 .contactUs		{
 	top:5px;

@@ -10,5 +10,11 @@
   <module>
     <ejb>Cloudental-ejb.jar</ejb>
   </module>
+  <module>
+    <web>
+      <web-uri>Cloudental-cdi.war</web-uri>
+      <context-root>Cloudental-cdi</context-root>
+    </web>
+  </module>
   <library-directory>lib</library-directory>
 </application>

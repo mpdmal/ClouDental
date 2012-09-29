@@ -20,8 +20,11 @@
 	</ui:define>
 	<ui:define name="header"/>
 	<ui:define name="body">
-		<p:growl id="growl" showDetail="true" life="3000" />
+		<p:growl id="growl" showDetail="true" life="5000" />
 		<h:form id="mainForm">
+			<p:menubar>  
+        	    <p:menuitem value="Reception" action="reception" ajax="false" />
+		    </p:menubar>
 			<p:tabView id="tabContainer">
 				<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar !">
 					<ui:include src="/screens/scheduler.xhtml"/>

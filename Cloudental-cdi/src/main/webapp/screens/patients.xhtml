@@ -6,9 +6,6 @@
 
 	<p:panel header="New Patient" >
 		<h:panelGrid id="grid" columns="2">
-            <f:facet name="header">  
-                <p:messages />  
-            </f:facet>
 			<h:outputText value="Name: " />
 			<p:inputText id="name" value="#{office.patientManagment.createPatient.name}" required="true" requiredMessage="Name is required"  />
 			<h:outputText value="Surname: " />

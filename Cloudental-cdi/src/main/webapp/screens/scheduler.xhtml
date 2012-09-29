@@ -14,9 +14,14 @@
 			</p:dataList>
 		</p:scrollPanel>
 	</p:panel -->
+	
+	
 	<p:schedule id="scheduler" value="#{office.scheduleControler.model}" editable="true" 
 					widgetVar="visitSchedule" styleClass="scheduler" aspectRatio="1.9"
 					firstHour="8" slotMinutes="5">
+        <f:facet name="header">  
+ 	       <p:messages />  
+        </f:facet>
 		<p:ajax event="dateSelect" listener="#{office.scheduleControler.onDateSelect}" update="eventDetails" oncomplete="createDialog.show()" />
 		<p:ajax event="eventSelect" listener="#{office.scheduleControler.onVisitSelect}" update="eventDetails" oncomplete="modifyDialog.show()" />
 	</p:schedule>
@@ -50,7 +55,7 @@
 			<h:selectBooleanCheckbox id="allDay" value="#{office.scheduleControler.event.allDay}" />
 			<p:commandButton type="reset" value="Reset" />
 			<p:commandButton id="createBtn" value="Create Visit" actionListener="#{office.scheduleControler.addEvent}" 
-							 process="@this, title, from, to, patient" update="scheduler" oncomplete="createDialog.hide();" />
+							 process="@this, title, from, to, patient" update="scheduler, :growl" oncomplete="createDialog.hide();" />
 										 
 		</h:panelGrid>
 	</p:dialog>

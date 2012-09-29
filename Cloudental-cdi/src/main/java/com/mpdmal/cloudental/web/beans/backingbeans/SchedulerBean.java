@@ -3,9 +3,6 @@ package com.mpdmal.cloudental.web.beans.backingbeans;
 import java.io.Serializable;
 import java.util.Vector;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import org.primefaces.event.DateSelectEvent;
 import org.primefaces.event.ScheduleEntrySelectEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -86,7 +83,6 @@ public class SchedulerBean implements Serializable {
 					0, 0).getId());
 			populateScheduler(_office.getOwnerID());
 		} catch (CloudentException e) {
-			System.out.println(e.getMessage()+"!1!!");
 			CloudentWebUtils.showJSFErrorMessage("Cannot create Visit", e.getMessage());
 		}
 	}

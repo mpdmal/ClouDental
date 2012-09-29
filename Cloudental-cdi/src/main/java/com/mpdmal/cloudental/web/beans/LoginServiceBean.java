@@ -18,29 +18,30 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	//CDI BEANS
 	@Inject
-	LoginBean loginBean;
+	LoginBean _loginBean;
 	@Inject
-	OfficeReceptionBean sess;
+	OfficeReceptionBean _sess;
 	
 	public LoginServiceBean() {
 		super();
 		_baseName = "Login Service";
 	}
 	//MODEL 
-	private String name = "", password = "";
-
+	private String _name = "", _password = "";
+	private boolean _direct = true;
 	//GETTERS/SETTERS
-	public String getName() {	return name;	}
-	public String getPassword() {	return password;	}
-
-	public void setName(String name) {	this.name = name;	}
-	public void setPassword(String password) {	this.password = password;	}
-
+	public String getName() {	return _name;	}
+	public String getPassword() {	return _password;	}
+	public boolean isDirectlyToOffice () { return _direct; }
+	
+	public void setName(String name) {	this._name = name;	}
+	public void setPassword(String password) {	this._password = password;	}
+	public void setDirectlyToOffice(boolean directly) { _direct = directly; }
 	//INTERFACE
 	public String login() {  
 		Dentist d = null;
 		try {
-			d = loginBean.doLogin(name, password);
+			d = _loginBean.doLogin(_name, _password);
 		} catch (CloudentException e) {
             CloudentWebUtils.showJSFErrorMessage("", e.getMessage());
             return null;
@@ -49,8 +50,8 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 			CloudentUtils.logError(e.getMessage());
 			return null;
 		}
-		sess.setUserID(d.getId());
+		_sess.setUserID(d.getId());
 		CloudentWebUtils.showJSFInfoMessage("Welcome to Cloud.M", d.getUsername());
-        return "reception";
+        return (_direct) ? "office" : "reception";
     }  
 }

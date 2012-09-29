@@ -4,17 +4,26 @@
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
  <navigation-rule>
   <display-name>LoginRule</display-name>
-  <from-view-id>/screens/welcome.xhtml</from-view-id>
+  <from-view-id>/screens/login.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>office</from-outcome>
+   <to-view-id>/screens/office.xhtml</to-view-id>
+  </navigation-case>
   <navigation-case>
    <from-outcome>reception</from-outcome>
    <to-view-id>/screens/reception.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
- <navigation-rule>
-  <from-view-id>/screens/reception.xhtml</from-view-id>
+ 
+ 
+  <navigation-rule>
+  <display-name>ReceptionRule</display-name>
+  <from-view-id>/screens/office.xhtml</from-view-id>
   <navigation-case>
-   <from-outcome>office</from-outcome>
-   <to-view-id>/screens/office.xhtml</to-view-id>
+   <from-outcome>reception</from-outcome>
+   <to-view-id>/screens/reception.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
+ 
+ 
 </faces-config>

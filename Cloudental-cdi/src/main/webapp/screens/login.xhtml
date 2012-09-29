@@ -23,8 +23,9 @@
  	<body>
 		<div> 
 	        <h:form id="form1" name="form1" method="post" action="">
-	           <p:inputText value="#{loginService.name}" id="username" required="true" label="username" styleClass="username"/>  
-	           <h:inputSecret value="#{loginService.password}" id="password" required="true" label="password" styleClass="password" />
+	           <p:inputText id="username" value="#{loginService.name}" required="true" label="username" styleClass="username"/>  
+	           <h:inputSecret id="password" value="#{loginService.password}" required="true" label="password" styleClass="password" />
+	           <p:selectBooleanCheckbox id="directLogin" value="#{loginService.directlyToOffice}" label="Straight to my office" styleClass="directLogin"/>
 	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}" styleClass="loginbutton" image="../resources/images/login.png"/>     
 	        </h:form>
 			<p:growl id="growl" showDetail="true" life="3000" />
