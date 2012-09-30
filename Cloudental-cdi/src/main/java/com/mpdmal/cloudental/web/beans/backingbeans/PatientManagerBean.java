@@ -37,7 +37,6 @@ public class PatientManagerBean implements Serializable {
   
 	//INTERFACE
 	public void populatePatients (int dentistid) {
-		System.out.println("patient list for "+dentistid);
 		patientList = (Vector<Patient>) office.getDentistServices().getPatientlist(dentistid);
 		if (patientList.size() > 0)
 			selectedPatient = patientList.elementAt(0);
@@ -80,7 +79,6 @@ public class PatientManagerBean implements Serializable {
 		}
 	}
 	public List<Patient> completePatient(String query) {  
-    	System.out.println("completePatient: ");
     	Vector<Patient>  patients  = (Vector<Patient>) office.getPatientManagment().getPatientList();
         List<Patient> suggestions = new ArrayList<Patient>();  
           

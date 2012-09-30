@@ -19,10 +19,19 @@
 	</p:panel>
 
  	<p:contextMenu for="patientList">  
+        <p:menuitem value="Details" icon="ui-icon-check" process="patientList" oncomplete="dtlDlg.show()" update="detailsDialog"/>
         <p:menuitem value="Delete" icon="ui-icon-close" process="@this,patientList" 
         			actionListener="#{office.patientManagment.deletePatient}" update="patientList,scheduler"/>
     </p:contextMenu>  
     
+    <p:dialog id="detailsDialog" header="Patient Details" widgetVar="dtlDlg" height="140" >
+    	<p:panelGrid columns="1">
+		    <h:outputLabel id="dtlSurname" value="#{office.patientManagment.selectedPatient.surname}" />
+		    <h:outputLabel id="dtlName" value="#{office.patientManagment.selectedPatient.name}" />
+		    <h:outputLabel id="dtlCreated" value="#{office.patientManagment.selectedPatient.created}" />
+		    <h:outputLabel id="dtlComments" value="#{office.patientManagment.selectedPatient.comments}" />
+    	</p:panelGrid>
+    </p:dialog>
 	<p:dataTable id="patientList" var="patient" value="#{office.patientManagment.patientList}"    
 		rowKey="#{patient.id}"  selection="#{office.patientManagment.selectedPatient}" selectionMode="single">
 		<p:column headerText="Surname" sortBy="#{patient.surname}" width="200">
@@ -31,5 +40,9 @@
 		<p:column headerText="Name" sortBy="#{patient.name}" width="200">
 			#{patient.name}  
 		</p:column>
+		<p:column headerText="Created" sortBy="#{patient.created}" width="200">
+			#{patient.created}  
+		</p:column>
+		
 	</p:dataTable>
 </html>

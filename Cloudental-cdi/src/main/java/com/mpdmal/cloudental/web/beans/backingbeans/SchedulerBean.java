@@ -65,7 +65,7 @@ public class SchedulerBean implements Serializable {
 		}
 	}
 	
-	public void addEvent() {
+	public void addEvent() throws Exception {
 		if(_event.getTitle() == null)
 			return;
 
@@ -84,6 +84,7 @@ public class SchedulerBean implements Serializable {
 			populateScheduler(_office.getOwnerID());
 		} catch (CloudentException e) {
 			CloudentWebUtils.showJSFErrorMessage("Cannot create Visit", e.getMessage());
+			throw new Exception (e.getMessage());
 		}
 	}
 }

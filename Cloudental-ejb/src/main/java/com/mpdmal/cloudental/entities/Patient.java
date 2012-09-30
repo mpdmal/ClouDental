@@ -53,7 +53,7 @@ public class Patient extends DBEntity implements Serializable {
 	private Set<Address> addresses;
     @OneToMany(cascade=CascadeType.ALL, mappedBy="patient", fetch=FetchType.LAZY)
 	private Set<Contactinfo> contactinfo;
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="patient", fetch=FetchType.EAGER)
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="patient", fetch=FetchType.LAZY)
 	private Set<Patienttooth> teeth;
 
     public Patient() {}
