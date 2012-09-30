@@ -1,6 +1,9 @@
 todo for 0.3
 
-show ui messages for create visit/patient errors
-implement 'directly to office ' login
-implement visit/patient update
-basic css
+1. show ui messages for create visit/patient errors - done
+2. implement 'directly to office ' login - done
+3. implement visit/patient update
+4. basic css - done
+
+todo for 0.4
+1.introduce jasper

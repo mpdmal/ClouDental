@@ -1,5 +1,11 @@
 @charset "utf-8";
 
+.reportBox {
+	position: fixed;
+	top: 15px;
+	left: 120px;	
+}
+
 .scheduler {
 	position: fixed;
 	width:80%;

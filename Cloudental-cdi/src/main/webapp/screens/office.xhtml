@@ -1,6 +1,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/screens/base/cloudent-template.xhtml">
 	
@@ -26,6 +27,13 @@
         	    <p:menuitem value="Reception" action="reception" ajax="false" />
 		    </p:menubar>
 		</h:form>
+			<p:lightBox widgetVar="daily" styleClass="reportBox" iframe="true">
+		<h:outputLink value="#{facesContext.externalContext.requestContextPath}/reports" title="Daily Report">
+			<f:param name="userid" value="#{office.ownerID}"/>    	 
+  			<h:graphicImage library="images" name="dailyReport.png" />
+		</h:outputLink> 
+	</p:lightBox>  
+		
 		<h:form id="mainForm">
 			<p:tabView id="tabContainer">
 				<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar !">
