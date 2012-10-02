@@ -1,30 +1,30 @@
 @charset "utf-8";
 
-.username, .password {
-	position:fixed;
-	width: 120px;
-	left: 712px;
+.username, .password, .directLogin {
+	position: relative;
+	left: 40%;
+	top: 40%;
+	width: 200px;
+	height: 14px;
 }
-.directLogin { 
-	position:fixed;
-	top:342px;
-	left: 800px;
-}
-.password {	top:302px;}
-.username {
-	top:260px;
-	height: 19px;
-}
+.username 	{	 }
+.password 	{	 }
+.directLogin {   }
+
 
 .loginbutton, .newuserbutton, .contactUs {
 	position:fixed;
 	width: 90px;
 	height: 28px;
-	left: 712px;
+	left: 5px;
 }
-.loginbutton 	{	top:410px;	}
-.newuserbutton 	{	top:440px; 	}
-.contactUs		{
-	top:5px;
-	left: 5px; 	
+.loginbutton 	{	top:50px;	}
+.newuserbutton 	{	top:5px; 	}
+.contactUs		{	top: 95px;	}
+
+
+.logo {
+	position: relative;
+	left: 30%;
+	top: 50%;
 }
