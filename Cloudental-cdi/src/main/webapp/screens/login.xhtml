@@ -10,12 +10,8 @@
 		<link href="../resources/css/login-style.css" rel="stylesheet" type="text/css" />
 		<style type="text/css">
 		body {
-			background-image: url(../resources/images/LoginBackground.png);
-			background-repeat: no-repeat;
-			margin-left: 10px;
-			margin-top: 10px;
-			margin-right: 10px;
-			margin-bottom: 10px;
+			background-image: url(../resources/images/login/login_background.png);
+			background-size: cover;
 		}
 		</style>
 	</h:head>
@@ -26,12 +22,12 @@
 	           <p:inputText id="username" value="#{loginService.name}" required="true" label="username" styleClass="username"/>  
 	           <h:inputSecret id="password" value="#{loginService.password}" required="true" label="password" styleClass="password" />
 	           <p:selectBooleanCheckbox id="directLogin" value="#{loginService.directlyToOffice}" label="Straight to my office" styleClass="directLogin"/>
-	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}" styleClass="loginbutton" image="../resources/images/login.png"/>     
+	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}" styleClass="loginbutton" image="../resources/images/login/login.png"/>     
 	        </h:form>
 			<p:growl id="growl" showDetail="true" life="3000" />
 
 	        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" title="Create New User" styleClass="newuserbutton">     
-			    <p:graphicImage value="../resources/images/new-user.png" />  
+			    <p:graphicImage value="../resources/images/login/new-user.png" />  
 			</h:outputLink>
 			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate" showEffect="explode" >  
 			    <h:form id="dlgFrm">
@@ -50,7 +46,7 @@
 			    </h:form>  
 			</p:dialog>  
 	        <h:outputLink id="contactUs" value="javascript:void(0)" onclick="dlgContact.show()" title="Contact Cloud.M" styleClass="contactUs">     
-			    <p:graphicImage value="../resources/images/contact.png" />  
+			    <p:graphicImage value="../resources/images/login/contact.png" />  
 			</h:outputLink>
 			<br/> 
 			<p:dialog id="dialogContact" header="Contact Cloud.M" widgetVar="dlgContact" showEffect="explode" modal="true">  

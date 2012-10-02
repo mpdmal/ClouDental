@@ -10,18 +10,14 @@
 		<link href="../resources/css/scheduler-style.css" rel="stylesheet" type="text/css" />
 		<style type="text/css">
 		body {
-			background-image: url(../resources/images/ReceptionBackground.png);
-			background-repeat: no-repeat;
-			margin-left: 10px;
-			margin-top: 10px;  
-			margin-right: 10px;
-			margin-bottom: 10px;
+			background-image: url(../resources/images/office_background.png);
+			background-size: cover;
 		}
 		</style>
 	</ui:define>
 	<ui:define name="header"/>
 	<ui:define name="body">
-		<p:growl id="growl" showDetail="true" life="5000" />
+		<p:growl id="growl" showDetail="true" life="4000" />
 		<h:form id="menuForm">
 			<p:menubar>  
         	    <p:menuitem value="Reception" action="reception" ajax="false" />
@@ -36,7 +32,7 @@
 		
 		<h:form id="mainForm">
 			<p:tabView id="tabContainer">
-				<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar !">
+				<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar">
 					<ui:include src="/screens/scheduler.xhtml"/>
 				</p:tab>
 				<p:tab id="patientsTab" title="Patients" titletip="Patient Management!">

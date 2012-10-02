@@ -43,8 +43,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
-			<artifactId>south-street</artifactId>			
-			<version>1.0.2</version>
+			<artifactId>cupertino</artifactId>			
+			<version>1.0.8</version>
 		</dependency>
 		<dependency>
       		<groupId>rome</groupId>

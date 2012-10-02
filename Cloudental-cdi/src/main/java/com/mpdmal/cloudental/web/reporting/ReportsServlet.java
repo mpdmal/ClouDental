@@ -48,10 +48,8 @@ public class ReportsServlet extends HttpServlet {
 		while ((bytes = fileInputStream.read()) != -1) {
 			responseOutputStream.write(bytes);
 		}
-		System.out.println("end post1");
 		os.flush();
 		os.close();
-		System.out.println("end post2");
 	}
 
 }
