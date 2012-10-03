@@ -2,8 +2,35 @@ todo for 0.3
 
 1. show ui messages for create visit/patient errors - done
 2. implement 'directly to office ' login - done
-3. implement visit/patient update
+3. implement visit/patient update -0.4
 4. basic css - done
 
-todo for 0.4
-1.introduce jasper
+assignments for 0.4
+1. Daily Report
+	a. Design daily and default reports (iReport)
+	b. rewrite ReportServlet for multi browser environment (Chrome, Ffox, IE)
+	c. decide on user services for daily report (download, in-browser, both)
+	d. investigate mechanism for report genrerator 
+	
+2. Revisit login UI
+	a. redesign logo
+	b. place components (uname, pwd, directlogin, newuser, contactus, enter)
+	c. decide on primefaces skin and background colors
+	
+3. Revisit Reception UI and services
+	a. decide on reception services
+	b. create account management UI
+	c. format and maintain cloudent CSS feed 
+
+4. Revisit Office UI
+	a. redesign UI
+	
+5. Revisit Scheduler UI
+	a. implement update visit service (editable scheduler ?)
+	b. complete visit details dialog (just delete atm)
+	
+6. Revisit Patients UI
+	a.redesign UI
+	b. complete patient details dialog 
+	c. complete patient create-details 
+ 
