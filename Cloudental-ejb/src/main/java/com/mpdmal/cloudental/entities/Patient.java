@@ -96,7 +96,8 @@ public class Patient extends DBEntity implements Serializable {
 			addresses = new HashSet<Address>();
 		
 		for (Address address : addresses) {
-			if (address.getCity().equals(adrs.getCity())
+			if (address.getId().getAdrstype() == adrs.getId().getAdrstype()
+					&& address.getCity().equals(adrs.getCity())
 					&& address.getCountry().equals(adrs.getCountry())
 					&& address.getNumber().equals(adrs.getNumber())
 					&& address.getPostalcode().equals(adrs.getPostalcode())
@@ -121,6 +122,7 @@ public class Patient extends DBEntity implements Serializable {
 		if (contactinfo == null)
 			contactinfo = new HashSet<Contactinfo>();
 		
+		cnt.setPatient(this);
 		contactinfo.add(cnt);
 	}
 	

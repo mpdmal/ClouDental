@@ -5,56 +5,85 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import com.mpdmal.cloudental.entities.Address;
+import com.mpdmal.cloudental.entities.AddressPK;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 import com.mpdmal.cloudental.web.controllers.Office;
 import com.mpdmal.cloudental.web.util.CloudentWebUtils;
 
 public class PatientManagerBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	//MODEL
-	Office office;
-	Vector<Patient> patientList;
-	Patient selectedPatient, createPatient;
+	private Office _office;
+	private Vector<Patient> _patientList;
+	private Patient _selectedPatient, _createPatient;
+	private Address _createAdrs;
 	
 	public PatientManagerBean(Office office) {
-		this.office = office;
-		createPatient = new Patient();
-		
+		this._office = office;
+		_createPatient = new Patient();
+		_createAdrs = new Address();
+		_createAdrs.setCountry("Greece");
 	}
 
 	//GETTERS/SETTERS
-	public Patient getCreatePatient() {		return createPatient;	}
-	public Patient getSelectedPatient() {	return selectedPatient; }
-	public Vector<Patient> getPatientList() {	return patientList;	}
+	public Patient getCreatePatient() {		return _createPatient;	}
+	public Address getCreateAddress() {		return _createAdrs; }
+	public Patient getSelectedPatient() {	return _selectedPatient; }
+	public Vector<Patient> getPatientList() {	return _patientList;	}
 	public void setSelectedPatient(Patient patient) {	
 		System.out.println("set selected:"+patient.getSurname());
-		this.selectedPatient = patient;
+		this._selectedPatient = patient;
 		//createPatientTreeStructure();
 	}
-	public void setCreatePatient(Patient patient) {	this.createPatient = patient;	}
+	public void setCreatePatient(Patient patient) {	this._createPatient = patient;	}
+	public void setCreateAddress(Address adrs) {	this._createAdrs = adrs;	}
   
 	//INTERFACE
 	public void populatePatients (int dentistid) {
-		patientList = (Vector<Patient>) office.getDentistServices().getPatientlist(dentistid);
-		if (patientList.size() > 0)
-			selectedPatient = patientList.elementAt(0);
+		_patientList = (Vector<Patient>) _office.getDentistServices().getPatientlist(dentistid);
+		if (_patientList.size() > 0)
+			_selectedPatient = _patientList.elementAt(0);
 		else
-			selectedPatient = new Patient();
+			_selectedPatient = new Patient();
 		//createPatientTreeStructure();
 	}
-	
+
+	public String createAddress() {
+		System.out.println("!create address!");
+		if (_createAdrs == null) {
+			CloudentUtils.logWarning("cannot create null address");
+			return null;
+		}
+
+		try {
+			AddressPK id = new AddressPK();
+			id.setId(_selectedPatient.getId());
+			id.setAdrstype(1);
+			
+			_createAdrs.setId(id);
+			_office.getPatientServices().createAddress(_createAdrs);
+			populatePatients(_office.getOwnerID());
+		} catch (CloudentException e) {
+			CloudentWebUtils.showJSFErrorMessage(e.getMessage());
+			e.printStackTrace();
+		} 
+		return null;
+	}
+
 	public String createPatient() {
 		System.out.println("!create patient!");
-		if (createPatient == null) {
+		if (_createPatient == null) {
 			CloudentUtils.logWarning("cannot create null patient");
 			return null;
 		}
 
 		try {
-			office.getDentistServices().createPatient(office.getOwnerID(), getCreatePatient().getName(), getCreatePatient().getSurname());
-			populatePatients(office.getOwnerID());
+			_office.getDentistServices().createPatient(_office.getOwnerID(), getCreatePatient().getName(), getCreatePatient().getSurname());
+			populatePatients(_office.getOwnerID());
 		} catch (Exception e) {
 			CloudentWebUtils.showJSFErrorMessage(e.getMessage());
 			e.printStackTrace();
@@ -64,22 +93,22 @@ public class PatientManagerBean implements Serializable {
 	
 	public void deletePatient() {
 		System.out.println("!delete patient!");
-		if (selectedPatient == null) {
+		if (_selectedPatient == null) {
 			CloudentUtils.logWarning("cannot delete null patient, make a selection first");
 			return;
 		}
 		
 		try {
-			office.getDentistServices().deletePatient(selectedPatient.getId());
-			populatePatients(office.getOwnerID());
-			office.getScheduleControler().populateScheduler(office.getOwnerID());
+			_office.getDentistServices().deletePatient(_selectedPatient.getId());
+			populatePatients(_office.getOwnerID());
+			_office.getScheduleControler().populateScheduler(_office.getOwnerID());
 		} catch (PatientNotFoundException e) {
 			CloudentWebUtils.showJSFErrorMessage(e.getMessage());
 			e.printStackTrace();
 		}
 	}
 	public List<Patient> completePatient(String query) {  
-    	Vector<Patient>  patients  = (Vector<Patient>) office.getPatientManagment().getPatientList();
+    	Vector<Patient>  patients  = (Vector<Patient>) _office.getPatientManagment().getPatientList();
         List<Patient> suggestions = new ArrayList<Patient>();  
           
         for(Patient p : patients) {  
