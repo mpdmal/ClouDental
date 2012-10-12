@@ -2,14 +2,14 @@
 
 .reportBox {
 	position: fixed;
-	top: 15px;
+	top: 10px;
 	left: 120px;	
 }
 
 .scheduler {
 	position: fixed;
 	width:80%;
-	top: 129px;
+	top: 124px;
 	left: 20px;
 }
 
