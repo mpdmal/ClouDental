@@ -15,7 +15,6 @@ import com.mpdmal.cloudental.beans.base.AbstractEaoService;
 import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Address;
 import com.mpdmal.cloudental.entities.Contactinfo;
-import com.mpdmal.cloudental.entities.ContactinfoPK;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Medicalhistory;
 import com.mpdmal.cloudental.entities.Medicalhistoryentry;
@@ -27,7 +26,6 @@ import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
 import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
-import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
@@ -161,25 +159,12 @@ public class PatientServices extends AbstractEaoService {
 		emgr.delete(entry);
 	}
 
-	public Contactinfo createContactinfo(int patientID, String info, int type)
-			throws CloudentException {
-		Patient p = findPatient(patientID);
-		if (!CloudentUtils.isContactInfoTypeValid(type)) 
-			throw new InvalidContactInfoTypeException(type);
+	public Contactinfo createContactinfo(Contactinfo info) throws CloudentException {
+		Patient p = findPatient(info.getId().getId());
 
-		ContactinfoPK id = new ContactinfoPK();
-		id.setId(p.getId());
-		id.setInfotype(type);
-
-		
-		Contactinfo cnt = new Contactinfo();
-		cnt.setInfo(info);
-		cnt.setId(id);
-		cnt.setPatient(p);
-		p.addContactInfo(cnt);
-
-		emgr.persist(cnt);
-		return cnt;
+		p.addContactInfo(info);
+		emgr.update(p);
+		return info;
 	}
 
 	public Address createAddress(Address adr) throws CloudentException {

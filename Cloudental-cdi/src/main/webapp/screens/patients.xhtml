@@ -18,7 +18,8 @@
 		</h:panelGrid>
 	</p:panel>
 
- 	<p:contextMenu for="patientList">  
+ 	<p:contextMenu for="patientList">
+ 	    <p:menuitem value="Add Contact Info" icon="ui-icon-check" process="patientList" oncomplete="cinfoDlg.show()" update="cinfoDialog"/>  
         <p:menuitem value="Add Address" icon="ui-icon-check" process="patientList" oncomplete="adrsDlg.show()" update="addressDialog"/>
         <p:menuitem value="Details" icon="ui-icon-check" process="patientList" oncomplete="dtlDlg.show()" update="detailsDialog"/>
         <p:menuitem value="Delete" icon="ui-icon-close" process="@this,patientList" 
@@ -38,13 +39,44 @@
 		    <h:inputText id="adrsNumber" value="#{office.patientManagment.createAddress.number}" />
 		    <h:outputLabel value="Postal Code" for="adrsPCode"/>
 		    <h:inputText id="adrsPCode" value="#{office.patientManagment.createAddress.postalcode}" />
+	        <h:outputLabel value="Address Type" for="adrsType"/>
+	        <p:selectOneMenu id="adrsType" value="#{office.patientManagment.createAddress.id.adrstype}">  
+	            <f:selectItem itemLabel="Select One" itemValue="" />  
+	            <f:selectItem itemLabel="Home" itemValue="0" />  
+	            <f:selectItem itemLabel="Office" itemValue="1" />  
+	            <f:selectItem itemLabel="Billing" itemValue="2" />  
+	        </p:selectOneMenu>  
+
 		    <p:commandButton value="Create" id="crtAdrsBtn" 
-		    				 process="@this,adrsCity,adrsCountry,adrsNumber,adrsPCode,adrsStreet" 
+		    				 process="@this,adrsCity,adrsCountry,adrsNumber,adrsPCode,adrsStreet,adrsType" 
 		    				 update="patientList" 
 						 	 actionListener="#{office.patientManagment.createAddress}" 
 						 	 oncomplete="adrsDlg.hide()"/>
     	</p:panelGrid>
     </p:dialog>
+    
+    <p:dialog id="cinfoDialog" header="New Contact Info for #{office.patientManagment.selectedPatient.surname}" 
+    		  widgetVar="cinfoDlg" height="400" >
+    	<p:panelGrid columns="2">
+		    <h:outputLabel value="Contact Information " for="contactInfo"/>
+		    <h:inputText id="contactInfo" value="#{office.patientManagment.createContactInfo.info}" />
+		    <h:outputLabel value="Type" for="cinfoType"/>  
+	        <p:selectOneMenu id="cinfoType" value="#{office.patientManagment.createContactInfo.id.infotype}">  
+	            <f:selectItem itemLabel="Select One" itemValue="" />  
+	            <f:selectItem itemLabel="E-mail" itemValue="0" />  
+	            <f:selectItem itemLabel="Fax" itemValue="1" />  
+	            <f:selectItem itemLabel="Home" itemValue="2" />  
+	            <f:selectItem itemLabel="Office" itemValue="3" />
+	            <f:selectItem itemLabel="Mobile" itemValue="4" />
+	        </p:selectOneMenu>  
+		    <p:commandButton value="Create" id="crtCInfoBtn" 
+		    				 process="@this,contactInfo,cinfoType" 
+		    				 update="patientList" 
+						 	 actionListener="#{office.patientManagment.createContactInfo}" 
+						 	 oncomplete="cinfoDlg.hide()"/>
+    	</p:panelGrid>
+    </p:dialog>
+    
     <p:dialog id="detailsDialog" header="Patient Details" widgetVar="dtlDlg" height="140" >
     	<p:panelGrid columns="1">
 		    <h:outputLabel id="dtlSurname" value="#{office.patientManagment.selectedPatient.surname}" />
