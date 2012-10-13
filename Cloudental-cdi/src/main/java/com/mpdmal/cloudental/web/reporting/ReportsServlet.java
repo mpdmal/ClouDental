@@ -17,7 +17,8 @@ public class ReportsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     public static final String DEFAULT_REPORTFILENAME = "default_report.pdf";
     public static final String ROOT_DIR = System.getProperty("user.home")+"/cdent/reports/";
-    
+    public static String PDF_NAME = "daily_report_$.pdf";
+
     public ReportsServlet() {	super();	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,9 +28,10 @@ public class ReportsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		OutputStream os = response.getOutputStream();
 		int userid = Integer.parseInt(request.getParameter("userid"));
-		System.out.println("REQUEST OF DAILY REPORT FOR USER:"+userid);
 		
-		String filename = "dailyreport_"+userid+".pdf";
+		String filename = PDF_NAME.replace("$", ""+userid);
+		
+		System.out.println("REQUEST OF DAILY REPORT :"+filename);
 		File daiyReport = new File(ROOT_DIR+filename);
 		FileInputStream fileInputStream;
 		try {

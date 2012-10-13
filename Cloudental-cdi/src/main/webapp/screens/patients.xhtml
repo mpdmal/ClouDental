@@ -12,14 +12,13 @@
 
 	<!-- NEW PATIENT PANEL -->	
 	<p:panel header="New Patient" >
-		<h:panelGrid id="grid" columns="2">
+		<h:panelGrid id="grid" columns="7">
 			<h:outputText value="Name: " />
 			<p:inputText id="name" value="#{crtPatient.name}" required="true" requiredMessage="Name is required"  />
 			<h:outputText value="Surname: " />
 			<p:inputText id="surname" value="#{crtPatient.surname}" required="true" requiredMessage="Surname is required"/>
 			<h:outputText value="Comments: " />
-			<p:inputTextarea id="comment" value="#{crtPatient.comments}" />
-			<h:outputText value=" " />
+			<p:inputText id="comment" value="#{crtPatient.comments}" />
 			<p:commandButton value="Create" id="crtBtn" 
 						process="@this,name,surname,comment" 
 						update="patientList"
@@ -29,7 +28,7 @@
 
 	<!-- PATIENT TABLE -->
 	<p:dataTable id="patientList" var="patient" value="#{office.patientManagment.patientList}"    
-		rowKey="#{patient.id}"  selection="#{sltPatient}" selectionMode="single">
+		rowKey="#{patient.id}"  selection="#{sltPatient}" selectionMode="single" styleClass="patientList">
 		<p:column headerText="Surname" sortBy="#{patient.surname}" width="200">
 			#{patient.surname}  
 		</p:column>
@@ -39,7 +38,7 @@
 		<p:column headerText="Created" sortBy="#{patient.created}" width="200">
 			#{patient.created}  
 		</p:column>
-		<p:column headerText="Billing address" sortBy="#{patient.billingAddress}" width="200">
+		<p:column headerText="Billing address" width="200">
 			#{patient.billingAddress.UIFriendlyString}  
 		</p:column>
 		<p:column headerText="Home address" width="200">

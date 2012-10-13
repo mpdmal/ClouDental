@@ -28,6 +28,8 @@ public class PatientManagerBean implements Serializable {
 	public PatientManagerBean(Office office) {
 		this._office = office;
 		_createPatient = new Patient();
+		_createPatient.setName("Name ...");
+		_createPatient.setSurname("Surname ...");
 		
 		_createAdrs = new Address();
 		_createAdrs.setCountry("Greece");

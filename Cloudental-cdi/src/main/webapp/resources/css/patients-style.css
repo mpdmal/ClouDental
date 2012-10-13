@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+
+.patientList {
+				font-family: Arial serif;
+			font-size: 6;
+		width: 50px;
+		height: 50px;
+}
