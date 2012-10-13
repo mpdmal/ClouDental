@@ -51,4 +51,8 @@ public class Address extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		ans.insert(ans.indexOf("</address"), "<pcode>"+postalcode+"</pcode>");
 		return ans.toString();
 	}
+	
+	public String getUIFriendlyString() {
+		return number+","+street+" "+country+" - "+city+" "+postalcode;
+	}
 }

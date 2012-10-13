@@ -151,6 +151,16 @@ public class Patient extends DBEntity implements Serializable {
 		tooth.setPatient(this);
 		teeth.add(tooth);
 	}
+
+	public Contactinfo getFax() { return getCinfo(CloudentUtils.ContactInfoType.FAX.getValue());	}
+	public Contactinfo getEmail() { return getCinfo(CloudentUtils.ContactInfoType.EMAIL.getValue());	}
+	public Contactinfo getHomeNumber() { return getCinfo(CloudentUtils.ContactInfoType.HOME.getValue());	}
+	public Contactinfo getOfficeNumber() { return getCinfo(CloudentUtils.ContactInfoType.OFFICE.getValue());	}
+	public Contactinfo getMObileNumber() { return getCinfo(CloudentUtils.ContactInfoType.MOBILE.getValue());	}
+
+	public Address getOfficeAddress() {	return getAddress(CloudentUtils.AddressType.OFFICE.getValue()); }
+	public Address getBillingAddress() {	return getAddress(CloudentUtils.AddressType.BILLING.getValue()); }
+	public Address getHomeAddress() {	return getAddress(CloudentUtils.AddressType.HOME.getValue()); }
 	
 	@Override
 	public String getXML() {
@@ -212,5 +222,19 @@ public class Patient extends DBEntity implements Serializable {
 		return ans;
 	}
 	
-
+	//PRIVATE
+	private Address getAddress(int type) {
+		for (Address adrs : addresses) 
+			if (adrs.getId().getAdrstype() == type)
+				return adrs;
+		return null;
+		
+	}
+	private Contactinfo getCinfo(int type) {
+		for (Contactinfo cinfo : contactinfo) {
+			if (cinfo.getId().getInfotype() == type)
+				return cinfo;
+		}
+		return null;
+	}
 }
