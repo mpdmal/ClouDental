@@ -11,15 +11,20 @@
 	<ui:param name="sltPatient" value="#{office.patientManagment.selectedPatient}"></ui:param>
 
 	<!-- NEW PATIENT PANEL -->	
-	<p:panel header="New Patient" >
+	<p:panel header="Create a new patient" styleClass="newPatientPanel" >
 		<h:panelGrid id="grid" columns="7">
-			<h:outputText value="Name: " />
-			<p:inputText id="name" value="#{crtPatient.name}" required="true" requiredMessage="Name is required"  />
-			<h:outputText value="Surname: " />
-			<p:inputText id="surname" value="#{crtPatient.surname}" required="true" requiredMessage="Surname is required"/>
-			<h:outputText value="Comments: " />
-			<p:inputText id="comment" value="#{crtPatient.comments}" />
-			<p:commandButton value="Create" id="crtBtn" 
+			<h:outputText value="Name: " styleClass="label"/>
+			<p:inputText id="name" value="#{crtPatient.name}" 
+						 required="true" requiredMessage="Name is required"
+						 styleClass="field"/>
+			<h:outputText value="Surname: " styleClass="label"/>
+			<p:inputText id="surname" value="#{crtPatient.surname}" 
+			 			 required="true" requiredMessage="Surname is required"
+			 			 styleClass="field"/>
+			<h:outputText value="Comments: " styleClass="label"/>
+			<p:inputText id="comment" value="#{crtPatient.comments}" 
+						 styleClass="comment" />
+			<p:commandButton value="Create" id="crtBtn" styleClass="button"
 						process="@this,name,surname,comment" 
 						update="patientList"
 						actionListener="#{office.patientManagment.createPatient()}" />
@@ -27,31 +32,30 @@
 	</p:panel>
 
 	<!-- PATIENT TABLE -->
-	<p:dataTable id="patientList" var="patient" value="#{office.patientManagment.patientList}"    
-		rowKey="#{patient.id}"  selection="#{sltPatient}" selectionMode="single" styleClass="patientList">
-		<p:column headerText="Surname" sortBy="#{patient.surname}" width="200">
-			#{patient.surname}  
-		</p:column>
-		<p:column headerText="Name" sortBy="#{patient.name}" width="200">
-			#{patient.name}  
-		</p:column>
-		<p:column headerText="Created" sortBy="#{patient.created}" width="200">
-			#{patient.created}  
-		</p:column>
-		<p:column headerText="Billing address" width="200">
-			#{patient.billingAddress.UIFriendlyString}  
-		</p:column>
-		<p:column headerText="Home address" width="200">
-			#{patient.homeAddress.UIFriendlyString}  
-		</p:column>
-		<p:column headerText="Fax" width="200">
-			#{patient.fax.info}  
-		</p:column>
-		<p:column headerText="Email" width="200">
-			#{patient.email.info}  
-		</p:column>
-		
-	</p:dataTable>
+		<p:dataTable id="patientList" var="patient" value="#{office.patientManagment.patientList}"    
+			rowKey="#{patient.id}"  selection="#{sltPatient}" selectionMode="single"
+			scrollable="true" scrollHeight="300" resizableColumns="true" styleClass="patientList">
+			<f:facet name="header">Patient List</f:facet>
+			<p:column headerText="Surname" sortBy="#{patient.surname}" style="width:150px">
+				<h:outputText value="#{patient.surname}" styleClass="label"/>  
+			</p:column>
+			<p:column headerText="Name" sortBy="#{patient.name}" style="width:150px">
+				<h:outputText value="#{patient.name}" styleClass="label"/>  
+			</p:column>
+			<p:column headerText="Mobile Number"  style="width:150px">
+				<h:outputText value="#{patient.mobileNumber.info}" styleClass="label"/>  
+			</p:column>
+			<p:column headerText="Email"  style="width:150px">
+				<h:outputText value="#{patient.email.info}" styleClass="label"/>  
+			</p:column>
+			<p:column headerText="Home Number" style="width:120px">
+				<h:outputText value="#{patient.homeNumber.info}" styleClass="label"/>  
+			</p:column>
+			<p:column headerText="Home address" style="width:350px">
+				<h:outputText value="#{patient.homeAddress.UIFriendlyString}" styleClass="label"/>  
+			</p:column>
+			<f:facet name="footer">#{office.patientManagment.patientList.size()} patient(s)</f:facet>
+		</p:dataTable>
 
 	<!-- PATIENT TABLE RIGHT-CLICK MENU -->
  	<p:contextMenu for="patientList">
@@ -70,25 +74,25 @@
     <p:dialog id="addressDialog" header="New Address for #{sltPatient.surname}" 
     		  widgetVar="adrsDlg" height="350" >
     	<p:panelGrid columns="2">
-		    <h:outputLabel value="Country" for="adrsCountry"/>
-		    <h:inputText id="adrsCountry" value="#{crtAddress.country}" />
-    		<h:outputLabel value="City" for="adrsCity"/>
+		    <h:outputLabel value="Country" for="adrsCountry" styleClass="label"/>
+		    <h:inputText id="adrsCountry" value="#{crtAddress.country}" styleClass="field"/>
+    		<h:outputLabel value="City" for="adrsCity" styleClass="label"/>
 		    <h:inputText id="adrsCity" value="#{crtAddress.city}" />
-		    <h:outputLabel value="Stret" for="adrsStreet"/>
-		    <h:inputText id="adrsStreet" value="#{crtAddress.street}" />
-		    <h:outputLabel value="Number" for="adrsNumber"/>
-		    <h:inputText id="adrsNumber" value="#{crtAddress.number}" />
-		    <h:outputLabel value="Postal Code" for="adrsPCode"/>
-		    <h:inputText id="adrsPCode" value="#{crtAddress.postalcode}" />
-	        <h:outputLabel value="Address Type" for="adrsType"/>
-	        <p:selectOneMenu id="adrsType" value="#{crtAddress.id.adrstype}">  
+		    <h:outputLabel value="Street" for="adrsStreet" styleClass="label"/>
+		    <h:inputText id="adrsStreet" value="#{crtAddress.street}" styleClass="field"/>
+		    <h:outputLabel value="Number" for="adrsNumber" styleClass="label"/>
+		    <h:inputText id="adrsNumber" value="#{crtAddress.number}" styleClass="field"/>
+		    <h:outputLabel value="Postal Code" for="adrsPCode" styleClass="label"/>
+		    <h:inputText id="adrsPCode" value="#{crtAddress.postalcode}" styleClass="field"/>
+	        <h:outputLabel value="Address Type" for="adrsType" styleClass="label"/>
+	        <p:selectOneMenu id="adrsType" value="#{crtAddress.id.adrstype}" styleClass="combo">  
 	            <f:selectItem itemLabel="Select One" itemValue="" />  
 	            <f:selectItem itemLabel="Home" itemValue="0" />  
 	            <f:selectItem itemLabel="Office" itemValue="1" />  
 	            <f:selectItem itemLabel="Billing" itemValue="2" />  
 	        </p:selectOneMenu>  
 
-		    <p:commandButton value="Create" id="crtAdrsBtn" 
+		    <p:commandButton value="Create" id="crtAdrsBtn" styleClass="button"
 		    				 process="@this,adrsCity,adrsCountry,adrsNumber,adrsPCode,adrsStreet,adrsType" 
 		    				 update="patientList" 
 						 	 actionListener="#{office.patientManagment.createAddress()}" 
@@ -100,10 +104,10 @@
     <p:dialog id="cinfoDialog" header="New Contact Info for #{sltPatient.surname}" 
     		  widgetVar="cinfoDlg" height="400" >
     	<p:panelGrid columns="2">
-		    <h:outputLabel value="Contact Information " for="contactInfo"/>
-		    <h:inputText id="contactInfo" value="#{crtCInfo.info}" />
-		    <h:outputLabel value="Type" for="cinfoType"/>  
-	        <p:selectOneMenu id="cinfoType" value="#{crtCInfo.id.infotype}">  
+		    <h:outputLabel value="Contact Information " for="contactInfo" styleClass="label"/>
+		    <h:inputText id="contactInfo" value="#{crtCInfo.info}" styleClass="field"/>
+		    <h:outputLabel value="Type" for="cinfoType" styleClass="label"/>  
+	        <p:selectOneMenu id="cinfoType" value="#{crtCInfo.id.infotype}" styleClass="combo">  
 	            <f:selectItem itemLabel="Select One" itemValue="" />  
 	            <f:selectItem itemLabel="E-mail" itemValue="0" />  
 	            <f:selectItem itemLabel="Fax" itemValue="1" />  
@@ -111,7 +115,7 @@
 	            <f:selectItem itemLabel="Office" itemValue="3" />
 	            <f:selectItem itemLabel="Mobile" itemValue="4" />
 	        </p:selectOneMenu>  
-		    <p:commandButton value="Create" id="crtCInfoBtn" 
+		    <p:commandButton value="Create" id="crtCInfoBtn" styleClass="button" 
 		    				 process="@this,contactInfo,cinfoType" 
 		    				 update="patientList" 
 						 	 actionListener="#{office.patientManagment.createContactInfo()}" 
@@ -122,10 +126,10 @@
     <!-- PATIENT DETAILS DIALOG -->
     <p:dialog id="detailsDialog" header="Patient Details" widgetVar="dtlDlg" height="140" >
     	<p:panelGrid columns="1">
-		    <h:outputLabel id="dtlSurname" value="#{sltPatient.surname}" />
-		    <h:outputLabel id="dtlName" value="#{sltPatient.name}" />
-		    <h:outputLabel id="dtlCreated" value="#{sltPatient.created}" />
-		    <h:outputLabel id="dtlComments" value="#{sltPatient.comments}" />
+		    <h:outputLabel id="dtlSurname" value="#{sltPatient.surname}" styleClass="label"/>
+		    <h:outputLabel id="dtlName" value="#{sltPatient.name}" styleClass="label"/>
+		    <h:outputLabel id="dtlCreated" value="#{sltPatient.created}" styleClass="label"/>
+		    <h:outputLabel id="dtlComments" value="#{sltPatient.comments}" styleClass="label" />
     	</p:panelGrid>
     </p:dialog>
 </html>

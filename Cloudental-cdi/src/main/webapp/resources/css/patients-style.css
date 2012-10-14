@@ -1,8 +1,17 @@
 @CHARSET "UTF-8";
 
+.comment {
+	width: 40%;
+}
+
+.newPatientPanel {
+	margin-left:auto;
+	margin-right:auto;	
+}
+
 .patientList {
-				font-family: Arial serif;
-			font-size: 6;
-		width: 50px;
-		height: 50px;
+	margin-left:auto;
+	margin-right:auto;
+	position: relative;
+	top: 10px;
 }

@@ -27,25 +27,9 @@ public class PatientManagerBean implements Serializable {
 	
 	public PatientManagerBean(Office office) {
 		this._office = office;
-		_createPatient = new Patient();
-		_createPatient.setName("Name ...");
-		_createPatient.setSurname("Surname ...");
-		
-		_createAdrs = new Address();
-		_createAdrs.setCountry("Greece");
-		AddressPK id1 = new AddressPK();
-		
-		_createCInfo = new Contactinfo();
-		ContactinfoPK id2 = new ContactinfoPK();
-		
-		try {
-			id1.setAdrstype(CloudentUtils.AddressType.HOME.getValue());
-			id2.setInfotype(CloudentUtils.ContactInfoType.EMAIL.getValue());
-		} catch (CloudentException e) {
-			e.printStackTrace();
-		}
-		_createAdrs.setId(id1);
-		_createCInfo.setId(id2);
+		resetCreatePatient();
+		resetCreateAddress();
+		resetCreateCInfo();
 	}
 
 	//GETTERS/SETTERS
@@ -56,7 +40,6 @@ public class PatientManagerBean implements Serializable {
 	public Vector<Patient> getPatientList() {	return _patientList;	}
 	
 	public void setSelectedPatient(Patient patient) {	
-		System.out.println("set selected:"+patient.getSurname());
 		this._selectedPatient = patient;
 		//createPatientTreeStructure();
 	}
@@ -74,7 +57,6 @@ public class PatientManagerBean implements Serializable {
 	}
 
 	public String createContactInfo () {
-		System.out.println("!create cInfo!");
 		if (_createCInfo == null) {
 			CloudentUtils.logWarning("cannot create null contact info");
 			return null;
@@ -82,16 +64,16 @@ public class PatientManagerBean implements Serializable {
 		try {
 			_createCInfo.getId().setId(_selectedPatient.getId());
 			_office.getPatientServices().createContactinfo(_createCInfo);
-			populatePatients(_office.getOwnerID());
 		} catch (CloudentException e) {
 			CloudentWebUtils.showJSFErrorMessage(e.getMessage());
 			e.printStackTrace();
-		} 
+		}
+		populatePatients(_office.getOwnerID());
+		resetCreateCInfo();
 		return null;
  	}
 	
 	public String createAddress() {
-		System.out.println("!create address!");
 		if (_createAdrs == null) {
 			CloudentUtils.logWarning("cannot create null address");
 			return null;
@@ -100,16 +82,16 @@ public class PatientManagerBean implements Serializable {
 		try {
 			_createAdrs.getId().setId(_selectedPatient.getId());
 			_office.getPatientServices().createAddress(_createAdrs);
-			populatePatients(_office.getOwnerID());
 		} catch (CloudentException e) {
 			CloudentWebUtils.showJSFErrorMessage(e.getMessage());
 			e.printStackTrace();
-		} 
+		}
+		populatePatients(_office.getOwnerID());
+		resetCreateAddress();
 		return null;
 	}
 
 	public String createPatient() {
-		System.out.println("!create patient!");
 		if (_createPatient == null) {
 			CloudentUtils.logWarning("cannot create null patient");
 			return null;
@@ -126,7 +108,6 @@ public class PatientManagerBean implements Serializable {
 	}
 	
 	public void deletePatient() {
-		System.out.println("!delete patient!");
 		if (_selectedPatient == null) {
 			CloudentUtils.logWarning("cannot delete null patient, make a selection first");
 			return;
@@ -169,4 +150,31 @@ public class PatientManagerBean implements Serializable {
 		}
 	}
 	*/
+	private void resetCreatePatient() {
+		_createPatient = new Patient();
+	}
+	
+	private void resetCreateAddress() {
+		_createAdrs = new Address();
+		_createAdrs.setCountry("Greece");
+		AddressPK id1 = new AddressPK();
+		
+		try {
+			id1.setAdrstype(CloudentUtils.AddressType.HOME.getValue());
+		} catch (CloudentException e) {
+			e.printStackTrace();
+		}
+		_createAdrs.setId(id1);
+	}
+	private void resetCreateCInfo() {
+		_createCInfo = new Contactinfo();
+		ContactinfoPK id2 = new ContactinfoPK();
+		
+		try {
+			id2.setInfotype(CloudentUtils.ContactInfoType.EMAIL.getValue());
+		} catch (CloudentException e) {
+			e.printStackTrace();
+		}
+		_createCInfo.setId(id2);
+	}
 }

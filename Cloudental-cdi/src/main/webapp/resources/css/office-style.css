@@ -1,0 +1,29 @@
+@CHARSET "UTF-8";
+
+.reportBox {
+	margin-left:auto;
+	margin-right:auto;
+	width: 200px !important;
+	height: 40px !important;
+}
+
+.tabContainer {
+
+}
+
+.label, .button, .combo, .field, .scheduler, .comment {	font-size: 10px !important; }
+.label {
+	width: 100px;
+	height: 20px;
+}
+.button {
+	height: 20px;
+}
+.combo {
+	width: 60px;
+	height: 30px;
+}
+.field {
+	width: 100px;
+	height: 20px;
+}

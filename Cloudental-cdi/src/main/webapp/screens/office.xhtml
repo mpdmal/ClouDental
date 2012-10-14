@@ -9,12 +9,12 @@
 	<ui:define name="head">
 		<link href="../resources/css/scheduler-style.css" rel="stylesheet" type="text/css" />
 		<link href="../resources/css/patients-style.css" rel="stylesheet" type="text/css" />
+		<link href="../resources/css/office-style.css" rel="stylesheet" type="text/css" />
 		<style type="text/css">
 		body {
 			background-image: url(../resources/images/office_background.png);
 			background-size: cover;
-			font-family: Arial serif;
-			font-size: 6;
+			font-size: 11px;
 		}
 		</style>
 	</ui:define>
@@ -24,17 +24,18 @@
 		<h:form id="menuForm">
 			<p:menubar>  
         	    <p:menuitem value="Reception" action="reception" ajax="false" />
+        	    <p:menuitem value="Daily Report" action="fgh" ajax="false" />
 		    </p:menubar>
 		</h:form>
-			<p:lightBox widgetVar="daily" styleClass="reportBox" iframe="true">
-		<h:outputLink value="#{facesContext.externalContext.requestContextPath}/reports" title="Daily Report">
-			<f:param name="userid" value="#{office.ownerID}"/>    	 
-  			<h:graphicImage library="images" name="dailyReport.png" />
-		</h:outputLink> 
-	</p:lightBox>  
+		<!--  p:lightBox widgetVar="daily" styleClass="reportBox" iframe="true">
+			<h:outputLink value="#{facesContext.externalContext.requestContextPath}/reports" title="Daily Report">
+				<f:param name="userid" value="#{office.ownerID}"/>    	 
+  				<h:graphicImage library="images" name="dailyReport.png" />
+			</h:outputLink> 
+		</p:lightBox -->  
 		
 		<h:form id="mainForm">
-			<p:tabView id="tabContainer">
+			<p:tabView id="tabContainer" styleClass="tabContainer">
 				<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar">
 					<ui:include src="/screens/scheduler.xhtml"/>
 				</p:tab>
@@ -42,6 +43,6 @@
 					<ui:include src="/screens/patients.xhtml"/>
 				</p:tab>
 			</p:tabView>
-		</h:form>	 
+		</h:form>
  	</ui:define>
 </ui:composition>

@@ -156,7 +156,7 @@ public class Patient extends DBEntity implements Serializable {
 	public Contactinfo getEmail() { return getCinfo(CloudentUtils.ContactInfoType.EMAIL.getValue());	}
 	public Contactinfo getHomeNumber() { return getCinfo(CloudentUtils.ContactInfoType.HOME.getValue());	}
 	public Contactinfo getOfficeNumber() { return getCinfo(CloudentUtils.ContactInfoType.OFFICE.getValue());	}
-	public Contactinfo getMObileNumber() { return getCinfo(CloudentUtils.ContactInfoType.MOBILE.getValue());	}
+	public Contactinfo getMobileNumber() { return getCinfo(CloudentUtils.ContactInfoType.MOBILE.getValue());	}
 
 	public Address getOfficeAddress() {	return getAddress(CloudentUtils.AddressType.OFFICE.getValue()); }
 	public Address getBillingAddress() {	return getAddress(CloudentUtils.AddressType.BILLING.getValue()); }

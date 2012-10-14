@@ -53,6 +53,6 @@ public class Address extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	}
 	
 	public String getUIFriendlyString() {
-		return number+","+street+" "+country+" - "+city+" "+postalcode;
+		return number+","+street+" "+postalcode+"    - "+country+", "+city;
 	}
 }

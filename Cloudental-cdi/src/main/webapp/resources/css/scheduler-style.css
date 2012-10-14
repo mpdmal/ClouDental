@@ -1,23 +1,8 @@
 @charset "utf-8";
 
-.reportBox {
-	position: fixed;
-	top: 10px;
-	left: 120px;	
-}
-
 .scheduler {
-	position: fixed;
-	width:80%;
-	top: 124px;
-	left: 20px;
+	margin-left:auto;
+	margin-right:auto;
 }
 
-.latestActivity {
-	position: relative;
-	width: 25%;
-	height: 500px;
-	top: 115px;
-	left: 1000px;
-}
  

@@ -9,8 +9,6 @@
 
 <body>
 	<ui:component>
-		 
-		
 		<p:autoComplete value="#{patient}" 
 			size="#{size}"
 			completeMethod="#{office.patientManagment.completePatient()}" var="p"
@@ -22,10 +20,6 @@
 	        </p:column>
 	        <p:ajax event="itemSelect" listener="#{patientManagementBean.handleSelect}"  />
 		</p:autoComplete>
-		
-		
-		
-		
 	</ui:component>
 </body>
 </html>
