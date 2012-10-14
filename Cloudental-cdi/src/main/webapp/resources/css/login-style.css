@@ -4,16 +4,11 @@
 	font-family: sans-serif !important;
 	font-size: 11px !important;
 }
-.username 	{	 }
-.password 	{	 }
-.directLogin {   }
 .loginbutton 	{	
 	position: relative;	
 	left: 54px;
 	top: 8px;
 }
-.newuserbutton 	{		}
-.contactUs		{		}
 .logo {
 	position: relative;
 	top: 60px;
