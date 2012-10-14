@@ -24,16 +24,8 @@
 		<h:form id="menuForm">
 			<p:menubar>  
         	    <p:menuitem value="Reception" action="reception" ajax="false" />
-        	    <p:menuitem value="Daily Report" action="fgh" ajax="false" />
 		    </p:menubar>
 		</h:form>
-		<!--  p:lightBox widgetVar="daily" styleClass="reportBox" iframe="true">
-			<h:outputLink value="#{facesContext.externalContext.requestContextPath}/reports" title="Daily Report">
-				<f:param name="userid" value="#{office.ownerID}"/>    	 
-  				<h:graphicImage library="images" name="dailyReport.png" />
-			</h:outputLink> 
-		</p:lightBox -->  
-		
 		<h:form id="mainForm">
 			<p:tabView id="tabContainer" styleClass="tabContainer">
 				<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar">
@@ -43,6 +35,10 @@
 					<ui:include src="/screens/patients.xhtml"/>
 				</p:tab>
 			</p:tabView>
+			<h:outputLink value="#{facesContext.externalContext.requestContextPath}/reports" title="Daily Report">
+				<f:param name="userid" value="#{office.ownerID}"/>    	 
+ 				<h:graphicImage library="images" name="dailyReport.png" styleClass="dailyReportIcon"/>
+			</h:outputLink> 
 		</h:form>
  	</ui:define>
 </ui:composition>

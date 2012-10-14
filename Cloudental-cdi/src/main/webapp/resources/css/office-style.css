@@ -1,29 +1,40 @@
 @CHARSET "UTF-8";
 
-.reportBox {
-	margin-left:auto;
-	margin-right:auto;
-	width: 200px !important;
-	height: 40px !important;
+/* OFFICE COMPONENTS*/
+.dailyReportIcon {
+	position: relative;
+	left: 10px;
+	top: 4px;
+	width: 100px !important;
+	height: 20px !important;
 }
 
-.tabContainer {
+.tabContainer {}
 
+/* GENERAL COMPONENTS*/
+.label, .button, .combo, .field, .scheduler  {	
+	font-size: 11px !important;
+	font-family: sans-serif !important; 
 }
-
-.label, .button, .combo, .field, .scheduler, .comment {	font-size: 10px !important; }
 .label {
 	width: 100px;
-	height: 20px;
+	height: 22px;
 }
-.button {
-	height: 20px;
-}
-.combo {
-	width: 60px;
-	height: 30px;
-}
-.field {
-	width: 100px;
-	height: 20px;
+.button {	height: 20px; }
+.combo  {	width: 60px;	height: 30px; }
+.field  {	width: 100px;	height: 22px; }
+
+
+/* SCHEDULER COMPONENTS */
+.scheduler {	margin-left:auto;	margin-right:auto; }
+
+/* PATIENT COMPONENTS */
+
+.newPatientPanel {	margin-left:auto;	margin-right:auto; }
+ 
+.patientList {
+	margin-left:auto;
+	margin-right:auto;
+	position: relative;
+	top: 10px;
 }

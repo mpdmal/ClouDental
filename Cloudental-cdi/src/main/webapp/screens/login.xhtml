@@ -18,19 +18,29 @@
 
  	<body>
 		<div> 
-	        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" title="Create New User" styleClass="newuserbutton">     
+	        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" 
+	        				title="Create New User" styleClass="newuserbutton">     
 			    <p:graphicImage value="../resources/images/login/new-user.png" />  
 			</h:outputLink>
-	        <h:outputLink id="contactUs" value="javascript:void(0)" onclick="dlgContact.show()" title="Contact Cloud.M" styleClass="contactUs">     
+	        <br />
+	        <h:outputLink id="contactUs" value="javascript:void(0)" onclick="dlgContact.show()" 
+	        				title="Contact Cloud.M" styleClass="contactUs">     
 			    <p:graphicImage value="../resources/images/login/contact.png" />  
 			</h:outputLink>
-			<br/><br/><br/><br/><br/><br/>
-			<p:graphicImage value="../resources/images/login/logo.png" styleClass="logo"/> 
-			<br/><br/><br/>
-	        <h:form id="form1" name="form1" method="post" action="">
-	           <p:inputText id="username" value="#{loginService.name}" required="true" label="username" styleClass="username"/> <br/>  
-	           <h:inputSecret id="password" value="#{loginService.password}" required="true" label="password" styleClass="password" /> <br/>
-	           <p:selectBooleanCheckbox id="directLogin" value="#{loginService.directlyToOffice}" itemLabel="Straight to my office" styleClass="directLogin"/> 
+			<br />
+			
+			<p:graphicImage id="logo" value="../resources/images/login/logo.png" 
+							styleClass="logo"/> 
+			
+	        <h:form id="loginForm" styleClass="loginForm">
+	           <p:inputText id="username" value="#{loginService.name}" required="true" 
+	           				label="username" styleClass="username"/> <br/>  
+	           <p:password  id="password" value="#{loginService.password}" feedback="false" 
+	           				requiredMessage="Please supply a password" required="true" 
+	           				label="password" styleClass="password" /> <br/>
+	           <p:selectBooleanCheckbox id="directLogin" value="#{loginService.directlyToOffice}" 
+	           				itemLabel="Straight to my office" styleClass="directLogin"/>
+	           <br/>				 
 	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}" styleClass="loginbutton" image="../resources/images/login/login.png"/>     
 	        </h:form>
 			<p:growl id="growl" showDetail="true" life="3000" />
