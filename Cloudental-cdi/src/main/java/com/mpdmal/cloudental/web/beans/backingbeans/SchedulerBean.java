@@ -1,6 +1,8 @@
 package com.mpdmal.cloudental.web.beans.backingbeans;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.Vector;
 
 import org.primefaces.event.DateSelectEvent;
@@ -23,15 +25,21 @@ public class SchedulerBean implements Serializable {
 	private DentistScheduleEvent _event = new DentistScheduleEvent();
 	private Office _office;
 	private Vector<Visit> _visits;
+	private String _GMT = "";
 	
 	public SchedulerBean(Office office) {
 		_office = office;
+		TimeZone tz = Calendar.getInstance().getTimeZone();
+		int offset= (tz.getRawOffset()+tz.getDSTSavings())/3600000;
+		_GMT = "GMT+";
+		_GMT = (offset > 9) ? _GMT+offset+":00" :  _GMT+"0"+offset+":00";
 	}
 	
 	//GETTERS/SETTERS
-	public ScheduleModel getModel() { return _visitModel; }
+	public String getLocalTimeZone() { return _GMT;	}
+	public ScheduleModel getModel()  { return _visitModel; }
+	public Vector<Visit> getVisits() { return _visits;	}
 	public DentistScheduleEvent getEvent() {	return _event;	}
-	public Vector<Visit> getVisits() {	return _visits;	}
 
 	public void setVisits(Vector<Visit> visits) {	this._visits = visits;	}
 	public void setEvent(DentistScheduleEvent event) {	this._event = event;	}
@@ -41,7 +49,6 @@ public class SchedulerBean implements Serializable {
 		_visits = _office.getDentistServices().getDentistVisits(dentistid);
 		_visitModel.clear();
 		for (Visit visit : _visits) {
-			System.out.println(visit.getTitle()+visit.getVisitdate()+visit.getEnddate());
 			_visitModel.addEvent(new DentistScheduleEvent(
 					visit.getTitle(), visit.getVisitdate(), visit.getEnddate(), visit.getId()));
 		}
