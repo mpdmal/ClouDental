@@ -11,12 +11,12 @@
 	<ui:component>
 		<p:autoComplete value="#{patient}" 
 			size="#{size}"
-			completeMethod="#{office.patientManagment.completePatient()}" var="p"
-			itemLabel="#{p.name} #{p.surname}" itemValue="#{p}"
+			completeMethod="#{office.patientManagment.completePatient()}" var="patient"
+			itemLabel="#{patient.name} #{patient.surname}" itemValue="#{p}"
 			converter="patientConverter" forceSelection="true" global="false">
 			<p:column>  
-				<h:outputText value="#{p.name}" />&nbsp;-&nbsp;
-				<h:outputText value="#{p.surname}" />
+				<h:outputText value="#{patient.name}" />&nbsp;-&nbsp;
+				<h:outputText value="#{patient.surname}" />
 	        </p:column>
 	        <p:ajax event="itemSelect" listener="#{patientManagementBean.handleSelect}"  />
 		</p:autoComplete>
