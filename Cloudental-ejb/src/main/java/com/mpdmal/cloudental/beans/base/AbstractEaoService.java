@@ -14,6 +14,7 @@ import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.entities.UserPreferences;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.ActivityNotFoundException;
@@ -22,6 +23,7 @@ import com.mpdmal.cloudental.util.exception.DiscountNotFoundException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 @Named
 public class AbstractEaoService implements Serializable {
@@ -49,6 +51,13 @@ public class AbstractEaoService implements Serializable {
     	Query q = emgr.getEM().createQuery("select d from Dentist d where d.username= :username")
     			.setParameter("username", username);
     	return (Dentist)emgr.executeSingleObjectQuery(q);
+    }
+
+    public UserPreferences findUserPrefs(int id) throws CloudentException {
+    	UserPreferences prefs = emgr.findOrFail(UserPreferences.class, id);
+    	if (prefs== null)
+    		throw new CloudentException("User id:"+id+" not found, cannot get UserPreferences");
+    	return prefs;
     }
 
     public PricelistItem findPricable(int id) throws PricelistItemNotFoundException {

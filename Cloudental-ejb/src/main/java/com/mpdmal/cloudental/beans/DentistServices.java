@@ -19,6 +19,7 @@ import com.mpdmal.cloudental.entities.Medicalhistory;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
+import com.mpdmal.cloudental.entities.UserPreferences;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
@@ -28,6 +29,7 @@ import com.mpdmal.cloudental.util.exception.PatientExistsException;
 import com.mpdmal.cloudental.util.exception.PatientNotFoundException;
 import com.mpdmal.cloudental.util.exception.PricelistItemNotFoundException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 
 @Named
 @Stateless
@@ -36,7 +38,15 @@ import com.mpdmal.cloudental.util.exception.ValidationException;
 public class DentistServices extends AbstractEaoService {
 	private static final long serialVersionUID = 1L;
 
-
+	//UserPrefs
+	public UserPreferences getUserPrefs(int userid) throws CloudentException {
+		UserPreferences item = emgr.findOrFail(UserPreferences.class, userid);
+    	if (item == null)
+    		throw new CloudentException("Cannot get Prefs, userid: "+userid);
+    	return item;
+	}
+	
+	public void savePrefs (UserPreferences prefs) { emgr.update(prefs); }
 	//DISCOUNTS
 	public Discount createDiscount(int dentistid, String title, String description, double value) 
 											throws DentistNotFoundException, ValidationException {

@@ -53,7 +53,7 @@ public class DailyReportsGeneratorTool {
 		checkForJasper();
 
 		if (_launchUI) {
-			ApplicationFrame f = new ApplicationFrame();
+			ReportsGeneratorToolUI f = new ReportsGeneratorToolUI();
 			f.setVisible(true);
 		} else {
 			autoGenerateReports();

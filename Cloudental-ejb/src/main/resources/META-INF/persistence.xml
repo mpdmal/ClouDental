@@ -22,5 +22,6 @@
 		<class>com.mpdmal.cloudental.entities.Activity</class>
 		<class>com.mpdmal.cloudental.entities.Visit</class>
 		<class>com.mpdmal.cloudental.entities.Toothhistory</class>
+		<class>com.mpdmal.cloudental.entities.UserPreferences</class>
 	</persistence-unit>
 </persistence>

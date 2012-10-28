@@ -11,6 +11,7 @@ import javax.persistence.Query;
 
 import com.mpdmal.cloudental.beans.base.AbstractEaoService;
 import com.mpdmal.cloudental.entities.Dentist;
+import com.mpdmal.cloudental.entities.UserPreferences;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
@@ -35,7 +36,14 @@ public class DentistBean extends AbstractEaoService implements Serializable {
 		d.setUsername(username);
 		d.setPassword(password);
 		
+		UserPreferences prefs = new UserPreferences();
+		prefs.setDailyreports(true);
+		prefs.setEmailcontent("");
+		prefs.setEmailnotification(true);
+		prefs.setDentist(d);
+		
 		emgr.persist(d);
+		emgr.persist(prefs);
 		return d;
     }
 

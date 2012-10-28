@@ -21,7 +21,21 @@
 				<p:menubar>  
 		            <p:menuitem value="My Office" action="office" ajax="false" />  
 		            <p:menuitem value="My Account" action="office" ajax="false" />
+		            <p:menuitem value="Preferences" onclick="prfDlg.show()" />
 			    </p:menubar>
+			   <p:dialog id="prefsDialog" header="Email Notification Preferences" widgetVar="prfDlg" height="140" >
+    				<p:panelGrid columns="2">
+		    		    <h:outputLabel value="Mail Content" for="mailText" styleClass="label"/>
+		    		    <h:inputTextarea id="mailText" value="#{userPrefs.prefs.emailcontent}" styleClass="field"/>
+		    		    <h:outputLabel value="Daily Reports" for="dailyreports" styleClass="label"/>
+		    		    <p:selectBooleanCheckbox id="dailyreports" value="#{userPrefs.prefs.dailyreports}" styleClass="label" />
+		    		    <h:outputLabel value="E-mail Notifications" for="emailnotify" styleClass="label"/>
+		    		    <p:selectBooleanCheckbox id="emailnotify" value="#{userPrefs.prefs.emailnotification}" styleClass="label" />
+   		    			<p:commandButton id="sabeBtn" styleClass="button" value="Save" actionListener="#{userPrefs.save()}" 
+							 process="@this,mailText,dailyreports,emailnotify" oncomplete="prfDlg.hide();" />
+
+			    	</p:panelGrid>
+    			</p:dialog>
 		    </h:form>
 		</ui:define>
 		<ui:define name="body">

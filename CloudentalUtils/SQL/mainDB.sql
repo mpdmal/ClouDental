@@ -9,6 +9,18 @@ CREATE TABLE dentist
   CONSTRAINT dentist_pk PRIMARY KEY (id )
 );
 
+drop table if exists userpreferences CASCADE;
+CREATE TABLE userpreferences
+(
+  userid integer NOT NULL,
+  emailnotification boolean NOT NULL,
+  emailcontent text NOT NULL,
+  dailyreports boolean NOT NULL,
+  CONSTRAINT userpreferences_id_fkey FOREIGN KEY (userid)
+      REFERENCES dentist (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
 drop table if exists pricelist CASCADE;
 CREATE TABLE pricelist
 (
@@ -200,6 +212,8 @@ insert into tooth values (32, 'wisdom tooth top left');
 
 --DEFAULTS
 insert into dentist values (-99, 'internal', 'cl0ud3ntal', 'internal', 'internal');
+insert into userpreferences values (-99, 'F','', 'F');
 insert into pricelist values (-1, -99, 'zeroprice', 'used internally to represent a zero-priced item', 0.0);
 insert into discount values (-1, -99, 'zerodiscount', 'used internally to represent a zero-discount item', 0.0);
 
+select * from dentist

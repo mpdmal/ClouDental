@@ -17,14 +17,14 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-public class ApplicationFrame extends JFrame {
+public class ReportsGeneratorToolUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel jpActions;
 	private JButton jbSingle;
 	private JButton jbDoAll;
 	private JTable _dentistTable;
 
-	public ApplicationFrame() {
+	public ReportsGeneratorToolUI() {
 		setTitle("Daily Report Generator Tool");
 		setSize(500,500);
 		setLocation(150, 150);
@@ -33,6 +33,7 @@ public class ApplicationFrame extends JFrame {
 	}
 	
 	private void initGrcs() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout thisLayout = new GridBagLayout();
 		thisLayout.rowWeights = new double[] {0.1, 0.1};
 		thisLayout.rowHeights = new int[] {7, 7};
@@ -57,7 +58,7 @@ public class ApplicationFrame extends JFrame {
 				}
 			});
 			jbSingle = new JButton();
-			jbSingle.setText("Create For this Patient");
+			jbSingle.setText("Create For this Dentist");
 			jbSingle.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
