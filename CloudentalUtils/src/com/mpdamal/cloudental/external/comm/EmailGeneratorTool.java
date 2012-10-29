@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
 public class EmailGeneratorTool {
     private static String _dbstring = "jdbc:postgresql://localhost:5432/CloudentDB",
     						_dbuname = "cloudent", _dbpwd = "cloudent",
-    						_cloudent_account = "azarias.dimitris@gmail.com" , _cloudent_pwd = "coersumGM";
+    						_cloudent_account = "cloudental@gmail.com" , _cloudent_pwd = "cloudental123!";
     		
     private static boolean _launchUI = false;
     private static Connection _conn = null;
