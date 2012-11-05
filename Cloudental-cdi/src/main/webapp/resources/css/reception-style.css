@@ -3,8 +3,13 @@
 .rss {
 	position:fixed;
 	width:20%;
-	height:85 %;
+	height: inherit;
 	top:80px;
 	left: 78%; 	
 	
+}
+
+.preferences {
+	width: inherit;
+	height: inherit;
 }

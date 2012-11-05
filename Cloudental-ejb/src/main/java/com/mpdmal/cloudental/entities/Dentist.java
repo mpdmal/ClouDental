@@ -14,6 +14,7 @@ import java.util.Collection;
 public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	//Note, there is no point in carrying the dentist prefs around
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique=true)
