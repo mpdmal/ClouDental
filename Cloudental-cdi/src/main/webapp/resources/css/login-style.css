@@ -11,6 +11,7 @@
 }
 .username, .password {
 	height: 10px !important;
+	width: 120px !important;
 }
 .directlogin {
 	position: relative;

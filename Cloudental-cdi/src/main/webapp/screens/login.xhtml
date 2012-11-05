@@ -20,7 +20,8 @@
 		<div>
 			<p:growl id="growl" showDetail="true" life="3000" /> 
 	        <h:form id="loginForm" styleClass="loginForm">
-	           <p:inputText id="username" value="#{loginService.name}" required="true" 
+	           <p:inputText id="username" value="#{loginService.name}" 
+	           				requiredMessage="Please supply a username" required="true" 
 	           				styleClass="username"/> <br/>  
 	           <p:password  id="password" value="#{loginService.password}" feedback="false" 
 	           				requiredMessage="Please supply a password" required="true" 
