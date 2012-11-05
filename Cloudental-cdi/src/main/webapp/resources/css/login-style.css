@@ -1,21 +1,38 @@
 @charset "utf-8";
 
-.username, .password, .directLogin {
+.loginForm {
+	position: fixed;
+	top: 10px;
+	left: 10px;
+}
+.username, .password, .directlogin {
 	font-family: sans-serif !important;
 	font-size: 11px !important;
 }
-.loginbutton 	{	
-	position: relative;	
-	left: 54px;
-	top: 8px;
+.username, .password {
+	height: 10px !important;
 }
+.directlogin {
+	position: relative;
+	top: 4px;	
+}
+
 .logo {
-	position: relative;
-	top: 60px;
-	left: 200px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -125px;
+	margin-left: -125px;
 }
-.loginForm {
-	position: relative;
-	top: 20px;
-	left: 500px;
+
+.contactus {
+  position: fixed;
+  top: 88%;
+  margin-top: -5px;
+}
+
+.newuser {
+  position: fixed;
+  top: 93%;
+  margin-top: -5px;
 }

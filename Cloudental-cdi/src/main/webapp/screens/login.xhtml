@@ -6,7 +6,7 @@
 
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Cloudental 0.2</title>
+		<title>Cloudental 0.3</title>
 		<link href="../resources/css/login-style.css" rel="stylesheet" type="text/css" />
 		<style type="text/css">
 		body {
@@ -17,35 +17,34 @@
 	</h:head>
 
  	<body>
-		<div> 
+		<div>
+			<p:growl id="growl" showDetail="true" life="3000" /> 
+	        <h:form id="loginForm" styleClass="loginForm">
+	           <p:inputText id="username" value="#{loginService.name}" required="true" 
+	           				styleClass="username"/> <br/>  
+	           <p:password  id="password" value="#{loginService.password}" feedback="false" 
+	           				requiredMessage="Please supply a password" required="true" 
+	           				styleClass="password"/> <br/>
+	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}"/>
+	           <p:selectBooleanCheckbox id="directLogin" value="#{loginService.directlyToOffice}" 
+	           				itemLabel="Straight to my office" styleClass="directlogin"/>
+	        </h:form>
+			<br />
 	        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" 
-	        				title="Create New User" >     
+	        				title="Create New User" styleClass="newuser">     
 			    <p:graphicImage value="../resources/images/login/new-user.png" />  
 			</h:outputLink>
 	        <br />
 	        <h:outputLink id="contactUs" value="javascript:void(0)" onclick="dlgContact.show()" 
-	        				title="Contact Cloud.M" >     
+	        				title="Contact Cloud.M" styleClass="contactus">     
 			    <p:graphicImage value="../resources/images/login/contact.png" />  
 			</h:outputLink>
 			<br />
 			
-			<p:graphicImage id="logo" value="../resources/images/login/logo.png" 
+			<p:graphicImage id="logo" value="../resources/images/login/logo_cd.png" 
 							styleClass="logo"/> 
-			
-	        <h:form id="loginForm" styleClass="loginForm">
-	           <p:inputText id="username" value="#{loginService.name}" required="true" 
-	           				label="username" /> <br/>  
-	           <p:password  id="password" value="#{loginService.password}" feedback="false" 
-	           				requiredMessage="Please supply a password" required="true" 
-	           				label="password" /> <br/>
-	           <p:selectBooleanCheckbox id="directLogin" value="#{loginService.directlyToOffice}" 
-	           				itemLabel="Straight to my office" />
-	           <br/>				 
-	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}" styleClass="loginbutton" image="../resources/images/login/login.png"/>     
-	        </h:form>
-			<p:growl id="growl" showDetail="true" life="3000" />
 
-			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate" showEffect="explode" >  
+			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate">  
 			    <h:form id="dlgFrm">
    			        <h:panelGrid columns="2" cellpadding="5">
 						<h:outputLabel for="name" value="Name " /> <p:inputText id="name" value="#{createUserService.dentist.name}"/>
