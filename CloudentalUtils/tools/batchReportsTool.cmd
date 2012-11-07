@@ -1,0 +1,1 @@
+java -cp iText-2.1.7.jar;groovy-all-1.7.5.jar;commons-digester-2.1.jar;commons-collections-2.1.1.jar;commons-logging-1.1.1.jar;jasperreports-4.7.1.jar;postgresql-9.1-901.jdbc4.jar;. com.mpdamal.cloudental.external.reports.DailyReportsGeneratorTool -dbstring=jdbc:postgresql://localhost:5432/CloudentDB -dbuname=aza -dbpwd=aza -ui

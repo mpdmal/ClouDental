@@ -1,0 +1,1 @@
+java -cp mail.jar;postgresql-9.1-901.jdbc4.jar;. com.mpdamal.cloudental.external.comm.EmailGeneratorTool -dbstring=jdbc:postgresql://localhost:5432/CloudentDB -dbuname=aza -dbpwd=aza -ui 

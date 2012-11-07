@@ -65,7 +65,8 @@ public class DailyReportsGeneratorTool {
 		Statement st;
 		try {
 			st = _conn.createStatement();
-			ResultSet rs = st.executeQuery("SELECT id, username, surname, name FROM Dentist ORDER BY id");
+			ResultSet rs = st.executeQuery("SELECT d.id, d.username, d.surname, d.name, up.dailyreports FROM Dentist d, userpreferences up " +
+											" where d.id=up.userid ORDER BY id");
 			return rs;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -79,7 +80,10 @@ public class DailyReportsGeneratorTool {
 		try {
 			ResultSet rs = getDentistsInfo();
 			while ( rs.next() )	{
-				printReport(rs.getInt(1));//dentistid column
+				if (rs.getBoolean(5))
+					printReport(rs.getInt(1));//dentistid column
+				else
+					System.out.println("daily reports OFF for "+rs.getString(2));
 			}
 			rs.getStatement().close();
 			rs.close();

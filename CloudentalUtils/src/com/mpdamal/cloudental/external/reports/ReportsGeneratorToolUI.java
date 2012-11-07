@@ -79,12 +79,15 @@ public class ReportsGeneratorToolUI extends JFrame {
 		try {
 			ResultSet rs = DailyReportsGeneratorTool.getDentistsInfo();
 			while ( rs.next() )	{
-				row = new Vector<String>(4);
-				row.add(rs.getString(1));
-				row.add(rs.getString(2));
-				row.add(rs.getString(3));
-				row.add(rs.getString(4));
-				data.add(row);
+				if (rs.getBoolean(5)) {
+	 				row = new Vector<String>(4);
+					row.add(rs.getString(1));
+					row.add(rs.getString(2));
+					row.add(rs.getString(3));
+					row.add(rs.getString(4));
+					data.add(row);
+				}
+				
 			}
 			rs.getStatement().close();
 			rs.close();

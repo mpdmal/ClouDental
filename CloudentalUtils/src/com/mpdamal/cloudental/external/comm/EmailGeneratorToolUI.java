@@ -60,7 +60,8 @@ public class EmailGeneratorToolUI extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					int dentistid = Integer.parseInt(_dentistTable.getValueAt(_dentistTable.getSelectedRow(), 0).toString());
-					EmailGeneratorTool.sendEmailNotifications(dentistid);
+					String content = _dentistTable.getValueAt(_dentistTable.getSelectedRow(), 4).toString();
+					EmailGeneratorTool.sendEmailNotifications(dentistid, content);
 				}
 			});
 			jpActions.add(jbSingle);
@@ -76,11 +77,14 @@ public class EmailGeneratorToolUI extends JFrame {
 		try {
 			ResultSet rs = EmailGeneratorTool.getDentistsInfo();
 			while ( rs.next() )	{
+				if (!rs.getBoolean(5)) 
+					continue;
 				row = new Vector<String>(4);
 				row.add(rs.getString(1));
 				row.add(rs.getString(2));
 				row.add(rs.getString(3));
 				row.add(rs.getString(4));
+				row.add(rs.getString(6));
 				data.add(row);
 			}
 			rs.getStatement().close();
@@ -94,6 +98,7 @@ public class EmailGeneratorToolUI extends JFrame {
 		row.add("Username");
 		row.add("Surname");
 		row.add("Name");
+		row.add("Email content");
 		TableModel patientsTableModel = new DefaultTableModel(data, row);
 		_dentistTable.setModel(patientsTableModel);
 	}

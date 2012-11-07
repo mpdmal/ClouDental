@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -53,7 +52,7 @@ public class EmailGeneratorTool {
 		Statement st;
 		try {
 			st = _conn.createStatement();
-			ResultSet rs = st.executeQuery("SELECT id, username, surname, name, p.emailnotification FROM Dentist d," +
+			ResultSet rs = st.executeQuery("SELECT id, username, surname, name, p.emailnotification, p.emailcontent FROM Dentist d," +
 					" userpreferences p where d.id=p.userid ORDER BY id");
 			return rs;
 		} catch (SQLException e) {
@@ -69,7 +68,7 @@ public class EmailGeneratorTool {
 			ResultSet rs = getDentistsInfo();
 			while ( rs.next() )	{
 				if (rs.getBoolean(5)) //notify flag
-					sendEmailNotifications(rs.getInt(1));//dentistid
+					sendEmailNotifications(rs.getInt(1), rs.getString(6));//dentistid
 				else 
 					System.out.println("email notify OFF for "+rs.getString(2));
 			}
@@ -82,7 +81,7 @@ public class EmailGeneratorTool {
 		}				
 	}
 	
-	public static void sendEmailNotifications(int dentistid) {
+	public static void sendEmailNotifications(int dentistid, String content) {
 		System.out.println("NOTIFYING PATIENTS OF "+dentistid);
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -92,71 +91,52 @@ public class EmailGeneratorTool {
 		try{
 			MimeMessage message = new MimeMessage(session);
 			message.setSubject("Cloudental - Reminder");
-			message.setContent(getCustomNotificationText(dentistid), "text/plain");
-	         
-			for (Integer id : getPatientIDs(dentistid)) {
-				String email = getPatientEmail(id);
-				if (!verifyEmail(email))
+			message.setContent(content, "text/plain");
+	        
+			ResultSet rs = getPatientsInfo(dentistid);
+			while (rs.next()) {
+				String email = rs.getString(1);
+				if (!verifyEmail(email)) {
+					System.out.println("\tinvalid email :"+email);
 					continue;
+				}
 				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
 				Transport transport = session.getTransport("smtp");
 				transport.connect("smtp.gmail.com", 587, _cloudent_account, _cloudent_pwd);
 				transport.sendMessage(message, message.getAllRecipients());
+				System.out.println("\temailed :"+email);
 			}
+			rs.getStatement().close();
+			rs.close();
 		}catch (MessagingException mex) {
 			mex.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		System.out.println("NOTIFIED PATIENTS ----------------------");
 	}
 	//PRIVATE
-	private static String getCustomNotificationText(int dentistid) {
-		String ans = "";
-		try {
-			ResultSet rs = _conn.createStatement().executeQuery("SELECT emailcontent FROM userpreferences where userid="+dentistid);
-			rs.next();
-			ans = rs.getString(1);
-			rs.getStatement().close();
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println("\tCANNOT get mail content from preferences for dentist id:"+dentistid);
-		}
-		return ans;
-	}
-	
 	private static boolean verifyEmail(String email) {
-		if (email.length() <= 0)
+		if (email.length() <= 0) 
+			return false;
+
+		int atidx = email.indexOf("@");
+		int dotidx = email.indexOf(".");
+		if (atidx < 1 || dotidx < 3) 
 			return false;
 		
 		return true;
 	}
-	private static String getPatientEmail(int patientid) {
-		String ans = "";
+	private static ResultSet getPatientsInfo(int dentistid) {
 		try {
-			ResultSet rs = _conn.createStatement().executeQuery("SELECT info FROM contactinfo where id="+patientid+" and infotype=0");
-			rs.next();
-			ans = rs.getString(1);
-			rs.getStatement().close();
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println("\tCANNOT get email info for patient id:"+patientid);
-		}
-		return ans;
-	}
-	
-	private static ArrayList<Integer> getPatientIDs(int dentistid) {
-		ArrayList<Integer> ans = new ArrayList<Integer>();
-		try {
-			ResultSet rs = _conn.createStatement().executeQuery("SELECT id FROM patient where dentistid="+dentistid);
-			while (rs.next()) 
-				ans.add(rs.getInt(1));
-			rs.getStatement().close();
-			rs.close();
+			//this filters patients with no email contact info (0)
+			return _conn.createStatement().executeQuery("SELECT ci.info FROM patient p, contactinfo ci where dentistid="+dentistid+" and p.id=ci.id and infotype=0");
 		} catch (SQLException e) {
 			System.out.println("\tCANNOT get patient ids for dentist id:"+dentistid);
 		}
-		return ans;
+		return null;
 	}
-	
 	
 	private static void setupConnection() {
 		//try connection to postgres
@@ -173,5 +153,4 @@ public class EmailGeneratorTool {
 		System.out.println("Connection to postgres established :"+_dbstring);
 	}
 }
-
 
