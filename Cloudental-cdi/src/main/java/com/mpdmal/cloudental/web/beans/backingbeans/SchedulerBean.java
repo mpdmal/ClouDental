@@ -30,7 +30,8 @@ public class SchedulerBean implements Serializable {
 	public SchedulerBean(Office office) {
 		_office = office;
 		TimeZone tz = Calendar.getInstance().getTimeZone();
-		int offset= (tz.getRawOffset()+tz.getDSTSavings())/3600000;
+		int offset= (tz.getRawOffset())/3600000;
+//		int offset= (tz.getRawOffset()+tz.getDSTSavings())/3600000;
 		_GMT = "GMT+";
 		_GMT = (offset > 9) ? _GMT+offset+":00" :  _GMT+"0"+offset+":00";
 	}
