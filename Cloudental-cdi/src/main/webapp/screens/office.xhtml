@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/screens/base/cloudent-template.xhtml">
 	
-	<ui:define name="title">My Office </ui:define>
+	<ui:define name="title">#{officeReception.receptionMessage}</ui:define>
 	<ui:define name="head">
 		<link href="../resources/css/scheduler-style.css" rel="stylesheet" type="text/css" />
 		<link href="../resources/css/patients-style.css" rel="stylesheet" type="text/css" />
@@ -36,7 +36,7 @@
 				</p:tab>
 			</p:tabView>
 			<h:outputLink value="#{facesContext.externalContext.requestContextPath}/reports" title="Daily Report">
-				<f:param name="userid" value="#{office.ownerID}"/>    	 
+				<f:param name="userid" value="#{officeReception.userID}"/>    	 
  				<h:graphicImage library="images" name="dailyReport.png" styleClass="dailyReportIcon"/>
 			</h:outputLink> 
 		</h:form>
