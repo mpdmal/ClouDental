@@ -44,6 +44,7 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 			d = _loginBean.doLogin(_name, _password);
 		} catch (CloudentException e) {
             CloudentWebUtils.showJSFErrorMessage("", e.getMessage());
+            CloudentUtils.logError(e.getMessage());
             return null;
 		} catch (Exception e) {
 			e.printStackTrace();
