@@ -52,6 +52,7 @@ public class ReportsServlet extends HttpServlet {
 		}
 		os.flush();
 		os.close();
+		fileInputStream.close();
 	}
 
 }
