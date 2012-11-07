@@ -49,7 +49,6 @@ public class Office extends BaseBean implements Serializable {
 	public PatientManagerBean getPatientManagment() {	return patientManagment;	}
 	public DentistServices getDentistServices() { return _dsvc; }
 	public PatientServices getPatientServices() { return _psvc; }
-	public OfficeReceptionBean getSession() { return _session; }
 
 	public void setPatientManagment(PatientManagerBean patientManagment) {	this.patientManagment = patientManagment;	}
 	public void setScheduleControler(SchedulerBean scheduleControler) {	this.scheduleControler = scheduleControler;	}
