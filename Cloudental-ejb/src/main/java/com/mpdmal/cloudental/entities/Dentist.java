@@ -47,9 +47,13 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	private Collection<Patient> patients;
 
 
-   public Dentist() {}
+	public Dentist() {}
 
-   public Integer getId() {	return this.id;	}
+	@Override
+	public String getUIFriendlyString() {
+		return getName()+" "+getSurname()+" ("+getUsername()+")";
+	}
+   	public Integer getId() {	return this.id;	}
 	public String getSurname() {	return this.surname;	}
 	public String getUsername() {	return this.username;	}
 	public String getPassword() {	return this.password;	}
