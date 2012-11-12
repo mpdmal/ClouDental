@@ -1,15 +1,19 @@
 @charset "utf-8";
 
 .rss {
-	position:fixed;
-	width:20%;
-	height: inherit;
-	top:80px;
-	left: 78%; 	
-	
+	position: relative;
 }
 
 .preferences {
-	width: inherit;
-	height: inherit;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -125px;
+	margin-left: -125px;
+}
+
+.dentistinfo {
+}
+
+.logo {
 }

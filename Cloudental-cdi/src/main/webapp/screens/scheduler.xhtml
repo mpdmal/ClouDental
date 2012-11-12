@@ -17,7 +17,7 @@
 	
 	
 	<p:schedule id="scheduler" value="#{office.scheduleControler.model}" draggable="false" resizable="false" minTime="6" maxTime="24" 
-					widgetVar="visitSchedule" styleClass="scheduler" aspectRatio="2.5"
+					widgetVar="visitSchedule" styleClass="scheduler" aspectRatio="2.5" timeFormat="HH:mm "
 					firstHour="8" slotMinutes="5" timeZone="#{office.scheduleControler.localTimeZone}">
         <f:facet name="header">  
  	       <p:messages />  
@@ -27,36 +27,22 @@
 	</p:schedule>
 	<p:dialog widgetVar="createDialog" header="Event Details">
 		<h:panelGrid id="eventDetails" columns="2">
-            <f:facet name="header">  
-                <p:messages />  
-            </f:facet>
-			<h:outputLabel for="title" value="Title:" styleClass="label"/>
-			<h:inputText id="title" value="#{office.scheduleControler.event.title}" styleClass="field" />
 			<h:outputLabel for="from" value="From:" styleClass="label"/>
-			<p:calendar id="from" value="#{office.scheduleControler.event.startDate}" pattern="MM/dd/yyyy HH:mm" />							
+			<p:calendar id="from" value="#{office.scheduleControler.event.startDate}" pattern="HH:mm" timeOnly="true"/>							
 			<h:outputLabel for="to" value="To:" styleClass="label"/>
-		    <p:calendar id="to" value="#{office.scheduleControler.event.endDate}" pattern="MM/dd/yyyy HH:mm" />
+		    <p:calendar id="to" value="#{office.scheduleControler.event.endDate}" pattern="HH:mm" timeOnly="true"/>
 		    <h:outputLabel for="patient" value="Patient:" styleClass="label"/>
 		    <p:autoComplete id="patient" value="#{office.scheduleControler.event.autocompletePatient}"
 				completeMethod="#{office.patientManagment.completePatient}"
 				var="p" itemLabel="#{p.name} #{p.surname}" itemValue="#{p}"
 				converter="patientConverter" forceSelection="true" styleClass="field">
-				<p:column styleClass="label">
-					<h:outputText value="#{p.id}"/>
-				</p:column>
-
 				<p:column styleClass="label">  
-                   		#{p.name} - #{p.surname}  
+                   		#{p.name} #{p.surname}  
                	</p:column>
 			</p:autoComplete>
-			
-										
-		    <h:outputLabel for="allDay" value="All Day:" styleClass="label"/>
-			<h:selectBooleanCheckbox id="allDay" value="#{office.scheduleControler.event.allDay}" />
 			<p:commandButton type="reset" value="Reset" styleClass="button"/>
 			<p:commandButton id="createBtn" styleClass="button" value="Create Visit" actionListener="#{office.scheduleControler.addEvent}" 
-							 process="@this, title, from, to, patient" update="scheduler, :growl" oncomplete="createDialog.hide();" />
-										 
+							 process="@this, from, to, patient" update="scheduler, :growl" oncomplete="createDialog.hide();" />
 		</h:panelGrid>
 	</p:dialog>
 	<p:dialog widgetVar="modifyDialog" header="Event Details">
