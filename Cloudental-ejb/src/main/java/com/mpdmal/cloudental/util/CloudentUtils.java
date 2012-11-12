@@ -14,10 +14,12 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
 
+import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.util.exception.InvalidAddressTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
+import com.mpdmal.cloudental.util.exception.InvalidTitleFormatTypeException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
 
 public class CloudentUtils {
@@ -152,7 +154,57 @@ public class CloudentUtils {
 		}
 		return "";
 	}
+	
+	//VISIT EVENT TITLE FORMAT TYPE
+	public static enum EventTitleFormatType {
+		FULL (1, "Name and Surname"),
+		NAME (2, "Name only"),
+		SURNAME (3, "Surname only"),
+		SHORT (4, "Surname and initial");
+		
+		
+		private final String desc;
+		private final int value;
+		private EventTitleFormatType(int type, String desc) {
+			value = type;
+			this.desc = desc;
+		}
+		public int getValue() {		return value;	}
+		public String getDescription() { return desc;}
+	}
 
+	public static boolean isTitleFormatTypeValid(int type) throws InvalidTitleFormatTypeException {
+		for (EventTitleFormatType tp : CloudentUtils.EventTitleFormatType.values())  
+			if (type == tp.getValue()) 
+		    	return true;
+		return false;
+	}
+
+	public static String findTitleFormatTypeDescr(int type) {
+		for (EventTitleFormatType tp : EventTitleFormatType.values()) {
+			if (tp.getValue() == type)
+				return tp.getDescription();
+		}
+		return "";
+	}
+	
+	public static String createEventTitle(int type, Patient p) throws InvalidTitleFormatTypeException {
+		if (!CloudentUtils.isTitleFormatTypeValid(type))
+			throw new InvalidTitleFormatTypeException(type);
+		
+		if (type == CloudentUtils.EventTitleFormatType.FULL.getValue()) {
+			return p.getSurname()+" "+p.getName();
+		} else
+		if (type == CloudentUtils.EventTitleFormatType.NAME.getValue()) {
+			return p.getName();
+		} else
+		if (type == CloudentUtils.EventTitleFormatType.SHORT.getValue()) {
+			return p.getSurname()+" "+p.getName().substring(0,1);
+		}
+		return p.getSurname();
+	}
+	
+	
 	//LOGING
 	private static final int LOG_TYPE_MSG = 1; 
 	private static final int LOG_TYPE_WARNING = 2;

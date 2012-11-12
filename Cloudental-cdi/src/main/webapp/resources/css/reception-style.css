@@ -1,19 +1,24 @@
 @charset "utf-8";
 
-.rss {
-	position: relative;
+.preferencesPanel, .buttonPanel, .logo,  .schedPrefsPanel{
 }
 
-.preferences {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	margin-top: -125px;
-	margin-left: -125px;
+.preferencesPanel {
 }
-
-.dentistinfo {
+.buttonPanel {
 }
-
 .logo {
+}
+.schedPrefsPanel {
+}
+.mailcontent {
+	width: 400px;
+	height: 100px;
+}
+.userinfo {
+	position: relative;
+	top: -430px;
+	left: 120px;
+	font-size: 20px !important;
+	font-family: sans-serif !important; 
 }

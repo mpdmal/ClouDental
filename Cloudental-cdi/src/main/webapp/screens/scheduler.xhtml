@@ -16,9 +16,10 @@
 	</p:panel -->
 	
 	
-	<p:schedule id="scheduler" value="#{office.scheduleControler.model}" draggable="false" resizable="false" minTime="6" maxTime="24" 
+	<p:schedule id="scheduler" value="#{office.scheduleControler.model}" draggable="false" resizable="false"
+					minTime="#{office.schedulerMinTime}" maxTime="#{office.schedulerMaxTime}" firstHour="#{office.schedulerStartTime}"  
 					widgetVar="visitSchedule" styleClass="scheduler" aspectRatio="2.5" timeFormat="HH:mm "
-					firstHour="8" slotMinutes="5" timeZone="#{office.scheduleControler.localTimeZone}">
+					slotMinutes="#{office.schedulerSlotMins}" timeZone="#{office.scheduleControler.localTimeZone}">
         <f:facet name="header">  
  	       <p:messages />  
         </f:facet>

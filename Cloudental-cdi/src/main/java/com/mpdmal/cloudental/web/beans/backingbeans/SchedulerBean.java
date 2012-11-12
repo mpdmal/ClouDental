@@ -12,7 +12,10 @@ import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
 
 import com.mpdmal.cloudental.entities.Patient;
+import com.mpdmal.cloudental.entities.UserPreferences;
 import com.mpdmal.cloudental.entities.Visit;
+import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.InvalidTitleFormatTypeException;
 import com.mpdmal.cloudental.util.exception.VisitNotFoundException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
 import com.mpdmal.cloudental.web.controllers.Office;
@@ -32,14 +35,16 @@ public class SchedulerBean implements Serializable {
 	private Office _office;
 	private Vector<Visit> _visits;
 	private String _GMT = "";
+	private int _event_title_formattype = CloudentUtils.EventTitleFormatType.SHORT.getValue();
 	
-	public SchedulerBean(Office office) {
+	public SchedulerBean(Office office, int event_title_formattype) {
 		_office = office;
 		TimeZone tz = Calendar.getInstance().getTimeZone();
 		int offset= (tz.getRawOffset())/3600000;
 //		int offset= (tz.getRawOffset()+tz.getDSTSavings())/3600000;
 		_GMT = "GMT+";
 		_GMT = (offset > 9) ? _GMT+offset+":00" :  _GMT+"0"+offset+":00";
+		_event_title_formattype = event_title_formattype;
 	}
 	
 	//GETTERS/SETTERS
@@ -56,8 +61,14 @@ public class SchedulerBean implements Serializable {
 		_visits = _office.getDentistServices().getDentistVisits(dentistid);
 		_visitModel.clear();
 		for (Visit visit : _visits) {
-			_visitModel.addEvent(new DentistScheduleEvent(
-					visit.getTitle(), visit.getVisitdate(), visit.getEnddate(), visit.getId()));
+			try {
+				_visitModel.addEvent(new DentistScheduleEvent(
+						CloudentUtils.createEventTitle(_event_title_formattype, visit.getActivity().getPatienthistory().getPatient())
+						, visit.getVisitdate(), visit.getEnddate(), visit.getId()));
+			} catch (InvalidTitleFormatTypeException e) {
+				e.printStackTrace();
+				continue;
+			}
 		}
 	}
 	
@@ -91,9 +102,9 @@ public class SchedulerBean implements Serializable {
 				throw new CloudentException("No patient selected");
 			// default activity ID, see Patient.boxPatient(string);
 			int activityID = p.getDentalHistory().getActivities().iterator().next().getId(); 
-			String event_title = p.getSurname()+" "+p.getName().substring(0,1);
+			
 			_event.setVisitId(_office.getPatientServices().createVisit(activityID, "", 
-					event_title, 
+					"", 
 					transform(_event.getStartDate()), 
 					transform(_event.getEndDate()), 
 					0, 0).getId());
@@ -103,7 +114,7 @@ public class SchedulerBean implements Serializable {
 			throw new Exception (e.getMessage());
 		}
 	}
-	
+
 	//due to a bug (?) in primefaces calendar, when mask is HH:mm ,
 	//the date returned has the user time correct but date is 01/01/1970 
 	// cannot use _selection_date as mindate/maxdate for calendar object either ...

@@ -47,6 +47,11 @@
 			<version>1.0.8</version>
 		</dependency>
 		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>redmond</artifactId>			
+			<version>1.0.8</version>
+		</dependency>
+		<dependency>
       		<groupId>rome</groupId>
       		<artifactId>rome</artifactId>
       		<version>0.9</version>

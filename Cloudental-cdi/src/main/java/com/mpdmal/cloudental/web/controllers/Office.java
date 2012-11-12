@@ -9,6 +9,8 @@ import javax.inject.Named;
 
 import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.PatientServices;
+import com.mpdmal.cloudental.entities.UserPreferences;
+import com.mpdmal.cloudental.util.exception.base.CloudentException;
 import com.mpdmal.cloudental.web.beans.OfficeReceptionBean;
 import com.mpdmal.cloudental.web.beans.backingbeans.PatientManagerBean;
 import com.mpdmal.cloudental.web.beans.backingbeans.SchedulerBean;
@@ -27,6 +29,9 @@ public class Office extends BaseBean implements Serializable {
 	@Inject
 	private OfficeReceptionBean _session;
 	
+	//user prefs for scheduler
+	private int schedulerMinTime, schedulerMaxTime, schedulerStartTime, schedulerSlotMins;
+
 	//MODEL
 	private SchedulerBean scheduleControler; //scheduler backing bean
 	private PatientManagerBean patientManagment; //patient mngmnt backing bean
@@ -34,7 +39,17 @@ public class Office extends BaseBean implements Serializable {
 	@PostConstruct
 	public void init () {
 		super.init();
-		scheduleControler = new SchedulerBean(this);
+		try {
+			UserPreferences prefs = _dsvc.getUserPrefs(_session.getUserID());
+			scheduleControler = new SchedulerBean(this, prefs.getEventTitleFormatType());
+			schedulerMaxTime = prefs.getSchedulerMaxHour();
+			schedulerMinTime = prefs.getSchedulerMinHour();
+			schedulerStartTime = prefs.getSchedulerStartHour();
+			schedulerSlotMins = prefs.getSchedulerSlotMins();
+			_session.setTheme(prefs.getTheme());
+		} catch (CloudentException e) {
+			e.printStackTrace();
+		} 
 		patientManagment = new PatientManagerBean(this);
 		refresh(_session.getUserID());
 	}
@@ -49,7 +64,15 @@ public class Office extends BaseBean implements Serializable {
 	public PatientManagerBean getPatientManagment() {	return patientManagment;	}
 	public DentistServices getDentistServices() { return _dsvc; }
 	public PatientServices getPatientServices() { return _psvc; }
+	public void setSchedulerSlotMins(int schedulerslotmins) {	this.schedulerSlotMins = schedulerslotmins; }
+	public void setSchedulerMinTime(int schedulerMinTime) {	this.schedulerMinTime = schedulerMinTime;	}
+	public void setSchedulerMaxTime(int schedulerMaxTime) {	this.schedulerMaxTime = schedulerMaxTime;	}
+	public void setSchedulerStartTime(int schedulerStartTime) {	this.schedulerStartTime = schedulerStartTime;	}
 
+	public int getSchedulerMinTime() {	return schedulerMinTime;	}
+	public int getSchedulerMaxTime() {	return schedulerMaxTime;	}
+	public int getSchedulerStartTime() {	return schedulerStartTime;	}
+	public int getSchedulerSlotMins() {	return schedulerSlotMins;	}
 	public void setPatientManagment(PatientManagerBean patientManagment) {	this.patientManagment = patientManagment;	}
 	public void setScheduleControler(SchedulerBean scheduleControler) {	this.scheduleControler = scheduleControler;	}
 	

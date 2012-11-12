@@ -5,6 +5,7 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 
 public class CloudentWebUtils {
+	public static final String DEFAULT_PRIMEFACES_THEME = "cupertino";
 	public static void showJSFMessage(String title, String msg, Severity sev) {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage( sev, title, msg));
@@ -40,5 +41,4 @@ public class CloudentWebUtils {
 	public static void showJSFWarnlMessage(String msg) {
 		showJSFWarnMessage("", msg);
 	}
-
 }

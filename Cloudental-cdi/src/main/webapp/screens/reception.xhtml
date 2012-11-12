@@ -8,6 +8,7 @@
 	<ui:composition template="/screens/base/cloudent-template.xhtml">
 		<ui:define name="head">
 			<link href="../resources/css/reception-style.css" rel="stylesheet" type="text/css" />
+			<link href="../resources/css/office-style.css" rel="stylesheet" type="text/css" />
 			<style type="text/css">
 			body {
 				background-image: url(../resources/images/reception_background.png);
@@ -24,22 +25,54 @@
 		    </h:form>
 		</ui:define>
 		<ui:define name="body">
-			<p:growl id="growl" showDetail="true" life="3000" />
-			<p:graphicImage id="logo" value="../resources/images/login/logo_cd_small.png" styleClass="logo"/>
+			<p:growl id="growl" showDetail="true" life="4000" />
 			<h:form id="mainform">
-   				<h:panelGrid columns="2" styleClass="preferences">
+				<p:graphicImage id="logo" value="../resources/images/login/logo_cd_small.png" styleClass="logo"/>
+				<br/>
+				<h:panelGrid columns="2" styleClass="buttonPanel">
+			    	<p:commandButton id="saveBtn" styleClass="button" value="Save " actionListener="#{userPrefs.save()}" 
+								 process="@this,mailText,dailyreports,emailnotify,
+								 titleformat,defaultSwitcher,schedMinhour,schedMaxhour,schedStarthour,schedSlotmins"/>
+			    	<p:commandButton id="resetBtn" styleClass="button" value="Reset"/>
+				</h:panelGrid>
+				<br/>
+				<h:panelGrid columns="2" styleClass="schedPrefsPanel">
+					<h:outputLabel for="schedMinhour" value="Scheduler min. hour: " styleClass="label"/>  
+            		<p:spinner id="schedMinhour" value="#{userPrefs.prefs.schedulerMinHour}" min="0" max="24" styleClass="button"/>
+					<h:outputLabel for="schedMaxhour" value="Scheduler max. hour: " styleClass="label"/>  
+            		<p:spinner id="schedMaxhour" value="#{userPrefs.prefs.schedulerMaxHour}" min="0" max="24" styleClass="button"/>         			
+					<h:outputLabel for="schedStarthour" value="Scheduler start hour: " styleClass="label"/>  
+            		<p:spinner id="schedStarthour" value="#{userPrefs.prefs.schedulerStartHour}" min="0" max="24" styleClass="button"/>         			
+					<h:outputLabel for="schedSlotmins" value="Scheduler slot minutes: " styleClass="label"/>  
+            		<p:spinner id="schedSlotmins" value="#{userPrefs.prefs.schedulerSlotMins}" min="5" max="60" stepFactor="5" styleClass="button"/>         			
+				</h:panelGrid>
+				<br/>
+   				<h:panelGrid columns="2" styleClass="preferencesPanel">
 	    		    <h:outputLabel value="Daily Reports" for="dailyreports" styleClass="label"/>
 	    		    <p:selectBooleanCheckbox id="dailyreports" value="#{userPrefs.prefs.dailyreports}" styleClass="label" />
 	    		    <h:outputLabel value="E-mail Notifications" for="emailnotify" styleClass="label"/>
 	    		    <p:selectBooleanCheckbox id="emailnotify" value="#{userPrefs.prefs.emailnotification}" styleClass="label" />
+   	    		    <h:outputLabel value="Visit title" for="titleformat" styleClass="label"/>
+	    		    <p:selectOneMenu id="titleformat" value="#{userPrefs.prefs.eventTitleFormatType}" effect="fade" styleClass="button">
+		    		    <f:selectItems value="#{userPrefs.eventtitleformatTypes}" var="type" 
+		    		    				itemLabel="#{type.description}" itemValue="#{type.value}" />  
+	    		    </p:selectOneMenu>
+ 
+					<h:outputText value="Default Switcher:" styleClass="label"/>   
+        			<p:themeSwitcher styleClass="button" id="defaultSwitcher" value="#{userPrefs.prefs.theme}">  
+            			<f:selectItem itemLabel="Choose Another Theme" itemValue="" />  
+            			<f:selectItems value="#{userPrefs.themes}" /> 
+        			</p:themeSwitcher> 
+					<h:outputText value="Email Content:" styleClass="label"/>
+			    	<h:inputTextarea id="mailText" value="#{userPrefs.prefs.emailcontent}" 
+		   		    				 styleClass="mailcontent"/>		    	
 		    	</h:panelGrid>
-		    	<h:commandButton id="saveBtn" styleClass="button" value="Save Preferences" actionListener="#{userPrefs.save()}" 
-							 process="@this,mailText,dailyreports,emailnotify"/>
-				<br/>
-		    	<h:commandButton id="resetBtn" styleClass="button" value="Reset Preferences"/>
-		    	<br/>
-		    	<h:inputTextarea id="mailText" value="#{userPrefs.prefs.emailcontent}" 
-	   		    				 styleClass="field"/>		    	
+		    	<h:panelGrid columns="3" styleClass="userinfo">
+			    	<h:outputText value="#{officeReception.user.surname}" />
+			    	<h:outputText value="    " />
+			    	<h:outputText value="#{officeReception.user.name}" />
+			    	<h:outputText value="#{officeReception.user.username}" />
+		    	</h:panelGrid>
 			</h:form>
 		</ui:define>
 	</ui:composition>

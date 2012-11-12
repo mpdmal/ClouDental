@@ -6,6 +6,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.mpdmal.cloudental.entities.base.DBEntity;
+import com.mpdmal.cloudental.util.CloudentUtils;
+import com.mpdmal.cloudental.util.exception.InvalidTitleFormatTypeException;
 
 @Entity
 public class UserPreferences extends DBEntity {
@@ -17,13 +19,38 @@ public class UserPreferences extends DBEntity {
 	private String emailcontent;
 	private boolean emailnotification;
 	private boolean dailyreports;
-
+	private int eventtitleformat;
+	private String theme;
+	private int scheduler_minhr;
+	private int scheduler_maxhr;
+	private int scheduler_starthr;
+	private int scheduler_slotmins;
 	
+	//GETTERS/SETTERS
+	public String getTheme() {	return theme;	}
 	public String getEmailcontent() {	return emailcontent;	}
 	public Dentist getDentist() 	{	return dentist;	}
+	public int getSchedulerMinHour() {	return scheduler_minhr; }
+	public int getSchedulerMaxHour() {	return scheduler_maxhr; }
+	public int getSchedulerStartHour() {	return scheduler_starthr; }
+	public int getSchedulerSlotMins() {	return scheduler_slotmins; }
+	public int getEventTitleFormatType() {	return eventtitleformat; }
 	public boolean isEmailnotification() {	return emailnotification;	}
 	public boolean isDailyreports() 	 {	return dailyreports;	}
 
+	public void setEventTitleFormatType (int type) throws InvalidTitleFormatTypeException {
+		if (CloudentUtils.isTitleFormatTypeValid(type)) {
+	    	this.eventtitleformat = type;
+	    	return;
+		}
+    	CloudentUtils.logError("Cannot set unkown title format :"+type);
+    	throw new InvalidTitleFormatTypeException(type);
+	}
+	public void setSchedulerMaxHour(int hour) { scheduler_maxhr = hour; }
+	public void setSchedulerMinHour(int hour) { scheduler_minhr = hour; }
+	public void setSchedulerStartHour(int hour) { scheduler_starthr = hour; }
+	public void setSchedulerSlotMins(int hour) { scheduler_slotmins = hour; }
+	public void setTheme(String theme) {	this.theme = theme;	}
 	public void setEmailnotification(boolean emailnotification) {	this.emailnotification = emailnotification;	}
 	public void setDailyreports(boolean dailyreports) {	this.dailyreports = dailyreports;	}
 	public void setEmailcontent(String emailcontent)  {	this.emailcontent = emailcontent;	}
