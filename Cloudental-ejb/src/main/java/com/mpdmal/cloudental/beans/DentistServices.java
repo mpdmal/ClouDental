@@ -1,5 +1,6 @@
 package com.mpdmal.cloudental.beans;
 
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
@@ -9,7 +10,10 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.jws.WebService;
+import javax.mail.MessagingException;
 import javax.persistence.Query;
+
+import net.sf.jasperreports.engine.JRException;
 
 import com.mpdmal.cloudental.beans.base.AbstractEaoService;
 import com.mpdmal.cloudental.entities.Activity;
@@ -47,9 +51,13 @@ public class DentistServices extends AbstractEaoService {
 	}
 	
 	public void savePrefs (UserPreferences prefs) { emgr.update(prefs); }
-	public void sendPatientsReport (int userid, String email) {
-		CloudentUtils.printReport(userid);
+	public void sendOnDemandReport (int userid, String email, int type) throws FileNotFoundException,
+																				JRException,
+																				MessagingException {
+			String reportname = CloudentUtils.printReport(userid, type);
+			CloudentUtils.mailReport(reportname, email);
 	}
+	
 	//DISCOUNTS
 	public Discount createDiscount(int dentistid, String title, String description, double value) 
 											throws DentistNotFoundException, ValidationException {

@@ -47,47 +47,54 @@
    				<h:panelGrid columns="2" cellpadding="5">
 	   				<h:panelGrid columns="2" styleClass="preferencesPanel">
 		    		    <h:outputLabel value="Daily Reports" for="dailyreports" styleClass="label"/>
-		    		    <p:selectBooleanCheckbox id="dailyreports" value="#{userPrefs.prefs.dailyreports}" styleClass="label" />
+		    		    <p:selectBooleanCheckbox id="dailyreports" value="#{userPrefs.dailyreports}" styleClass="label" />
 		    		    <h:outputLabel value="E-mail Notifications" for="emailnotify" styleClass="label"/>
-		    		    <p:selectBooleanCheckbox id="emailnotify" value="#{userPrefs.prefs.emailnotification}" styleClass="label" />
+		    		    <p:selectBooleanCheckbox id="emailnotify" value="#{userPrefs.emailnotification}" styleClass="label" />
 	   	    		    <h:outputLabel value="Visit title" for="titleformat" styleClass="label"/>
-		    		    <p:selectOneMenu id="titleformat" value="#{userPrefs.prefs.eventTitleFormatType}" effect="fade" styleClass="button">
+		    		    <p:selectOneMenu id="titleformat" value="#{userPrefs.eventTitleFormatType}" effect="fade" styleClass="button">
 			    		    <f:selectItems value="#{userPrefs.eventtitleformatTypes}" var="type" 
 			    		    				itemLabel="#{type.description}" itemValue="#{type.value}" />  
 		    		    </p:selectOneMenu>
 	 
 						<h:outputText value="Select Theme" styleClass="label"/>   
-	        			<p:themeSwitcher styleClass="button" id="defaultSwitcher" value="#{userPrefs.prefs.theme}">  
+	        			<p:themeSwitcher styleClass="button" id="defaultSwitcher" value="#{userPrefs.theme}">  
 	            			<f:selectItem itemLabel="Choose Another Theme" itemValue="" />  
 	            			<f:selectItems value="#{userPrefs.themes}" /> 
 	        			</p:themeSwitcher> 
 			    	</h:panelGrid>
 					<h:panelGrid columns="2" styleClass="schedPrefsPanel">
 						<h:outputLabel for="schedMinhour" value="Scheduler minimum hour" styleClass="label"/>  
-	            		<p:spinner id="schedMinhour" value="#{userPrefs.prefs.schedulerMinHour}" min="0" max="24" styleClass="button"/>
+	            		<p:spinner id="schedMinhour" value="#{userPrefs.schedulerMinHour}" min="0" max="24" styleClass="button"/>
 						<h:outputLabel for="schedMaxhour" value="Scheduler maximum hour" styleClass="label"/>  
-	            		<p:spinner id="schedMaxhour" value="#{userPrefs.prefs.schedulerMaxHour}" min="0" max="24" styleClass="button"/>         			
+	            		<p:spinner id="schedMaxhour" value="#{userPrefs.schedulerMaxHour}" min="0" max="24" styleClass="button"/>         			
 						<h:outputLabel for="schedStarthour" value="Scheduler start hour" styleClass="label"/>  
-	            		<p:spinner id="schedStarthour" value="#{userPrefs.prefs.schedulerStartHour}" min="0" max="24" styleClass="button"/>         			
+	            		<p:spinner id="schedStarthour" value="#{userPrefs.schedulerStartHour}" min="0" max="24" styleClass="button"/>         			
 						<h:outputLabel for="schedSlotmins" value="Scheduler slot minutes " styleClass="label"/>  
-	            		<p:spinner id="schedSlotmins" value="#{userPrefs.prefs.schedulerSlotMins}" min="5" max="60" stepFactor="5" styleClass="button"/>         			
+	            		<p:spinner id="schedSlotmins" value="#{userPrefs.schedulerSlotMins}" min="5" max="60" stepFactor="5" styleClass="button"/>         			
 					</h:panelGrid>
 		    	</h:panelGrid>
 		    	<h:panelGrid columns="1" cellpadding="5" style="position:relative; top:5px;">
 			    	<p:panelGrid columns="4" title="On Demand Reports" cellpadding="5">
 				    	<f:facet name="header">on Demand Reporting</f:facet>
 					   	<p:commandButton id="ptnreportBtn" styleClass="button" actionListener="#{userPrefs.sendPatientsReport}" 
-					   					 value="Patient Report"/>
+					   					 value="Patient Report" update=":growl" onclick="glassDlg.show()"/>
 					   	<p:commandButton id="phrreportBtn" styleClass="button" actionListener="#{userPrefs.sendPharmacyReport()}"
-					   					 value="Pharmacy Report" process="reportemail"/>
+					   					 value="Pharmacy Report" update=":growl"/>
 					    <h:outputText value="send to:" styleClass="label"/>
-					   	<p:inputText id="reportemail" value="#{userPrefs.prefs.reportemail}" style="width:300px" styleClass="field"/>
+					   	<p:inputText id="reportemail" value="#{userPrefs.reportemail}" style="width:300px" styleClass="field"/>
 				    </p:panelGrid>
 			    	<p:panelGrid columns="1" style="width:100%">
 			    		<f:facet name="header">Email notification content</f:facet>
-						<h:inputTextarea id="mailText" value="#{userPrefs.prefs.emailcontent}" style="width:100%; height:160px"/>
+						<h:inputTextarea id="mailText" value="#{userPrefs.emailcontent}" style="width:100%; height:160px"/>
 			    	</p:panelGrid>
-				</h:panelGrid>			    			    	
+				</h:panelGrid>
+				<p:dialog id="glassPaneDialog" widgetVar="glassDlg" modal="true" 
+							header="On Demand Reporting" styleClass="glassPane">
+					<h:panelGrid columns="1" style="width:100%; height:100%">
+						<h:outputText value="Please be patient ..." />
+						<h:outputText value="This may take a couple of minutes" />
+					</h:panelGrid>
+				</p:dialog>			    			    	
 			</h:form>
 		</ui:define>
 	</ui:composition>

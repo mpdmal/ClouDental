@@ -113,7 +113,16 @@
         	<artifactId>jasperreports</artifactId>
         	<version>4.7.1</version>
     	</dependency>
-		
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>1.7.5</version>
+		</dependency>		
 	</dependencies>
 
 	<build>

@@ -8,11 +8,25 @@ import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.persistence.Query;
 import javax.validation.ConstraintViolationException;
 
@@ -45,8 +59,9 @@ public class CloudentUtils {
     private static final String DBPWD = "aza";
     private static final String RESOURCES_RELATIVEDIR = "cloudental/jasper/images/";
     private static final String PATIENTS_REPORT_JASPER = "cloudental/jasper/patient_report.jasper";
-    private static final String PATIENTS_REPORT_PDF = "reporting/patient_report_$1.pdf";
-	
+    private static final String PATIENTS_REPORT_PDF = "cloudental/reporting/patient_report_$.pdf";
+    private static final String _cloudent_account = "cloudental@gmail.com" ;
+    private static final String _cloudent_pwd = "cloudental123!";
 	//ENUMS
 	//POST-IT ALERTS
 	 
@@ -315,42 +330,36 @@ public class CloudentUtils {
 		CloudentUtils.logServicecall(sb.toString());
     }
 
-	public static void printReport(int dentistid) {
-		try {
-			FileResolver fileResolver = new FileResolver() {
-				@Override
-				public File resolveFile(String fileName) {
-					return new File(RESOURCES_RELATIVEDIR+fileName);
-				}
-			};
-			try {
-				System.out.println(new File (".").getCanonicalPath());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	public static String printReport(int dentistid, int type) throws FileNotFoundException, JRException {
+		FileResolver fileResolver = new FileResolver() {
+			@Override
+			public File resolveFile(String fileName) {
+				return new File(RESOURCES_RELATIVEDIR+fileName);
 			}
-			HashMap<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("REPORT_FILE_RESOLVER", fileResolver);
-			parameters.put("DENTISTID", new Integer(dentistid));
-			
-			JasperPrint jprint = JasperFillManager.fillReport(
-					new FileInputStream(PATIENTS_REPORT_JASPER),
-					parameters, getSystemConnection());
-			String outname = PATIENTS_REPORT_PDF;
-			outname = outname.replace("$", ""+dentistid);
-			JasperExportManager.exportReportToPdfFile(jprint, outname);
-			System.out.println("CREATED REPORT "+outname);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (JRException e) {
+		};
+		try {
+			System.out.println(new File (".").getCanonicalPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		HashMap<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("REPORT_FILE_RESOLVER", fileResolver);
+		parameters.put("DENTISTID", new Integer(dentistid));
+		
+		JasperPrint jprint = JasperFillManager.fillReport(
+				new FileInputStream(PATIENTS_REPORT_JASPER),
+				parameters, getSystemConnection());
+		String outname = PATIENTS_REPORT_PDF;
+		outname = outname.replace("$", ""+dentistid);
+		JasperExportManager.exportReportToPdfFile(jprint, outname);
+		CloudentUtils.logMessage("CREATED REPORT "+outname+" for dentist:"+dentistid);
+		return outname;
 	}	
 	private static Connection getSystemConnection() {
 		//try connection to postgres
 		try {
 			Class.forName("org.postgresql.Driver");
-			System.out.println("Connection to postgres established :"+DBSTRING);
 			return DriverManager.getConnection(DBSTRING,DBUSER,DBPWD);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -359,4 +368,51 @@ public class CloudentUtils {
 		}
 		return null;
 	}
+	public static void mailReport(String pdf, String email) throws MessagingException {
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		
+		Session session = Session.getInstance(props);
+		if (!verifyEmail(email)) {
+			CloudentUtils.logError("\tinvalid email :"+email);
+			throw new MessagingException("invalid email :"+email);
+		}
+
+		//create message
+		MimeMessage message = new MimeMessage(session);
+		message.setFrom(new InternetAddress("cloudental@gmail.com"));
+		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+		message.setSubject("Cloudental - on demand reporting");
+
+		//create bodypart for attachment
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		DataSource ds = new FileDataSource(pdf);
+		messageBodyPart.setDataHandler(new DataHandler(ds));
+		messageBodyPart.setFileName(ds.getName());
+		
+		//create multipart and add parts
+		Multipart mp = new MimeMultipart();
+		mp.addBodyPart(messageBodyPart);
+		
+		message.setContent(mp);
+		message.setSentDate(new Date());
+		
+		Transport transport = session.getTransport("smtp");
+		transport.connect("smtp.gmail.com", 587, _cloudent_account, _cloudent_pwd);
+		transport.sendMessage(message, message.getAllRecipients());
+		CloudentUtils.logMessage("\temailed :"+email+" a patient report");
+	}
+	
+	private static boolean verifyEmail(String email) {
+		if (email.length() <= 0) 
+			return false;
+
+		int atidx = email.indexOf("@");
+		int dotidx = email.indexOf(".");
+		if (atidx < 1 || dotidx < 3) 
+			return false;
+		
+		return true;
+	}	
 }
