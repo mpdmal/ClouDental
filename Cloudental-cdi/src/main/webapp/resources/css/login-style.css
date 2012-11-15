@@ -9,31 +9,10 @@
 	font-family: sans-serif !important;
 	font-size: 11px !important;
 }
-.username, .password {
-	height: 10px !important;
-	width: 120px !important;
-}
-.directlogin {
-	position: relative;
-	top: 4px;	
-}
-
 .logo {
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	margin-top: -125px;
 	margin-left: -125px;
-}
-
-.contactus {
-  position: fixed;
-  top: 88%;
-  margin-top: -5px;
-}
-
-.newuser {
-  position: fixed;
-  top: 93%;
-  margin-top: -5px;
 }

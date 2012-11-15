@@ -20,31 +20,32 @@
 		<div>
 			<p:growl id="growl" showDetail="true" life="3000" /> 
 	        <h:form id="loginForm" styleClass="loginForm">
-	           <p:inputText id="username" value="#{loginService.name}" 
-	           				requiredMessage="Please supply a username" required="true" 
-	           				styleClass="username"/> <br/>  
-	           <p:password  id="password" value="#{loginService.password}" feedback="false" 
-	           				requiredMessage="Please supply a password" required="true" 
-	           				styleClass="password"/> <br/>
-	           <h:commandButton id="loginButton" value="Enter" action="#{loginService.login}"/>
-	           <p:selectBooleanCheckbox id="directLogin" value="#{loginService.directlyToOffice}" 
-	           				itemLabel="Straight to my office" styleClass="directlogin"/>
-	        </h:form>
-			<br />
-	        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" 
-	        				title="Create New User" styleClass="newuser">     
-			    <p:graphicImage value="../resources/images/login/new-user.png" />  
-			</h:outputLink>
-	        <br />
-	        <h:outputLink id="contactUs" value="javascript:void(0)" onclick="dlgContact.show()" 
-	        				title="Contact Cloud.M" styleClass="contactus">     
-			    <p:graphicImage value="../resources/images/login/contact.png" />  
-			</h:outputLink>
-			<br />
-			
-			<p:graphicImage id="logo" value="../resources/images/login/logo_cd.png" 
-							styleClass="logo"/> 
-
+	        	<h:panelGrid columnClasses="1">	        
+		        	<h:panelGrid columnClasses="1">
+			           	<h:inputText id="username" value="#{loginService.name}" 
+			           				requiredMessage="Please supply a username" required="true" styleClass="username"/>   
+			           	<h:inputSecret id="password" value="#{loginService.password}" feedback="false" 
+			           				requiredMessage="Please supply a password" required="true" styleClass="password"/> 
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+		           		<h:commandButton id="loginButton" value="Enter" action="#{loginService.login}"/>
+		           		<p:selectBooleanCheckbox id="directLogin" value="#{loginService.directlyToOffice}" 
+		           								itemLabel="Straight to my office" styleClass="directlogin"/>
+		           	</h:panelGrid>
+	           	</h:panelGrid>		           	
+				<p:graphicImage id="logo" value="../resources/images/login/logo_cd.png" styleClass="logo"/> 
+				<br/>
+				<h:panelGrid columns="1" style="position: fixed; top: 100%; margin-top: -70px;">				
+			        <h:outputLink id="newUser" value="javascript:void(0)" onclick="dlgCreate.show()" 
+			        				title="Create New User" >     
+					    <p:graphicImage value="../resources/images/login/new-user.png" />  
+					</h:outputLink>
+			        <h:outputLink id="contactUs" value="javascript:void(0)" onclick="dlgContact.show()" 
+			        				title="Contact Cloud.M" >     
+					    <p:graphicImage value="../resources/images/login/contact.png" />  
+					</h:outputLink>
+				</h:panelGrid>
+	        </h:form>			
 			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate">  
 			    <h:form id="dlgFrm">
    			        <h:panelGrid columns="2" cellpadding="5">
@@ -61,9 +62,13 @@
 			        </h:panelGrid>  
 			    </h:form>  
 			</p:dialog>  
-			<br/> 
-			<p:dialog id="dialogContact" header="Contact Cloud.M" widgetVar="dlgContact" showEffect="explode" modal="true">  
+			<p:dialog id="dialogContact" header="Contact Cloud.M" widgetVar="dlgContact" showEffect="explode" modal="true">
 			    <h:form id="dlgFrmContact">
+			    	<p:panel>
+			            <f:facet name="footer">  
+			                <p:commandButton id="sendButton" value="Send" update=":growl"	/>  
+			            </f:facet>
+		            </p:panel>
 			    </h:form>  
 			</p:dialog>  
 		</div>
