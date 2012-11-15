@@ -22,14 +22,14 @@ CREATE TABLE userpreferences
   scheduler_maxhr integer NOT NULL,
   scheduler_starthr integer NOT NULL,
   scheduler_slotmins integer NOT NULL,
+  reportemail text NOT NULL,
   CONSTRAINT userpreferences_pk PRIMARY KEY (userid ),
   CONSTRAINT userpreferences_id_fkey FOREIGN KEY (userid)
       REFERENCES dentist (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-insert into userpreferences values (-99, 'T', '', 'F', 1, 'aristo', 0, 24, 8, 5);
-
+insert into userpreferences values (-99, 'T', '', 'F', 1, 'aristo', 0, 24, 8, 5, '');
 
 drop table if exists pricelist CASCADE;
 CREATE TABLE pricelist

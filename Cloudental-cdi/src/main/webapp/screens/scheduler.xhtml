@@ -24,7 +24,7 @@
  	       <p:messages />  
         </f:facet>
 		<p:ajax event="dateSelect" listener="#{office.scheduleControler.onDateSelect}" update="eventDetails" oncomplete="createDialog.show()" />
-		<p:ajax event="eventSelect" listener="#{office.scheduleControler.onVisitSelect}" update="eventDetails" oncomplete="modifyDialog.show()" />
+		<p:ajax event="eventSelect" listener="#{office.scheduleControler.onVisitSelect}" update="modEventDetails" oncomplete="modifyDialog.show()" />
 	</p:schedule>
 	<p:dialog widgetVar="createDialog" header="Event Details">
 		<h:panelGrid id="eventDetails" columns="2">
@@ -46,10 +46,19 @@
 							 process="@this, from, to, patient" update="scheduler, :growl" oncomplete="createDialog.hide();" />
 		</h:panelGrid>
 	</p:dialog>
-	<p:dialog widgetVar="modifyDialog" header="Event Details">
-		<h:panelGrid id="modEventDetails" columns="1">
-			<p:commandButton value="Delete" actionListener="#{office.scheduleControler.deleteVisit()}" styleClass="button"
-							process="@this" update="scheduler" oncomplete="modifyDialog.hide();" />
-		</h:panelGrid>
+	<p:dialog widgetVar="modifyDialog" header="Event Details" style="width:400px">
+		<p:panelGrid id="modEventDetails" columns="2">
+			<h:outputLabel value="Patient " styleClass="label"/>
+			<h:outputLabel value="#{office.scheduleControler.event.title}" styleClass="label"/>
+			<h:outputLabel value="From " styleClass="label"/>
+			<h:outputLabel value="#{office.scheduleControler.event.startDate}" styleClass="label"/>
+			<h:outputLabel value="To " styleClass="label"/>
+			<h:outputLabel value="#{office.scheduleControler.event.endDate}" styleClass="label"/>
+			<f:facet name="footer">
+				<p:commandButton value="Delete" actionListener="#{office.scheduleControler.deleteVisit()}" styleClass="button"
+						process="@this" update="scheduler" oncomplete="modifyDialog.hide();" />
+			</f:facet>
+		</p:panelGrid>
+		<br/>
 	</p:dialog>
 </html>

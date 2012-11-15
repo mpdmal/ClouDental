@@ -1,12 +1,26 @@
 package com.mpdmal.cloudental.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Query;
 import javax.validation.ConstraintViolationException;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.util.FileResolver;
 
 import org.hibernate.validator.engine.ConstraintViolationImpl;
 import org.slf4j.LoggerFactory;
@@ -26,10 +40,16 @@ public class CloudentUtils {
 	public static final int DEFAULT_USER_ID = -1;
 	public static final int DEFAULT_DISCOUNT_ID = -1;
 	public static final int DEFAULT_PRICEABLE_ID = -1;
+    private static final String DBSTRING = "jdbc:postgresql://localhost:5432/CloudentDB";
+    private static final String DBUSER = "aza";
+    private static final String DBPWD = "aza";
+    private static final String RESOURCES_RELATIVEDIR = "cloudental/jasper/images/";
+    private static final String PATIENTS_REPORT_JASPER = "cloudental/jasper/patient_report.jasper";
+    private static final String PATIENTS_REPORT_PDF = "reporting/patient_report_$1.pdf";
 	
 	//ENUMS
 	//POST-IT ALERTS
-	
+	 
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(CloudentUtils.class);
 	private static final Logger servicelogger = (Logger) LoggerFactory.getLogger("com.mpdmal");
 	
@@ -295,4 +315,48 @@ public class CloudentUtils {
 		CloudentUtils.logServicecall(sb.toString());
     }
 
+	public static void printReport(int dentistid) {
+		try {
+			FileResolver fileResolver = new FileResolver() {
+				@Override
+				public File resolveFile(String fileName) {
+					return new File(RESOURCES_RELATIVEDIR+fileName);
+				}
+			};
+			try {
+				System.out.println(new File (".").getCanonicalPath());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			HashMap<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("REPORT_FILE_RESOLVER", fileResolver);
+			parameters.put("DENTISTID", new Integer(dentistid));
+			
+			JasperPrint jprint = JasperFillManager.fillReport(
+					new FileInputStream(PATIENTS_REPORT_JASPER),
+					parameters, getSystemConnection());
+			String outname = PATIENTS_REPORT_PDF;
+			outname = outname.replace("$", ""+dentistid);
+			JasperExportManager.exportReportToPdfFile(jprint, outname);
+			System.out.println("CREATED REPORT "+outname);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+	}	
+	private static Connection getSystemConnection() {
+		//try connection to postgres
+		try {
+			Class.forName("org.postgresql.Driver");
+			System.out.println("Connection to postgres established :"+DBSTRING);
+			return DriverManager.getConnection(DBSTRING,DBUSER,DBPWD);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

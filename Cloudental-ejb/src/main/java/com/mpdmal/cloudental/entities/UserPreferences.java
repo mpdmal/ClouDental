@@ -11,6 +11,15 @@ import com.mpdmal.cloudental.util.exception.InvalidTitleFormatTypeException;
 
 @Entity
 public class UserPreferences extends DBEntity {
+	public static final String DEFAULT_USER_THEME = "aristo";
+	public static final String DEFAULT_USER_EMAILCONTENT = "";
+	public static final boolean DEFAULT_USER_EMAILNOTIFICATIONS = true;
+	public static final boolean DEFAULT_USER_DAILYREPORTS = true;
+	public static final int DEFAULT_USER_SCHEDMINHR= 6;
+	public static final int DEFAULT_USER_SCHEDMAXHR= 10;
+	public static final int DEFAULT_USER_SCHEDSTARTHR= 8;
+	public static final int DEFAULT_USER_EVTITLEFORMAT = CloudentUtils.EventTitleFormatType.SHORT.getValue();
+	public static final int DEFAULT_USER_SCHEDSLOTMINS= 5;
 	@Id
 	@OneToOne
 	@JoinColumn(name="userid") 
@@ -21,6 +30,8 @@ public class UserPreferences extends DBEntity {
 	private boolean dailyreports;
 	private int eventtitleformat;
 	private String theme;
+	private String reportemail;
+
 	private int scheduler_minhr;
 	private int scheduler_maxhr;
 	private int scheduler_starthr;
@@ -37,6 +48,7 @@ public class UserPreferences extends DBEntity {
 	public int getEventTitleFormatType() {	return eventtitleformat; }
 	public boolean isEmailnotification() {	return emailnotification;	}
 	public boolean isDailyreports() 	 {	return dailyreports;	}
+	public String getReportemail() {	return reportemail;	}
 
 	public void setEventTitleFormatType (int type) throws InvalidTitleFormatTypeException {
 		if (CloudentUtils.isTitleFormatTypeValid(type)) {
@@ -46,6 +58,7 @@ public class UserPreferences extends DBEntity {
     	CloudentUtils.logError("Cannot set unkown title format :"+type);
     	throw new InvalidTitleFormatTypeException(type);
 	}
+	public void setReportemail(String reportemail) {	this.reportemail = reportemail;	}
 	public void setSchedulerMaxHour(int hour) { scheduler_maxhr = hour; }
 	public void setSchedulerMinHour(int hour) { scheduler_minhr = hour; }
 	public void setSchedulerStartHour(int hour) { scheduler_starthr = hour; }

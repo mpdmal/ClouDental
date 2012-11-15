@@ -47,6 +47,9 @@ public class DentistServices extends AbstractEaoService {
 	}
 	
 	public void savePrefs (UserPreferences prefs) { emgr.update(prefs); }
+	public void sendPatientsReport (int userid, String email) {
+		CloudentUtils.printReport(userid);
+	}
 	//DISCOUNTS
 	public Discount createDiscount(int dentistid, String title, String description, double value) 
 											throws DentistNotFoundException, ValidationException {

@@ -60,4 +60,12 @@ public class UserPreferencesBean extends BaseBean implements Serializable {
 	public void save() {
 		_dsvc.savePrefs(_prefs);
 	}
+	
+	public void sendPatientsReport() {
+		_dsvc.sendPatientsReport(_sess.getUserID(),_prefs.getReportemail());
+	}
+	
+	public void sendPharmacyReport() {
+		
+	}
 }

@@ -12,7 +12,6 @@ import javax.persistence.Query;
 import com.mpdmal.cloudental.beans.base.AbstractEaoService;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.UserPreferences;
-import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.DentistExistsException;
 import com.mpdmal.cloudental.util.exception.DentistNotFoundException;
 import com.mpdmal.cloudental.util.exception.base.CloudentException;
@@ -38,10 +37,15 @@ public class DentistBean extends AbstractEaoService implements Serializable {
 		d.setPassword(password);
 		
 		UserPreferences prefs = new UserPreferences();
-		prefs.setDailyreports(true);
-		prefs.setEmailcontent("");
-		prefs.setEmailnotification(true);
-		prefs.setEventTitleFormatType(CloudentUtils.EventTitleFormatType.SHORT.getValue());
+		prefs.setDailyreports(UserPreferences.DEFAULT_USER_DAILYREPORTS);
+		prefs.setEmailcontent(UserPreferences.DEFAULT_USER_EMAILCONTENT);
+		prefs.setEmailnotification(UserPreferences.DEFAULT_USER_EMAILNOTIFICATIONS);
+		prefs.setEventTitleFormatType(UserPreferences.DEFAULT_USER_EVTITLEFORMAT);
+		prefs.setTheme(UserPreferences.DEFAULT_USER_THEME);
+		prefs.setSchedulerMaxHour(UserPreferences.DEFAULT_USER_SCHEDMAXHR);
+		prefs.setSchedulerMinHour(UserPreferences.DEFAULT_USER_SCHEDMINHR);
+		prefs.setSchedulerStartHour(UserPreferences.DEFAULT_USER_SCHEDSTARTHR);
+		prefs.setSchedulerSlotMins(UserPreferences.DEFAULT_USER_SCHEDSLOTMINS);
 		prefs.setDentist(d);
 		
 		emgr.persist(d);

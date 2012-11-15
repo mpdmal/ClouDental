@@ -29,7 +29,7 @@ public class SchedulerBean implements Serializable {
 
 	//MODEL
 	private ScheduleModel _visitModel = new DefaultScheduleModel();
-	private DentistScheduleEvent _event = new DentistScheduleEvent();
+	private DentistScheduleEvent _event = new DentistScheduleEvent("DEMO", new Date(), new Date(), -1);
 	//due to the time only mask, the selection date gets lost on _event, we keep it on _sel_date	
 	private Date _selection_date = new Date();; 
 	private Office _office;
@@ -85,7 +85,6 @@ public class SchedulerBean implements Serializable {
 	public void deleteVisit() {
 		try {
 			_office.getPatientServices().deleteVisit(_event.getVisitId());
-			_event = new DentistScheduleEvent();
 			populateScheduler(_office.getOwnerID());
 		} catch (VisitNotFoundException e1) {
 			e1.printStackTrace();

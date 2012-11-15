@@ -1,24 +1,21 @@
 @charset "utf-8";
 
-.preferencesPanel, .buttonPanel, .logo,  .schedPrefsPanel{
+.preferencesPanel, .buttonPanel, .logo,  .schedPrefsPanel{}
+.buttonPanel {}
+.logo {}
+.schedPrefsPanel {}
+
+.emailcontent {
+	width: 100%
+	height: 150px;
+}
+.userinfo {
+	font-size: 20px !important;
+	font-family: fantasy,sans-serif !important; 
 }
 
 .preferencesPanel {
-}
-.buttonPanel {
-}
-.logo {
-}
-.schedPrefsPanel {
-}
-.mailcontent {
-	width: 400px;
-	height: 100px;
-}
-.userinfo {
 	position: relative;
-	top: -430px;
-	left: 120px;
-	font-size: 20px !important;
-	font-family: sans-serif !important; 
+	top: 10px;
+	left: 10px;
 }
