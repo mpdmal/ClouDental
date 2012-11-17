@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="default_report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ede74e9b-1d85-4882-b30b-f1b327f4a033">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="default_report" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ede74e9b-1d85-4882-b30b-f1b327f4a033">
 	<property name="ireport.zoom" value="0.9090909090909105"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
-	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
-	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
-	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
-	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
-		<conditionalStyle>
-			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
-			<style mode="Opaque" backcolor="#F0EFEF"/>
-		</conditionalStyle>
-	</style>
 	<subDataset name="PieChartDataset" uuid="6197a269-fd3d-4c34-8e29-15f00b5c531a"/>
 	<queryString>
 		<![CDATA[select id from dentist]]>
@@ -31,7 +21,7 @@
 	<title>
 		<band height="255" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="47183b63-c7ea-480b-9ac2-44d029834b75" style="SubTitle" x="194" y="73" width="166" height="29"/>
+				<reportElement uuid="47183b63-c7ea-480b-9ac2-44d029834b75" x="194" y="73" width="166" height="29"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="22" isBold="false"/>
 				</textElement>
@@ -54,10 +44,10 @@
 				</textElement>
 				<text><![CDATA[Enable daily-reports from the user-preferences menu to receive daily reports]]></text>
 			</staticText>
-			<textField pattern="EEE dd/MM/yy">
+			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement uuid="a0208af9-aab2-4e2c-ae0b-12748d42058f" x="2" y="0" width="247" height="13" forecolor="#FFFFFF"/>
 				<textElement>
-					<font pdfEncoding="Cp1252"/>
+					<font pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
 			</textField>
@@ -69,14 +59,14 @@
 				<reportElement uuid="9d2b39c5-71a2-4945-9d92-69a720791e52" mode="Opaque" x="0" y="0" width="555" height="13" forecolor="#D0B48E" backcolor="#3E85B5"/>
 			</frame>
 			<textField>
-				<reportElement uuid="5deeeb70-27d7-4df9-ab55-0ee58465d105" style="Column header" x="2" y="0" width="50" height="13" forecolor="#FFFFFF"/>
+				<reportElement uuid="5deeeb70-27d7-4df9-ab55-0ee58465d105" x="2" y="0" width="50" height="13" forecolor="#FFFFFF"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement uuid="20b122bc-0ac0-448d-8442-e85e5431102a" style="Column header" x="54" y="0" width="40" height="13" forecolor="#FFFFFF"/>
+				<reportElement uuid="20b122bc-0ac0-448d-8442-e85e5431102a" x="54" y="0" width="40" height="13" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="false"/>
 				</textElement>

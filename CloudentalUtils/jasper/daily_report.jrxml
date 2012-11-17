@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5e3546d4-56f8-40c3-b492-c81b495715ac">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report4" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5e3546d4-56f8-40c3-b492-c81b495715ac">
 	<property name="ireport.zoom" value="1.2100000000000002"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="8"/>
-	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
-	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
-	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<style name="Row" mode="Transparent">
-		<conditionalStyle>
-			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
-			<style backcolor="#E6DAC3"/>
-		</conditionalStyle>
-	</style>
+	<property name="ireport.y" value="7"/>
 	<parameter name="DENTISTID" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[-99]]></defaultValueExpression>
 	</parameter>
@@ -29,6 +19,7 @@
 	<field name="comments" class="java.lang.String"/>
 	<variable name="VISIT_COUNT" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[$F{id}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
 	<variable name="FIRST_VISIT" class="java.sql.Timestamp" calculation="Lowest">
 		<variableExpression><![CDATA[$F{visitdate}]]></variableExpression>
@@ -43,16 +34,16 @@
 				<imageExpression><![CDATA["logo_cd_small.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement uuid="5c6b2098-61e6-4281-b0e4-d5e9027c1ad9" style="Title" x="128" y="42" width="346" height="38" forecolor="#3E85B5"/>
+				<reportElement uuid="5c6b2098-61e6-4281-b0e4-d5e9027c1ad9" x="128" y="23" width="346" height="38" forecolor="#3E85B5"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="30"/>
+					<font fontName="SansSerif" size="30" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DAILY VISIT REPORT]]></text>
 			</staticText>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement uuid="55c528f1-2474-48eb-9ed9-363bd35e3075" x="128" y="80" width="254" height="20"/>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="55c528f1-2474-48eb-9ed9-363bd35e3075" x="128" y="61" width="254" height="20"/>
 				<textElement>
-					<font fontName="SansSerif" size="12" pdfEncoding="Cp1253"/>
+					<font fontName="SansSerif" size="12" pdfEncoding="Cp1252"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{STARTDATE}]]></textFieldExpression>
 			</textField>
@@ -61,7 +52,7 @@
 	<columnHeader>
 		<band height="22" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="2b44a34a-3dfd-4e9e-8b29-cac1cc7c4b28" style="Column header" mode="Transparent" x="271" y="1" width="96" height="15" forecolor="#3E85B5" backcolor="#FFFFFF"/>
+				<reportElement uuid="2b44a34a-3dfd-4e9e-8b29-cac1cc7c4b28" mode="Transparent" x="271" y="1" width="70" height="15" forecolor="#3E85B5" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
 					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -69,7 +60,7 @@
 				<text><![CDATA[start time]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="32802c32-7c8b-4632-b888-a2b5731639a5" style="Column header" mode="Transparent" x="367" y="1" width="188" height="15" forecolor="#3E85B5" backcolor="#FFFFFF"/>
+				<reportElement uuid="32802c32-7c8b-4632-b888-a2b5731639a5" mode="Transparent" x="341" y="1" width="188" height="15" forecolor="#3E85B5" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
 					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -77,7 +68,7 @@
 				<text><![CDATA[endtime]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="63bf6bd6-0d85-4167-8484-ff5744fe2f0f" style="Column header" mode="Transparent" x="0" y="1" width="271" height="15" forecolor="#3E85B5" backcolor="#FFFFFF"/>
+				<reportElement uuid="63bf6bd6-0d85-4167-8484-ff5744fe2f0f" mode="Transparent" x="0" y="1" width="271" height="15" forecolor="#3E85B5" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
 					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -95,14 +86,14 @@
 	<detail>
 		<band height="26" splitType="Stretch">
 			<textField isStretchWithOverflow="true" pattern="HH.mm">
-				<reportElement uuid="058f74cf-69b5-47e0-9f37-9fbd445fadb4" style="Detail" x="271" y="2" width="96" height="15" forecolor="#CC0000"/>
+				<reportElement uuid="058f74cf-69b5-47e0-9f37-9fbd445fadb4" x="271" y="2" width="70" height="15" forecolor="#CC0000"/>
 				<textElement>
 					<font fontName="SansSerif" size="10" isBold="true" isItalic="true" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{visitdate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="HH.mm">
-				<reportElement uuid="5c2ee192-c6c1-4f26-a46e-25343f0f7623" style="Detail" x="367" y="2" width="188" height="15"/>
+				<reportElement uuid="5c2ee192-c6c1-4f26-a46e-25343f0f7623" x="341" y="2" width="188" height="15"/>
 				<textElement>
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
@@ -139,14 +130,14 @@
 				<reportElement uuid="9d2b39c5-71a2-4945-9d92-69a720791e52" mode="Opaque" x="0" y="12" width="555" height="13" forecolor="#D0B48E" backcolor="#3E85B5"/>
 			</frame>
 			<textField>
-				<reportElement uuid="5deeeb70-27d7-4df9-ab55-0ee58465d105" style="Column header" x="2" y="12" width="50" height="13" forecolor="#FFFFFF"/>
+				<reportElement uuid="5deeeb70-27d7-4df9-ab55-0ee58465d105" x="2" y="12" width="50" height="13" forecolor="#FFFFFF"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement uuid="20b122bc-0ac0-448d-8442-e85e5431102a" style="Column header" x="54" y="12" width="40" height="13" forecolor="#FFFFFF"/>
+				<reportElement uuid="20b122bc-0ac0-448d-8442-e85e5431102a" x="54" y="12" width="40" height="13" forecolor="#FFFFFF"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10" isBold="false"/>
 				</textElement>
@@ -157,7 +148,7 @@
 	<summary>
 		<band height="81">
 			<textField>
-				<reportElement uuid="0d9cc4a5-67e0-4711-99c6-2a7b906d0c7a" mode="Opaque" x="128" y="8" width="63" height="20" forecolor="#000000" backcolor="#E4FCFC"/>
+				<reportElement uuid="0d9cc4a5-67e0-4711-99c6-2a7b906d0c7a" mode="Opaque" x="83" y="8" width="108" height="20" forecolor="#000000" backcolor="#E4FCFC"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
 					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -165,11 +156,11 @@
 				<textFieldExpression><![CDATA[$V{VISIT_COUNT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="4b8af4c9-bcd0-4dda-a031-4bf1521f1a5a" mode="Opaque" x="0" y="8" width="128" height="20" backcolor="#E4FCFC"/>
+				<reportElement uuid="4b8af4c9-bcd0-4dda-a031-4bf1521f1a5a" mode="Opaque" x="0" y="8" width="83" height="20" backcolor="#E4FCFC"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif"/>
 				</textElement>
-				<text><![CDATA[TOTAL VISITS TODAY :]]></text>
+				<text><![CDATA[Number of Visits :]]></text>
 			</staticText>
 			<line>
 				<reportElement uuid="9d1c9141-a1d0-47b4-8620-10232e1ef7eb" x="0" y="6" width="555" height="1"/>
@@ -177,7 +168,7 @@
 			<line>
 				<reportElement uuid="5bf2e4b7-d2eb-40b6-9abb-fbd76a99bfb8" x="0" y="29" width="555" height="1"/>
 			</line>
-			<textField pattern="HH.mm" isBlankWhenNull="false">
+			<textField pattern="HH.mm" isBlankWhenNull="true">
 				<reportElement uuid="b28487d6-b02e-4e3d-9892-0115c3c6ae9a" mode="Opaque" x="245" y="8" width="122" height="20" forecolor="#000000" backcolor="#E4FCFC"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
 					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
@@ -185,7 +176,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{FIRST_VISIT}]]></textFieldExpression>
 			</textField>
-			<textField pattern="HH.mm" isBlankWhenNull="false">
+			<textField pattern="HH.mm" isBlankWhenNull="true">
 				<reportElement uuid="7319aa94-be06-4494-9c75-2566f1783248" mode="Opaque" x="419" y="8" width="136" height="20" forecolor="#000000" backcolor="#E4FCFC"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
 					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>

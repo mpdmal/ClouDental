@@ -3,12 +3,20 @@ package com.mpdamal.cloudental.external.reports;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -29,9 +37,16 @@ public class DailyReportsGeneratorTool {
     private static boolean _launchUI = false;
     private static File _compiledreport = null;
     private static Connection _conn = null;
-    
+    private static final Logger LOG = Logger.getLogger(DailyReportsGeneratorTool.class);
     //MAIN
 	public static void main(String[] args) {
+		final Properties log4jProperties = new Properties();
+        try {
+			log4jProperties.load(new FileInputStream(ROOT_DIR+"/log4j.properties"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        PropertyConfigurator.configure(log4jProperties);
 		for (String arg : args) {
 			if (arg.startsWith("-dbstr=")) {
 				_dbstring = arg.substring(7, arg.length());
@@ -137,6 +152,20 @@ public class DailyReportsGeneratorTool {
 			parameters.put("REPORT_FILE_RESOLVER", fileResolver);
 			parameters.put("DENTISTID", new Integer(dentistid));
 			
+			Calendar c = Calendar.getInstance(); 
+			c.setTime(new Date());
+			c.set(Calendar.HOUR_OF_DAY, 0);
+			c.set(Calendar.MINUTE, 0);
+			c.set(Calendar.SECOND, 0);
+			parameters.put("STARTDATE", new Timestamp(c.getTime().getTime()));
+			
+			c = Calendar.getInstance(); 
+			c.setTime(new Date());
+			c.set(Calendar.HOUR_OF_DAY, 23);
+			c.set(Calendar.MINUTE, 59);
+			c.set(Calendar.SECOND, 59);
+			parameters.put("ENDDATE", new Timestamp(c.getTime().getTime()));
+	        LOG.info(parameters.toString());
 			JasperPrint jprint = JasperFillManager.fillReport(
 					new FileInputStream(_compiledreport),
 					parameters, _conn);
