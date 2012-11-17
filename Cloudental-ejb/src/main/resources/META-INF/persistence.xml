@@ -23,5 +23,6 @@
 		<class>com.mpdmal.cloudental.entities.Visit</class>
 		<class>com.mpdmal.cloudental.entities.Toothhistory</class>
 		<class>com.mpdmal.cloudental.entities.UserPreferences</class>
+		<class>com.mpdmal.cloudental.entities.Medicine</class>
 	</persistence-unit>
 </persistence>

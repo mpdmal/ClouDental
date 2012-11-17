@@ -20,6 +20,7 @@ import com.mpdmal.cloudental.entities.Activity;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.entities.Discount;
 import com.mpdmal.cloudental.entities.Medicalhistory;
+import com.mpdmal.cloudental.entities.Medicine;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
 import com.mpdmal.cloudental.entities.PricelistItem;
@@ -41,6 +42,14 @@ import com.mpdmal.cloudental.util.exception.base.CloudentException;
 @WebService
 public class DentistServices extends AbstractEaoService {
 	private static final long serialVersionUID = 1L;
+
+	//medicine
+	@SuppressWarnings("unchecked")
+	public Collection<Medicine> getMedicineList() {
+    	Query q = emgr.getEM().
+    			createQuery("select m from Medicine m");
+        return (Collection<Medicine>) emgr.executeMultipleObjectQuery(q);
+    }
 
 	//UserPrefs
 	public UserPreferences getUserPrefs(int userid) throws CloudentException {

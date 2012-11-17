@@ -9,6 +9,15 @@ CREATE TABLE dentist
   CONSTRAINT dentist_pk PRIMARY KEY (id )
 );
 
+drop table if exists medicine CASCADE;
+CREATE TABLE medicine
+(
+  id serial NOT NULL,
+  name text NOT NULL,
+  activeingredient text NOT NULL,
+  CONSTRAINT medicine_pk PRIMARY KEY (id)
+);
+
 drop table if exists userpreferences CASCADE;
 CREATE TABLE userpreferences
 (

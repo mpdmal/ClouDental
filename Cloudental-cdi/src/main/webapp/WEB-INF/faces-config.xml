@@ -25,5 +25,14 @@
   </navigation-case>
  </navigation-rule>
  
+  <navigation-rule>
+  <display-name>PharmacyRule</display-name>
+  <from-view-id>/screens/office.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>pharmacy</from-outcome>
+   <to-view-id>/screens/pharmacy.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+
  
 </faces-config>
