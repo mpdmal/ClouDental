@@ -3,7 +3,6 @@ package com.mpdamal.cloudental.external.reports;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -28,14 +27,16 @@ public class DailyReportsGeneratorTool {
     public static final String ROOT_DIR = System.getProperty("user.home")+"/cdent/";
     public static final String REPORTS_RELATIVEDIR = "reports/";
     public static final String RESOURCES_RELATIVEDIR = "resources/";
-    public static final String PDF_NAME = "daily_report_$.pdf";
+    public static final String PDF_DAILYNAME = "daily_report_$.pdf";
+    public static final String PDF_DEFAULTNAME = "default_report.pdf";
     
     public static String _dailyreport_compiled = "daily_report.jasper";
+    public static String _defaultreport_compiled = "default_report.jasper";
     private static String _dbstring = "jdbc:postgresql://localhost:5432/CloudentDB",
     						_dbuname = "cloudent", _dbpwd = "cloudent";
     
     private static boolean _launchUI = false;
-    private static File _compiledreport = null;
+    private static File _compiledreport = null, _compiledDefreport = null;
     private static Connection _conn = null;
     private static final Logger LOG = Logger.getLogger(DailyReportsGeneratorTool.class);
     //MAIN
@@ -66,7 +67,9 @@ public class DailyReportsGeneratorTool {
 		}
 		setupConnection();
 		checkForJasper();
-
+		//need to do this, since reportingservlet looks for the file, not when it was created.
+		//it will keep on serving the last created daily report instead of today's
+		clearOldReports();  
 		if (_launchUI) {
 			ReportsGeneratorToolUI f = new ReportsGeneratorToolUI();
 			f.setVisible(true);
@@ -91,7 +94,16 @@ public class DailyReportsGeneratorTool {
 		return null;
 	}
 	
+	private static void clearOldReports() {
+		File root = new File(ROOT_DIR+REPORTS_RELATIVEDIR);
+		for (File f  : root.listFiles()) {
+			if (f.isFile() && f.getName().endsWith(".pdf"))
+				f.delete();
+		}
+	}
+	
 	private static void autoGenerateReports() {
+		printDefaultReport();
 		try {
 			ResultSet rs = getDentistsInfo();
 			while ( rs.next() )	{
@@ -120,8 +132,13 @@ public class DailyReportsGeneratorTool {
 		
 		//check the jasper compiled report (.jasper) is where its supposed to be ... 
 		_compiledreport = new File(ROOT_DIR+_dailyreport_compiled);
+		_compiledDefreport = new File(ROOT_DIR+_defaultreport_compiled);
 		if (!_compiledreport.exists() || !_compiledreport.isFile()) {
 			System.out.println("daily compiled report ("+_dailyreport_compiled+") NOT found, exiting");
+			System.exit(0);
+		}
+		if (!_compiledDefreport.exists() || !_compiledDefreport.isFile()) {
+			System.out.println("default compiled report ("+_defaultreport_compiled+") NOT found, exiting");
 			System.exit(0);
 		}
 	}
@@ -139,6 +156,7 @@ public class DailyReportsGeneratorTool {
 		}
 		System.out.println("Connection to postgres established :"+_dbstring);
 	}
+	
 	
 	public static void printReport(int dentistid) {
 		try {
@@ -169,7 +187,7 @@ public class DailyReportsGeneratorTool {
 			JasperPrint jprint = JasperFillManager.fillReport(
 					new FileInputStream(_compiledreport),
 					parameters, _conn);
-			String outname = ROOT_DIR+REPORTS_RELATIVEDIR+PDF_NAME;
+			String outname = ROOT_DIR+REPORTS_RELATIVEDIR+PDF_DAILYNAME;
 			outname = outname.replace("$", ""+dentistid);
 			JasperExportManager.exportReportToPdfFile(jprint, outname);
 			System.out.println("CREATED REPORT "+outname);
@@ -179,6 +197,32 @@ public class DailyReportsGeneratorTool {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void printDefaultReport() {
+		try {
+			FileResolver fileResolver = new FileResolver() {
+				@Override
+				public File resolveFile(String fileName) {
+					return new File(ROOT_DIR+RESOURCES_RELATIVEDIR+fileName);
+				}
+			};
+			HashMap<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("REPORT_FILE_RESOLVER", fileResolver);
+
+	        LOG.info("printing default report : "+new Date().toString());
+			JasperPrint jprint = JasperFillManager.fillReport(
+					new FileInputStream(_compiledDefreport),
+					parameters, _conn);
+			String outname = ROOT_DIR+REPORTS_RELATIVEDIR+PDF_DEFAULTNAME;
+			JasperExportManager.exportReportToPdfFile(jprint, outname);
+			System.out.println("CREATED REPORT "+outname);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (JRException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
 
 

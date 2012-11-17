@@ -17,10 +17,24 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 public class ReportsGeneratorToolUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel jpActions;
 	private JButton jbSingle;
+	private JButton jbDefault;
 	private JButton jbDoAll;
 	private JTable _dentistTable;
 
@@ -35,7 +49,7 @@ public class ReportsGeneratorToolUI extends JFrame {
 	private void initGrcs() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout thisLayout = new GridBagLayout();
-		thisLayout.rowWeights = new double[] {0.1, 0.1};
+		thisLayout.rowWeights = new double[] {0.1, 0.0};
 		thisLayout.rowHeights = new int[] {7, 7};
 		thisLayout.columnWeights = new double[] {0.1, 0.1, 0.1};
 		thisLayout.columnWidths = new int[] {20, 7, 7};
@@ -57,6 +71,8 @@ public class ReportsGeneratorToolUI extends JFrame {
 					}
 				}
 			});
+			jpActions.add(jbDoAll);
+			
 			jbSingle = new JButton();
 			jbSingle.setText("Create For this Dentist");
 			jbSingle.addActionListener(new ActionListener() {
@@ -67,7 +83,16 @@ public class ReportsGeneratorToolUI extends JFrame {
 				}
 			});
 			jpActions.add(jbSingle);
-			jpActions.add(jbDoAll);
+			
+			jbDefault = new JButton();
+			jbDefault.setText("Create Default Report");
+			jbDefault.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					DailyReportsGeneratorTool.printDefaultReport();
+				}
+			});
+			jpActions.add(jbDefault);
 		}
 		getContentPane().add(jpActions, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 	}
