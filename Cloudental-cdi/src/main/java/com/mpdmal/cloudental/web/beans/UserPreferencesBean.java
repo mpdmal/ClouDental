@@ -22,6 +22,10 @@ import com.mpdmal.cloudental.web.util.CloudentWebUtils;
 @RequestScoped
 public class UserPreferencesBean extends BaseBean implements Serializable { //unfortunately cannot extends userprefs ... 
 	private static final long serialVersionUID = 1L;
+	{
+		setBaseName("User Prefs bean");
+	}
+
 	private UserPreferences _prefs;
 	ArrayList<EventTitleFormatType> _titlecombovalues;
 	TreeMap<String, String> _themes;

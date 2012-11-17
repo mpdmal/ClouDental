@@ -16,6 +16,10 @@ import com.mpdmal.cloudental.web.util.CloudentWebUtils;
 @RequestScoped
 public class LoginServiceBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
+	{
+		setBaseName("Login bean (request)");
+	}
+
 	//CDI BEANS
 	@Inject
 	LoginBean _loginBean;

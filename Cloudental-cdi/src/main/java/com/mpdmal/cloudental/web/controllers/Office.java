@@ -20,7 +20,10 @@ import com.mpdmal.cloudental.web.beans.base.BaseBean;
 @ViewScoped
 public class Office extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+	{
+		setBaseName("Office bean (view)");
+	}
+
 	//CDI BEANS
 	@Inject
 	private DentistServices _dsvc;

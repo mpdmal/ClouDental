@@ -20,6 +20,9 @@ import com.mpdmal.cloudental.web.beans.base.BaseBean;
 @RequestScoped
 public class UserCreateBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
+	{
+		setBaseName("User create bean");
+	}
 
 	//MODEL
 	private Dentist _d;

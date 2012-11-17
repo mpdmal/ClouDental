@@ -16,6 +16,9 @@ import com.mpdmal.cloudental.web.util.CloudentWebUtils;
 @SessionScoped
 public class OfficeReceptionBean extends BaseBean implements Serializable {
 	private static final long serialVersionUID = 1L;
+	{
+		setBaseName("Reception bean (session)");
+	}
 
 	//MODEL
 	private boolean loggedIn = false;
