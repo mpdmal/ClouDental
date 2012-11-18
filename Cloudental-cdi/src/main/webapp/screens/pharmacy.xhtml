@@ -1,17 +1,137 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
-
-<ui:composition template="/screens/base/cloudent-template.xhtml">
+	xmlns:f="http://java.sun.com/jsf/core" 
+	template="/screens/base/cloudent-template.xhtml">
+	<ui:define name="title">Pharmacy</ui:define>
+	<ui:define name="head">
+			<link href="../resources/css/office-style.css" rel="stylesheet" type="text/css" />
+			<link href="../resources/css/pharmacy-style.css" rel="stylesheet" type="text/css" />
+			<style type="text/css">
+			body {
+				background-image: url(../resources/images/reception_background.png);
+				background-size: cover;
+			}
+			</style>
+		
+	</ui:define>
+	
+	<ui:define name="header">
+		<h:form id="menuForm">
+			<p:menubar>  
+	            <p:menuitem value="Back to my Office" action="office" ajax="false" />  
+		    </p:menubar>
+	    </h:form>
+	</ui:define>
 	<ui:define name="body">
-		<p:dataList value="#{pharmacy.meds}" var="medicine" type="ordered">
-			#{medicine.name}, #{medicine.activeingredient}
-		</p:dataList>
+		<p:growl id="messages" showDetail="true" widgetVar="msg"/>
+		<h:form id="mainForm">
+			<p:dataTable var="row" value="#{pharmacy.presciprionSheet}" paginator="true" rows="15"
+						sortBy="#{row.medicine.name}">
+				<f:facet name="header">Pharmacy - Medicine count #{pharmacy.medicineCount} </f:facet>
+				<p:ajax event="rowEdit" listener="#{pharmacy.onEdit}" update=":messages" />  
+        
+				<p:column sortBy="#{row.medicine.name}">
+					<f:facet name="header">
+						<h:outputText value="Name" styleClass="label"/>
+					</f:facet>
+					<h:outputText value="#{row.medicine.name}" styleClass="label"/>
+				</p:column>
+				<p:column sortBy="#{row.medicine.activeingredient}">
+					<f:facet name="header">
+						<h:outputText value="Active Ingredient" styleClass="label"/>
+					</f:facet>
+					<h:outputText value="#{row.medicine.activeingredient}" styleClass="label"/>
+				</p:column>
+				<p:column headerText="Route" styleClass="label">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{row.routeDescription}" /></f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{row.route}" styleClass="field">
+								<f:selectItems value="#{pharmacy.routes}"  
+		                            var="route"   
+        		                    itemLabel="#{route.description}"  
+                		            itemValue="#{route.value}" />  
+							</p:selectOneMenu>
+						</f:facet>						
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Every" styleClass="label" style="width:20px">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{row.frequency}" /></f:facet>
+						<f:facet name="input"><p:spinner value="#{row.frequency}" stepFactor="1"/></f:facet>						
+					</p:cellEditor>
+				</p:column>
+				<p:column styleClass="label">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{row.freqUnitDescription}" /></f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{row.frequnit}" styleClass="field">
+								<f:selectItems value="#{pharmacy.freqAndDurUnits}"  
+		                            var="unit"   
+        		                    itemLabel="#{unit.freqUnitDescription}"  
+                		            itemValue="#{unit.value}" />  
+							</p:selectOneMenu>
+						</f:facet>						
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column headerText="For" styleClass="label" style="width:20px">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{row.duration}" /></f:facet>
+						<f:facet name="input"><p:spinner value="#{row.duration}" stepFactor="1"/></f:facet>						
+					</p:cellEditor>
+				</p:column>
+				<p:column styleClass="label">
+					<p:cellEditor>
+						<f:facet name="output"><h:outputText value="#{row.durUnitDescription}" /></f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{row.durunit}" styleClass="field">
+								<f:selectItems value="#{pharmacy.freqAndDurUnits}"  
+		                            var="unit"   
+        		                    itemLabel="#{unit.durUnitDescription}"  
+                		            itemValue="#{unit.value}" />  
+							</p:selectOneMenu>
+						</f:facet>						
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column>
+					<p:rowEditor/>
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton id="printButton"
+						value="Print Prescription" ajax="false"
+						update="messages" icon="ui-icon-arrowthichk-s"
+						onclick="PrimeFaces.monitorDownload(start, stop)">
+						<p:fileDownload contentDisposition="inline" value="#{pharmacy.fetchPrescription()}"/>
+					</p:commandButton>
+					<p:autoComplete required="true" requiredMessage="Select a Patient first!!" id="patient" value="#{pharmacy.autocompletePatient}"
+							completeMethod="#{pharmacy.completePatient}"
+							var="p" itemLabel="#{p.surname} #{p.name}" itemValue="#{p}"
+							converter="patientConverter" forceSelection="true" styleClass="field">
+						<p:column styleClass="label">  
+               				#{p.surname} #{p.name}  
+		               	</p:column>
+					</p:autoComplete>
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+		<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">  
+    		Please wait ...  
+		</p:dialog> 
+		<script type="text/javascript">  
+			function start() {  
+			    statusDialog.show();  
+			}  
+			  
+			function stop() {  
+			    statusDialog.hide();  
+			}  
+        </script>  
 	</ui:define>
 </ui:composition>
-</html>

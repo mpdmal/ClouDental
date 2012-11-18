@@ -3,11 +3,11 @@ package com.mpdmal.cloudental.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,6 +46,7 @@ import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.util.exception.InvalidAddressTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidContactInfoTypeException;
 import com.mpdmal.cloudental.util.exception.InvalidMedEntryAlertException;
+import com.mpdmal.cloudental.util.exception.InvalidMedIntakeRouteException;
 import com.mpdmal.cloudental.util.exception.InvalidPostitAlertException;
 import com.mpdmal.cloudental.util.exception.InvalidTitleFormatTypeException;
 import com.mpdmal.cloudental.util.exception.ValidationException;
@@ -54,12 +55,19 @@ public class CloudentUtils {
 	public static final int DEFAULT_USER_ID = -1;
 	public static final int DEFAULT_DISCOUNT_ID = -1;
 	public static final int DEFAULT_PRICEABLE_ID = -1;
+	
+	public static final int REPORTTYPE_PATIENTS = 1;
+	public static final int REPORTTYPE_PHARMACY = 2;
+	
     private static final String DBSTRING = "jdbc:postgresql://localhost:5432/CloudentDB";
     private static final String DBUSER = "aza";
     private static final String DBPWD = "aza";
     private static final String RESOURCES_RELATIVEDIR = "cloudental/jasper/images/";
     private static final String PATIENTS_REPORT_JASPER = "cloudental/jasper/patient_report.jasper";
     private static final String PATIENTS_REPORT_PDF = "cloudental/reporting/patient_report_$.pdf";
+    private static final String PRESCRIPTIONS_REPORT_JASPER = "cloudental/jasper/prescriptions_report.jasper";
+    private static final String PRESCRIPTIONS_REPORT_PDF = "cloudental/reporting/prescriptions_report_$.pdf";
+
     private static final String _cloudent_account = "cloudental@gmail.com" ;
     private static final String _cloudent_pwd = "cloudental123!";
 	//ENUMS
@@ -189,7 +197,48 @@ public class CloudentUtils {
 		}
 		return "";
 	}
-	
+
+	//VISIT EVENT TITLE FORMAT TYPE
+	public static enum PrescrRowTimeunit {
+		HOURS (Calendar.HOUR_OF_DAY, "hour(s)", "hour(s)"),
+		DAYS (Calendar.DAY_OF_MONTH, "day(s)", "day(s)"),
+		WEEK (Calendar.WEEK_OF_MONTH, "week(s)", "week(s)"),
+		MONTH (Calendar.MONTH, "month(s)", "month(s)");
+		
+		private final String ddesc, fdesc;
+		private final int value;
+		private PrescrRowTimeunit(int type, String fdesc, String ddesc) {
+			value = type;
+			this.fdesc = fdesc;
+			this.ddesc = ddesc;
+		}
+		public int getValue() {		return value;	}
+		public String getFreqUnitDescription() { return fdesc;}
+		public String getDurUnitDescription() { return ddesc;}
+	}
+
+	public static boolean isPrescrRowTimeunitValid(int type) {
+		for (PrescrRowTimeunit tp : CloudentUtils.PrescrRowTimeunit.values())  
+			if (type == tp.getValue()) 
+		    	return true;
+		return false;
+	}
+
+	public static String findPrescrRowTimeunitDurDescr(int type) {
+		for (PrescrRowTimeunit tp : PrescrRowTimeunit.values()) {
+			if (tp.getValue() == type)
+				return tp.getDurUnitDescription();
+		}
+		return "";
+	}
+	public static String findPrescrRowTimeunitFreqDescr(int type) {
+		for (PrescrRowTimeunit tp : PrescrRowTimeunit.values()) {
+			if (tp.getValue() == type)
+				return tp.getFreqUnitDescription();
+		}
+		return "";
+	}
+
 	//VISIT EVENT TITLE FORMAT TYPE
 	public static enum EventTitleFormatType {
 		FULL (1, "Name and Surname"),
@@ -239,7 +288,38 @@ public class CloudentUtils {
 		return p.getSurname();
 	}
 	
-	
+	//MEDICINE INTAKE ROUTES
+	public static enum MedIntakeRoute {
+		ORAL (0, "Oral"),
+		SUBLINGUAL (1, "Sublingual"),
+		RECTAL (2, "Rectal"),
+		TRANSDERMAL (3, "Transdermal"),
+		TRANSMUCOSAL (4, "Transmucosal");
+		
+		private final String desc;
+		private final int value;
+		private MedIntakeRoute(int type, String desc) {
+			value = type;
+			this.desc = desc;
+		}
+		public int getValue() {		return value;	}
+		public String getDescription() { return desc;}
+	}
+
+	public static boolean isMedIntakeRouteValid(int type) throws InvalidMedIntakeRouteException {
+		for (MedIntakeRoute rt : CloudentUtils.MedIntakeRoute.values())  
+			if (type == rt.getValue()) 
+		    	return true;
+		return false;
+	}
+
+	public static String findMedIntakeRouteDescr(int type) {
+		for (MedIntakeRoute rt : MedIntakeRoute.values()) {
+			if (rt.getValue() == type)
+				return rt.getDescription();
+		}
+		return "";
+	}
 	//LOGING
 	private static final int LOG_TYPE_MSG = 1; 
 	private static final int LOG_TYPE_WARNING = 2;
@@ -330,31 +410,36 @@ public class CloudentUtils {
 		CloudentUtils.logServicecall(sb.toString());
     }
 
-	public static String printReport(int dentistid, int type) throws FileNotFoundException, JRException {
+	public static String printReport(int id, int type) throws FileNotFoundException, JRException {
 		FileResolver fileResolver = new FileResolver() {
 			@Override
 			public File resolveFile(String fileName) {
 				return new File(RESOURCES_RELATIVEDIR+fileName);
 			}
 		};
-		try {
-			System.out.println(new File (".").getCanonicalPath());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		HashMap<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("REPORT_FILE_RESOLVER", fileResolver);
-		parameters.put("DENTISTID", new Integer(dentistid));
+		
+		String infile, outfile = "";
+		if (type == CloudentUtils.REPORTTYPE_PATIENTS) {
+			parameters.put("DENTISTID", new Integer(id));
+			infile = PATIENTS_REPORT_JASPER;
+			outfile = PATIENTS_REPORT_PDF;
+		} else {
+			parameters.put("PRESRIPTIONID", new Integer(id));
+			infile = PRESCRIPTIONS_REPORT_JASPER;
+			outfile = PRESCRIPTIONS_REPORT_PDF;
+		}
 		
 		JasperPrint jprint = JasperFillManager.fillReport(
-				new FileInputStream(PATIENTS_REPORT_JASPER),
+				new FileInputStream(infile),
 				parameters, getSystemConnection());
-		String outname = PATIENTS_REPORT_PDF;
-		outname = outname.replace("$", ""+dentistid);
-		JasperExportManager.exportReportToPdfFile(jprint, outname);
-		CloudentUtils.logMessage("CREATED REPORT "+outname+" for dentist:"+dentistid);
-		return outname;
+		
+		outfile = outfile.replace("$", ""+id);
+		JasperExportManager.exportReportToPdfFile(jprint, outfile);
+		CloudentUtils.logMessage("CREATED REPORT "+outfile+" for dentist:"+id);
+		return outfile;
 	}	
 	private static Connection getSystemConnection() {
 		//try connection to postgres

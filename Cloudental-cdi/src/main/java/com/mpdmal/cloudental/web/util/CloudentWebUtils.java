@@ -38,7 +38,7 @@ public class CloudentWebUtils {
 	public static void showJSFWarnMessage(String title, String msg) {
 		showJSFMessage(title, msg, FacesMessage.SEVERITY_WARN);
 	}
-	public static void showJSFWarnlMessage(String msg) {
+	public static void showJSFWarnMessage(String msg) {
 		showJSFWarnMessage("", msg);
 	}
 }

@@ -24,5 +24,7 @@
 		<class>com.mpdmal.cloudental.entities.Toothhistory</class>
 		<class>com.mpdmal.cloudental.entities.UserPreferences</class>
 		<class>com.mpdmal.cloudental.entities.Medicine</class>
+		<class>com.mpdmal.cloudental.entities.Prescription</class>
+		<class>com.mpdmal.cloudental.entities.Prescriptionrow</class>
 	</persistence-unit>
 </persistence>

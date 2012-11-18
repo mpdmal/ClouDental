@@ -18,6 +18,7 @@ CREATE TABLE medicine
   CONSTRAINT medicine_pk PRIMARY KEY (id)
 );
 
+
 drop table if exists userpreferences CASCADE;
 CREATE TABLE userpreferences
 (
@@ -84,6 +85,31 @@ CREATE TABLE patient
 	constraint patient_pk primary key (id)
 );
 
+
+drop table if exists prescriptions CASCADE;
+CREATE TABLE prescriptions
+(
+  id serial NOT NULL,
+  dentistid integer references dentist NOT NULL,
+  patienthistid integer references patienthistory not null,
+  created timestamp with time zone default now() not null,
+  
+  CONSTRAINT prescriptions_pk PRIMARY KEY (id )
+);
+
+drop table if exists prescriptionrows CASCADE;
+CREATE TABLE prescriptionrows
+(
+  id serial NOT NULL,
+  prescriptionid integer references prescriptions NOT NULL,
+  medicine integer references medicine NOT NULL,
+  route integer NOT NULL,
+  frequency integer NOT NULL,
+  frequnit integer NOT NULL,
+  duration  integer NOT NULL,
+  durunit integer NOT NULL,
+  CONSTRAINT prescriptionrows_pk PRIMARY KEY (id)
+);
 drop table if exists medicalhistory CASCADE;
 create table medicalhistory
 (

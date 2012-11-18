@@ -22,6 +22,8 @@ public class Patienthistory extends com.mpdmal.cloudental.entities.base.DBEntity
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="patienthistory")
 	private Collection<Activity> activities;
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="patienthistory", fetch=FetchType.LAZY)
+	private Collection<Prescription> prescriptions;
 
     public Patienthistory() {}
 
@@ -46,7 +48,8 @@ public class Patienthistory extends com.mpdmal.cloudental.entities.base.DBEntity
 		activity.setPatienthistory(this);
 		activities.add(activity);
 	}
-	
+	public Collection<Prescription> getPrescriptions() {	return this.prescriptions;	}
+	public void setPrescriptions(Collection<Prescription> prescriptions) {	this.prescriptions = prescriptions;	}
 	public void removeActivity (Activity a) {
 		if (activities.contains(a))
 			activities.remove(a);

@@ -12,7 +12,6 @@ import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
 
 import com.mpdmal.cloudental.entities.Patient;
-import com.mpdmal.cloudental.entities.UserPreferences;
 import com.mpdmal.cloudental.entities.Visit;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.exception.InvalidTitleFormatTypeException;

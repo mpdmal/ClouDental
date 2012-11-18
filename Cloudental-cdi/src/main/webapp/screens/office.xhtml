@@ -23,8 +23,8 @@
 		<p:growl id="growl" showDetail="true" life="4000" />
 		<h:form id="menuForm">
 			<p:menubar>
-        	    <p:menuitem value="Reception" action="reception" ajax="false" />
-        	    <p:menuitem value="Pharmacy" action="pharmacy" ajax="false" />
+        	    <p:menuitem value="Reception Area" action="reception" ajax="false" />
+        	    <p:menuitem value="Pharmacy Area" action="pharmacy" ajax="false" />
 		    </p:menubar>
 		</h:form>
 		<h:form id="mainForm">
@@ -37,6 +37,7 @@
 				</p:tab>
 			</p:tabView>
 			<h:outputLink value="#{facesContext.externalContext.requestContextPath}/reports" title="Daily Report">
+				<f:param name="type" value="daily"/>
 				<f:param name="userid" value="#{officeReception.userID}"/>    	 
  				<h:graphicImage library="images" name="dailyReport.png" styleClass="dailyReportIcon"/>
 			</h:outputLink> 

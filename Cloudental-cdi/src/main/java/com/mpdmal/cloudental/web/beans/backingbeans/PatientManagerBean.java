@@ -123,7 +123,7 @@ public class PatientManagerBean implements Serializable {
 		}
 	}
 	public List<Patient> completePatient(String query) {  
-    	Vector<Patient>  patients  = (Vector<Patient>) _office.getPatientManagment().getPatientList();
+    	Vector<Patient>  patients  = (Vector<Patient>) getPatientList();
         List<Patient> suggestions = new ArrayList<Patient>();  
           
         for(Patient p : patients) {  

@@ -60,7 +60,7 @@ public class UserPreferencesBean extends BaseBean implements Serializable { //un
 	
 	public void sendPatientsReport() {
 		try {
-			_dsvc.sendOnDemandReport(_sess.getUserID(),_prefs.getReportemail(), -1);
+			_dsvc.sendOnDemandReport(_sess.getUserID(),_prefs.getReportemail(), CloudentUtils.REPORTTYPE_PATIENTS);
 		} catch (Exception e) {
 			CloudentWebUtils.showJSFErrorMessage(e.getMessage());
 			e.printStackTrace();

@@ -2,6 +2,8 @@ package com.mpdmal.cloudental.beans;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Vector;
@@ -23,6 +25,8 @@ import com.mpdmal.cloudental.entities.Medicalhistory;
 import com.mpdmal.cloudental.entities.Medicine;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Patienthistory;
+import com.mpdmal.cloudental.entities.Prescription;
+import com.mpdmal.cloudental.entities.Prescriptionrow;
 import com.mpdmal.cloudental.entities.PricelistItem;
 import com.mpdmal.cloudental.entities.UserPreferences;
 import com.mpdmal.cloudental.entities.Visit;
@@ -43,6 +47,21 @@ import com.mpdmal.cloudental.util.exception.base.CloudentException;
 public class DentistServices extends AbstractEaoService {
 	private static final long serialVersionUID = 1L;
 
+	//Prescriptions
+	public Prescription createPrescription (int dentistid, int patientid, ArrayList<Prescriptionrow> rows) 
+			throws DentistNotFoundException, PatientNotFoundException, ValidationException {
+		Dentist dentist = findDentist(dentistid);
+		Patient patient = findPatient(patientid);
+
+		Prescription p = new Prescription();
+		p.setDentist(dentist);
+		p.setPatienthistory(patient.getDentalHistory());
+		p.setCreated(new Timestamp(System.currentTimeMillis()));
+		p.setPrescriptionrows(rows);
+		emgr.persist(p);
+		return p;
+	}
+	
 	//medicine
 	@SuppressWarnings("unchecked")
 	public Collection<Medicine> getMedicineList() {

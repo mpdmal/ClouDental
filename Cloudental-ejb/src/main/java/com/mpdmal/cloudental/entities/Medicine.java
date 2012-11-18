@@ -27,6 +27,11 @@ public class Medicine extends com.mpdmal.cloudental.entities.base.DBEntity imple
 	//INTERFACE
 	@Override
 	public String getXML() {
-		return null;
+		return "";
+	}
+	
+	@Override
+	public String getUIFriendlyString() {
+		return name+" - "+activeingredient;
 	}
 }

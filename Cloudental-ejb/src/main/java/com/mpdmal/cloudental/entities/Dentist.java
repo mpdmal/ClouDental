@@ -45,7 +45,8 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	private Collection<PricelistItem> priceables;
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.EAGER)
 	private Collection<Patient> patients;
-
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="dentist", fetch=FetchType.LAZY)
+	private Collection<Prescription> prescriptions;
 
 	public Dentist() {}
 
@@ -58,6 +59,8 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 	public String getUsername() {	return this.username;	}
 	public String getPassword() {	return this.password;	}
 	public String getName() {	return this.name;	}
+	public Collection<Prescription> getPrescriptions() {	return this.prescriptions;	}
+	public void setPrescriptions(Collection<Prescription> prescriptions) {	this.prescriptions = prescriptions;	}
 	public void setId(Integer id) {	this.id = id;	}
 	public void setName(String name){	this.name = name;	}
 	public void setSurname(String name){	this.surname = name;	}
@@ -201,3 +204,25 @@ public class Dentist extends com.mpdmal.cloudental.entities.base.DBEntity implem
 		return ans.toString();
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
