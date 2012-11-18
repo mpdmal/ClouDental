@@ -427,7 +427,7 @@ public class CloudentUtils {
 			infile = PATIENTS_REPORT_JASPER;
 			outfile = PATIENTS_REPORT_PDF;
 		} else {
-			parameters.put("PRESRIPTIONID", new Integer(id));
+			parameters.put("PRESCRIPTIONID", new Integer(id));
 			infile = PRESCRIPTIONS_REPORT_JASPER;
 			outfile = PRESCRIPTIONS_REPORT_PDF;
 		}
