@@ -4,6 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="PRESCRIPTIONID" class="java.lang.Integer"/>
+	<parameter name="HEADERTEXT" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select pr.*, m.* from prescriptionrows pr, medicine m
 where pr.prescriptionid = $P{PRESCRIPTIONID} and pr.medicine = m.id]]>
@@ -18,100 +19,94 @@ where pr.prescriptionid = $P{PRESCRIPTIONID} and pr.medicine = m.id]]>
 	<field name="durunit" class="java.lang.Integer"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="activeingredient" class="java.lang.String"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement uuid="e3a00333-6349-4ec3-9ae4-e9b458a1b9c2" x="0" y="1" width="555" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{HEADERTEXT}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="c10029c3-5c9b-4238-af47-3ed3bd647986" x="1" y="16" width="555" height="1"/>
+			</line>
+		</band>
 	</title>
-	<pageHeader>
-		<band height="35" splitType="Stretch"/>
-	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="146e0f52-27a3-4205-bd75-16b1dae80baa" x="159" y="0" width="79" height="20"/>
+				<reportElement uuid="9bbe04c4-f83d-4665-887b-02d837a20313" mode="Opaque" x="170" y="6" width="158" height="16" backcolor="#F1F1F7"/>
 				<textElement/>
-				<text><![CDATA[route]]></text>
+				<text><![CDATA[EVERY]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9bbe04c4-f83d-4665-887b-02d837a20313" x="238" y="0" width="28" height="20"/>
+				<reportElement uuid="448c1edb-779c-4a82-ab5e-a3888a556eaf" mode="Opaque" x="328" y="6" width="214" height="16" backcolor="#F1F1F7"/>
 				<textElement/>
-				<text><![CDATA[frequency]]></text>
+				<text><![CDATA[FOR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="7f4d6d97-7317-4f52-ab94-90e35ec88912" x="266" y="0" width="130" height="20"/>
+				<reportElement uuid="ab775dfc-6c92-4048-90b6-14a36aa564d4" mode="Opaque" x="12" y="6" width="158" height="16" backcolor="#F1F1F7"/>
 				<textElement/>
-				<text><![CDATA[frequnit]]></text>
+				<text><![CDATA[Active ingredient]]></text>
 			</staticText>
-			<staticText>
-				<reportElement uuid="448c1edb-779c-4a82-ab5e-a3888a556eaf" x="396" y="0" width="23" height="20"/>
-				<textElement/>
-				<text><![CDATA[duration]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="eff40084-3269-4493-927f-f032a82a2661" x="419" y="0" width="135" height="20"/>
-				<textElement/>
-				<text><![CDATA[durunit]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="b72fd62a-3544-442b-b92c-eb79667e3007" x="1" y="0" width="79" height="20"/>
-				<textElement/>
-				<text><![CDATA[name]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="ab775dfc-6c92-4048-90b6-14a36aa564d4" x="80" y="0" width="79" height="20"/>
-				<textElement/>
-				<text><![CDATA[activeingredient]]></text>
-			</staticText>
+			<line>
+				<reportElement uuid="5e1fce9f-d124-4f62-947c-1c3b90633bd2" x="12" y="23" width="530" height="1"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="27" splitType="Stretch">
 			<textField>
-				<reportElement uuid="5d903fce-f181-4b3f-b44b-61f17d05dfcb" x="159" y="0" width="79" height="20"/>
+				<reportElement uuid="5d903fce-f181-4b3f-b44b-61f17d05dfcb" x="463" y="3" width="79" height="20"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{route}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{route} == 0 ? "(Oral)" :
+$F{route} == 1 ? "(Sublingual)" :
+$F{route} == 2 ? "(Rectal)" :
+$F{route} == 3 ? "(Transdermal)" :  "(Transmucosal)"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="8f7fde3b-f106-444d-9694-63116ef30049" x="238" y="0" width="28" height="20"/>
+				<reportElement uuid="8f7fde3b-f106-444d-9694-63116ef30049" x="160" y="3" width="28" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{frequency}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e451ac8c-4e28-4cf7-8b75-b9633b44b331" x="266" y="0" width="130" height="20"/>
+				<reportElement uuid="e451ac8c-4e28-4cf7-8b75-b9633b44b331" x="188" y="3" width="130" height="20"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{frequnit}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{frequnit} == Calendar.HOUR_OF_DAY ? "hour(s)" :
+$F{frequnit} == Calendar.MONTH ? "month(s)" :
+$F{frequnit} == Calendar.WEEK_OF_MONTH ? "week(s)" : "day(s)"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="daea4832-a27f-4c15-ab49-020ff12bd2d2" x="396" y="0" width="23" height="20"/>
+				<reportElement uuid="daea4832-a27f-4c15-ab49-020ff12bd2d2" x="318" y="3" width="23" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{duration}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="90b6d565-2908-41a7-b076-21d4db3f6dcb" x="419" y="0" width="135" height="20"/>
+				<reportElement uuid="90b6d565-2908-41a7-b076-21d4db3f6dcb" x="341" y="3" width="135" height="20"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{durunit}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{durunit} == Calendar.HOUR_OF_DAY ? "hour(s)" :
+$F{durunit} == Calendar.MONTH ? "month(s)" :
+$F{durunit} == Calendar.WEEK_OF_MONTH ? "week(s)" : "day(s)"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="9c42e6e0-ecf9-4cce-9a29-b78fa5305236" x="1" y="0" width="79" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="8eddd128-65e9-47e6-b369-5d6683c917f8" x="80" y="0" width="79" height="20"/>
+				<reportElement uuid="8eddd128-65e9-47e6-b369-5d6683c917f8" x="12" y="3" width="158" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{activeingredient}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
+	<lastPageFooter>
+		<band height="178">
+			<rectangle>
+				<reportElement uuid="b15e3347-fe24-4698-98d6-726dca61a385" x="12" y="20" width="530" height="134"/>
+			</rectangle>
+			<line>
+				<reportElement uuid="75b5fa75-cec4-4bd0-a672-4bb7a4aca2fd" x="1" y="170" width="555" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="cc7441ad-44ce-4e0d-bd18-98349641539e" x="12" y="3" width="100" height="17"/>
+				<textElement/>
+				<text><![CDATA[Notes]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
 </jasperReport>
