@@ -9,10 +9,8 @@
 	height: 20px !important;
 }
 
-.tabContainer {}
-
 /* GENERAL COMPONENTS*/
-.label, .button, .combo, .field, .scheduler  {	
+.label, .button, .combo, .field, .scheduler, .tabcontainer {	
 	font-size: 12px !important;
 	font-family: sans-serif !important; 
 }
@@ -26,7 +24,12 @@
 
 
 /* SCHEDULER COMPONENTS */
-.scheduler {	margin-left:auto;	margin-right:auto; }
+.scheduler {	
+	margin-left:auto;	
+	margin-right:auto;
+	margin-top:auto; 
+	margin-bottom:auto;
+}
 
 /* PATIENT COMPONENTS */
 

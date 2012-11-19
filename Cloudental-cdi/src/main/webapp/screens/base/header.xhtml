@@ -2,7 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
       xmlns:ui="http://java.sun.com/jsf/facelets" 
       xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
 
-   <h:body/>
+   <h:body>
+	   	<h:form id="menuForm">
+			<p:breadCrumb>  
+			    <p:menuitem value="Office Area" action="office" ajax="false" styleClass="button"/>
+          	    <p:menuitem value="Reception Area" action="reception" ajax="false" styleClass="button"/>
+        	    <p:menuitem value="Pharmacy Area" action="pharmacy" ajax="false" styleClass="button"/>
+			</p:breadCrumb>
+    	</h:form>
+   </h:body>
 </html>

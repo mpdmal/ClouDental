@@ -6,36 +6,19 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
       
 	<ui:composition template="/screens/base/cloudent-template.xhtml">
+		<ui:define name="title">Reception Area</ui:define>
 		<ui:define name="head">
 			<link href="../resources/css/reception-style.css" rel="stylesheet" type="text/css" />
-			<link href="../resources/css/office-style.css" rel="stylesheet" type="text/css" />
-			<style type="text/css">
-			body {
-				background-image: url(../resources/images/reception_background.png);
-				background-size: cover;
-			}
-			</style>
-		
-		</ui:define>
-		<ui:define name="header">
-			<h:form id="menuForm">
-				<p:menubar>  
-		            <p:menuitem value="Back to my Office" action="office" ajax="false" />  
-			    </p:menubar>
-		    </h:form>
 		</ui:define>
 		<ui:define name="body">
 			<p:growl id="growl" showDetail="true" life="4000" />
 			<h:form id="mainform">
 				<h:panelGrid columns="1">			
-					<h:panelGrid columns="2" cellpadding="5">
-						<p:graphicImage id="logo" value="../resources/images/login/logo_cd_small.png" styleClass="logo"/>
-						<h:panelGrid columns="3" styleClass="userinfo" cellpadding="5">
-					    	<h:outputText value="#{officeReception.user.surname}    " />
-					    	<h:outputText value="#{officeReception.user.name}" />
-					    	<h:outputText value="( #{officeReception.user.username} )" />
-				    	</h:panelGrid>
-					</h:panelGrid>
+					<h:panelGrid columns="3" styleClass="userinfo" cellpadding="5">
+				    	<h:outputText value="#{officeReception.user.surname}    " />
+				    	<h:outputText value="#{officeReception.user.name}" />
+				    	<h:outputText value="( #{officeReception.user.username} )" />
+			    	</h:panelGrid>
 					<h:panelGrid columns="2" styleClass="buttonPanel" cellpadding="5">
 				    	<p:commandButton id="saveBtn" styleClass="button" value="Save " actionListener="#{userPrefs.save()}" 
 									 process="@this,mailText,dailyreports,emailnotify,

@@ -1,5 +1,13 @@
 @CHARSET "UTF-8";
 
 .editorfield {
-	width:20px !important;
+	height:20px !important;
+}
+
+.printbutton {
+	height:24px !important; 
+	position:relative; 
+	margin-left: 30px;
+	font-size: 12px !important;
+	font-family: sans-serif !important; 
 }

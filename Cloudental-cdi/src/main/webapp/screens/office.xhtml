@@ -1,3 +1,5 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -5,30 +7,15 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/screens/base/cloudent-template.xhtml">
 	
-	<ui:define name="title">#{officeReception.receptionMessage}</ui:define>
+	<ui:define name="title">Office Area</ui:define>
 	<ui:define name="head">
 		<link href="../resources/css/scheduler-style.css" rel="stylesheet" type="text/css" />
 		<link href="../resources/css/patients-style.css" rel="stylesheet" type="text/css" />
-		<link href="../resources/css/office-style.css" rel="stylesheet" type="text/css" />
-		<style type="text/css">
-		body {
-			background-image: url(../resources/images/office_background.png);
-			background-size: cover;
-			font-size: 11px;
-		}
-		</style>
 	</ui:define>
-	<ui:define name="header"/>
 	<ui:define name="body">
 		<p:growl id="growl" showDetail="true" life="4000" />
-		<h:form id="menuForm">
-			<p:menubar>
-        	    <p:menuitem value="Reception Area" action="reception" ajax="false" />
-        	    <p:menuitem value="Pharmacy Area" action="pharmacy" ajax="false" />
-		    </p:menubar>
-		</h:form>
 		<h:form id="mainForm">
-			<p:tabView id="tabContainer" styleClass="tabContainer">
+			<p:tabView id="tabContainer" styleClass="tabcontainer">
 				<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar">
 					<ui:include src="/screens/scheduler.xhtml"/>
 				</p:tab>
