@@ -56,7 +56,7 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 			return null;
 		}
 		_sess.setUserID(d.getId());
-		CloudentWebUtils.showJSFInfoMessage("Welcome to Cloud.M", d.getUsername());
+		//CloudentWebUtils.showJSFInfoMessage("Welcome to Cloud.M", d.getUsername());
         return (_direct) ? "office" : "reception";
     }  
 }

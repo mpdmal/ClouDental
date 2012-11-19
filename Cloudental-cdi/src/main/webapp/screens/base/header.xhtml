@@ -7,11 +7,23 @@
 
    <h:body>
 	   	<h:form id="menuForm">
-			<p:breadCrumb>  
-			    <p:menuitem value="Office Area" action="office" ajax="false" styleClass="button"/>
-          	    <p:menuitem value="Reception Area" action="reception" ajax="false" styleClass="button"/>
-        	    <p:menuitem value="Pharmacy Area" action="pharmacy" ajax="false" styleClass="button"/>
-			</p:breadCrumb>
+	   		<h:panelGrid columns="2" >
+				<p:graphicImage id="logo" value="../resources/images/login/logo_cd_small.png" />
+				<h:panelGrid columns="2" style="margin-left:100px">
+				<h:outputText value="Cloudental " 
+					style="font-size: 40px !important;
+						   font-family: sans-serif !important;"/>
+				<h:outputText value="by Mpdmal Software" 
+					style="font-size: 9px !important;
+						   font-family: sans-serif !important;"/>
+			   </h:panelGrid>
+			</h:panelGrid>
+				<p:breadCrumb>  
+				    <p:menuitem value="Office Area" action="office" ajax="false" styleClass="button"/>
+	          	    <p:menuitem value="Reception Area" action="reception" ajax="false" styleClass="button"/>
+	        	    <p:menuitem value="Pharmacy Area" action="pharmacy" ajax="false" styleClass="button"/>
+				</p:breadCrumb>
+
     	</h:form>
    </h:body>
 </html>
