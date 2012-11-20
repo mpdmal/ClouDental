@@ -37,15 +37,15 @@ public class Prescription extends com.mpdmal.cloudental.entities.base.DBEntity i
 	public void setDentist(Dentist dentist) {	this.dentist = dentist;	}
 	public void setPatienthistory(Patienthistory patienthistory) {	this.patienthistory = patienthistory;	}
 	public void setPrescriptionrows(Collection<Prescriptionrow> prescriptionrows) {
+		if (this.prescriptionrows == null)
+			this.prescriptionrows = new ArrayList<Prescriptionrow>();
+
 		for (Prescriptionrow prescriptionrow : prescriptionrows) {
 			addPrescriptionRow(prescriptionrow);
 		}
 	}
 
 	public void addPrescriptionRow(Prescriptionrow row) {
-		if (prescriptionrows == null)
-			prescriptionrows = new ArrayList<Prescriptionrow>();
-		
 		row.setPrescription(this);
 		prescriptionrows.add(row);
 	}

@@ -23,7 +23,7 @@
 				    	<p:commandButton id="saveBtn" styleClass="button" value="Save " actionListener="#{userPrefs.save()}" 
 									 process="@this,mailText,dailyreports,emailnotify,
 									 titleformat,defaultSwitcher,schedMinhour,schedMaxhour,schedStarthour,schedSlotmins
-									 ,reportemail"/>
+									 ,reportemail,prescHeader"/>
 				    	<p:commandButton id="resetBtn" styleClass="button" value="Reset"/>
 					</h:panelGrid>
 				</h:panelGrid>
@@ -67,8 +67,14 @@
 					   	<p:inputText id="reportemail" value="#{userPrefs.reportemail}" style="width:300px" styleClass="field"/>
 				    </p:panelGrid>
 			    	<p:panelGrid columns="1" style="width:100%">
+			    		<f:facet name="header">Prescription Header</f:facet>
+						<h:inputTextarea id="prescHeader" value="#{userPrefs.prescriptionHeader}" 
+									styleClass="prescheader" rows="1"/>
+			    	</p:panelGrid>
+			    	<p:panelGrid columns="1" style="width:100%">
 			    		<f:facet name="header">Email notification content</f:facet>
-						<h:inputTextarea id="mailText" value="#{userPrefs.emailcontent}" style="width:100%; height:160px"/>
+						<h:inputTextarea id="mailText" value="#{userPrefs.emailcontent}" 
+									styleClass="mailcontent" rows="5"/>
 			    	</p:panelGrid>
 				</h:panelGrid>
 				<p:dialog id="glassPaneDialog" widgetVar="glassDlg" modal="true" 

@@ -33,13 +33,12 @@ CREATE TABLE userpreferences
   scheduler_starthr integer NOT NULL,
   scheduler_slotmins integer NOT NULL,
   reportemail text NOT NULL,
+  prescriptionheader text NOT NULL,
   CONSTRAINT userpreferences_pk PRIMARY KEY (userid ),
   CONSTRAINT userpreferences_id_fkey FOREIGN KEY (userid)
       REFERENCES dentist (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
-
-insert into userpreferences values (-99, 'T', '', 'F', 1, 'aristo', 0, 24, 8, 5, '');
 
 drop table if exists pricelist CASCADE;
 CREATE TABLE pricelist
@@ -257,8 +256,8 @@ insert into tooth values (32, 'wisdom tooth top left');
 
 --DEFAULTS
 insert into dentist values (-99, 'internal', 'cl0ud3ntal', 'internal', 'internal');
-insert into userpreferences values (-99, 'F','', 'F');
 insert into pricelist values (-1, -99, 'zeroprice', 'used internally to represent a zero-priced item', 0.0);
 insert into discount values (-1, -99, 'zerodiscount', 'used internally to represent a zero-discount item', 0.0);
+insert into userpreferences values (-99, 'T', '', 'F', 1, 'aristo', 0, 24, 8, 5, '', '');
 
-select * from dentist
+

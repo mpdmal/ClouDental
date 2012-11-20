@@ -56,7 +56,10 @@ public class UserPreferencesBean extends BaseBean implements Serializable { //un
 	
 	public Map<String, String> getThemes() {	return _themes;	}
 	public ArrayList<EventTitleFormatType> getEventtitleformatTypes() {	return _titlecombovalues;	}
-	public void save() {	_dsvc.savePrefs(_prefs);	}
+	public void save() {	
+		_dsvc.savePrefs(_prefs);
+		_sess.setTheme(_prefs.getTheme());
+	}
 	
 	public void sendPatientsReport() {
 		try {
@@ -84,7 +87,9 @@ public class UserPreferencesBean extends BaseBean implements Serializable { //un
 	public boolean isEmailnotification() {	return _prefs.isEmailnotification();	}
 	public boolean isDailyreports() 	 {	return _prefs.isDailyreports();	}
 	public String getReportemail() {	return _prefs.getReportemail();	}
+	public String getPrescriptionHeader(){	return _prefs.getPrescriptionHeader();	}
 
+	public void setPrescriptionHeader(String header)  {	_prefs.setPrescriptionHeader(header);	}
 	public void setEventTitleFormatType (int type) throws InvalidTitleFormatTypeException { _prefs.setEventTitleFormatType(type);	}
 	public void setReportemail(String reportemail) {	_prefs.setReportemail(reportemail);	}
 	public void setSchedulerMaxHour(int hour) { _prefs.setSchedulerMaxHour(hour); }

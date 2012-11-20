@@ -13,7 +13,6 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -22,12 +21,12 @@ import com.mpdmal.cloudental.entities.Medicine;
 import com.mpdmal.cloudental.entities.Patient;
 import com.mpdmal.cloudental.entities.Prescription;
 import com.mpdmal.cloudental.entities.Prescriptionrow;
+import com.mpdmal.cloudental.entities.UserPreferences;
 import com.mpdmal.cloudental.util.CloudentUtils;
 import com.mpdmal.cloudental.util.CloudentUtils.MedIntakeRoute;
 import com.mpdmal.cloudental.util.CloudentUtils.PrescrRowTimeunit;
 import com.mpdmal.cloudental.util.exception.InvalidMedIntakeRouteException;
 import com.mpdmal.cloudental.web.beans.base.BaseBean;
-import com.mpdmal.cloudental.web.util.CloudentWebUtils;
 
 @Named("pharmacy")
 @ViewScoped
@@ -87,11 +86,11 @@ public class PharmacyBean extends BaseBean implements Serializable {
 	public Patient getAutocompletePatient() {	return _autocompletepatient;	}
 	public void setAutocompletePatient(Patient _autocomplete) {	this._autocompletepatient = _autocomplete;	}
 	
-	//PRIMEFACES INTERFACE
+	/*PRIMEFACES INTERFACE
 	 public void onEdit(RowEditEvent event) { 
 		 Prescriptionrow row = ((Prescriptionrow) event.getObject());
 		 CloudentWebUtils.showJSFWarnMessage("Row Edited", row.getUIFriendlyString());
-    }
+    }*/
 	 
 	//INTERFACE
 	 public StreamedContent fetchPrescription() throws Exception {
@@ -100,19 +99,20 @@ public class PharmacyBean extends BaseBean implements Serializable {
 			if (row.getFrequency() > 0)
 				ans.add(row);
 		 }
-		 
+		 UserPreferences prefs = _dsvc.getUserPrefs(_sess.getUserID());
 		 Prescription p = _dsvc.createPrescription(_sess.getUserID(), _autocompletepatient.getId(), ans);
-		 if (ans.size() > 0) {
-			 File f = new File(CloudentUtils.printReport(p.getId(),CloudentUtils.REPORTTYPE_PHARMACY));
-			 try {
-				return new DefaultStreamedContent(new FileInputStream(f), "application/pdf", "aza.pdf");
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+		 String name = CloudentUtils.printPrescriptionReport(p.getId(), prefs.getPrescriptionHeader(), _autocompletepatient.getSurname());
+		 StreamedContent content = null;
+		 
+		 try {
+			 content = new DefaultStreamedContent(new FileInputStream(new File(name)), "application/pdf", "aza.pdf");
+		 } catch (FileNotFoundException e) {
+			 e.printStackTrace();
 		 }
-		 throw new Exception("no rows edited");
+		 return content;
 	 }
 	 
+	 //used by autocomplete
 	 public List<Patient> completePatient(String query) {  
 		 Vector<Patient>  patients  = (Vector<Patient>) _dsvc.getPatientlist(_sess.getUserID());
 		 List<Patient> suggestions = new ArrayList<Patient>();  

@@ -1,10 +1,12 @@
 package com.mpdmal.cloudental.web.beans;
+
 import java.io.Serializable;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.mpdmal.cloudental.beans.DentistServices;
 import com.mpdmal.cloudental.beans.LoginBean;
 import com.mpdmal.cloudental.entities.Dentist;
 import com.mpdmal.cloudental.util.CloudentUtils;
@@ -25,6 +27,8 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 	LoginBean _loginBean;
 	@Inject
 	OfficeReceptionBean _sess;
+	@Inject
+	private DentistServices _dsvc;
 	
 	public LoginServiceBean() {
 		super();
@@ -46,6 +50,7 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 		Dentist d = null;
 		try {
 			d = _loginBean.doLogin(_name, _password);
+			_sess.setTheme(_dsvc.getUserPrefs(d.getId()).getTheme());
 		} catch (CloudentException e) {
             CloudentWebUtils.showJSFErrorMessage("", e.getMessage());
             CloudentUtils.logError(e.getMessage());
@@ -55,8 +60,8 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 			CloudentUtils.logError(e.getMessage());
 			return null;
 		}
-		_sess.setUserID(d.getId());
 		//CloudentWebUtils.showJSFInfoMessage("Welcome to Cloud.M", d.getUsername());
+		_sess.setUserID(d.getId());
         return (_direct) ? "office" : "reception";
     }  
 }

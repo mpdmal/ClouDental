@@ -1,14 +1,5 @@
 @charset "utf-8";
 
-.preferencesPanel, .buttonPanel, .logo,  .schedPrefsPanel{}
-.buttonPanel {}
-.logo {}
-.schedPrefsPanel {}
-
-.emailcontent {
-	width: 100%
-	height: 150px;
-}
 .userinfo {
 	font-size: 20px !important;
 	font-family: fantasy,sans-serif !important; 
@@ -23,4 +14,10 @@
 .glassPane {
 	width: 100px;
 	height: 100px;
+}
+
+.mailcontent, .prescheader {
+	width:100%; 
+	font-size: 11px !important;
+	font-family: sans-serif !important; 
 }

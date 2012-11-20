@@ -34,8 +34,6 @@
 						<p:fileDownload contentDisposition="inline" value="#{pharmacy.fetchPrescription()}"/>
 					</p:commandButton>
 				</f:facet>
-				<p:ajax event="rowEdit" listener="#{pharmacy.onEdit}" update=":messages" />  
-        
 				<p:column sortBy="#{row.medicine.name}">
 					<f:facet name="header">
 						<h:outputText value="Name" styleClass="label"/>

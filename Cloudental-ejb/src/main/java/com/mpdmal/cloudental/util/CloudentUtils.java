@@ -410,35 +410,39 @@ public class CloudentUtils {
 		CloudentUtils.logServicecall(sb.toString());
     }
 
-	public static String printReport(int id, int type) throws FileNotFoundException, JRException {
-		FileResolver fileResolver = new FileResolver() {
-			@Override
-			public File resolveFile(String fileName) {
-				return new File(RESOURCES_RELATIVEDIR+fileName);
-			}
-		};
-		
-		HashMap<String, Object> parameters = new HashMap<String, Object>();
-		parameters.put("REPORT_FILE_RESOLVER", fileResolver);
-		
+    public static String printPatientReport(int dentistid) throws FileNotFoundException, JRException {
 		String infile, outfile = "";
-		if (type == CloudentUtils.REPORTTYPE_PATIENTS) {
-			parameters.put("DENTISTID", new Integer(id));
-			infile = PATIENTS_REPORT_JASPER;
-			outfile = PATIENTS_REPORT_PDF;
-		} else {
-			parameters.put("PRESCRIPTIONID", new Integer(id));
-			infile = PRESCRIPTIONS_REPORT_JASPER;
-			outfile = PRESCRIPTIONS_REPORT_PDF;
-		}
+		HashMap<String, Object> parameters = getDefaultReportParameters();
+		parameters.put("DENTISTID", new Integer(dentistid));
+		infile = PATIENTS_REPORT_JASPER;
+		outfile = PATIENTS_REPORT_PDF;
+
+		JasperPrint jprint = JasperFillManager.fillReport(
+				new FileInputStream(infile),
+				parameters, getSystemConnection());
+		
+		outfile = outfile.replace("$", ""+dentistid);
+		JasperExportManager.exportReportToPdfFile(jprint, outfile);
+		CloudentUtils.logMessage("Created PATIENTS REPORT: "+outfile);
+		return outfile;
+    }
+    
+	public static String printPrescriptionReport(int prescid, String headertext, String patientname) throws FileNotFoundException, JRException {
+		String infile, outfile = "";
+		HashMap<String, Object> parameters = getDefaultReportParameters();
+		parameters.put("PRESCRIPTIONID", new Integer(prescid));
+		parameters.put("HEADERTEXT", headertext);
+		parameters.put("PATIENTNAME", patientname);
+		infile = PRESCRIPTIONS_REPORT_JASPER;
+		outfile = PRESCRIPTIONS_REPORT_PDF;
 		
 		JasperPrint jprint = JasperFillManager.fillReport(
 				new FileInputStream(infile),
 				parameters, getSystemConnection());
 		
-		outfile = outfile.replace("$", ""+id);
+		outfile = outfile.replace("$", ""+prescid);
 		JasperExportManager.exportReportToPdfFile(jprint, outfile);
-		CloudentUtils.logMessage("CREATED REPORT "+outfile+" for dentist:"+id);
+		CloudentUtils.logMessage("Created PRESCRIPTION REPORT: "+outfile);
 		return outfile;
 	}	
 	private static Connection getSystemConnection() {
@@ -499,5 +503,17 @@ public class CloudentUtils {
 			return false;
 		
 		return true;
-	}	
+	}
+	
+	private static HashMap<String, Object> getDefaultReportParameters() {
+		FileResolver fileResolver = new FileResolver() {
+			@Override
+			public File resolveFile(String fileName) {
+				return new File(RESOURCES_RELATIVEDIR+fileName);
+			}
+		};
+		HashMap<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("REPORT_FILE_RESOLVER", fileResolver);
+		return parameters;
+	}
 }

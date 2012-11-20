@@ -82,7 +82,7 @@ public class DentistServices extends AbstractEaoService {
 	public void sendOnDemandReport (int userid, String email, int type) throws FileNotFoundException,
 																				JRException,
 																				MessagingException {
-			String reportname = CloudentUtils.printReport(userid, type);
+			String reportname = CloudentUtils.printPatientReport(userid);
 			CloudentUtils.mailReport(reportname, email);
 	}
 	

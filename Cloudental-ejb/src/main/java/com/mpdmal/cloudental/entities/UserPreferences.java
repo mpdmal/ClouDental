@@ -13,6 +13,7 @@ import com.mpdmal.cloudental.util.exception.InvalidTitleFormatTypeException;
 public class UserPreferences extends DBEntity {
 	public static final String DEFAULT_USER_THEME = "aristo";
 	public static final String DEFAULT_USER_EMAILCONTENT = "";
+	public static final String DEFAULT_USER_PRESCRIPTIONHEADER = "";
 	public static final boolean DEFAULT_USER_EMAILNOTIFICATIONS = true;
 	public static final boolean DEFAULT_USER_DAILYREPORTS = true;
 	public static final int DEFAULT_USER_SCHEDMINHR= 6;
@@ -31,7 +32,8 @@ public class UserPreferences extends DBEntity {
 	private int eventtitleformat;
 	private String theme;
 	private String reportemail;
-
+	private String prescriptionheader;
+	
 	private int scheduler_minhr;
 	private int scheduler_maxhr;
 	private int scheduler_starthr;
@@ -46,6 +48,7 @@ public class UserPreferences extends DBEntity {
 	public int getSchedulerStartHour() {	return scheduler_starthr; }
 	public int getSchedulerSlotMins() {	return scheduler_slotmins; }
 	public int getEventTitleFormatType() {	return eventtitleformat; }
+	public String getPrescriptionHeader(){	return prescriptionheader;	}
 	public boolean isEmailnotification() {	return emailnotification;	}
 	public boolean isDailyreports() 	 {	return dailyreports;	}
 	public String getReportemail() {	return reportemail;	}
@@ -67,6 +70,7 @@ public class UserPreferences extends DBEntity {
 	public void setEmailnotification(boolean emailnotification) {	this.emailnotification = emailnotification;	}
 	public void setDailyreports(boolean dailyreports) {	this.dailyreports = dailyreports;	}
 	public void setEmailcontent(String emailcontent)  {	this.emailcontent = emailcontent;	}
+	public void setPrescriptionHeader(String header)  {	this.prescriptionheader = header;	}
 	public void setDentist(Dentist dentist) {	this.dentist = dentist;	}
 	
 	@Override
