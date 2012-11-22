@@ -101,7 +101,8 @@ public class PharmacyBean extends BaseBean implements Serializable {
 		 }
 		 UserPreferences prefs = _dsvc.getUserPrefs(_sess.getUserID());
 		 Prescription p = _dsvc.createPrescription(_sess.getUserID(), _autocompletepatient.getId(), ans);
-		 String name = CloudentUtils.printPrescriptionReport(p.getId(), prefs.getPrescriptionHeader(), _autocompletepatient.getSurname());
+		 String name = CloudentUtils.printPrescriptionReport(p.getId(), prefs.getPrescriptionHeader(), 
+				 _autocompletepatient.getUIFriendlyString());
 		 StreamedContent content = null;
 		 
 		 try {

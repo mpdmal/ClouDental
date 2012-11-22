@@ -237,4 +237,9 @@ public class Patient extends DBEntity implements Serializable {
 		}
 		return null;
 	}
+	
+	@Override
+	public String getUIFriendlyString() {
+		return name+" "+surname;
+	}
 }

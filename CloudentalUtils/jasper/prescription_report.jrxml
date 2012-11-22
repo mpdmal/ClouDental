@@ -2,9 +2,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="prescription_report" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f4389261-9dda-482e-91c2-b52bc48c929c">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="22"/>
 	<parameter name="PRESCRIPTIONID" class="java.lang.Integer"/>
 	<parameter name="HEADERTEXT" class="java.lang.String"/>
+	<parameter name="PATIENTNAME" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select pr.*, m.* from prescriptionrows pr, medicine m
 where pr.prescriptionid = $P{PRESCRIPTIONID} and pr.medicine = m.id]]>
@@ -100,12 +101,22 @@ $F{durunit} == Calendar.WEEK_OF_MONTH ? "week(s)" : "day(s)"]]></textFieldExpres
 				<reportElement uuid="b15e3347-fe24-4698-98d6-726dca61a385" x="12" y="20" width="530" height="134"/>
 			</rectangle>
 			<line>
-				<reportElement uuid="75b5fa75-cec4-4bd0-a672-4bb7a4aca2fd" x="1" y="170" width="555" height="1"/>
+				<reportElement uuid="75b5fa75-cec4-4bd0-a672-4bb7a4aca2fd" x="1" y="175" width="555" height="1"/>
 			</line>
 			<staticText>
 				<reportElement uuid="cc7441ad-44ce-4e0d-bd18-98349641539e" x="12" y="3" width="100" height="17"/>
 				<textElement/>
 				<text><![CDATA[Notes]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="3797b450-3edf-4fcc-966c-f4f663f93a1b" x="52" y="156" width="100" height="17"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{PATIENTNAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="98c52b09-62da-4493-8a54-15fc3d555f6b" x="12" y="156" width="40" height="17"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Patient :]]></text>
 			</staticText>
 		</band>
 	</lastPageFooter>
