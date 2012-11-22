@@ -14,6 +14,7 @@ public class UserPreferences extends DBEntity {
 	public static final String DEFAULT_USER_THEME = "aristo";
 	public static final String DEFAULT_USER_EMAILCONTENT = "";
 	public static final String DEFAULT_USER_PRESCRIPTIONHEADER = "";
+	public static final String DEFAULT_USER_REPORTEMAIL = "";
 	public static final boolean DEFAULT_USER_EMAILNOTIFICATIONS = true;
 	public static final boolean DEFAULT_USER_DAILYREPORTS = true;
 	public static final int DEFAULT_USER_SCHEDMINHR= 6;

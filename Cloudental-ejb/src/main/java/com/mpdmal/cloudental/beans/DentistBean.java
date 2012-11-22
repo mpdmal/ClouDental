@@ -47,6 +47,7 @@ public class DentistBean extends AbstractEaoService implements Serializable {
 		prefs.setSchedulerStartHour(UserPreferences.DEFAULT_USER_SCHEDSTARTHR);
 		prefs.setSchedulerSlotMins(UserPreferences.DEFAULT_USER_SCHEDSLOTMINS);
 		prefs.setPrescriptionHeader(UserPreferences.DEFAULT_USER_PRESCRIPTIONHEADER);
+		prefs.setReportemail(UserPreferences.DEFAULT_USER_REPORTEMAIL);
 		prefs.setDentist(d);
 		
 		emgr.persist(d);
