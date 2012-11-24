@@ -34,7 +34,7 @@ where p.dentistid = $P{DENTISTID}]]>
 	<title>
 		<band height="129" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="5c6b2098-61e6-4281-b0e4-d5e9027c1ad9" x="128" y="41" width="346" height="38" forecolor="#3E85B5"/>
+				<reportElement uuid="5c6b2098-61e6-4281-b0e4-d5e9027c1ad9" x="134" y="41" width="286" height="38" forecolor="#3E85B5"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="30"/>
 				</textElement>
@@ -44,8 +44,8 @@ where p.dentistid = $P{DENTISTID}]]>
 				<reportElement uuid="5ff0045f-c716-4447-826e-ea3f05c00d9c" x="0" y="0" width="80" height="80"/>
 				<imageExpression><![CDATA["logo_cd_small.png"]]></imageExpression>
 			</image>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement uuid="55c528f1-2474-48eb-9ed9-363bd35e3075" x="128" y="79" width="254" height="20"/>
+			<textField pattern="dd/MM/yy">
+				<reportElement uuid="55c528f1-2474-48eb-9ed9-363bd35e3075" x="134" y="80" width="254" height="20"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
@@ -69,14 +69,14 @@ where p.dentistid = $P{DENTISTID}]]>
 				<textElement>
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
-				<text><![CDATA[name]]></text>
+				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="e851a6f3-c7af-4852-aba1-d6c5d52bf5b8" x="111" y="0" width="111" height="15" forecolor="#3E85B5"/>
 				<textElement>
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
-				<text><![CDATA[surname]]></text>
+				<text><![CDATA[Surname]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="bafd169c-13ab-4c7d-a124-c15f228cae9a" x="222" y="0" width="160" height="15" forecolor="#3E85B5"/>
@@ -153,7 +153,7 @@ where p.dentistid = $P{DENTISTID}]]>
 				<reportElement uuid="9d1c9141-a1d0-47b4-8620-10232e1ef7eb" x="0" y="3" width="555" height="1"/>
 			</line>
 			<textField>
-				<reportElement uuid="0d9cc4a5-67e0-4711-99c6-2a7b906d0c7a" mode="Opaque" x="94" y="5" width="461" height="20" forecolor="#000000" backcolor="#E4FCFC"/>
+				<reportElement uuid="0d9cc4a5-67e0-4711-99c6-2a7b906d0c7a" mode="Opaque" x="94" y="5" width="461" height="20" forecolor="#000000" backcolor="#D4E2FE"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
 					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -164,7 +164,7 @@ where p.dentistid = $P{DENTISTID}]]>
 				<reportElement uuid="5bf2e4b7-d2eb-40b6-9abb-fbd76a99bfb8" x="0" y="26" width="555" height="1"/>
 			</line>
 			<staticText>
-				<reportElement uuid="4b8af4c9-bcd0-4dda-a031-4bf1521f1a5a" mode="Opaque" x="0" y="5" width="94" height="20" backcolor="#E4FCFC"/>
+				<reportElement uuid="4b8af4c9-bcd0-4dda-a031-4bf1521f1a5a" mode="Opaque" x="0" y="5" width="94" height="20" backcolor="#D4E2FE"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif"/>
 				</textElement>

@@ -44,7 +44,7 @@
 				</textElement>
 				<text><![CDATA[Enable daily-reports from the user-preferences menu to receive daily reports]]></text>
 			</staticText>
-			<textField pattern="EEEEE dd MMMMM yyyy">
+			<textField pattern="dd/MM/yy">
 				<reportElement uuid="a0208af9-aab2-4e2c-ae0b-12748d42058f" x="2" y="0" width="247" height="13" forecolor="#FFFFFF"/>
 				<textElement>
 					<font pdfEncoding="Cp1252" isPdfEmbedded="false"/>

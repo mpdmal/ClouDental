@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="prescription_report" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f4389261-9dda-482e-91c2-b52bc48c929c">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="22"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="PRESCRIPTIONID" class="java.lang.Integer"/>
 	<parameter name="HEADERTEXT" class="java.lang.String"/>
 	<parameter name="PATIENTNAME" class="java.lang.String"/>
@@ -21,15 +21,22 @@ where pr.prescriptionid = $P{PRESCRIPTIONID} and pr.medicine = m.id]]>
 	<field name="name" class="java.lang.String"/>
 	<field name="activeingredient" class="java.lang.String"/>
 	<title>
-		<band height="28" splitType="Stretch">
+		<band height="33" splitType="Stretch">
 			<textField>
-				<reportElement uuid="e3a00333-6349-4ec3-9ae4-e9b458a1b9c2" x="0" y="1" width="555" height="13"/>
+				<reportElement uuid="e3a00333-6349-4ec3-9ae4-e9b458a1b9c2" x="0" y="16" width="555" height="13"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$P{HEADERTEXT}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement uuid="c10029c3-5c9b-4238-af47-3ed3bd647986" x="1" y="16" width="555" height="1"/>
+				<reportElement uuid="c10029c3-5c9b-4238-af47-3ed3bd647986" x="1" y="31" width="555" height="1"/>
 			</line>
+			<textField pattern="dd/MM/yy">
+				<reportElement uuid="55c528f1-2474-48eb-9ed9-363bd35e3075" x="0" y="0" width="254" height="12"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
