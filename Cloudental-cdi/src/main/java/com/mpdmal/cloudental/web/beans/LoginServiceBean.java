@@ -29,6 +29,8 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 	OfficeReceptionBean _sess;
 	@Inject
 	private DentistServices _dsvc;
+	private String _emailMessage;
+	private String _emailTitle;
 	
 	public LoginServiceBean() {
 		super();
@@ -41,7 +43,11 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 	public String getName() {	return _name;	}
 	public String getPassword() {	return _password;	}
 	public boolean isDirectlyToOffice () { return _direct; }
-	
+	public String getEmailMessage() {	return _emailMessage;	}
+	public String getEmailTitle() {	return _emailTitle;	}
+
+	public void setEmailTitle(String emailTitle) {	this._emailTitle= emailTitle;	}
+	public void setEmailMessage(String emailMessage) {	this._emailMessage = emailMessage;	}
 	public void setName(String name) {	this._name = name;	}
 	public void setPassword(String password) {	this._password = password;	}
 	public void setDirectlyToOffice(boolean directly) { _direct = directly; }
@@ -63,5 +69,14 @@ public class LoginServiceBean extends BaseBean implements Serializable {
 		//CloudentWebUtils.showJSFInfoMessage("Welcome to Cloud.M", d.getUsername());
 		_sess.setUserID(d.getId());
         return (_direct) ? "office" : "reception";
-    }  
+    }
+	
+	public void contactCloudental() {
+		CloudentWebUtils.showJSFInfoMessage("Thank you for contacting Cloudental");
+		try {
+			_loginBean.contactCloudM(_emailTitle, _emailMessage);
+		} catch (CloudentException e) {
+			
+		}
+	}
 }

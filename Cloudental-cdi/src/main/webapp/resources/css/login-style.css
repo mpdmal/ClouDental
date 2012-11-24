@@ -1,11 +1,6 @@
 @charset "utf-8";
 
-.loginForm {
-	position: fixed;
-	top: 10px;
-	left: 10px;
-}
-.username, .password, .directlogin {
+.username, .password, .directlogin, .button, .createInput, .createLabel, .contactInfo {
 	font-family: sans-serif !important;
 	font-size: 11px !important;
 }
@@ -15,4 +10,18 @@
 	left: 50%;
 	margin-top: -125px;
 	margin-left: -125px;
+}
+
+.button {
+	height: 24px;
+	width:65px;
+	position: relative;
+	left: 50%;
+	margin-left: -20px;
+ 	margin-top: 5px;
+}
+
+.createInput {
+	height:13px; 
+	width:100%;
 }

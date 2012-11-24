@@ -23,6 +23,7 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -68,8 +69,8 @@ public class CloudentUtils {
     private static final String PRESCRIPTIONS_REPORT_JASPER = "cloudental/jasper/prescriptions_report.jasper";
     private static final String PRESCRIPTIONS_REPORT_PDF = "cloudental/reporting/prescriptions_report_$.pdf";
 
-    private static final String _cloudent_account = "cloudental@gmail.com" ;
-    private static final String _cloudent_pwd = "cloudental123!";
+    public static final String CLOUDENT_ACCOUNT = "cloudental@gmail.com" ;
+    public static final String CLOUDENT_PWD = "cloudental123!";
 	//ENUMS
 	//POST-IT ALERTS
 	 
@@ -461,8 +462,8 @@ public class CloudentUtils {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		
 		Session session = Session.getInstance(props);
+		
 		if (!verifyEmail(email)) {
 			CloudentUtils.logError("\tinvalid email :"+email);
 			throw new MessagingException("invalid email :"+email);
@@ -488,7 +489,7 @@ public class CloudentUtils {
 		message.setSentDate(new Date());
 		
 		Transport transport = session.getTransport("smtp");
-		transport.connect("smtp.gmail.com", 587, _cloudent_account, _cloudent_pwd);
+		transport.connect("smtp.gmail.com", 587, CLOUDENT_ACCOUNT, CLOUDENT_PWD);
 		transport.sendMessage(message, message.getAllRecipients());
 		CloudentUtils.logMessage("\temailed :"+email+" a patient report");
 	}
@@ -515,5 +516,28 @@ public class CloudentUtils {
 		HashMap<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("REPORT_FILE_RESOLVER", fileResolver);
 		return parameters;
+	}
+	
+	public static void contactCloudental(String title, String msg) throws AddressException, MessagingException {
+    	Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		Session session = Session.getInstance(props);
+		//create message
+		MimeMessage message = new MimeMessage(session);
+		message.setFrom(new InternetAddress("cloudental@gmail.com"));
+		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("arilou_npl@hotmail.com"));
+		//message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("kpatakas@gmail.com"));
+		message.setSubject("CD contact:"+title);
+
+		message.setContent(msg, "text/plain");
+		message.setSentDate(new Date());
+		
+		Transport transport = session.getTransport("smtp");
+		transport.connect("smtp.gmail.com", 587, CloudentUtils.CLOUDENT_ACCOUNT, CloudentUtils.CLOUDENT_PWD);
+		transport.sendMessage(message, message.getAllRecipients());
+		CloudentUtils.logMessage("\temailed Cloudental! (patco, dimaz)");
+		
+		//maybe also keep in DB at a later stage
 	}
 }
