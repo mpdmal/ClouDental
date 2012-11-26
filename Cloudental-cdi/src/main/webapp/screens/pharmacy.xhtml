@@ -14,8 +14,8 @@
 	<ui:define name="body">
 		<p:growl id="messages" showDetail="true" widgetVar="msg"/>
 		<h:form id="mainForm">
-			<p:dataTable var="row" value="#{pharmacy.presciprionSheet}" paginator="true" rows="15"
-						sortBy="#{row.medicine.name}">
+			<p:dataTable id="medlist" var="prescriptionrow" value="#{pharmacy.presciprionSheet}" 
+						paginator="true" rows="15" sortBy="#{prescriptionrow.medicine.name}">
 				<f:facet name="header">
 					Patient Name 
 					<p:autoComplete required="true" requiredMessage="Select a Patient first!!" id="patient" value="#{pharmacy.autocompletePatient}"
@@ -34,23 +34,23 @@
 						<p:fileDownload contentDisposition="inline" value="#{pharmacy.fetchPrescription()}"/>
 					</p:commandButton>
 				</f:facet>
-				<p:column sortBy="#{row.medicine.name}">
+				<p:column sortBy="#{prescriptionrow.medicine.name}">
 					<f:facet name="header">
 						<h:outputText value="Name" styleClass="label"/>
 					</f:facet>
-					<h:outputText value="#{row.medicine.name}" styleClass="label"/>
+					<h:outputText value="#{prescriptionrow.medicine.name}" styleClass="label"/>
 				</p:column>
-				<p:column sortBy="#{row.medicine.activeingredient}">
+				<p:column sortBy="#{prescriptionrow.medicine.activeingredient}">
 					<f:facet name="header">
 						<h:outputText value="Active Ingredient" styleClass="label"/>
 					</f:facet>
-					<h:outputText value="#{row.medicine.activeingredient}" styleClass="label"/>
+					<h:outputText value="#{prescriptionrow.medicine.activeingredient}" styleClass="label"/>
 				</p:column>
 				<p:column headerText="Route" styleClass="label">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{row.routeDescription}" /></f:facet>
+						<f:facet name="output"><h:outputText value="#{prescriptionrow.routeDescription}" /></f:facet>
 						<f:facet name="input">
-							<p:selectOneMenu value="#{row.route}" styleClass="editorfield">
+							<p:selectOneMenu value="#{prescriptionrow.route}" styleClass="editorfield">
 								<f:selectItems value="#{pharmacy.routes}"  
 		                            var="route"   
         		                    itemLabel="#{route.description}"  
@@ -61,17 +61,17 @@
 				</p:column>
 				<p:column headerText="Every" styleClass="label" style="width:20px">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{row.frequency}" /></f:facet>
+						<f:facet name="output"><h:outputText value="#{prescriptionrow.frequency}" /></f:facet>
 						<f:facet name="input">
-							<p:spinner value="#{row.frequency}" stepFactor="1" styleClass="editorfield"/>
+							<p:spinner value="#{prescriptionrow.frequency}" stepFactor="1" styleClass="editorfield"/>
 						</f:facet>						
 					</p:cellEditor>
 				</p:column>
 				<p:column styleClass="label">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{row.freqUnitDescription}" /></f:facet>
+						<f:facet name="output"><h:outputText value="#{prescriptionrow.freqUnitDescription}" /></f:facet>
 						<f:facet name="input">
-							<p:selectOneMenu value="#{row.frequnit}" styleClass="editorfield">
+							<p:selectOneMenu value="#{prescriptionrow.frequnit}" styleClass="editorfield">
 								<f:selectItems value="#{pharmacy.freqAndDurUnits}"  
 		                            var="unit"   
         		                    itemLabel="#{unit.freqUnitDescription}"  
@@ -83,17 +83,17 @@
 				
 				<p:column headerText="For" styleClass="label" style="width:20px">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{row.duration}" /></f:facet>
+						<f:facet name="output"><h:outputText value="#{prescriptionrow.duration}" /></f:facet>
 						<f:facet name="input">
-							<p:spinner value="#{row.duration}" stepFactor="1" styleClass="editorfield"/>
+							<p:spinner value="#{prescriptionrow.duration}" stepFactor="1" styleClass="editorfield"/>
 						</f:facet>						
 					</p:cellEditor>
 				</p:column>
 				<p:column styleClass="label">
 					<p:cellEditor>
-						<f:facet name="output"><h:outputText value="#{row.durUnitDescription}" /></f:facet>
+						<f:facet name="output"><h:outputText value="#{prescriptionrow.durUnitDescription}" /></f:facet>
 						<f:facet name="input">
-							<p:selectOneMenu value="#{row.durunit}" styleClass="editorfield">
+							<p:selectOneMenu value="#{prescriptionrow.durunit}" styleClass="editorfield">
 								<f:selectItems value="#{pharmacy.freqAndDurUnits}"  
 		                            var="unit"   
         		                    itemLabel="#{unit.durUnitDescription}"  
