@@ -38,7 +38,7 @@ public class PatientManagerBean implements Serializable {
 	public Contactinfo getCreateContactInfo() {		return _createCInfo; }
 	public Patient getSelectedPatient() {	return _selectedPatient; }
 	public Vector<Patient> getPatientList() {	return _patientList;	}
-	
+	public int getPatientcount() { return _patientList.size(); }
 	public void setSelectedPatient(Patient patient) {	
 		this._selectedPatient = patient;
 		//createPatientTreeStructure();
