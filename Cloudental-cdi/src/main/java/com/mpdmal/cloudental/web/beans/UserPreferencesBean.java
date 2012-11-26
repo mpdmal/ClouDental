@@ -60,7 +60,13 @@ public class UserPreferencesBean extends BaseBean implements Serializable { //un
 		_dsvc.savePrefs(_prefs);
 		_sess.setTheme(_prefs.getTheme());
 	}
-	
+
+	public void reset() {
+		_prefs.reset();
+		_dsvc.savePrefs(_prefs);
+		_sess.setTheme(_prefs.getTheme());
+	}
+
 	public void sendPatientsReport() {
 		try {
 			_dsvc.sendOnDemandReport(_sess.getUserID(),_prefs.getReportemail(), CloudentUtils.REPORTTYPE_PATIENTS);
