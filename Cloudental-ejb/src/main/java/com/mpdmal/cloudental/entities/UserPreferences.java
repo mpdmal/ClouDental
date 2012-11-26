@@ -18,7 +18,7 @@ public class UserPreferences extends DBEntity {
 	public static final boolean DEFAULT_USER_EMAILNOTIFICATIONS = true;
 	public static final boolean DEFAULT_USER_DAILYREPORTS = true;
 	public static final int DEFAULT_USER_SCHEDMINHR= 6;
-	public static final int DEFAULT_USER_SCHEDMAXHR= 10;
+	public static final int DEFAULT_USER_SCHEDMAXHR= 22;
 	public static final int DEFAULT_USER_SCHEDSTARTHR= 8;
 	public static final int DEFAULT_USER_EVTITLEFORMAT = CloudentUtils.EventTitleFormatType.SHORT.getValue();
 	public static final int DEFAULT_USER_SCHEDSLOTMINS= 5;
