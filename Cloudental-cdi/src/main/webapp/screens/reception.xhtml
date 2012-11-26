@@ -4,13 +4,27 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-      
-	<ui:composition template="/screens/base/cloudent-template.xhtml">
-		<ui:define name="title">Reception Area</ui:define>
-		<ui:define name="head">
-			<link href="../resources/css/reception-style.css" rel="stylesheet" type="text/css" />
-		</ui:define>
-		<ui:define name="body">
+
+	<h:head>
+		<title>Reception Area</title>
+		<link href="../resources/css/reception-style.css" rel="stylesheet" type="text/css" />
+		<link href="../resources/css/office-style.css" rel="stylesheet" type="text/css" />
+	  	<style type="text/css">
+			body {
+				background-image: url(../resources/images/login/login_background.png);
+				background-size: cover;
+			}
+		</style>
+	</h:head>
+
+	<body>
+		<div id="header">
+		    <ui:insert name="header">
+		    	<ui:include src="/screens/base/header.xhtml"/>
+		    </ui:insert>
+		</div>
+		
+		<div id="body">
 			<p:growl id="growl" showDetail="true" life="4000" />
 			<h:form id="mainform">
 				<h:panelGrid columns="1">			
@@ -85,6 +99,17 @@
 					</h:panelGrid>
 				</p:dialog>			    			    	
 			</h:form>
-		</ui:define>
-	</ui:composition>
+		</div>
+		
+		<div id="footer">
+		  <ui:insert name="footer">
+				<ui:include src="/screens/base/footer.xhtml"/>
+		  </ui:insert>
+		</div>
+	</body>
 </html>
+
+
+
+
+      

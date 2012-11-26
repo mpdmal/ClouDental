@@ -1,33 +1,47 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	template="/screens/base/cloudent-template.xhtml">
-	
-	<ui:define name="title">Office Area</ui:define>
-	<ui:define name="head">
-		<link href="../resources/css/scheduler-style.css" rel="stylesheet" type="text/css" />
-		<link href="../resources/css/patients-style.css" rel="stylesheet" type="text/css" />
-	</ui:define>
-	<ui:define name="body">
-		<p:growl id="growl" showDetail="true" life="4000" />
-		<h:form id="mainForm">
-			<p:tabView id="tabContainer" styleClass="tabcontainer">
-				<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar">
-					<ui:include src="/screens/scheduler.xhtml"/>
-				</p:tab>
-				<p:tab id="patientsTab" title="Patients" titletip="Patient Management!">
-					<ui:include src="/screens/patients.xhtml"/>
-				</p:tab>
-			</p:tabView>
-			<h:outputLink value="#{facesContext.externalContext.requestContextPath}/reports" title="Daily Report">
-				<f:param name="type" value="daily"/>
-				<f:param name="userid" value="#{officeReception.userID}"/>    	 
- 				<h:graphicImage library="images" name="dailyReport.png" styleClass="dailyReportIcon"/>
-			</h:outputLink> 
-		</h:form>
- 	</ui:define>
-</ui:composition>
+	<h:head>
+	  <title><ui:insert name="title">Cloudent 0.3</ui:insert></title>
+	  <link href="../resources/css/scheduler-style.css" rel="stylesheet" type="text/css" />
+      <link href="../resources/css/patients-style.css" rel="stylesheet" type="text/css" />
+	  <link href="../resources/css/office-style.css" rel="stylesheet" type="text/css" />
+	  <style type="text/css">
+		body {
+			background-image: url(../resources/images/login/login_background.png);
+			background-size: cover;
+		}
+		</style>
+	</h:head>
+
+	<body>
+		<div id="header">
+			<ui:include src="/screens/base/header.xhtml"/>
+		</div>
+		<div id="body">
+			<p:growl id="growl" showDetail="true" life="4000" />
+			<h:form id="mainForm">
+				<p:tabView id="tabContainer" styleClass="tabcontainer">
+					<p:tab id="schedulerTab" title="Scheduler" titletip="Calendar">
+						<ui:include src="/screens/scheduler.xhtml"/>
+					</p:tab>
+					<p:tab id="patientsTab" title="Patients" titletip="Patient Management!">
+						<ui:include src="/screens/patients.xhtml"/>
+					</p:tab>
+				</p:tabView>
+				<h:outputLink value="#{facesContext.externalContext.requestContextPath}/reports" title="Daily Report">
+					<f:param name="type" value="daily"/>
+					<f:param name="userid" value="#{officeReception.userID}"/>    	 
+	 				<h:graphicImage library="images" name="dailyReport.png" styleClass="dailyReportIcon"/>
+				</h:outputLink> 
+			</h:form>		
+		</div>
+		<div id="footer">
+			<ui:include src="/screens/base/footer.xhtml"/>
+		</div>
+	</body>
+</html>
