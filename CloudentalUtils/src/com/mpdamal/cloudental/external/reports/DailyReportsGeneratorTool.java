@@ -70,6 +70,7 @@ public class DailyReportsGeneratorTool {
 		//need to do this, since reportingservlet looks for the file, not when it was created.
 		//it will keep on serving the last created daily report instead of today's
 		clearOldReports();  
+		printDefaultReport();
 		if (_launchUI) {
 			ReportsGeneratorToolUI f = new ReportsGeneratorToolUI();
 			f.setVisible(true);
