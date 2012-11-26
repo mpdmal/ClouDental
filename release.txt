@@ -2,7 +2,7 @@ todo for 0.3
 
 1. show ui messages for create visit/patient errors - done
 2. implement 'directly to office ' login - done
-3. implement visit/patient update -0.4
+3. implement visit/patient update done
 4. basic css - done
 
 assignments for 0.4
