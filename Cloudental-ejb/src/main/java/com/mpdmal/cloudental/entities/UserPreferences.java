@@ -80,4 +80,20 @@ public class UserPreferences extends DBEntity {
 		return ans.toString();
 	}
 
+	public void reset() {
+		this.setDailyreports(UserPreferences.DEFAULT_USER_DAILYREPORTS);
+		this.setEmailcontent(UserPreferences.DEFAULT_USER_EMAILCONTENT);
+		this.setEmailnotification(UserPreferences.DEFAULT_USER_EMAILNOTIFICATIONS);
+		try {
+			this.setEventTitleFormatType(UserPreferences.DEFAULT_USER_EVTITLEFORMAT);
+		} catch (Exception ignored) {}
+		this.setTheme(UserPreferences.DEFAULT_USER_THEME);
+		this.setSchedulerMaxHour(UserPreferences.DEFAULT_USER_SCHEDMAXHR);
+		this.setSchedulerMinHour(UserPreferences.DEFAULT_USER_SCHEDMINHR);
+		this.setSchedulerStartHour(UserPreferences.DEFAULT_USER_SCHEDSTARTHR);
+		this.setSchedulerSlotMins(UserPreferences.DEFAULT_USER_SCHEDSLOTMINS);
+		this.setPrescriptionHeader(UserPreferences.DEFAULT_USER_PRESCRIPTIONHEADER);
+		this.setReportemail(UserPreferences.DEFAULT_USER_REPORTEMAIL);
+	}
+
 }

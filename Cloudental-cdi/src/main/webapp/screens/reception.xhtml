@@ -38,7 +38,12 @@
 									 process="@this,mailText,dailyreports,emailnotify,
 									 titleformat,defaultSwitcher,schedMinhour,schedMaxhour,schedStarthour,schedSlotmins
 									 ,reportemail,prescHeader"/>
-				    	<p:commandButton id="resetBtn" styleClass="button" value="Reset"/>
+				    	<p:commandButton id="resetBtn" styleClass="button" value="Reset"
+				    				actionListener="#{userPrefs.reset()}"
+				    				process="@this"
+				    				update="mailText,dailyreports,emailnotify,
+									 titleformat,defaultSwitcher,schedMinhour,schedMaxhour,schedStarthour,schedSlotmins
+									 ,reportemail,prescHeader"/>
 					</h:panelGrid>
 				</h:panelGrid>
    				<h:panelGrid columns="2" cellpadding="5">
