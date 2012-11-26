@@ -33,11 +33,6 @@
 						<ui:include src="/screens/patients.xhtml"/>
 					</p:tab>
 				</p:tabView>
-				<h:outputLink value="#{facesContext.externalContext.requestContextPath}/reports" title="Daily Report">
-					<f:param name="type" value="daily"/>
-					<f:param name="userid" value="#{officeReception.userID}"/>    	 
-	 				<h:graphicImage library="images" name="dailyReport.png" styleClass="dailyReportIcon"/>
-				</h:outputLink> 
 			</h:form>		
 		</div>
 		<div id="footer">

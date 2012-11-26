@@ -9,6 +9,12 @@
 		<h:form id="footerform">
    		<!--  h:link value="Create New User" outcome="/screens/createUser" /><br/ -->
    		<!--  h:link value="Login" outcome="/screens/welcome" / -->
+   		<h:outputLink value="#{facesContext.externalContext.requestContextPath}/reports" title="Daily Visits Report">
+			<f:param name="type" value="daily"/>
+			<f:param name="userid" value="#{officeReception.userID}"/>    	 
+	 		<h:graphicImage library="images" name="dailyReport.png" styleClass="dailyReportIcon"/>
+		</h:outputLink> 
+   		<br/>
    		<h:outputText value="Stage:#{facesContext.application.projectStage}"/>
    		</h:form>
 	</h:body>
