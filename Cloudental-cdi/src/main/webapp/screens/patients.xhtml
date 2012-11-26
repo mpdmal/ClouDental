@@ -11,7 +11,7 @@
 	<ui:param name="sltPatient" value="#{office.patientManagment.selectedPatient}"></ui:param>
 
 	<!-- NEW PATIENT PANEL -->	
-	<p:panel header="Create a new patient" styleClass="newPatientPanel" >
+	<p:panel styleClass="newPatientPanel" >
 		<h:panelGrid id="grid" columns="7">
 			<h:outputText value="Name: " styleClass="label"/>
 			<p:inputText id="name" value="#{crtPatient.name}" 
@@ -24,7 +24,7 @@
 			<h:outputText value="Comments: " styleClass="label"/>
 			<p:inputText id="comment" value="#{crtPatient.comments}" 
 						 styleClass="field"/>
-			<p:commandButton value="Create" id="crtBtn" styleClass="button"
+			<p:commandButton value="FastCreate" id="crtBtn" styleClass="button"
 						process="@this,name,surname,comment" 
 						update="patientList"
 						actionListener="#{office.patientManagment.createPatient()}" />
@@ -32,30 +32,29 @@
 	</p:panel>
 
 	<!-- PATIENT TABLE -->
-		<p:dataTable id="patientList" var="patient" value="#{office.patientManagment.patientList}"    
-			rowKey="#{patient.id}"  selection="#{sltPatient}" selectionMode="single"
-			scrollable="true" scrollHeight="300" resizableColumns="true" styleClass="patientList">
-			<f:facet name="header">Patient List</f:facet>
-			<p:column headerText="Surname" sortBy="#{patient.surname}" style="width:150px">
-				<h:outputText value="#{patient.surname}" styleClass="label"/>  
-			</p:column>
-			<p:column headerText="Name" sortBy="#{patient.name}" style="width:150px">
-				<h:outputText value="#{patient.name}" styleClass="label"/>  
-			</p:column>
-			<p:column headerText="Mobile Number"  style="width:150px">
-				<h:outputText value="#{patient.mobileNumber.info}" styleClass="label"/>  
-			</p:column>
-			<p:column headerText="Email"  style="width:150px">
-				<h:outputText value="#{patient.email.info}" styleClass="label"/>  
-			</p:column>
-			<p:column headerText="Home Number" style="width:120px">
-				<h:outputText value="#{patient.homeNumber.info}" styleClass="label"/>  
-			</p:column>
-			<p:column headerText="Home address" style="width:350px">
-				<h:outputText value="#{patient.homeAddress.UIFriendlyString}" styleClass="label"/>  
-			</p:column>
-			<f:facet name="footer">#{office.patientManagment.patientList.size()} patient(s)</f:facet>
-		</p:dataTable>
+	<p:dataTable id="patientList" var="patient" value="#{office.patientManagment.patientList}"    
+		rowKey="#{patient.id}"  selection="#{sltPatient}" selectionMode="single"
+		paginator="true" rows="15" sortBy="#{patient.surname}">
+		<p:column headerText="Surname" sortBy="#{patient.surname}" >
+			<h:outputText value="#{patient.surname}" styleClass="label"/>  
+		</p:column>
+		<p:column headerText="Name" sortBy="#{patient.name}" >
+			<h:outputText value="#{patient.name}" styleClass="label"/>  
+		</p:column>
+		<p:column headerText="Mobile Number" >
+			<h:outputText value="#{patient.mobileNumber.info}" styleClass="label"/>  
+		</p:column>
+		<p:column headerText="Email"  >
+			<h:outputText value="#{patient.email.info}" styleClass="label"/>  
+		</p:column>
+		<p:column headerText="Home Number" >
+			<h:outputText value="#{patient.homeNumber.info}" styleClass="label"/>  
+		</p:column>
+		<p:column headerText="Home address" >
+			<h:outputText value="#{patient.homeAddress.UIFriendlyString}" styleClass="label"/>  
+		</p:column>
+		<f:facet name="footer">#{office.patientManagment.patientcount} patient(s)</f:facet>
+	</p:dataTable>
 
 	<!-- PATIENT TABLE RIGHT-CLICK MENU -->
  	<p:contextMenu for="patientList">
