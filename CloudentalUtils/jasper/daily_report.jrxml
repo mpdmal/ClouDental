@@ -158,7 +158,7 @@ order by v.visitdate]]>
 	</pageFooter>
 	<summary>
 		<band height="55">
-			<textField pattern="" isBlankWhenNull="false">
+			<textField pattern="" isBlankWhenNull="true">
 				<reportElement uuid="0d9cc4a5-67e0-4711-99c6-2a7b906d0c7a" mode="Opaque" x="93" y="8" width="171" height="20" forecolor="#000000" backcolor="#D4E2FE"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
 					<font fontName="SansSerif" size="11" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
