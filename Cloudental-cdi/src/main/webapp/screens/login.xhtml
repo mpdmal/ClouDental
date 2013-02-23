@@ -51,7 +51,7 @@
 				</h:panelGrid>
 	        </h:form>			
 			<p:dialog id="dialogCreate" header="Create New User" widgetVar="dlgCreate" modal="true"
-						resizable="false" width="300" height="150">  
+						resizable="false" width="470" height="270">  
 			    <h:form id="dlgFrm" > 
    			        <h:panelGrid columns="2" cellpadding="2" style="width:100%">
 						<h:outputLabel for="name" value="Name " styleClass="createLabel"/>
@@ -65,13 +65,14 @@
 						<h:outputLabel for="pwd2" value="Re-type " styleClass="createLabel"/> 
 						<h:inputSecret id="pwd2" value="#{createUserService.passwordConfirm}" styleClass="createInput"/>
 			        </h:panelGrid>
+  					<p:captcha label="Captcha" theme="clean"/>  
 	                <p:commandButton id="createButton" value="Create" update=":growl"   
 	                    actionListener="#{createUserService.createDentist()}"   
 	                    oncomplete="handleCreateRequest(xhr, status, args)" styleClass="button"/>  
 			    </h:form>  
 			</p:dialog>  
 			<p:dialog id="dialogContact" header="Contact Cloud.M" widgetVar="dlgContact" showEffect="explode"  
-							modal="true" width="400" height="230" >
+							modal="true" width="450" height="230" >
 			    <h:form id="dlgFrmContact">
 			    	<h:panelGrid columns="1" style="width:100%;height:100%">
 			    		<h:inputText id="msgtitle" value="#{loginService.emailTitle}" style="width:100%" styleClass="contactInfo"/>

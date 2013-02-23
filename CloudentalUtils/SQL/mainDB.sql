@@ -85,30 +85,6 @@ CREATE TABLE patient
 );
 
 
-drop table if exists prescriptions CASCADE;
-CREATE TABLE prescriptions
-(
-  id serial NOT NULL,
-  dentistid integer references dentist NOT NULL,
-  patienthistid integer references patienthistory not null,
-  created timestamp with time zone default now() not null,
-  
-  CONSTRAINT prescriptions_pk PRIMARY KEY (id )
-);
-
-drop table if exists prescriptionrows CASCADE;
-CREATE TABLE prescriptionrows
-(
-  id serial NOT NULL,
-  prescriptionid integer references prescriptions NOT NULL,
-  medicine integer references medicine NOT NULL,
-  route integer NOT NULL,
-  frequency integer NOT NULL,
-  frequnit integer NOT NULL,
-  duration  integer NOT NULL,
-  durunit integer NOT NULL,
-  CONSTRAINT prescriptionrows_pk PRIMARY KEY (id)
-);
 drop table if exists medicalhistory CASCADE;
 create table medicalhistory
 (
@@ -136,6 +112,31 @@ create table patienthistory
 	enddate timestamp with time zone default now(),
 	comments text,
 	constraint patienthistory_pk primary key (patientID)
+);
+
+drop table if exists prescriptions CASCADE;
+CREATE TABLE prescriptions
+(
+  id serial NOT NULL,
+  dentistid integer references dentist NOT NULL,
+  patienthistid integer references patienthistory not null,
+  created timestamp with time zone default now() not null,
+  
+  CONSTRAINT prescriptions_pk PRIMARY KEY (id )
+);
+
+drop table if exists prescriptionrows CASCADE;
+CREATE TABLE prescriptionrows
+(
+  id serial NOT NULL,
+  prescriptionid integer references prescriptions NOT NULL,
+  medicine integer references medicine NOT NULL,
+  route integer NOT NULL,
+  frequency integer NOT NULL,
+  frequnit integer NOT NULL,
+  duration  integer NOT NULL,
+  durunit integer NOT NULL,
+  CONSTRAINT prescriptionrows_pk PRIMARY KEY (id)
 );
 
 drop table if exists tooth CASCADE;
@@ -259,5 +260,9 @@ insert into dentist values (-99, 'internal', 'cl0ud3ntal', 'internal', 'internal
 insert into pricelist values (-1, -99, 'zeroprice', 'used internally to represent a zero-priced item', 0.0);
 insert into discount values (-1, -99, 'zerodiscount', 'used internally to represent a zero-discount item', 0.0);
 insert into userpreferences values (-99, 'T', '', 'F', 1, 'aristo', 0, 24, 8, 5, '', '');
+insert into medicine values (1, 'Amoxil 500mg', 'Amoxiciline');
+insert into medicine values (2, 'Amoxil 1000mg', 'Amoxiciline');
+insert into medicine values (3, 'Augmentin 315mg', 'n/a');
+insert into medicine values (4, 'Augmentin 625mg', 'n/a');
 
 

@@ -14,14 +14,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.util.FileResolver;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 public class DailyReportsGeneratorTool {
     public static final String ROOT_DIR = System.getProperty("user.home")+"/cdent/";
